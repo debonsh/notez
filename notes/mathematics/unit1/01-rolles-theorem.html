@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rolle's Theorem &mdash; RGPV BT102 PYQ Prep &middot; by Zevu</title>
+<style>
+/* ============================================================
+   Course stylesheet — shared by all lessons and reference docs.
+   Tufte-inspired: generous whitespace, serif body, quiet chrome.
+   ============================================================ */
+
+:root {
+  color-scheme: dark;
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #26201a;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+  --zevu-purple: #8b5cf6;
+  --zevu-glow: #2e1f4d;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 18px; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', serif;
+  line-height: 1.65;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 2.1rem;
+  margin: 0 0 0.5rem;
+}
+
+h2 {
+  font-size: 1.45rem;
+  margin: 2.8rem 0 0.8rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.35rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+  margin: 2rem 0 0.6rem;
+}
+
+p { margin: 0.9rem 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { background: var(--accent-soft); }
+
+.kicker {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+
+code {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace;
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+  color: var(--code-ink);
+  font-variant-ligatures: contextual;
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+  line-height: 1.5;
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+}
+
+pre code { background: none; padding: 0; }
+
+blockquote {
+  margin: 1.4rem 0;
+  padding: 0.4rem 1.2rem;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--ink-soft);
+}
+
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+/* ---- Tab navigation ---- */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--rule);
+  margin-bottom: 0;
+}
+
+.tab-btn {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.5rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  color: var(--ink-soft);
+  cursor: pointer;
+  margin-right: 0.25rem;
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  background: var(--code-bg);
+  border-color: var(--accent);
+}
+
+.tab-btn:hover:not(.active) {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ---- Quiz engine ---- */
+.quiz {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.1rem 1.3rem;
+  margin: 1.6rem 0;
+}
+
+.quiz .q {
+  font-weight: bold;
+  margin-top: 0;
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+}
+
+.quiz button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 0.45rem 0;
+  padding: 0.55rem 0.9rem;
+  font: inherit;
+  cursor: pointer;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  color: var(--ink);
+}
+
+.quiz button:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback {
+  display: none;
+  margin: 0.7rem 0 0;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+.quiz .feedback.show { display: block; }
+
+/* ---- Lesson nav ---- */
+.lesson-nav {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--rule);
+  margin-top: 3.5rem;
+  padding-top: 1rem;
+}
+
+/* ---- Callout ---- */
+.callout {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 1.4rem 0;
+  font-size: 0.95rem;
+}
+
+.callout .label {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* ---- Table ---- */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+  margin: 1.2rem 0;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+th {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---- Zevu / ART branding (minimal terminal style) ---- */
+.zevu-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.zevu-header .prompt {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  opacity: 0.85;
+}
+
+.zevu-header .prompt .user {
+  color: var(--accent);
+}
+
+.zevu-header .prompt .cmd {
+  color: var(--ink-soft);
+}
+
+
+/* ASCII diagram container */
+.terminal-diagram {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin: 1.4rem 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.terminal-diagram .highlight {
+  color: var(--accent);
+}
+
+.terminal-diagram .axis {
+  color: var(--good);
+}
+
+
+.zevu-footer {
+  margin-top: 3.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.65rem;
+  color: var(--ink-soft);
+  opacity: 0.6;
+}
+
+.zevu-footer .prompt {
+  color: var(--accent);
+}
+
+@media print {
+  :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff;
+          --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; }
+  body { padding: 0; background: #fff; }
+  a { color: inherit; }
+  .lesson-nav, .tab-bar, .zevu-footer { display: none; }
+  .tab-panel { display: block !important; }
+  .zevu-header { border-bottom-color: #ddd; }
+}
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+
+<!-- ============================================================
+     ZEVU / ART BRANDING HEADER (terminal style)
+     ============================================================ -->
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt102 $</span> cat rolles-theorem.md</p>
+</div>
+
+<!-- ============================================================
+     TAB NAVIGATION
+     ============================================================ -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+</div>
+
+<!-- ============================================================
+     LESSON TAB
+     ============================================================ -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT102 Mathematics-I</p>
+<h1>Rolle's Theorem &mdash; Verify It, Break It, Ace It</h1>
+<p><em>You're prepping for RGPV BT102 mid-terms. Rolle's Theorem is a guaranteed 5&ndash;7 mark question
+every session. By the end of this lesson you'll verify it mechanically, spot failure cases
+in under 30 seconds, and recognize the exact PYQ patterns RGPV repeats.</em></p>
+
+<h2>The theorem &mdash; exactly as RGPV expects you to write it</h2>
+<p>Let <code>f(x)</code> be a real-valued function defined on <code>[a, b]</code>.
+<strong>If</strong> all three of these hold:</p>
+
+<table>
+<tr><th>#</th><th>Condition</th><th>What to check</th></tr>
+<tr><td>1</td><td><code>f</code> is continuous on <strong>[a, b]</strong> (closed interval)</td><td>No breaks, jumps, or vertical asymptotes in <code>[a,b]</code></td></tr>
+<tr><td>2</td><td><code>f</code> is differentiable on <strong>(a, b)</strong> (open interval)</td><td>No sharp corners or cusps in <code>(a,b)</code></td></tr>
+<tr><td>3</td><td><code>f(a) = f(b)</code></td><td>Endpoints land at the same height</td></tr>
+</table>
+
+<p><strong>Then</strong> there exists at least one point <code>c &isin; (a, b)</code> such that
+<strong>f&prime;(c) = 0</strong>.</p>
+
+<div class="callout">
+  <span class="label">The one-second intuition</span>
+  If a curve starts and ends at the same height, and is smooth throughout, it
+  <em>must</em> flatten out somewhere in between. That flat spot is where the
+  tangent is horizontal &mdash; slope zero.
+</div>
+
+<pre class="terminal-diagram">  <span class="highlight">f(x) = x&sup2; - 4x + 3</span>  on  [1, 3]
+
+  3 ┤            ╭─╮
+    │           ╱   ╲
+  2 ┤         ╱       ╲
+    │        ╱         ╲
+  1 ┤      ╱             ╲
+    │     ╱               ╲
+  0 ┼────●─────────────────●────── &rarr; x
+    │   <span class="axis">a=1</span>    <span class="highlight">c=2</span>       <span class="axis">b=3</span>
+    │  f(1)=0  f'(2)=0   f(3)=0
+    │
+    └─ &#x2713; continuous  &#x2713; differentiable  &#x2713; f(a)=f(b)  &#x2192; <span class="ok">VERIFIED</span></pre>
+
+<div class="callout">
+  <span class="label">Exam tip &mdash; the marking scheme</span>
+  RGPV awards marks per step: state conditions (1m), check continuity (1m),
+  check differentiability (1m), show f(a)=f(b) (1m), compute f&prime;(x) (1m),
+  solve f&prime;(c)=0 (1m), verify c &isin; (a,b) (1m). Skip a step, lose a mark.
+</div>
+
+<h2>The verification recipe (your exam algorithm)</h2>
+<p>Every "verify Rolle's theorem for..." question follows this exact six-step recipe.
+Memorize it like code:</p>
+
+<pre><code>Step 1: Identify [a, b] from the question
+Step 2: Confirm f(x) is a polynomial / trig / exp &rarr; automatically continuous
+Step 3: Confirm f(x) is differentiable (polynomials always are)
+Step 4: Compute f(a) and f(b), check they are equal
+Step 5: Differentiate f(x) &rarr; set f'(c) = 0 &rarr; solve for c
+Step 6: Check c &isin; (a, b) &rarr; "Hence verified"</code></pre>
+
+<h2>Example 1 &mdash; the classic PYQ (x&sup2; &minus; 4x + 3 on [1, 3])</h2>
+<p><strong>Q:</strong> Verify Rolle's theorem for <code>f(x) = x&sup2; &minus; 4x + 3</code>
+on <code>[1, 3]</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>[a, b] = [1, 3]</code></td></tr>
+<tr><td>2</td><td><code>f(x)</code> is a polynomial &rarr; continuous on <code>[1, 3]</code></td></tr>
+<tr><td>3</td><td><code>f(x)</code> is a polynomial &rarr; differentiable on <code>(1, 3)</code></td></tr>
+<tr><td>4</td><td><code>f(1) = 1 &minus; 4 + 3 = 0</code>, <code>f(3) = 9 &minus; 12 + 3 = 0</code> &rarr; <code>f(1) = f(3)</code></td></tr>
+<tr><td>5</td><td><code>f'(x) = 2x &minus; 4</code>; <code>2c &minus; 4 = 0</code> &rarr; <code>c = 2</code></td></tr>
+<tr><td>6</td><td><code>c = 2 &isin; (1, 3)</code> &rarr; <strong>Hence Rolle's theorem is verified.</strong></td></tr>
+</table>
+
+
+<div class="callout">
+  <span class="label">Diagram — Rolle's picture (draw this in exams)</span>
+  <svg viewBox="0 0 400 180" width="100%" role="img" aria-label="Rolle curve with equal endpoints and flat tangent at c">
+    <rect x="0" y="0" width="400" height="180" fill="#000000" rx="8"/>
+    <line x1="30" y1="140" x2="370" y2="140" stroke="#2b2e36"/>
+    <line x1="40" y1="20" x2="40" y2="150" stroke="#2b2e36"/>
+    <path d="M 80 100 Q 190 170 300 100" fill="none" stroke="#e0a370" stroke-width="2.5"/>
+    <circle cx="80" cy="100" r="4" fill="#e0a370"/><circle cx="300" cy="100" r="4" fill="#e0a370"/>
+    <text x="70" y="90" fill="#a29d92" font-size="12">a</text><text x="296" y="90" fill="#a29d92" font-size="12">b</text>
+    <text x="60" y="118" fill="#a29d92" font-size="11">f(a)=f(b)</text>
+    <line x1="160" y1="138" x2="220" y2="138" stroke="#7bc97f" stroke-width="2.5"/>
+    <circle cx="190" cy="138" r="4" fill="#7bc97f"/>
+    <text x="178" y="158" fill="#7bc97f" font-size="12">c, f′(c)=0</text>
+  </svg>
+</div>
+
+<h2>Example 2 &mdash; x&sup2; &minus; 1 on [&minus;1, 1]</h2>
+<p><strong>Q:</strong> Verify Rolle's theorem for <code>f(x) = x&sup2; &minus; 1</code>
+on <code>[&minus;1, 1]</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>[a, b] = [&minus;1, 1]</code></td></tr>
+<tr><td>2</td><td>Polynomial &rarr; continuous on <code>[&minus;1, 1]</code></td></tr>
+<tr><td>3</td><td>Polynomial &rarr; differentiable on <code>(&minus;1, 1)</code></td></tr>
+<tr><td>4</td><td><code>f(&minus;1) = 1 &minus; 1 = 0</code>, <code>f(1) = 1 &minus; 1 = 0</code> &rarr; equal</td></tr>
+<tr><td>5</td><td><code>f'(x) = 2x</code>; <code>2c = 0</code> &rarr; <code>c = 0</code></td></tr>
+<tr><td>6</td><td><code>c = 0 &isin; (&minus;1, 1)</code> &rarr; <strong>Verified.</strong></td></tr>
+</table>
+
+<h2>Example 3 &mdash; trigonometric (sin x on [0, &pi;])</h2>
+<p><strong>Q:</strong> Verify Rolle's theorem for <code>f(x) = sin x</code>
+on <code>[0, &pi;]</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>2</td><td>sin x is continuous everywhere &rarr; continuous on <code>[0, &pi;]</code></td></tr>
+<tr><td>3</td><td>sin x is differentiable everywhere &rarr; differentiable on <code>(0, &pi;)</code></td></tr>
+<tr><td>4</td><td><code>f(0) = sin 0 = 0</code>, <code>f(&pi;) = sin &pi; = 0</code> &rarr; equal</td></tr>
+<tr><td>5</td><td><code>f'(x) = cos x</code>; <code>cos c = 0</code> &rarr; <code>c = &pi;/2</code></td></tr>
+<tr><td>6</td><td><code>&pi;/2 &isin; (0, &pi;)</code> &rarr; <strong>Verified.</strong></td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">Pattern to notice</span>
+  RGPV loves <code>sin x</code> on <code>[0, &pi;]</code> and <code>cos x</code> on
+  <code>[&minus;&pi;/2, &pi;/2]</code>. The answer for sin x is always
+  <code>c = &pi;/2</code>. For cos x on <code>[&minus;&pi;/2, &pi;/2]</code>, it's
+  <code>c = 0</code>. Memorize these two.
+</div>
+
+<h2>When Rolle's theorem FAILS (high-value MCQ material)</h2>
+<p>If <em>any</em> of the three conditions fails, the theorem does NOT apply.
+RGPV MCQs test this by giving you four functions and asking which one satisfies
+(or does NOT satisfy) Rolle's conditions.</p>
+
+<table>
+<tr><th>Failure mode</th><th>Example</th><th>Which condition breaks</th></tr>
+<tr><td>Not continuous</td><td><code>f(x) = 1/x</code> on <code>[&minus;1, 1]</code></td><td>#1: undefined at x=0</td></tr>
+<tr><td>Not differentiable</td><td><code>f(x) = |x &minus; 2|</code> on <code>[0, 4]</code></td><td>#2: cusp at x=2</td></tr>
+<tr><td>Endpoints unequal</td><td><code>f(x) = x&sup2;</code> on <code>[0, 2]</code></td><td>#3: f(0)=0, f(2)=4</td></tr>
+</table>
+
+<h2>Retrieval practice &mdash; MCQs from PYQ patterns</h2>
+
+<div class="quiz"
+     data-answer="a"
+     data-explain="cos x on [0, 2&pi;]: continuous, differentiable, and f(0)=f(2&pi;)=1. This is the only function that satisfies ALL three Rolle's conditions. The others each fail one condition.">
+  <p class="q">Which function satisfies ALL conditions of Rolle's theorem on the given interval?</p>
+  <button data-key="a">cos x on [0, 2&pi;] &mdash; continuous and differentiable</button>
+  <button data-key="b">|x &minus; 2| on [0, 4] &mdash; has a cusp at x = 2</button>
+  <button data-key="c">1/x on [&minus;1, 1] &mdash; undefined at x = 0</button>
+  <button data-key="d">x&sup2; on [0, 3] &mdash; endpoints f(0) &ne; f(3)</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="c"
+     data-explain="For f(x) = x&sup2; &minus; 4x + 3 on [1,3]: f'(x) = 2x &minus; 4; 2c &minus; 4 = 0 gives c = 2. This is the most frequently asked verification problem in RGPV BT102 &mdash; memorize it.">
+  <p class="q">For f(x) = x&sup2; &minus; 4x + 3 on [1, 3], what is the value of c guaranteed by Rolle's theorem?</p>
+  <button data-key="a">c = 1</button>
+  <button data-key="b">c = 3</button>
+  <button data-key="c">c = 2</button>
+  <button data-key="d">c = 4</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="b"
+     data-explain="Rolle's theorem guarantees f'(c) = 0 at c in the OPEN interval (a, b). Endpoints a and b are excluded &mdash; c must be strictly between them. This is a common trick in MCQs.">
+  <p class="q">Rolle's theorem guarantees f'(c) = 0 for c belonging to which set?</p>
+  <button data-key="a">c &isin; [a, b] including both endpoints always</button>
+  <button data-key="b">c &isin; (a, b) strictly between a and b only</button>
+  <button data-key="c">c &isin; {a, b} only the endpoints a and b</button>
+  <button data-key="d">c &isin; [a, b) only the left endpoint excluded</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="d"
+     data-explain="|sin x| on [0, &pi;]: at x = &pi; the function is not differentiable (sharp corner), so condition #2 fails. Even though f(0) = f(&pi;) = 0 and it's continuous, the lack of differentiability at &pi; means Rolle's theorem does not apply. This is a classic RGPV trick question.">
+  <p class="q">Does Rolle's theorem apply to f(x) = |sin x| on [0, &pi;]?</p>
+  <button data-key="a">Yes, because the function is continuous everywhere</button>
+  <button data-key="b">Yes, because the endpoints satisfy f(0) = f(&pi;)</button>
+  <button data-key="c">No, because the function fails to be continuous</button>
+  <button data-key="d">No, because the function is not differentiable at x = &pi;</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="a"
+     data-explain="Geometrically, f'(c) = 0 means the tangent at x = c is horizontal. This is the standard RGPV conceptual question &mdash; always maps to 'horizontal tangent' or 'slope zero'.">
+  <p class="q">Geometrically, f'(c) = 0 means the curve has a ______ at x = c.</p>
+  <button data-key="a">horizontal tangent line with zero slope</button>
+  <button data-key="b">vertical tangent line with infinite slope</button>
+  <button data-key="c">discontinuity or sharp break in graph</button>
+  <button data-key="d">point of inflection that is not stationary</button>
+  <p class="feedback"></p>
+</div>
+
+<h2>PYQ drill &mdash; 5 high-probability RGPV questions</h2>
+<p>Work these under timer (10 min total). These are the patterns that repeat every 2-3 sessions.</p>
+
+<div class="callout">
+  <span class="label">Drill set A &mdash; Verified</span>
+  <ol>
+    <li>Verify Rolle's theorem for <code>f(x) = x&sup2; &minus; 5x + 6</code> on <code>[2, 3]</code>. <em>(Jun 2023 pattern)</em></li>
+    <li>Verify Rolle's theorem for <code>f(x) = sin x</code> on <code>[0, &pi;]</code>. <em>(Dec 2023 pattern)</em></li>
+    <li>Verify Rolle's theorem for <code>f(x) = x&sup3; &minus; 3x</code> on <code>[&minus;&radic;3, &radic;3]</code>. <em>(Jun 2024 pattern)</em></li>
+    <li>Verify Rolle's theorem for <code>f(x) = x(x &minus; 2)</code> on <code>[0, 2]</code>. <em>(Dec 2024 pattern)</em></li>
+    <li>Verify Rolle's theorem for <code>f(x) = cos x</code> on <code>[&minus;&pi;/2, &pi;/2]</code>. <em>(Jun 2025 pattern)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Drill set B &mdash; Spot the failure</span>
+  <ol start="6">
+    <li>Does Rolle's theorem apply to <code>f(x) = |x|</code> on <code>[&minus;1, 1]</code>? Why or why not?</li>
+    <li>Why can't Rolle's theorem be applied to <code>f(x) = tan x</code> on <code>[0, &pi;]</code>?</li>
+    <li>Which of these does NOT satisfy Rolle's conditions: <code>x&sup2; &minus; 1</code> on <code>[&minus;1,1]</code>, <code>|x|</code> on <code>[&minus;1,1]</code>, <code>sin x</code> on <code>[0,&pi;]</code>, <code>x&sup3;</code> on <code>[&minus;1,1]</code>?</li>
+    <li>If <code>f(x) = x&sup2; &minus; 2x + 1</code>, verify Rolle's theorem on <code>[0, 2]</code> or explain why it fails.</li>
+    <li>Find the value of c for <code>f(x) = x&sup2; &minus; 3x + 2</code> on <code>[1, 2]</code>.</li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Primary source &mdash; do this next</span>
+  <a href="https://myprojecthd.in/blog/rolles-theorem-notes-engineering-mathematics-1-rgpv-btech-first-year">
+    Rolle's Theorem Notes &mdash; RGPV BTech First Year</a>
+  &mdash; covers the full viva question list and additional PYQs beyond this lesson.
+</div>
+
+<div class="callout">
+  <span class="label">More PYQs to solve</span>
+  <ul>
+    <li><a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">CampusPrep &mdash; BT-102 PYQs (Jun 2022 through Jun 2025)</a></li>
+    <li><a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">RGPV Question Papers &mdash; BT-102 archive with solutions</a></li>
+  </ul>
+</div>
+
+</div><!-- end lesson tab -->
+
+<!-- ============================================================
+     CHEAT-SHEET TAB
+     ============================================================ -->
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT102 Mathematics-I</p>
+<h1>Rolle's Theorem &mdash; Quick Reference</h1>
+<p><em>Print this page. Use it as a 2-minute refresher before practice sprints and the exam.</em></p>
+
+<h2>The statement (write this verbatim in exams)</h2>
+<p>Let <code>f : [a,b] &rarr; &real;</code> satisfy:</p>
+<ol>
+  <li><code>f</code> is continuous on <code>[a, b]</code></li>
+  <li><code>f</code> is differentiable on <code>(a, b)</code></li>
+  <li><code>f(a) = f(b)</code></li>
+</ol>
+<p>Then <big><strong>&#x2203; c &isin; (a,b) such that f'(c) = 0</strong></big>.</p>
+
+<h2>Verification recipe (6 steps, 7 marks)</h2>
+<table>
+<tr><th>Step</th><th>Action</th><th>Marks</th></tr>
+<tr><td>1</td><td>State the interval <code>[a, b]</code></td><td>&mdash;</td></tr>
+<tr><td>2</td><td>Argue continuity (polynomial/trig/exp = auto-continuous)</td><td>1</td></tr>
+<tr><td>3</td><td>Argue differentiability (polynomials = auto-differentiable)</td><td>1</td></tr>
+<tr><td>4</td><td>Compute <code>f(a)</code> and <code>f(b)</code>, show equal</td><td>1</td></tr>
+<tr><td>5</td><td>Differentiate, set <code>f'(c) = 0</code>, solve for <code>c</code></td><td>2</td></tr>
+<tr><td>6</td><td>Verify <code>c &isin; (a, b)</code>, write "Hence verified"</td><td>2</td></tr>
+</table>
+
+<h2>Three failure modes (MCQ gold)</h2>
+<table>
+<tr><th>Condition</th><th>Fails when</th><th>Classic trap</th></tr>
+<tr><td>Continuity</td><td>VA, jump, removable discontinuity in [a,b]</td><td><code>1/x</code> on <code>[-1,1]</code></td></tr>
+<tr><td>Differentiability</td><td>Cusp, corner, vertical tangent in (a,b)</td><td><code>|x-2|</code> on <code>[0,4]</code></td></tr>
+<tr><td>Equal endpoints</td><td><code>f(a) &ne; f(b)</code></td><td><code>x&sup2;</code> on <code>[0,2]</code></td></tr>
+</table>
+
+<h2>Must-memorize function &rarr; c values</h2>
+<table>
+<tr><th>f(x)</th><th>[a, b]</th><th>c</th></tr>
+<tr><td><code>x&sup2; &minus; 4x + 3</code></td><td><code>[1, 3]</code></td><td><code>2</code></td></tr>
+<tr><td><code>x&sup2; &minus; 1</code></td><td><code>[&minus;1, 1]</code></td><td><code>0</code></td></tr>
+<tr><td><code>x&sup2; &minus; 5x + 6</code></td><td><code>[2, 3]</code></td><td><code>5/2</code></td></tr>
+<tr><td><code>x(x &minus; 2)</code></td><td><code>[0, 2]</code></td><td><code>1</code></td></tr>
+<tr><td><code>sin x</code></td><td><code>[0, &pi;]</code></td><td><code>&pi;/2</code></td></tr>
+<tr><td><code>cos x</code></td><td><code>[0, &pi;]</code></td><td><code>&pi;/2</code></td></tr>
+<tr><td><code>cos x</code></td><td><code>[&minus;&pi;/2, &pi;/2]</code></td><td><code>0</code></td></tr>
+<tr><td><code>x&sup3; &minus; 3x</code></td><td><code>[&minus;&radic;3, &radic;3]</code></td><td><code>&plusmn;1</code></td></tr>
+</table>
+
+<h2>Geometric meaning (for 2-markers &amp; viva)</h2>
+<ul>
+  <li>If a smooth curve starts and ends at the same height, it has <strong>at least one
+  horizontal tangent</strong> somewhere between.</li>
+  <li>The point <code>c</code> is a <strong>stationary point</strong> (local max, min, or saddle).</li>
+  <li>Rolle's theorem is a <strong>special case</strong> of Lagrange's MVT where the secant
+  slope is zero.</li>
+</ul>
+
+<h2>Viva questions (RGPV favorites)</h2>
+<table>
+<tr><th>Question</th><th>One-line answer</th></tr>
+<tr><td>Who is the theorem named after?</td><td>Michel Rolle (French mathematician, 1652&ndash;1719)</td></tr>
+<tr><td>Is the converse true?</td><td>No &mdash; f'(c)=0 does NOT imply f(a)=f(b)</td></tr>
+<tr><td>Can there be more than one c?</td><td>Yes &mdash; theorem guarantees at least one</td></tr>
+<tr><td>Is f(a)=f(b) sufficient alone?</td><td>No &mdash; need continuity AND differentiability too</td></tr>
+<tr><td>What does f'(c)=0 mean geometrically?</td><td>Horizontal tangent at x=c</td></tr>
+<tr><td>Relation to LMVT?</td><td>Rolle's is the special case of LMVT where slope of secant = 0</td></tr>
+</table>
+
+<h2>Exam-day checklist</h2>
+<ul>
+  <li>&#x2610; Did I check <strong>all three</strong> conditions before concluding?</li>
+  <li>&#x2610; Did I write <code>c &isin; (a,b)</code> (open interval) not <code>[a,b]</code>?</li>
+  <li>&#x2610; Is my <code>c</code> actually inside the interval, not at an endpoint?</li>
+  <li>&#x2610; Did I write "Hence Rolle's theorem is verified" to close?</li>
+  <li>&#x2610; For failure questions: did I name <em>which</em> condition breaks?</li>
+</ul>
+
+</div><!-- end cheatsheet tab -->
+
+<!-- ============================================================
+     ZEVU / ART FOOTER (terminal style)
+     ============================================================ -->
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt102 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+
+<!-- ============================================================
+     QUIZ ENGINE + TAB ENGINE (inlined)
+     ============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  // Tab switching
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) {
+      panels[i].classList.remove('active');
+    }
+    for (var j = 0; j < buttons.length; j++) {
+      buttons[j].classList.remove('active');
+    }
+    var activePanel = document.getElementById(name);
+    if (activePanel) activePanel.classList.add('active');
+    event.target.classList.add('active');
+  };
+
+  // Quiz engine
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var feedback = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+            var right = q.querySelector('button[data-key="' + answer + '"]');
+            if (right) right.classList.add('correct');
+          }
+          if (feedback) { feedback.textContent = explain; feedback.classList.add('show'); }
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initQuizzes);
+  } else {
+    initQuizzes();
+  }
+})();
+</script>
+
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

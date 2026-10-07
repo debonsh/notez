@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 Quantum &mdash; RGPV BT201 Resource Hub &middot; by Zevu</title>
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #26201a;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { background: var(--accent-soft); }
+
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+/* Tab navigation */
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.6rem 1.2rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--accent-soft); color: var(--ink); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* Topic card (links to standalone files) */
+.topic-card {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin: 1rem 0;
+  transition: all 0.15s;
+}
+
+.topic-card:hover { border-color: var(--accent); background: var(--accent-soft); }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; color: var(--accent); font-size: 0.7rem; }
+.topic-card h3 { margin: 0.3rem 0 0.5rem; font-size: 1.2rem; }
+.topic-card p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+.topic-card .topic-links { margin-top: 0.5rem; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); }
+.topic-card a { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; }
+
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+
+<!-- ZEVU HEADER -->
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt201/unit1 $</span> ls -la</p>
+</div>
+
+<!-- TAB NAVIGATION -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('index')">&#xf07b; Index</button>
+  <button class="tab-btn" onclick="showTab('resources')">&#xf0c9; Resources</button>
+</div>
+
+<!-- INDEX TAB -->
+<div id="index" class="tab-panel active">
+
+<p class="kicker">Unit 1 &middot; BT201 Engineering Physics &middot; Quantum Mechanics</p>
+<h1>Quantum Mechanics Resource Hub</h1>
+<p><em>Six topics, one package. We build one by one for quality — Topic 01 first. Each file is fully self-contained
+&mdash; no internet, no installation. Just open in any browser.</em></p>
+
+<blockquote>Official Module 1 (8 lectures): Introduction to Quantum mechanics, Wave nature of Particles, operators, Time-dependent and time-independent Schrodinger equation, Particle in a One dimensional Box, Born interpretation, Free-particle wavefunction and wave-packets, vg and vp relation, Uncertainty principle. — RGPV BT201</blockquote>
+
+<h2>Topics (in syllabus order)</h2>
+
+<div class="topic-card">
+  <p class="topic-num">[01] Wave nature of particles — NEXT</p>
+  <h3><a href="01-wave-nature-debroglie.html">&#xbb; Wave Nature &amp; de Broglie Hypothesis</a></h3>
+  <p>Duality, &lambda; = h/p, electron through V: &lambda; = h/&radic;(2meV) = 1.227/&radic;V nm.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips — done</p>
+</div>
+
+<div class="topic-card">
+  <p class="topic-num">[02] Operators &amp; Born interpretation — done</p>
+  <h3><a href="02-operators-born.html">&#xbb; Operators &amp; Born Interpretation</a></h3>
+  <p>Energy/momentum operators, |&psi;|&sup2; as probability, normalization.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips — done</p>
+</div>
+
+<div class="topic-card">
+  <p class="topic-num">[03] Schrodinger equation — queued</p>
+  <h3>Time-Dependent &amp; Time-Independent Schrodinger Equation</h3>
+  <p>Derivation both forms, stationary states &psi;(x)e<sup>-iEt/&#8463;</sup>.</p>
+  <p class="topic-links">queued — highest PYQ weightage</p>
+</div>
+
+<div class="topic-card">
+  <p class="topic-num">[04] Particle in 1D box — queued</p>
+  <h3>Particle in a One-Dimensional Box</h3>
+  <p>&psi;<sub>n</sub> = &radic;(2/L) sin(n&pi;x/L), E<sub>n</sub> = n&sup2;h&sup2;/8mL&sup2;, zero-point energy.</p>
+  <p class="topic-links">queued — numerical gold</p>
+</div>
+
+<div class="topic-card">
+  <p class="topic-num">[05] Free particle &amp; wave packets — queued</p>
+  <h3>Free Particle, Wave Packets, vg &amp; vp</h3>
+  <p>vg = d&omega;/dk, vp = &omega;/k, vg&middot;vp = c&sup2; (relativistic).</p>
+  <p class="topic-links">queued</p>
+</div>
+
+<div class="topic-card">
+  <p class="topic-num">[06] Uncertainty principle — queued</p>
+  <h3>Heisenberg Uncertainty Principle</h3>
+  <p>&Delta;x&middot;&Delta;p &ge; &#8463;/2, elementary proof, applications.</p>
+  <p class="topic-links">queued</p>
+</div>
+
+
+
+<h2>Progress (saved in this browser)</h2>
+<div id="progress">
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt201u1" value="01-wave-nature-debroglie.html"> 01 de Broglie — <a href="01-wave-nature-debroglie.html">01-wave-nature-debroglie.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt201u1" value="02-operators-born.html"> 02 Operators — <a href="02-operators-born.html">02-operators-born.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt201u1" value="formula-sheet.html"> Formulas — <a href="formula-sheet.html">formula-sheet.html</a></label>
+</div>
+<script>
+(function () {
+  try {
+    var key = 'progress-bt201u1';
+    var saved = JSON.parse(localStorage.getItem(key) || '[]');
+    document.querySelectorAll('#progress input[type="checkbox"]').forEach(function (cb) {
+      if (saved.indexOf(cb.value) !== -1) cb.checked = true;
+      cb.addEventListener('change', function () {
+        var vals = [];
+        document.querySelectorAll('#progress input[type="checkbox"]:checked').forEach(function (c) { vals.push(c.value); });
+        try { localStorage.setItem(key, JSON.stringify(vals)); } catch (e) {}
+      });
+    });
+  } catch (e) {}
+})();
+</script>
+
+<h2>PYQ map — where each topic is drilled</h2>
+<table>
+<tr><th>Topic</th><th>In-file drill</th><th>Archive</th></tr>
+<tr><td>01 de Broglie</td><td><code>01-wave-nature-debroglie.html</code> Drill A+B</td><td><a href="https://career-shiksha.com/post/rgpv-question-papers-bt-201-engineering-physics/">CareerShiksha BT-201</a></td></tr>
+<tr><td>02 Operators/Born</td><td><code>02-operators-born.html</code> Drill A+B</td><td><a href="https://www.rgpvonline.com/be/bt-201-engineering-physics-jun-2023.html">RGPVOnline Jun-2023</a></td></tr>
+<tr><td>03 Schrodinger</td><td>queued — drills land with file</td><td><a href="https://www.rgpvonline.com/be/bt-201-engineering-physics-dec-2024.html">RGPVOnline Dec-2024</a></td></tr>
+<tr><td>04 1D box</td><td>queued</td><td><a href="https://career-shiksha.com/post/rgpv-question-papers-bt-201-engineering-physics/">CareerShiksha BT-201</a></td></tr>
+<tr><td>05 packets</td><td>queued</td><td>—</td></tr>
+<tr><td>06 uncertainty</td><td>queued</td><td>—</td></tr>
+<tr><td>Formulas</td><td><code>formula-sheet.html</code> (print)</td><td>—</td></tr>
+</table>
+
+<h2>Quick start guide</h2>
+<pre><code>navigate:  open notes/physics/unit1/index.html
+           start with Topic 01, then 02 → 06 in order
+           use tabs to switch Lesson / Cheat-Sheet
+
+practice:  try the 5 interactive MCQs (instant feedback)
+           then work the PYQ drill sets under timer
+
+review:    bookmark the cheat-sheet tab for exam morning</code></pre>
+
+<div class="callout">
+  <span class="label">Quality rule</span>
+  One topic at a time. Finish <code>01-wave-nature-debroglie.html</code> fully before starting 02.
+  Each file: Lesson + Cheat-Sheet + 5 MCQs + PYQ drill.
+</div>
+
+<div class="callout">
+  <span class="label">Terminal quick reference</span>
+  <pre>&lambda; = h/p = h/mv                              [de Broglie]
+&lambda; = h/&radic;(2meV) = 1.227/&radic;V nm          [electron thru V]
+E<sub>n</sub> = n&sup2;h&sup2;/8mL&sup2;  &psi;<sub>n</sub>=&radic;(2/L)sin(n&pi;x/L)  [1D box]
+&Delta;x&middot;&Delta;p &ge; &#8463;/2                             [Heisenberg]
+i&#8463; &part;&psi;/&part;t = -&#8463;&sup2;/2m &nabla;&sup2;&psi; + V&psi;      [TDSE]</pre>
+</div>
+
+</div><!-- end index -->
+
+<!-- RESOURCES TAB -->
+<div id="resources" class="tab-panel">
+
+<p class="kicker">Appendix &middot; RGPV Resources (all fetched &amp; verified)</p>
+<h1>BT201 Unit 1 &mdash; All Sources</h1>
+<p><em>Official syllabus, RGPV-aligned notes, PYQs, and videos. Fetched 2026-09-21.</em></p>
+
+<h2>Official syllabus</h2>
+<ul>
+  <li><strong>RGPV official scheme (WEF July 2022 PDF)</strong> &mdash;
+    <a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">rgpv.ac.in — BT201 Module 1–5</a>
+    &mdash; Module 1 = Wave nature + Schrodinger eq. (8 lectures). Also lists all 15 lab experiments + books (Griffiths, Ghatak, Halliday/Resnick).</li>
+</ul>
+
+<h2>Subject notes (RGPV-aligned, verified)</h2>
+<ul>
+  <li><strong>LNCT Bhopal — Unit-I Quantum Physics (Dr. Ashim Prakash Jain)</strong> &mdash;
+    <a href="https://lnct.ac.in/wp-content/uploads/2020/04/Engineering-Physics-BT-201-B.Tech_.-I-Year-CO-01Unit-I-QUANTUMPHYSICS.pdf">LNCT BT-201 CO-01 Unit-I PDF</a>
+    &mdash; best RGPV-specific deck: duality, vg/vp, uncertainty proof, Compton, operators, Schrodinger, 1D well. Use as backbone for our 01–06.</li>
+  <li><strong>RGPVNotes.in — BT-201 Unit 1 notes</strong> &mdash;
+    <a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/engineering-physics-bt-201">Unit 1 View/Download hub</a>
+    &mdash; OneDrive + Dropbox mirrors, free, no registration. Verified page loads with Unit 1–5 links.</li>
+</ul>
+
+<h2>PYQ Papers (solve under timer)</h2>
+<ul>
+  <li><strong>CareerShiksha BT-201 archive (scanned images)</strong> &mdash;
+    <a href="https://career-shiksha.com/post/rgpv-question-papers-bt-201-engineering-physics/">BT-201 PYQ Dec-2025 back to Dec-2020</a>
+    &mdash; 10 sessions verified. Unit 1 repeats: derive TDSE + TISE, particle-in-box energies.</li>
+  <li><strong>RGPVOnline PDFs</strong> &mdash;
+    <a href="https://www.rgpvonline.com/be/bt-201-engineering-physics-dec-2024.html">Dec-2024 PDF</a> &middot;
+    <a href="https://www.rgpvonline.com/be/bt-201-engineering-physics-jun-2023.html">Jun-2023 PDF</a>
+    &mdash; downloadable PDFs with solutions.</li>
+  <li><strong>Important-questions list</strong> &mdash;
+    <a href="https://primeupdate.org/bt-201-engineering-physics-important-questions-for-rgpv-b-tech-1st-year/">primeupdate BT-201 Unit-wise imp Qs</a>
+    &mdash; Q1 Unit-I: derive TDSE + TISE (June 2025). Page was down on fetch — retry before exam.</li>
+</ul>
+
+<h2>Video walkthroughs</h2>
+<ul>
+  <li><strong>Particle in a Box Part 1 — Professor Dave Explains</strong> &mdash;
+    <a href="https://www.youtube.com/watch?v=LBB39u8dNw0">YouTube (16:35, 434K views)</a>
+    &mdash; cleanest TISE → &psi;<sub>n</sub>, E<sub>n</sub> derivation. Use for Topic 04.</li>
+  <li><strong>IIT Kanpur — Stationary Schrodinger + Particle in Box (Lecture 30)</strong> &mdash;
+    <a href="http://www.infocobuild.com/education/audio-video-courses/physics/IntroToQuantumMechanics-IIT-Kanpur/lecture-30.html">Harbola QM Lecture 30</a>
+    &mdash; rigorous NPTEL-level backup.</li>
+  <li><strong>NIT Srinagar — Particle in a Box lecture slides</strong> &mdash;
+    <a href="https://www.nitsri.ac.in/Department/PHYSICS/Lecture_05.pdf">Lecture_05 PDF</a>
+    &mdash; normalization + expectation values + problem sets. Good for PYQ drill.</li>
+</ul>
+
+<h2>Topic-wise PYQ frequency &amp; exam strategy</h2>
+<table>
+<tr><th>Topic</th><th>Pattern</th><th>Marks</th><th>Priority</th></tr>
+<tr><td>Schrodinger eq. (TD + TI)</td><td>Almost every session</td><td>5-7</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>Particle in 1D box</td><td>Every session (theory + numeral)</td><td>5-7</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>Uncertainty principle</td><td>Frequent proof + application</td><td>3-5</td><td>&#x2713;&#x2713;</td></tr>
+<tr><td>de Broglie / wave nature</td><td>Short + numeral (λ via V)</td><td>3-5</td><td>&#x2713;&#x2713;</td></tr>
+<tr><td>vg / vp + wave packets</td><td>Occasional derivation</td><td>3-5</td><td>&#x2713;</td></tr>
+</table>
+
+
+<h2>Viva + lab (BT201 practicals)</h2>
+<p>Unit 1 maps to Experiment 8: determine Planck's constant with photocell (photoelectric effect → E = hf). Viva loves:</p>
+<ul>
+  <li>State de Broglie hypothesis + write λ = h/p and λ = 1.227/√V nm.</li>
+  <li>What is |ψ|²? State normalization + 4 validity conditions.</li>
+  <li>p̂, Ê, Ĥ — write all three with signs.</li>
+  <li>Why is electron wavelength X-ray order? (microscope principle)</li>
+  <li>Davisson–Germer: what was diffracted, off what, proving what?</li>
+  <li>Full experiment list (15): see <a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">official scheme PDF</a> — Newton rings, YDSE, grating λ, Hall effect, PN diode, NA of fiber, laser λ.</li>
+</ul>
+
+<div class="callout">
+  <span class="label">Exam blueprint</span>
+  Unit 1 ≈ 8 lectures, 1× 7-mark question guaranteed. Highest ROI: Schrodinger derivation + box energies + one uncertainty proof + one de Broglie numeral. Master those four and Unit 1 is covered.
+</div>
+
+</div><!-- end resources -->
+
+<!-- ZEVU FOOTER -->
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt201/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<!-- TAB ENGINE -->
+<script>
+(function () {
+  'use strict';
+
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    // Highlight active button
+    if (event && event.target) event.target.classList.add('active');
+  };
+})();
+</script>
+
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

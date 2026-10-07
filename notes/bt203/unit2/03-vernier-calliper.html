@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vernier Calliper &amp;mdash; The Least Count Rule and the Zero Error Sign</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit2 $</span> cat 03-vernier-calliper.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 2 &mdash; Measurement &amp; Production</p>
+<h1>Vernier Calliper &mdash; The Least Count Rule and the Zero Error Sign</h1>
+<p><em>RGPV asks for the <strong>method of measurement</strong> with a vernier calliper in 5 of 11
+papers, and it wants three things in order: the least count with its derivation, the reading rule,
+and the zero-error correction with the correct sign. The last of those is where marks are lost,
+because the sign rule is stated backwards about half the time in printed notes. Learn the one-line
+derivation and this question cannot go wrong.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>A vernier calliper measures an external or internal dimension by sliding a
+short vernier scale against a main scale, and reading the position of the
+vernier zero plus the fraction given by the vernier division that coincides
+with a main scale division. Least count = 1 MSD - 1 VSD; with a 50-division
+vernier spanning 49 mm it is 0.02 mm. The reading is MSR + (coinciding VSD
+x LC), then corrected for zero error.</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;The main scale gives
+you the whole millimetres; the vernier scale exists only to resolve the fraction below one
+millimetre &mdash; and the least count is simply how much one vernier division is worth.</em>&rdquo;</p>
+
+<h2>Why a vernier works at all</h2>
+
+<p>The trick is a <strong>deliberate mismatch</strong> of spacing. The vernier divisions are made
+slightly <em>smaller</em> than the main scale divisions, so as the scale slides, exactly one vernier
+line comes into true alignment with a main scale line and the rest are all offset. Which line aligns
+tells you the fraction.</p>
+
+<pre class="ascii-diagram" role="img" aria-label="Main scale divisions above, vernier divisions below, showing how one vernier line comes into coincidence">
+  MAIN SCALE  (1 mm divisions)
+  |       |       |       |       |       |       |       |
+  0       1       2       3       4       5       6       7
+  |       |       |       |       |       |       |       |
+
+  VERNIER SCALE  (each division slightly SMALLER than 1 mm)
+  |     |     |     |     |     |     |     |     |     |     |
+  0     1     2     3     4     5     6     7     8     9     10
+  ^                                                         ^
+  vernier zero                                    10th division
+
+  With 10 vernier divisions spanning 9 main scale divisions:
+     10 VSD = 9 MSD
+      1 VSD = 0.9 MSD
+  so one vernier division is 0.1 mm SHORTER than one main division
+  -> LEAST COUNT = 1 MSD - 1 VSD = 1 - 0.9 = 0.1 mm
+
+  Now align the vernier zero at 3.4 mm. The scale is offset by
+  0.4 mm, and 0.4/0.1 = 4 -> the FOURTH vernier line lines up.
+  Which line lines up tells you the fraction.
+</pre>
+
+<h2>The least count &mdash; derive it, never quote it</h2>
+
+<p>This is the mark the question is really testing. The derivation is two lines and it must be
+written out.</p>
+
+<pre><code>General rule, when n vernier divisions span (n - 1) main divisions:
+
+    n VSD        = (n - 1) MSD
+    1 VSD        = (n - 1)/n  MSD
+    LC = 1 MSD - 1 VSD
+       = 1 MSD - (n - 1)/n MSD
+       = MSD / n          &lt;- the whole result in one line</code></pre>
+
+<table>
+<thead><tr><th>Vernier divisions n</th><th>Span on main scale</th><th>1 VSD</th><th>Least count = 1 MSD / n</th><th>Seen on</th></tr></thead>
+<tbody>
+<tr><td><strong>10</strong></td><td>9 mm</td><td>0.90 mm</td><td><strong>0.1 mm</strong></td><td>Coarse callipers, older instruments</td></tr>
+<tr><td><strong>20</strong></td><td>19 mm</td><td>0.95 mm</td><td><strong>0.05 mm</strong></td><td>Common workshop callipers</td></tr>
+<tr><td><strong>50</strong></td><td>49 mm</td><td>0.98 mm</td><td><strong>0.02 mm</strong></td><td><strong>The standard calliper &mdash; assume this one</strong></td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">The fact that is stated wrongly in half the notes online</span>
+<p><strong>A standard vernier calliper has a least count of 0.02 mm, not 0.01 mm.</strong> A 50-division
+vernier spanning 49 mm gives 1 MSD / 50 = 0.02 mm. The figure <strong>0.01 mm belongs to the
+micrometer</strong>, and confusing the two is the single most common error on this question.</p>
+<p>0.01 mm resolution does exist, but only on a <strong>digital</strong> calliper, where it is the
+display resolution rather than a vernier least count. If a question describes an actual vernier scale,
+compute the least count from the divisions given &mdash; never recall it.</p>
+</div>
+
+<h2>Parts of the calliper</h2>
+
+<table>
+<thead><tr><th>Part</th><th>Job</th></tr></thead>
+<tbody>
+<tr><td><strong>Main scale (beam)</strong></td><td>The fixed graduated bar, marked in millimetres and usually half-millimetres; it is the fixed jaw's datum</td></tr>
+<tr><td><strong>Vernier scale / sliding head</strong></td><td>The short graduated scale that slides along the main scale; carries the vernier zero and the fine-reading divisions</td></tr>
+<tr><td><strong>Fixed jaws (upper and lower)</strong></td><td>The upper pair is the <strong>outside</strong> jaws for external measurement; the lower pair is the <strong>inside</strong> jaws for bore and groove width</td></tr>
+<tr><td><strong>Depth rod</strong></td><td>A thin rod sliding out of the beam end, for depth measurement</td></tr>
+<tr><td><strong>Locking screw / clamp</strong></td><td>Holds the sliding head at a reading while it is taken off the work</td></tr>
+<tr><td><strong>Thumb grip / fine adjustment</strong></td><td>Allows the jaw to be closed on the work with light, even pressure</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Labelled vernier calliper showing jaws, main scale, vernier scale and depth rod">
+   FIXED JAW                              SLIDING JAW
+   (upper)                                 (upper)
+     | |                                     | |
+     | |      MAIN SCALE (mm on the beam)    | |
+     | +-------------------------------------+ |
+     | | 0   10   20   30   40   50   60   70 | |
+     | +-------------------------------------+ |
+     | |    |    |    |    |    |    |    |    | |  <- upper = OUTSIDE jaws
+     | |                                     | |
+     | |    VERNIER SCALE (50 divisions)     | |
+     | |    |||| |||| |||| |||| ||||        | |
+     | +--[===============================]--+ |
+     |     ^                               ^     |
+     |  vernier zero              locking screw  |
+     |                                           |
+     | |                                     | |  <- lower = INSIDE jaws
+     |_|___________________________________|___|
+      |                                         |
+      v  DEPTH ROD slides out of the beam end   v
+</pre>
+
+<h2>Reading the calliper &mdash; two numbers, added</h2>
+
+<ol>
+<li><strong>Main scale reading (MSR).</strong> Read the last main scale division lying to the
+<em>left</em> of the vernier zero. Write it in millimetres.</li>
+<li><strong>Vernier scale reading.</strong> Find the vernier division that lies exactly in line with
+a main scale division. Note its number, <em>counted from the vernier zero</em>.</li>
+<li><strong>Fraction = coinciding division &times; least count.</strong></li>
+<li><strong>Measured value = MSR + fraction.</strong> Add &mdash; never subtract.</li>
+<li><strong>Apply the zero correction.</strong> See the sign rule below.</li>
+</ol>
+
+<pre class="ascii-diagram" role="img" aria-label="Reading a vernier calliper where the 32nd division coincides, giving 24.64 millimetres">
+  MAIN SCALE:  ... 20    21    22    23    24    25    26 ...
+  |--------|----|----|----|----|----|----|----|----|----|
+               |              ^
+               |        vernier zero sits here,
+               |        just past the 24 mm mark
+               |            -> MSR = 24 mm
+               |
+  VERNIER:  0    5    10   15   20   25   30   32   ...
+  |----|----|----|----|----|----|----|----|
+                                              ^
+                                    the 32nd division lines up
+                                    exactly with a main scale line
+
+  fraction = 32 x 0.02 = 0.64 mm
+  reading  = 24 + 0.64 = 24.64 mm        <- box this
+</pre>
+
+<h2>Zero error &mdash; get the sign right</h2>
+
+<p>Close the jaws completely. If the vernier zero lines up exactly with the main scale zero, there
+is no error. If it does not, the instrument has a <strong>zero error</strong> that must be subtracted
+from every reading &mdash; or added, depending on which way it leans.</p>
+
+<table>
+<thead><tr><th>With the jaws closed</th><th>Zero error</th><th>Correction</th><th>Apply by</th></tr></thead>
+<tbody>
+<tr><td>Vernier zero coincides with main scale zero</td><td>zero</td><td>none</td><td>&mdash;</td></tr>
+<tr><td>Vernier zero lies to the <strong>RIGHT</strong> of the main scale zero</td><td><strong>positive</strong></td><td><strong>negative</strong></td><td><strong>subtracting</strong> it</td></tr>
+<tr><td>Vernier zero lies to the <strong>LEFT</strong> of the main scale zero</td><td><strong>negative</strong></td><td><strong>positive</strong></td><td><strong>adding</strong> it</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Positive and negative zero error on a vernier calliper, with the correction direction">
+  POSITIVE ZERO ERROR                  NEGATIVE ZERO ERROR
+  jaws closed, vernier zero            jaws closed, vernier zero
+  to the RIGHT of main zero            to the LEFT of main zero
+
+   main:  | 0 | 1 | 2 | 3 |              main:  | 0 | 1 | 2 | 3 |
+                ^                                   ^
+                vernier zero                        vernier zero
+                |                                   |
+            vernier: 0  5  10                  vernier: 0  5  10
+
+  the instrument READS TOO MUCH        the instrument READS TOO LITTLE
+  zero error  = + (4 x LC)             zero error  = - (6 x LC)
+  correction  = - (4 x LC)             correction  = + (6 x LC)
+  -> SUBTRACT from every reading       -> ADD to every reading
+
+        true = measured - zero error, always, with the sign.
+        The sign of the CORRECTION is always opposite the sign
+        of the ERROR. Write both down before you substitute.
+</pre>
+
+<div class="exam-note"><strong>The rule in one line.</strong> <em>True reading = measured reading
+&minus; zero error</em>, carrying the sign of the error through. Because that single formula already
+contains the sign, you never have to remember &ldquo;add or subtract&rdquo; separately &mdash; a
+positive zero error is subtracted, a negative zero error is added, and both fall out of the same
+line. State the error first, then substitute it, and the sign cannot go wrong.</div>
+
+<h2>Numericals in great depth</h2>
+
+<p>Three kinds appear: computing the least count, reading a measurement, and correcting for zero
+error. All three are short arithmetic and all three are lost by a sign or a decimal slip.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>MSD</code></td><td>one main scale division</td><td>mm</td></tr>
+<tr><td><code>VSD</code></td><td>one vernier scale division</td><td>mm</td></tr>
+<tr><td><code>n</code></td><td>number of vernier divisions, spanning (n &minus; 1) MSD</td><td>&mdash;</td></tr>
+<tr><td><code>LC = MSD / n</code></td><td>least count</td><td>mm</td></tr>
+<tr><td><code>MSR</code></td><td>main scale reading, in whole mm</td><td>mm</td></tr>
+<tr><td><code>VSD<sub>c</sub></code></td><td>the division on the vernier that coincides, counted from the vernier zero</td><td>&mdash;</td></tr>
+<tr><td><code>MV = MSR + VSD<sub>c</sub> x LC</code></td><td>measured value, before correction</td><td>mm</td></tr>
+<tr><td><code>TV = MV &minus; z</code></td><td>true value, with z the signed zero error</td><td>mm</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; vernier numerals</span>
+<pre><code>Given:  number of vernier divisions and the main scale they span;
+        MSR, the coinciding division, and the zero error with its sign
+Find:   least count and/or the true reading
+Formula:LC = MSD / n ;  MV = MSR + (coinciding x LC) ;  TV = MV - z
+Solve:  substitute, keep the sign of z, write mm on every line
+Check:  confirm TV + z returns MV, and that TV is a multiple of LC</code></pre>
+</div>
+
+<h3>Solved A &mdash; least count and a reading</h3>
+<p><em>A vernier calliper has a main scale division of 1 mm and a vernier scale of 50 divisions which
+coincide with 49 main scale divisions. Find the least count. The jaws are then closed on a rod and
+the main scale reads 24 mm, with the 32nd vernier division coinciding with a main scale division.
+Find the diameter of the rod.</em></p>
+<p><strong>Given:</strong> MSD = 1 mm, n = 50 divisions spanning 49 mm; MSR = 24 mm,
+coinciding division = 32.
+<strong>Find:</strong> least count and the diameter.
+<strong>Formula:</strong> LC = MSD / n; MV = MSR + (coinciding division &times; LC).
+<strong>Solve:</strong></p>
+<pre><code>LC = 1 MSD / n = 1 / 50 = 0.02 mm
+
+      (or at length: 50 VSD = 49 MSD
+                      1 VSD = 0.98 mm
+                      LC = 1 - 0.98 = 0.02 mm)
+
+fraction = 32 x 0.02 = 0.64 mm
+MV       = 24 + 0.64 = 24.64 mm</code></pre>
+<p><strong>Answer:</strong> least count <strong>0.02 mm</strong>; diameter of the rod
+<strong>24.64 mm</strong>.</p>
+<p><strong>Check:</strong> 0.64 mm is a multiple of the least count, as every fraction must be &mdash;
+32 individual 0.02 mm steps. Independent second check on the magnitude: the vernier zero sits just
+past the 24 mm mark and the last vernier division reaches 50 &times; 0.02 = 1.00 mm in total, so the
+reading must lie between 24.00 and 25.00 mm. 24.64 is comfortably inside that window; a result of
+26.4 or 2.464 would have signalled a decimal slip, which is the commonest arithmetic error here.</p>
+
+<h3>Solved B &mdash; positive zero error, and the correction</h3>
+<p><em>The same calliper, with a least count of 0.02 mm, is found to have its vernier zero to the
+right of the main scale zero when the jaws are closed, with the 4th vernier division coinciding. It
+then measures a component and reads 45.62 mm. Find the zero error, the correction, and the true
+size.</em></p>
+<p><strong>Given:</strong> LC = 0.02 mm; jaws closed with vernier zero to the <em>right</em> and the
+4th division coinciding; MV = 45.62 mm.
+<strong>Find:</strong> zero error, correction, true size.
+<strong>Formula:</strong> z = &plusmn;(coinciding division &times; LC), positive when the vernier
+zero lies to the right; TV = MV &minus; z.
+<strong>Solve:</strong></p>
+<pre><code>zero error z = + (4 x 0.02) = +0.08 mm
+      (vernier zero to the RIGHT -> POSITIVE error)
+
+correction   = -0.08 mm      (always opposite in sign to the error)
+
+TV = MV - z
+   = 45.62 - 0.08
+   = 45.54 mm</code></pre>
+<p><strong>Answer:</strong> zero error <strong>+0.08 mm</strong>, correction <strong>&minus;0.08 mm</strong>,
+true size <strong>45.54 mm</strong>.</p>
+<p><strong>Check:</strong> substituting back, 45.54 + 0.08 = 45.62 mm, exactly the measured value,
+so the correction has been applied in the right direction. Second check on the physical sense: the
+vernier zero was displaced to the right, which means the jaws had already opened a little when they
+should have been touching, so the instrument reads <em>too much</em> &mdash; and the true size must
+therefore be <em>smaller</em> than the reading, as 45.54 is. Had the answer come out 45.70 the sign
+would have been applied the wrong way round.</p>
+
+<h3>Solved C &mdash; negative zero error</h3>
+<p><em>A third calliper of least count 0.02 mm shows, with its jaws closed, the vernier zero to the
+left of the main scale zero, with the 6th vernier division coinciding. A sleeve is then measured and
+the main scale reads 18 mm with the 45th vernier division coinciding. Find the true diameter.</em></p>
+<p><strong>Given:</strong> LC = 0.02 mm; jaws closed with vernier zero to the <em>left</em> and the
+6th division coinciding; MSR = 18 mm, coinciding division = 45.
+<strong>Find:</strong> zero error, measured value, true diameter.
+<strong>Formula:</strong> z = &minus;(coinciding division &times; LC) when the zero lies to the left;
+MV = MSR + (coinciding &times; LC); TV = MV &minus; z.
+<strong>Solve:</strong></p>
+<pre><code>zero error z = - (6 x 0.02) = -0.12 mm
+      (vernier zero to the LEFT -> NEGATIVE error, so a
+       POSITIVE correction:  the jaws had to close further
+       than they should have to touch)
+
+MV = 18 + (45 x 0.02)
+   = 18 + 0.90 = 18.90 mm
+
+TV = MV - z = 18.90 - (-0.12)
+   = 18.90 + 0.12 = 19.02 mm</code></pre>
+<p><strong>Answer:</strong> zero error <strong>&minus;0.12 mm</strong>; measured value
+<strong>18.90 mm</strong>; true diameter <strong>19.02 mm</strong>.</p>
+<p><strong>Check:</strong> substituting back, 19.02 &minus; 0.12 = 18.90 mm, recovering the measured
+value exactly. Second check on sense: with the vernier zero displaced to the <em>left</em>, the jaws
+closed short of where they should, so the instrument reads <em>too little</em> and the true size must
+be <em>larger</em> than the reading &mdash; 19.02 is indeed larger than 18.90. This is the mirror
+image of Solved B, and checking which side the true value falls on is a reliable five-second defence
+against the sign error.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>A standard calliper is 0.02 mm, not 0.01 mm.</strong> 0.01 mm is the <em>micrometer's</em>
+least count. Half the notes online state this wrong.</li>
+<li><strong>The 10 MSD / 9 MSD rule gives 0.1 mm, not 0.01 mm.</strong> 1 MSD/n with n = 10 is
+0.1 mm. Do not quote the rule and then write a different number.</li>
+<li><strong>LC = MSD / n, where n is the number of vernier divisions</strong> &mdash; not the number
+of divisions the vernier spans. A 50-division vernier spans 49 mm.</li>
+<li><strong>Count the coinciding division from the vernier zero</strong>, not from the left end of the
+scale and not from the main scale.</li>
+<li><strong>The fraction is always a multiple of the least count.</strong> 0.64 mm is valid on a
+0.02 mm instrument; 0.645 mm is not readable on one.</li>
+<li><strong>Sign of the zero error:</strong> vernier zero to the <em>right</em> is <strong>positive</strong>,
+to the <em>left</em> is <strong>negative</strong>. Then true = measured &minus; error, with the sign.</li>
+<li><strong>Direction check:</strong> a positive zero error means the instrument reads too much, so
+the true value must be smaller than the reading. A negative error means it reads too little, so the
+true value is larger. Use that to catch a flipped sign.</li>
+<li><strong>Do not subtract a zero error twice</strong> by converting it to a correction and then
+still using the formula TV = MV &minus; z. Apply the sign once.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;A vernier calliper is an instrument used to measure
+external and internal dimensions to an accuracy of the least count, which is the difference between
+one main scale division and one vernier scale division.&rdquo;</li>
+<li><strong>Least-count line</strong> &mdash; &ldquo;When <em>n</em> vernier divisions span
+<em>n &minus; 1</em> main scale divisions, the least count is one main scale division divided by n;
+for a 50-division vernier on a 1 mm main scale this is 1/50 = <strong>0.02 mm</strong>.&rdquo;</li>
+<li><strong>Reading line</strong> &mdash; &ldquo;The measured value is the main scale reading
+immediately to the left of the vernier zero, plus the product of the coinciding vernier division and
+the least count.&rdquo;</li>
+<li><strong>Zero-error line</strong> &mdash; &ldquo;The zero error is positive when the vernier zero
+lies to the right of the main scale zero with the jaws closed and negative when it lies to the left,
+and the correction is always of the opposite sign, the true reading being the measured reading minus
+the zero error.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence the whole instrument rests on one idea
+&mdash; the deliberate mismatch between the vernier and main scale spacings &mdash; so that the
+division which coincides identifies the fraction of a millimetre.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Sketch first</strong> &mdash; a labelled calliper with the jaws, both scales and the
+depth rod is a third of the answer</li>
+<li><strong>Derive the least count on the page</strong> &mdash; write n VSD = (n &minus; 1) MSD, then
+LC = MSD/n; never just state 0.02 mm</li>
+<li><strong>Draw the two scales in the reading step</strong> &mdash; a small diagram showing which
+line coincides earns the reading marks</li>
+<li><strong>State the zero error and the correction separately</strong>, both with signs, before
+substituting</li>
+<li><strong>Underline and box</strong> &mdash; box the least count and the final reading</li>
+<li><strong>Attempt this early</strong> &mdash; it pairs with the micrometer question and the marks
+are quick</li>
+<li><strong>Never leave blank</strong> &mdash; labelled sketch plus the least count clears 4 of 7</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="C" data-explain="When n vernier divisions span n-1 main divisions the least count is one main scale division divided by n. Here that is 1/50 = 0.02 mm. The figure 0.01 mm is the micrometer's least count and is the standard wrong answer; 0.1 mm is what the 10 MSD / 9 MSD rule gives.">
+<p><strong>Q1. A vernier calliper has 1 mm main scale divisions and a 50-division vernier spanning 49 mm. Its least count is:</strong></p>
+<button data-key="A">0.01 mm</button>
+<button data-key="B">0.05 mm</button>
+<button data-key="C">0.02 mm</button>
+<button data-key="D">0.1 mm</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="A vernier of n divisions spanning n-1 main scale divisions gives a least count of 1 MSD / n. With 10 divisions spanning 9 mm that is 1/10 = 0.1 mm. The rule 10 MSD = 9 MSD is often quoted alongside a least count of 0.01 mm, which contradicts it.">
+<p><strong>Q2. If 10 vernier divisions coincide with 9 main scale divisions of 1 mm each, the least count is:</strong></p>
+<button data-key="A">0.01 mm</button>
+<button data-key="B">0.1 mm</button>
+<button data-key="C">0.02 mm</button>
+<button data-key="D">0.9 mm</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="On a 0.02 mm calliper the 32nd coinciding division gives 32 x 0.02 = 0.64 mm, which added to the main scale reading of 24 mm gives 24.64 mm. The fraction must always be a multiple of the least count, and the reading must lie between the main scale reading and the next millimetre.">
+<p><strong>Q3. A 0.02 mm calliper reads a main scale value of 24 mm with the 32nd division coinciding. The diameter is:</strong></p>
+<button data-key="A">24.64 mm</button>
+<button data-key="B">24.32 mm</button>
+<button data-key="C">26.40 mm</button>
+<button data-key="D">24.032 mm</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="With the jaws closed, the vernier zero lying to the right of the main scale zero means the jaws had already opened slightly, so the instrument reads too much. That is a positive zero error, and because true = measured - error, it is subtracted from every reading.">
+<p><strong>Q4. With the jaws closed, the vernier zero lies to the right of the main scale zero. The zero error is:</strong></p>
+<button data-key="A">Negative, and it is added to each reading</button>
+<button data-key="B">Negative, and it is subtracted from each reading</button>
+<button data-key="C">Positive, and it is added to each reading</button>
+<button data-key="D">Positive, and it is subtracted from each reading</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="A vernier reading is the sum of the main scale reading and the fraction, never a difference. The main scale supplies the whole millimetres and the vernier supplies only the part below one millimetre, so the two are complementary parts of a single value.">
+<p><strong>Q5. The measured value on a vernier calliper is obtained by:</strong></p>
+<button data-key="A">Subtracting the vernier reading from the main scale reading</button>
+<button data-key="B">Multiplying the coinciding division by the main scale reading</button>
+<button data-key="C">Adding the vernier fraction to the main scale reading</button>
+<button data-key="D">Dividing the main scale reading by the least count</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring, 5 of 11 papers.</strong> &ldquo;Discuss the method of measurement with a
+vernier calliper, stating its least count.&rdquo; &rarr; Labelled sketch; derivation n VSD =
+(n &minus; 1) MSD giving LC = MSD/n; the two-step reading rule; the zero-error correction with
+sign.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What is the least count of a vernier
+calliper and how is it calculated?&rdquo; &rarr; The general derivation, then the standard 50-division
+value of 0.02 mm, with the arithmetic shown.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What is zero error and how is it
+corrected?&rdquo; &rarr; Define it with the jaws closed; positive when the vernier zero is to the
+right; true reading = measured &minus; zero error, with the sign carried through.</li>
+<li><strong>Short question.</strong> &ldquo;What are the parts of a vernier calliper and what does
+each do?&rdquo; &rarr; Main scale, vernier scale, two pairs of jaws, depth rod, locking screw, thumb
+grip, each with its function.</li>
+<li><strong>One-line recall.</strong> &ldquo;Why are the vernier divisions made slightly
+smaller?&rdquo; &rarr; So that the spacing mismatch makes exactly one division coincide, and which one
+coincides identifies the fraction of a millimetre.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="6">
+<li><strong>10 minutes, no notes.</strong> Draw the calliper and label six parts. Then write the
+least count derivation for a 50-division vernier and compute it. Check the answer is 0.02, not
+0.01.</li>
+<li><strong>5 minutes.</strong> Solved A on paper. Check the fraction 0.64 is a multiple of 0.02 and
+that the reading falls between 24 and 25 mm.</li>
+<li><strong>5 minutes.</strong> Solved B on paper. Check the true value 45.54 is <em>smaller</em> than
+the reading 45.62, because a positive zero error makes the instrument read too much.</li>
+<li><strong>5 minutes.</strong> Solved C on paper. Check the true value 19.02 is <em>larger</em> than
+the reading 18.90, because a negative zero error makes it read too little.</li>
+<li><strong>4 minutes.</strong> Tabulate the three standard verniers &mdash; 10, 20 and 50 divisions
+&mdash; with their least counts 0.1, 0.05 and 0.02 mm. Check you can derive each as 1/n.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 2 Topic 03</p>
+<h1>Vernier Calliper &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>A vernier calliper measures external and internal dimensions by sliding a
+vernier scale against a main scale. When n vernier divisions span (n - 1)
+main scale divisions:
+
+      LC = 1 MSD - 1 VSD = MSD / n
+
+A standard calliper has a 1 mm main scale and a 50-division vernier, giving
+LC = 1/50 = 0.02 mm.
+
+READING = main scale reading + (coinciding vernier division x LC)
+TRUE    = measured value - zero error        (sign carried through)
+
+ZERO ERROR: + when the vernier zero is to the RIGHT of the main scale
+            zero with the jaws closed
+            - when it is to the LEFT
+The correction is always the OPPOSITE sign to the error.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Least count -> n VSD = (n - 1) MSD
+                  1 VSD = (n - 1)/n MSD
+                  LC = 1 MSD - 1 VSD = MSD / n
+                  50-division vernier: 1/50 = 0.02 mm
+2. Reading     -> MSR (last main division left of the vernier zero)
+                  + (coinciding division x LC)
+3. Zero error  -> close the jaws; right of zero = positive,
+                  left of zero = negative
+4. True value  -> TV = MV - z, keeping the sign of z</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Instrument variant</th><th>Vernier divisions n</th><th>Spans</th><th>Least count</th><th>Range typical</th></tr></thead>
+<tbody>
+<tr><td>Coarse calliper</td><td>10</td><td>9 mm</td><td>0.1 mm</td><td>0&ndash;150 mm</td></tr>
+<tr><td>Workshop calliper</td><td>20</td><td>19 mm</td><td>0.05 mm</td><td>0&ndash;150 mm</td></tr>
+<tr><td><strong>Standard calliper</strong></td><td><strong>50</strong></td><td><strong>49 mm</strong></td><td><strong>0.02 mm</strong></td><td>0&ndash;150 / 0&ndash;300 mm</td></tr>
+<tr><td>Digital calliper</td><td>no vernier</td><td>&mdash;</td><td>0.01 mm display resolution</td><td>0&ndash;150 mm</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Vernier calliper</strong> &mdash; an instrument for measuring external and internal
+dimensions, working on the principle of a sliding vernier scale read against a fixed main
+scale.</li>
+<li><strong>Main scale division (MSD)</strong> &mdash; one graduation of the fixed beam scale,
+1 mm in a standard calliper.</li>
+<li><strong>Vernier scale division (VSD)</strong> &mdash; one graduation of the sliding scale, made
+slightly smaller than one main scale division.</li>
+<li><strong>Vernier constant or least count</strong> &mdash; the difference between one main scale
+division and one vernier scale division; equals MSD / n.</li>
+<li><strong>Coinciding division</strong> &mdash; the vernier graduation lying exactly in line with a
+main scale graduation, counted from the vernier zero; it identifies the fraction.</li>
+<li><strong>Zero error</strong> &mdash; the reading shown with the jaws fully closed when it should
+be zero; positive when the vernier zero lies to the right of the main scale zero.</li>
+<li><strong>Zero correction</strong> &mdash; the error taken with the opposite sign, applied to every
+reading so that true = measured &minus; zero error.</li>
+<li><strong>Depth rod</strong> &mdash; the sliding rod at the beam end used to measure the depth of a
+hole or recess.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can derive LC = MSD/n from n VSD = (n &minus; 1) MSD without hesitating</li>
+<li>[ ] Can give the least count for 10, 20 and 50 division verniers</li>
+<li>[ ] Can state that a standard calliper is 0.02 mm and say why it is not 0.01 mm</li>
+<li>[ ] Can label a calliper sketch with both jaw pairs, both scales and the depth rod</li>
+<li>[ ] Can take a reading correctly, adding the fraction to the main scale value</li>
+<li>[ ] Can state the sign rule for zero error in one sentence</li>
+<li>[ ] Can explain why true = measured &minus; error needs no separate add/subtract rule</li>
+<li>[ ] Can check a sign by asking whether the true value should be larger or smaller than the
+reading</li>
+<li>[ ] Can solve a least-count numeral, a reading numeral and a zero-error numeral</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Three moves only.</strong> Least count: one main scale division
+divided by the number of vernier divisions &mdash; 1/50 = 0.02 mm for the standard calliper. Reading:
+main scale value plus coinciding division times least count. Correction: true = measured minus zero
+error, with the sign carried through, and sanity-check it by asking whether the instrument reads too
+much or too little. Always confirm the fraction is an exact multiple of the least count.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 2 Topic 03 &middot; 5 of 11 papers, always beside the micrometer</p>
+<h1>Vernier Calliper &mdash; questionnaire</h1>
+<div class="q-meta">Q4 slot &middot; recurring pattern &middot; "method of measurement with a vernier calliper" &rarr; sketch, then the least-count derivation, then the reading rule</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; 5 papers</span></div>
+<h3>Draw a neat sketch of a vernier calliper and explain its method of measurement. State its least count.</h3>
+<p>The standard form of the question. It wants a labelled sketch, the least-count derivation written out rather than quoted, the two-step reading rule, and the zero-error correction. The derivation is where most candidates lose a mark by writing 0.01 mm.</p>
+<div class="q-foot"><b>write</b> &mdash; labelled sketch: main scale, vernier scale, both jaw pairs, depth rod, locking screw (2) &rarr; principle of the deliberate spacing mismatch (1) &rarr; derivation n VSD = (n&minus;1) MSD so LC = MSD/n, giving 0.02 mm (2) &rarr; reading rule, MSR plus coinciding division times LC (1) &rarr; zero-error correction with sign (1).</div>
+<div class="q-foot"><b>check</b> &mdash; quoting 0.01 mm is the standard error and it belongs to the micrometer; giving the least count with no derivation loses the working marks; a sketch missing the depth rod or the inside jaws is incomplete; omitting the zero-error correction costs the closing mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>What is meant by zero error in a vernier calliper? How is it corrected?</h3>
+<p>A complete answer in three moves: define it against the closed-jaw condition, give the sign rule for each direction, then state the single correction formula. The direction check at the end is what proves you understand it rather than having memorised it.</p>
+<div class="q-foot"><b>write</b> &mdash; definition with the jaws closed (1) &rarr; positive when the vernier zero lies to the right, negative when to the left (2) &rarr; true = measured &minus; zero error with the sign carried through (1) &rarr; direction check that a positive error makes the true value smaller than the reading (1).</div>
+<div class="q-foot"><b>check</b> &mdash; reversing the sign rule is the commonest error, and it is the one the examiner is watching for; giving "add or subtract it" without a sign convention is not an answer; omitting the direction check loses the explanation mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>A vernier calliper of least count 0.02 mm reads 24 mm on the main scale with the 32nd division coinciding, and has a zero error of +0.08 mm. Find the true diameter.</h3>
+<p>A numerical wrapping all three parts of the topic together. Do it in the five-line format &mdash; given, find, formula, solve, check &mdash; because the marks are awarded per step, not for the final number alone.</p>
+<div class="q-foot"><b>write</b> &mdash; stated given values (1) &rarr; fraction 32 x 0.02 = 0.64 mm (1) &rarr; measured value 24 + 0.64 = 24.64 mm (1) &rarr; true = 24.64 &minus; 0.08 = 24.56 mm with the sign handled (1) &rarr; check by substituting back (1).</div>
+<div class="q-foot"><b>check</b> &mdash; adding a positive zero error instead of subtracting gives 24.72 and loses the sign mark; forgetting to multiply the coinciding division by the least count gives 24.32; the final value must be smaller than the measured value because the error is positive.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence defining the calliper and its function.</li>
+    <li><strong>Visual:</strong> Draw the labelled instrument with both scales before any prose.</li>
+    <li><strong>Derive:</strong> Write n VSD = (n &minus; 1) MSD, then LC = MSD/n = 1/50 = 0.02 mm.</li>
+    <li><strong>Close:</strong> Box the least count and the reading, and state the zero-error sign rule.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "A vernier calliper is an instrument used to measure external and internal dimensions to an accuracy of the least count, which is the difference between one main scale division and one vernier scale division."</p>
+  <p class="answer-close"><strong>For this topic:</strong> labelled sketch &rarr; principle of the spacing mismatch &rarr; written least-count derivation &rarr; the two-step reading rule with a small coincidence diagram &rarr; zero error and correction with signs &rarr; boxed least count and reading.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Sketch first</strong> &mdash; the labelled diagram carries a third of the marks</li>
+    <li><strong>Derive, never quote</strong> &mdash; n VSD = (n &minus; 1) MSD, then LC = MSD/n</li>
+    <li><strong>Draw the coincidence</strong> &mdash; a small two-scale line diagram in the reading step</li>
+    <li><strong>Write the least count as 0.02 mm</strong>, never 0.01 mm</li>
+    <li><strong>Give both signs</strong> &mdash; state the zero error and the correction separately</li>
+    <li><strong>Underline keywords</strong> &mdash; least count, coinciding division, zero error, correction</li>
+    <li><strong>Box the numbers</strong> &mdash; the least count and the final reading</li>
+    <li><strong>Never leave blank</strong> &mdash; sketch plus least count clears 4 of 7</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Draw a neat sketch of a vernier calliper and explain its method of measurement. State its least count.</h3>
+<p class="answer-lead">Sketch, principle, derivation, reading rule, correction. The least count must be derived on the page and it must come out as 0.02 mm.</p>
+<pre class="ascii-diagram" role="img" aria-label="Labelled vernier calliper showing jaws, main scale, vernier scale and depth rod">
+   FIXED JAW                              SLIDING JAW
+   (upper)                                 (upper)
+     | |                                     | |
+     | |      MAIN SCALE (mm on the beam)    | |
+     | +-------------------------------------+ |
+     | | 0   10   20   30   40   50   60   70 | |
+     | +-------------------------------------+ |
+     | |    |    |    |    |    |    |    |    | |  <- upper = OUTSIDE jaws
+     | |                                     | |
+     | |    VERNIER SCALE (50 divisions)     | |
+     | |    |||| |||| |||| |||| ||||        | |
+     | +--[===============================]--+ |
+     |     ^                               ^     |
+     |  vernier zero              locking screw  |
+     |                                           |
+     | |                                     | |  <- lower = INSIDE jaws
+     |_|___________________________________|___|
+      |                                         |
+      v  DEPTH ROD slides out of the beam end   v
+</pre>
+<p><strong>Construction.</strong> The calliper consists of a steel beam carrying the graduated
+<strong>main scale</strong>, one fixed jaw at each end and a <strong>sliding head</strong> carrying
+the <strong>vernier scale</strong>. The upper pair of jaws measures <strong>outside</strong>
+dimensions, the lower pair <strong>inside</strong> dimensions, and a thin <strong>depth rod</strong>
+sliding out of the beam end measures depth. A <strong>locking screw</strong> holds a reading while
+the instrument is removed from the work, and a thumb grip closes the jaws with even pressure.</p>
+<p><strong>Principle.</strong> The vernier divisions are made slightly smaller than the main scale
+divisions, so that as the head slides, exactly one vernier division comes into true alignment with a
+main scale division while all the others are offset. Which division coincides identifies the
+fraction of a main division that the jaws have opened beyond the last whole mark.</p>
+<p><strong>Least count.</strong> Let <em>n</em> vernier divisions span <em>n &minus; 1</em> main
+scale divisions.</p>
+<pre><code>n VSD = (n - 1) MSD
+1 VSD = (n - 1)/n MSD
+LC    = 1 MSD - 1 VSD
+      = 1 MSD - (n - 1)/n MSD
+      = MSD / n
+
+For the standard calliper, MSD = 1 mm and n = 50:
+LC    = 1 / 50 = 0.02 mm</code></pre>
+<p><strong>Method of measurement.</strong> First close the jaws and check for zero error. Then place
+the work between the appropriate jaws and close them on it with the thumb grip; the locking screw
+may be tightened to hold the reading. Read the <strong>main scale</strong> value at the last division
+lying to the left of the vernier zero, which gives whole millimetres. Then find the vernier division
+that coincides exactly with a main scale division and note its number. The measured value is the main
+scale reading plus the product of the coinciding division and the least count. Finally apply the zero
+correction.</p>
+<table>
+<tr><th>Quantity</th><th>Value</th></tr>
+<tr><td>Least count</td><td><strong>0.02 mm</strong></td></tr>
+<tr><td>Typical range</td><td>0&ndash;150 mm or 0&ndash;300 mm</td></tr>
+</table>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the whole instrument rests on one idea
+&mdash; a deliberate mismatch between the spacings of the two scales &mdash; so that the division
+which coincides identifies the fraction of a millimetre, and a 50-division vernier on a 1 mm main
+scale resolves 0.02 mm."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>What is meant by zero error in a vernier calliper? How is it corrected?</h3>
+<p class="answer-lead">Define it against the closed-jaw condition, give both sign cases, then state the one formula. Finish with the direction check, which is what shows it was understood rather than memorised.</p>
+<pre class="ascii-diagram" role="img" aria-label="Positive and negative zero error on a vernier calliper, with the correction direction">
+  POSITIVE ZERO ERROR                  NEGATIVE ZERO ERROR
+  jaws closed, vernier zero            jaws closed, vernier zero
+  to the RIGHT of main zero            to the LEFT of main zero
+
+   main:  | 0 | 1 | 2 | 3 |              main:  | 0 | 1 | 2 | 3 |
+                ^                                   ^
+                vernier zero                        vernier zero
+                |                                   |
+            vernier: 0  5  10                  vernier: 0  5  10
+
+  the instrument READS TOO MUCH        the instrument READS TOO LITTLE
+  zero error  = + (4 x LC)             zero error  = - (6 x LC)
+  correction  = - (4 x LC)             correction  = + (6 x LC)
+  -> SUBTRACT from every reading       -> ADD to every reading
+
+        true = measured - zero error, always, with the sign.
+        The sign of the CORRECTION is always opposite the sign
+        of the ERROR. Write both down before you substitute.
+</pre>
+<p><strong>Definition.</strong> Zero error is the reading indicated by the instrument when its jaws
+are <em>fully closed</em> and ought therefore to indicate zero. It arises from wear of the jaws or a
+slight displacement of the vernier scale on its head.</p>
+<p><strong>Sign convention.</strong> If, with the jaws closed, the vernier zero lies to the
+<strong>right</strong> of the main scale zero, the jaws had already opened a little, so the
+instrument <strong>reads too much</strong>; this is a <strong>positive zero error</strong>. If the
+vernier zero lies to the <strong>left</strong>, the jaws closed short of the true zero, so the
+instrument <strong>reads too little</strong>; this is a <strong>negative zero error</strong>. The
+magnitude in either case is the coinciding vernier division multiplied by the least count.</p>
+<p><strong>Correction.</strong> The correction is always of the opposite sign to the error, and it is
+applied by the single formula</p>
+<pre><code>true reading = measured reading - zero error</code></pre>
+<p>Because the sign of the error is carried into that formula, no separate rule for adding or
+subtracting is needed: a positive zero error is subtracted and a negative zero error is added, and
+both follow from the same line.</p>
+<p><strong>Direction check.</strong> A positive zero error means the instrument reads too much, so
+the corrected value must come out <em>smaller</em> than the observed reading. A negative zero error
+means it reads too little, so the corrected value must come out <em>larger</em>. If the arithmetic
+gives the opposite, the sign has been applied the wrong way.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence zero error is corrected not by a separate
+rule of addition or subtraction but by carrying its sign through a single subtraction, and the
+sense of the correction can always be checked by asking whether the instrument reads too much or too
+little."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>A vernier calliper of least count 0.02 mm reads 24 mm on the main scale with the 32nd division coinciding, and has a zero error of +0.08 mm. Find the true diameter.</h3>
+<p class="answer-lead">A five-line numeral &mdash; given, find, formula, solve, check. Marks are awarded per step, so write every step even though the arithmetic is short.</p>
+<pre class="ascii-diagram" role="img" aria-label="Reading a vernier calliper where the 32nd division coincides, giving 24.64 millimetres">
+  MAIN SCALE:  ... 20    21    22    23    24    25    26 ...
+  |--------|----|----|----|----|----|----|----|----|----|
+               |              ^
+               |        vernier zero sits here,
+               |        just past the 24 mm mark
+               |            -> MSR = 24 mm
+               |
+  VERNIER:  0    5    10   15   20   25   30   32   ...
+  |----|----|----|----|----|----|----|----|
+                                              ^
+                                    the 32nd division lines up
+                                    exactly with a main scale line
+
+  fraction = 32 x 0.02 = 0.64 mm
+  reading  = 24 + 0.64 = 24.64 mm        <- box this
+</pre>
+<p><strong>Given:</strong> LC = 0.02 mm; MSR = 24 mm; coinciding division = 32; zero error
+z = +0.08 mm.
+<strong>Find:</strong> the true diameter.
+<strong>Formula:</strong> MV = MSR + (coinciding division &times; LC); TV = MV &minus; z.
+<strong>Solve:</strong></p>
+<pre><code>fraction = 32 x 0.02 = 0.64 mm
+MV       = 24 + 0.64 = 24.64 mm
+TV       = 24.64 - 0.08 = 24.56 mm</code></pre>
+<p><strong>Answer:</strong> the measured value is <strong>24.64 mm</strong> and the true diameter is
+<strong>24.56 mm</strong>.</p>
+<p><strong>Check:</strong> substituting the correction back, 24.56 + 0.08 = 24.64 mm, recovering the
+measured value exactly, so the sign has been handled correctly. Second check on direction: the zero
+error is positive, meaning the instrument reads too much, so the true value must be
+<em>smaller</em> than the reading &mdash; and 24.56 is indeed smaller than 24.64. If the working had
+produced 24.72, the positive error would have been added instead of subtracted, and that would have
+contradicted the stated sign.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the instrument reading of 24.64 mm
+includes a positive bias of 0.08 mm that the jaws themselves introduced, so the true diameter is
+24.56 mm &mdash; and the direction of that correction follows directly from the sign of the zero
+error."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203. The official Unit 2 text names only
+errors, dynamometer and welding; the MST-1 syllabus page adds the metrology block, and the Dec-2020
+paper examined micrometer, vernier, dial gauge, slip gauge, sine bar, lathe and drilling. Verified
+against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, for the vernier measurement question
+this page drills. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference books</strong> (official BT-203 list) &mdash; P. K. Nag,
+<em>Engineering Metrology and Measurements</em>, TMH, and B. C. Punmia,
+<em>Engineering Metrology</em>, for the vernier calliper treatment.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hubs and the December 2020 archive support revision and question practice. The
+least count values in the reference table are computed from the standard division counts rather than
+quoted: the general result LC = MSD/n gives 0.1, 0.05 and 0.02 mm for 10, 20 and 50 divisions.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

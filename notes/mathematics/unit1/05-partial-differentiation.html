@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Partial Differentiation &mdash; RGPV BT102 PYQ Prep &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt102/unit1 $</span> cat 05-partial-differentiation.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT102 Unit 1 &mdash; Calculus</p>
+<h1>Partial Differentiation &mdash; Differentiating One Variable at a Time</h1>
+<p><em>Syllabus item 6 of Module 1: "Partial Differentiation". Every function you meet after
+this topic &mdash; Taylor's theorem in two variables, maxima and minima in three variables, Lagrange's
+multipliers &mdash; is built on this one idea: hold everything still except the variable you are
+differentiating. RGPV asks for the definition, the chain rule for total differentials, and Euler's
+theorem for homogeneous functions.</em></p>
+
+<h2>Definition (write verbatim)</h2>
+<pre><code>Let f(x, y) be a function of two variables. Holding y constant, the
+partial derivative of f with respect to x at the point (x, y) is
+
+              lim     f(x + h, y) - f(x, y)
+  f_x(x, y) = ---- lim  -------------------  as h -> 0
+            h->0            h
+
+  Written f_x = df/dx, and f_y = df/dy by holding x constant.</code></pre>
+<p>The single most important thing to write in the exam is the phrase <strong>"holding the other
+variable constant"</strong>. Without it the derivative is undefined. This is why <code>f_x</code>
+of <code>xy</code> is <code>y</code> and not <code>y + x</code>: the <code>x</code> was parked
+before you differentiated.</p>
+
+<div class="callout">
+  <span class="label">Order matters &mdash; the &part;x&part;y versus &part;y&part;x warning</span>
+  Differentiating in a different order is a <em>different</em> operation:
+  <code>f_xy = &part;/&part;y (f_x)</code> and <code>f_yx = &part;/&part;x (f_y)</code>.
+  For a twice-differentiable function with <strong>continuous</strong> second partials they are
+  equal (Schwarz' theorem, or Clairaut's theorem). RGPV states this as a one-mark
+  "state the condition" question. Verify it: for <code>f = x&sup2;y</code>,
+  <code>f_xy = 2x</code> and <code>f_yx = 2x</code> &mdash; they agree.
+</div>
+
+<h2>Notation &mdash; four symbols, one meaning</h2>
+<table>
+<tr><th>Symbol</th><th>Name</th><th>Meaning</th></tr>
+<tr><td><code>&part;f/&part;x</code></td><td>partial derivative</td><td>differentiate in <code>x</code>, hold <code>y</code> fixed</td></tr>
+<tr><td><code>f_x</code></td><td>first partial</td><td>shorthand for <code>&part;f/&part;x</code></td></tr>
+<tr><td><code>f_xx</code>, <code>f_xy</code></td><td>second partials</td><td>differentiate <code>f</code> twice; subscript order = order of operations</td></tr>
+<tr><td><code>d</code> as in <code>dz</code></td><td>total differential</td><td><strong>NOT</strong> a derivative &mdash; it is an infinitesimal change, or an exact linear approximation</td></tr>
+</table>
+
+<h2>Reading a function the examiner's way</h2>
+<p>For <code>f(x, y) = x&sup2;y + 3xy&sup2; - 5x + 7</code>, write the polynomial in the
+<em>order of powers of <code>x</code></em> so the constants fall out:</p>
+<pre><code>f(x, y) = y x^2 + 3 x y^2 - 5 x + 7
+           ---   ---  ----  ----   ----   ---
+           1     2    3     4     5     6
+           f_y = 2 x y + 3 y^2                    (every term with an x dies)
+
+f_x = 2 y x + 3 y^2 - 5                          (the pure-y term 7 dies)</code></pre>
+<div class="exam-note"><strong>Read the arithmetic:</strong> the two passes are complementary.
+<code>f_x</code> kills the <code>x</code>-free terms, <code>f_y</code> kills the <code>y</code>-free
+terms. A constant like <code>7</code> produces no derivative at all &mdash; if you "differentiate"
+it, you have differentiated wrongly.</div>
+
+<h2>Higher partial derivatives</h2>
+<pre><code>Given  f_x = 2 y x + 3 y^2 - 5
+
+f_xx = &part;/&part;x (f_x) = 2 y
+f_xy = &part;/&part;y (f_x) = 2 x + 6 y
+
+Given  f_y = 2 x y + 3 y^2
+
+f_yy = &part;/&part;y (f_y) = 2 x + 6 y
+f_yx = &part;/&part;x (f_y) = 2 y
+
+Note:  f_xy = 2x + 6y = f_yy  (different quantities, coincidentally equal here)
+       f_xx = 2y = f_yx   (different quantities, coincidentally equal here)
+       f_xy = f_yx = 2x + 6y  <- THIS is the pair Schwarz compares.</code></pre>
+<p>Subscript convention: <code>f_xy</code> means <strong>first</strong> differentiate with respect to
+<code>x</code>, <strong>then</strong> with respect to <code>y</code>. It is read left to right as a
+sequence of operations.</p>
+
+<h2>Total differential and the total derivative</h2>
+<p>When <code>z</code> depends on <code>x</code> <em>and</em> <code>y</code>, and both vary, the
+change in <code>z</code> is driven by both partials:</p>
+<pre><code>dz = f_x dx + f_y dy          <- exact, not an approximation
+   = (partial f / partial x) dx + (partial f / partial y) dy</code></pre>
+<p>The chain rule for a genuinely composite function <code>z = f(a(t), b(t))</code> gives the
+total derivative, which looks similar but is a different statement:</p>
+<pre><code>dz/dt = f_x (da/dt) + f_y (db/dt)
+
+With a = t, b = t^2, z = x^2 + y^2 restricted to x = t, y = t^2:
+  z = t^2 + t^4
+  dz/dt = 2t + 4t^3
+  f_x = 2x = 2t ;  f_y = 2y = 2t^2 ;  da/dt = 1 ;  db/dt = 2t
+  f_x(da/dt) + f_y(db/dt) = 2t + 2t^2(2t) = 2t + 4t^3        MATCHES</code></pre>
+<div class="exam-note"><strong>Read the difference:</strong> <code>dz = f_x dx + f_y dy</code> describes
+an infinitesimal change in the <em>independent</em> variables. <code>dz/dt = f_x x' + f_y y'</code>
+describes change along a <em>path</em> where both <code>x</code> and <code>y</code> are functions of a
+third variable <code>t</code>. RGPV gives the second form and expects the first as the
+"total differential" line of the answer.</div>
+
+<h2>Euler's theorem for homogeneous functions</h2>
+<pre><code>If f(x, y) is homogeneous of degree n, i.e.  f(tx, ty) = t^n f(x, y),
+then                          x f_x + y f_y = n f
+
+Proof (write these 4 lines):
+  Differentiate f(tx, ty) = t^n f(x, y) w.r.t. t at t = 1:
+  (1)   x f_x(tx, ty) + y f_y(tx, ty) = n t^(n-1) f(x, y)
+  Put  t = 1:
+  (2)   x f_x + y f_y = n f                                          QED</code></pre>
+<p>Use it to <em>avoid differentiating twice</em> &mdash; in the exam it can save you a whole
+derivative and its follow-up arithmetic.</p>
+
+<h2>Second derivative test &mdash; the bridge to topic 07</h2>
+<p>Topic 04 classified stationary points of a two-variable function with
+<code>D = f_xx f_yy - (f_xy)&sup2;</code>. Topic 07 does the same in three variables. All of it
+rests on the partials computed here, so this is the table to have in your fingers:</p>
+<table>
+<tr><th>Stationary point</th><th>Condition</th><th>Meaning</th></tr>
+<tr><td><code>f_x = f_y = 0</code></td><td>necessary for an extremum in the interior</td><td>candidate</td></tr>
+<tr><td><code>D = f_xx f_yy - f_xy&sup2; &gt; 0</code></td><td><code>f_xx &gt; 0</code></td><td>local minimum</td></tr>
+<tr><td><code>D = f_xx f_yy - f_xy&sup2; &gt; 0</code></td><td><code>f_xx &lt; 0</code></td><td>local maximum</td></tr>
+<tr><td><code>D &lt; 0</code></td><td>any <code>f_xx</code></td><td>saddle point</td></tr>
+<tr><td><code>D = 0</code></td><td>&mdash;</td><td>inconclusive; go to higher order</td></tr>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Two-pass partial differentiation showing which terms survive each pass">  PARTIAL DERIVIATION: two passes over one function
+  ============================================================
+    f(x, y) = x^2 y + 3 x y^2 - 5 x + 7
+       |
+       | PASS 1  differentiate in x, HOLD y fixed
+       |         every x-free term drops out
+       v
+    f_x = 2 x y + 3 y^2 - 5                 (the constant 7 dies)
+       |
+       | PASS 2  differentiate in y, HOLD x fixed
+       |         every y-free term drops out
+       v
+    f_y = 2 x y + 3 y^2                     (the -5x dies)
+  ============================================================
+    ORDER OF SUBSCRIPTS = order of operations, read left to right
+       f_xy  =  first in x, THEN in y
+       f_yx  =  first in y, THEN in x
+       f_xy = f_yx  ONLY when the second partials are continuous
+  ============================================================</pre>
+
+<pre class="ascii-diagram" role="img" aria-label="Total differential versus total derivative, contrasting free changes in x and y against change along a path">  TOTAL DIFFERENTIAL  vs  TOTAL DERIVATIVE
+  ============================================================
+  A. z free to move in both x and y
+
+       z
+       ^
+       |   dz = f_x dx + f_y dy
+       |    \_____________/
+       |     |         |
+       |   f_x dx    f_y dy
+       v
+    (x, y)  -->  (x + dx, y + dy)
+
+  B. z along a path x = x(t), y = y(t)
+
+       z
+       ^
+       |   dz/dt = f_x (dx/dt) + f_y (dy/dt)
+       |         |             |
+       |     f_x * x'(t)   f_y * y'(t)
+       v
+    t --->
+  ============================================================
+  A: dx and dy are INDEPENDENT tiny changes   -> no t
+  B: dx and dy are LINKED by a path          -> both /dt
+  Same symbol, different statement. Say which one you used.</pre>
+
+<h2>Numericals in great depth</h2>
+<p>Partial differentiation is a substitution topic, not an arithmetic one. The "numericals" are
+chains of derivatives where one slip in the first pass poisons everything after it, so the
+identifier table and the check line carry the marks.</p>
+
+<table>
+<tr><th>Id</th><th>Formula identifier</th><th>Use it when</th></tr>
+<tr><td>P1</td><td><code>&part;x^n/&part;x = n x^(n-1)</code></td><td>holding <code>y</code>, you reduce a monomial in <code>x</code>. Remember the chain factor <code>y</code> if a <code>y</code> is glued to it.</td></tr>
+<tr><td>P2</td><td><code>&part;(u v)/&part;x = u v_x + v u_x</code></td><td>product rule, the most common source of lost marks</td></tr>
+<tr><td>P3</td><td><code>&part; e^u/&part;x = e^u u_x</code></td><td>exponentials; the exponent itself depends on <code>x</code></td></tr>
+<tr><td>P4</td><td><code>&part; ln u/&part;x = u_x / u</code></td><td>logarithms; never <code>1/x</code> unless <code>u = x</code></td></tr>
+<tr><td>P5</td><td><code>x f_x + y f_y = n f</code></td><td>homogeneous function of degree <code>n</code> &mdash; replaces a second derivative</td></tr>
+<tr><td>P6</td><td><code>dz = f_x dx + f_y dy</code></td><td>any "find the change in <code>z</code>" question</td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">5-line answer format</span>
+  <strong>Given:</strong> <code>f(x, y) = &hellip;</code> and what is asked.<br>
+  <strong>Find:</strong> the required partial(s), stated explicitly.<br>
+  <strong>Formula:</strong> the power / product / chain rule you are about to use.<br>
+  <strong>Solve:</strong> one line per pass, stating "holding <code>y</code> fixed" on the first.<br>
+  <strong>Check:</strong> substitute a numerical point, or verify <code>f_xy = f_yx</code> for mixed partials.
+</div>
+
+<h3>Solved A &mdash; <code>f(x,y) = x&sup2;y + 3xy&sup2; &minus; 5x + 7</code>, all four second partials</h3>
+<pre><code>Given:   f(x, y) = x^2 y + 3 x y^2 - 5 x + 7
+Find:    f_x, f_y, f_xx, f_xy, f_yx, f_yy
+Formula: P1 (power) + P2 (product) per term
+
+PASS 1 -- differentiate in x, holding y fixed
+  d/dx (x^2 y) = 2 x y                 <- y is a constant factor
+  d/dx (3 x y^2) = 3 y^2              <- y^2 is a constant factor
+  d/dx (-5 x) = -5
+  d/dx (7) = 0                        <- a constant dies entirely
+  f_x = 2 x y + 3 y^2 - 5
+
+PASS 2 -- differentiate in y, holding x fixed
+  d/dy (x^2 y) = x^2
+  d/dy (3 x y^2) = 6 x y              <- chain rule, 2 y then times 3x
+  d/dy (-5 x) = 0                     <- no y present
+  d/dy (7) = 0
+  f_y = x^2 + 6 x y
+
+SECOND PASSES
+  f_xx = d/dx (2 x y + 3 y^2 - 5) = 2 y
+  f_xy = d/dy (2 x y + 3 y^2 - 5) = 2 x + 6 y
+  f_yx = d/dx (x^2 + 6 x y)       = 2 x + 6 y
+  f_yy = d/dy (x^2 + 6 x y)       = 6 x
+
+CHECK:  f_xy = 2x + 6y  and  f_yx = 2x + 6y  -> EQUAL, as Schwarz
+        requires for continuous second partials.
+        Independent check at the point (1, 1):
+          f_x(1,1) = 2 + 3 - 5 = 0
+          d/dy [2xy + 3y^2 - 5] at y=1 = 2x + 6y = 8
+          d/dx [x^2 + 6xy]      at x=1 = 2x + 6y = 8      AGREE</code></pre>
+<div class="callout">
+  <span class="label">Check note &mdash; the trap in Solved A</span>
+  The subtractor's favourite error is treating the glued constant as a variable:
+  <code>d/dx (x&sup2;y) = 2x</code> instead of <code>2xy</code>. The <code>y</code> is a
+  <em>constant multiplier</em> during a <code>&part;x</code> pass, so it must survive as a factor.
+  If your answer has no <code>y</code> in <code>f_x</code>, you differentiated <code>x&sup2;</code>
+  alone and threw the rest away.
+</div>
+
+<h3>Solved B &mdash; <code>f(x,y) = x&sup3; + 3x&sup2;y + 3xy&sup2; + y&sup3;</code> with Euler's theorem</h3>
+<pre><code>Given:   f(x, y) = x^3 + 3 x^2 y + 3 x y^2 + y^3
+Find:    show f is homogeneous, find its degree, use Euler
+Formula: P5  x f_x + y f_y = n f
+
+STEP 1  Degrees of the individual terms
+          x^3        -> total degree 3
+          3 x^2 y    -> 2 + 1 = 3
+          3 x y^2    -> 1 + 2 = 3
+          y^3        -> 3
+        Every term has total degree 3, so f is homogeneous of
+        degree n = 3.   (Sanity: f(tx,ty) = t^3 f(x,y)  - expand it
+         once in the margin if you want to be sure.)
+
+STEP 2  One pass only
+        f_x = 3 x^2 + 6 x y + 3 y^2
+
+STEP 3  Euler's theorem, applied instead of two more derivatives
+        x f_x + y f_y = 3 f
+        Left  = x(3x^2 + 6xy + 3y^2) + y(3x^2 + 6xy + 3y^2)
+              = 3x^3 + 6 x^2 y + 3 x y^2 + 3 x^2 y + 6 x y^2 + 3 y^3
+              = 3x^3 + 9 x^2 y + 9 x y^2 + 3 y^3
+        Right = 3 f = 3x^3 + 9 x^2 y + 9 x y^2 + 3 y^3
+        LEFT == RIGHT                              VERIFIED
+
+CHECK:  Both sides collapse to 3(x + y)^3, since f = (x + y)^3
+        exactly.  Euler's theorem is a statement about homogeneous
+        functions, and (x + y)^3 is the textbook case.</code></pre>
+<div class="exam-note"><strong>Read the arithmetic:</strong> a homogeneous function of degree
+<code>n</code> satisfies <code>f(tx,ty) = t^n f(x,y)</code>. If the degrees of the terms disagree
+(here <code>x&sup2; + y</code>), the function is <em>not</em> homogeneous and Euler's theorem does not
+apply &mdash; that is the test the examiner wants written, not the theorem itself.</div>
+
+<h3>Solved C &mdash; total differential with a numerical check</h3>
+<pre><code>Given:   f(x, y) = x^2 y + 3 x y^2 - 5 x + 7
+Find:    dz when x changes 2 -> 2.03 and y changes 1 -> 1.02,
+         using the total differential (first-order accuracy)
+Formula: P6  dz = f_x dx + f_y dy
+
+STEP 1  Partials (reuse Solved A)
+        f_x = 2 x y + 3 y^2 - 5
+        f_y = x^2 + 6 x y
+
+STEP 2  The increments
+        dx = 2.03 - 2     = 0.03
+        dy = 1.02 - 1     = 0.02
+
+STEP 3  Evaluate the partials at the BASE point (2, 1)
+        f_x(2, 1) = 2(2)(1) + 3(1)^2 - 5 = 4 + 3 - 5   = 2
+        f_y(2, 1) = (2)^2 + 6(2)(1)     = 4 + 12       = 16
+
+STEP 4  Assemble
+        dz = f_x dx + f_y dy
+           = (2)(0.03) + (16)(0.02)
+           = 0.06 + 0.32
+           = 0.38
+
+CHECK:  Compare with the exact change.
+        f(2, 1)     = 4(1) + 3(2)(1) - 10 + 7 = 4 + 6 - 10 + 7  = 7
+        f(2.03,1.02) = (2.03)^2(1.02) + 3(2.03)(1.02)^2
+                        - 5(2.03) + 7
+                      = 4.1209(1.02) + 6.09(1.0404) - 10.15 + 7
+                      = 4.203318 + 6.336036 - 3.15
+                      = 7.389354
+        exact change = 7.389354 - 7 = 0.389354
+        differential  = 0.38
+        They differ by 0.009354, and they MUST: the differential
+        is only a first-order (tangent-plane) approximation.
+        A differential answer of exactly 0.389354 would be wrong
+        and signals you took a difference instead.</code></pre>
+
+<div class="callout">
+  <span class="label">Numeral traps</span>
+  <ul>
+    <li><strong>Losing the constant multiplier.</strong> <code>&part;x (x&sup2;y) = 2xy</code>, not
+    <code>2x</code>. A glued <code>y</code> is a constant during a <code>&part;x</code> pass and must
+    come along as a factor.</li>
+    <li><strong>Subscript order.</strong> <code>f_xy</code> = <em>first</em> <code>&part;x</code>,
+    <em>then</em> <code>&part;y</code>. It is a left-to-right sequence, not a product.</li>
+    <li><strong>Claiming <code>f_xy = f_yx</code> unconditionally.</strong> Schwarz' theorem needs
+    the second partials <em>continuous</em> in a neighbourhood. The exam wants the condition stated.</li>
+    <li><strong><code>dz</code> is not <code>dz/dt</code>.</strong> The first has free
+    <code>dx, dy</code>; the second has <code>dx/dt, dy/dt</code> from a path. Write which one you
+    used. Confusing them is the most common 1&ndash;2 mark loss on this topic.</li>
+    <li><strong>Euler on a non-homogeneous function.</strong> First show the total degree of every
+    term agrees. <code>x&sup2; + y</code> has degrees 2 and 1, so <code>n</code> does not exist and
+    <code>x f_x + y f_y = n f</code> is unavailable.</li>
+    <li><strong>Dropping the <code>2y</code> chain factor.</strong>
+    <code>&part;y (3xy&sup2;) = 6xy</code>, not <code>3y&sup2;</code>.</li>
+  </ul>
+</div>
+
+<h2>Retrieval practice &mdash; 5 MCQs</h2>
+
+<div class="quiz" data-answer="c" data-explain="During a partial derivative with respect to x, y is held constant. So in d/dx (x^2 y), y is a constant factor and the answer is 2xy, not 2x. Dropping the y is the single most common error on this topic.">
+<p class="q">If <code>y</code> is held constant, what is <code>&part;/&part;x (x&sup2;y)</code>?</p>
+<button data-key="a">2x</button>
+<button data-key="b">x&sup2;</button>
+<button data-key="c">2xy</button>
+<button data-key="d">2xy + x&sup2;</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="a" data-explain="f_xy means: first differentiate with respect to x, then with respect to y. The subscripts are read left to right as a sequence of operations, so f_xy and f_yx are generally different quantities (they are only equal when the second partials are continuous, by Schwarz' theorem).">
+<p class="q">In the notation <code>f_xy(x, y)</code>, what is the order of differentiation?</p>
+<button data-key="a">First with respect to x, then with respect to y</button>
+<button data-key="b">First with respect to y, then with respect to x</button>
+<button data-key="c">The product of the two first partials</button>
+<button data-key="d">It does not matter, they are always identical</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="b" data-explain="Euler's theorem for homogeneous functions of degree n states x f_x + y f_y = n f. It lets you skip the second round of differentiation entirely: compute f_x only, then read off the combination x f_x + y f_y. The condition is that the function must genuinely be homogeneous, so every term must have the same total degree.">
+<p class="q">Euler's theorem for a homogeneous function of degree n states that&hellip;</p>
+<button data-key="a">x f_x + y f_y = f</button>
+<button data-key="b">x f_x + y f_y = n f</button>
+<button data-key="c">f_x + f_y = n</button>
+<button data-key="d">f_xx + f_yy = n</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="d" data-explain="The total differential dz = f_x dx + f_y dy is a linear approximation to the change in z, so it is exact only to first order. For z = x^2 y with dx = 0.01 and dy = 0.01: f_x = 2xy = 2(2)(2) = 8, f_y = x^2 = 4, so dz = 8(0.01) + 4(0.01) = 0.12. The exact change is 0.120601, because the second-order cross term 2xy dx dy was dropped.">
+<p class="q">For <code>z = x&sup2;y</code> at <code>(2, 2)</code>, <code>dx = 0.01</code>, <code>dy = 0.01</code>. The total differential gives <code>dz =</code>&hellip;</p>
+<button data-key="a">0.13 exactly</button>
+<button data-key="b">0.04</button>
+<button data-key="c">0.08</button>
+<button data-key="d">0.12</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="a" data-explain="Schwarz' theorem (Clairaut's theorem) says f_xy = f_yx provided the second partial derivatives are continuous in a neighbourhood of the point. The continuity hypothesis is the whole point of the theorem, and RGPV asks for it explicitly when it appears as a 'state the condition' question.">
+<p class="q">Under what condition is <code>f_xy = f_yx</code> guaranteed?</p>
+<button data-key="a">The second partial derivatives are continuous in a neighbourhood</button>
+<button data-key="b">The function f is linear</button>
+<button data-key="c">The function f is homogeneous of degree 1</button>
+<button data-key="d">Always, with no additional requirement</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<div class="callout">
+  <span class="label">Drill set A &mdash; Differentiate (theory)</span>
+  <ol>
+    <li>Find <code>f_x</code> and <code>f_y</code> of <code>f = x&sup3;y + x y&sup3; + x&sup2;y&sup2;</code>. <em>(Jun 2023 pattern)</em></li>
+    <li>Find all four second partials of <code>f = e^(xy)</code> and verify <code>f_xy = f_yx</code>. <em>(Dec 2023 pattern)</em></li>
+    <li>Show that <code>f = x&sup2;y + 3xy&sup2; + 7x&sup2; + 6</code> is not homogeneous, and say which theorem therefore fails. <em>(Jun 2024 pattern)</em></li>
+    <li>Find <code>dz</code> for <code>z = x&sup2; + 3xy + y&sup2;</code>, and explain why it is an approximation. <em>(Dec 2024 pattern)</em></li>
+    <li>State Schwarz' theorem and one function for which it does not apply. <em>(Jun 2025 pattern)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Drill set B &mdash; Apply (numericals, with answers)</span>
+  <ol start="6">
+    <li>If <code>z = x&sup2;y</code> and <code>x = 2, y = 3, dx = 0.1, dy = 0.2</code>, find <code>dz</code>.
+    <em>Ans: f_x = 2xy = 12, f_y = x&sup2; = 4, dz = 12(0.1) + 4(0.2) = 2.0</em></li>
+    <li>Find <code>f_x</code> and <code>f_y</code> of <code>f = ln(x&sup2;y)</code>.
+    <em>Ans: f_x = 2x/(x&sup2;y) = 2/y, f_y = x&sup2;/(x&sup2;y) = 1/y</em></li>
+    <li>Show that <code>f = x&sup2;/y</code> is homogeneous, and verify Euler's theorem for it.
+    <em>Ans: f(tx,ty) = t^2 x^2/(t y) = t f, so n = 1. f_x = 2x/y, f_y = &minus;x&sup2;/y&sup2;, so
+    x f_x + y f_y = 2x&sup2;/y &minus; x&sup2;/y = x&sup2;/y = f = n f. Verified.</em></li>
+    <li>Find <code>&part;z/&part;x</code> of <code>z = (x + y)&sup3;</code> holding <code>y</code> fixed, and
+    <code>dz/dt</code> along the path <code>x = t, y = 2t</code>.
+    <em>Ans: partial = 3(x + y)&sup2;; along the path z = 9t&sup3; so dz/dt = 27t&sup2;. They differ &mdash;
+    the path derivative adds a second term, which is the whole point of the chain rule.</em></li>
+    <li>Find the stationary point of <code>f = x&sup2; + 4xy + y&sup2;</code> and classify it.
+    <em>Ans: f_x = 2x + 4y = 0 and f_y = 4x + 2y = 0 give (0, 0); f_xx = 2, f_xy = 4, f_yy = 2,
+    D = (2)(2) &minus; 4&sup2; = 4 &minus; 16 = &minus;12 &lt; 0, so (0, 0) is a saddle point</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Special lines for extra marks</span>
+  <ul>
+    <li><strong>Opening line:</strong> "Let <code>f(x, y)</code> be a function of two variables. The partial derivative <code>f_x</code> is defined by holding <code>y</code> fixed and letting only <code>x</code> vary, so <code>f_x = lim<sub>h-&gt;0</sub> [f(x+h, y) &minus; f(x, y)]/h</code>."</li>
+    <li><strong>Condition line:</strong> "The mixed partials satisfy <code>f_xy = f_yx</code> by Schwarz' theorem, valid because the second partial derivatives are continuous in a neighbourhood of the point."</li>
+    <li><strong>Significance line:</strong> "Euler's theorem <code>x f_x + y f_y = n f</code> applies because every term of <code>f</code> has total degree <code>n</code>, so <code>f(tx, ty) = t^n f(x, y)</code>; it replaces the second pass of differentiation."</li>
+    <li><strong>Limitation line:</strong> "The total differential <code>dz = f_x dx + f_y dy</code> is a first-order (tangent-plane) approximation, exact only when the higher-order terms <code>f_xx dx&sup2; + 2 f_xy dx dy + f_yy dy&sup2;</code> are neglected; here they account for the <code>0.009354</code> gap between <code>dz = 0.38</code> and the exact change <code>0.389354</code>."</li>
+    <li><strong>Closing line:</strong> "Hence <code>dz = 0.38</code> to first order. <strong>[boxed]</strong>"</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <span class="label">Exam tips</span>
+  <ul>
+    <li><strong>Say "holding <code>y</code> constant"</strong> before the first line of algebra. It is
+    a mark, and it is the thing that stops the most common error.</li>
+    <li><strong>Reorder the function</strong> into descending powers of the variable you are about to
+    differentiate, so the constant terms visibly drop out.</li>
+    <li><strong>Write each pass on its own line</strong> with the variable held constant in the
+    margin. Method marks are awarded per pass.</li>
+    <li><strong>End with <code>f_xy = f_yx</code></strong> on every mixed-partial question &mdash; it
+    is a free mark and the examiner is looking for it.</li>
+    <li><strong>Underline</strong> <code>&part;x</code> and <code>&part;y</code> subscripts;
+    <strong>box</strong> the final pair, or the final <code>dz</code> with its sign.</li>
+    <li><strong>Attempt order:</strong> definition / notation questions first (pure recall) &rarr;
+    Euler's theorem one-liners &rarr; long second-partial chains last.</li>
+  </ul>
+</div>
+</div><!-- end lesson tab -->
+
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT102 Unit 1</p>
+<h1>Partial Differentiation &mdash; Quick Reference</h1>
+
+<h2>The definition (write verbatim)</h2>
+<pre><code>f_x(x, y) = lim as h->0  [ f(x + h, y) - f(x, y) ] / h     y HELD FIXED
+f_y(x, y) = lim as k->0  [ f(x, y + k) - f(x, y) ] / k     x HELD FIXED</code></pre>
+
+<h2>Derivation steps &mdash; Euler's theorem for homogeneous functions</h2>
+<pre><code>Assume f is homogeneous of degree n:   f(tx, ty) = t^n f(x, y)
+Step 1  Differentiate both sides w.r.t. t
+        x f_x(tx, ty) + y f_y(tx, ty) = n t^(n-1) f(x, y)
+Step 2  Put t = 1
+        x f_x + y f_y = n f
+Step 3  Hence proved.</code></pre>
+
+<h2>Formula table</h2>
+<table>
+<tr><th>Object</th><th>Formula</th></tr>
+<tr><td>First partials</td><td><code>f_x = &part;f/&part;x</code>, <code>f_y = &part;f/&part;y</code></td></tr>
+<tr><td>Second partials</td><td><code>f_xx, f_xy, f_yx, f_yy</code> (subscript = order, left to right)</td></tr>
+<tr><td>Schwarz / Clairaut</td><td><code>f_xy = f_yx</code> if second partials are continuous</td></tr>
+<tr><td>Total differential</td><td><code>dz = f_x dx + f_y dy</code></td></tr>
+<tr><td>Total derivative</td><td><code>dz/dt = f_x x'(t) + f_y y'(t)</code></td></tr>
+<tr><td>Stationary point</td><td><code>f_x = 0</code> and <code>f_y = 0</code></td></tr>
+<tr><td>Discriminant</td><td><code>D = f_xx f_yy &minus; (f_xy)&sup2;</code></td></tr>
+<tr><td>Classification</td><td><code>D&gt;0, f_xx&gt;0</code> min &middot; <code>D&gt;0, f_xx&lt;0</code> max &middot; <code>D&lt;0</code> saddle &middot; <code>D=0</code> inconclusive</td></tr>
+<tr><td>Euler (homogeneous degree n)</td><td><code>x f_x + y f_y = n f</code></td></tr>
+<tr><td>Power rule (partial)</td><td><code>&part;x^n/&part;x = n x^(n-1)</code>, glued constants survive</td></tr>
+<tr><td>Product rule (partial)</td><td><code>(uv)_x = u v_x + v u_x</code></td></tr>
+<tr><td>Chain rule</td><td><code>e^u</code>: <code>e^u u_x</code> &middot; <code>ln u</code>: <code>u_x/u</code></td></tr>
+</table>
+
+<h2>Key definitions</h2>
+<ul>
+  <li><strong>Partial derivative</strong> &mdash; derivative with respect to one variable, all others held constant.</li>
+  <li><strong>Total differential</strong> &mdash; <code>dz = f_x dx + f_y dy</code>; the linear part of the change in <code>z</code>.</li>
+  <li><strong>Homogeneous of degree n</strong> &mdash; <code>f(tx, ty) = t^n f(x, y)</code>; every term has total degree <code>n</code>.</li>
+  <li><strong>Stationary point</strong> &mdash; a point where both first partials vanish.</li>
+  <li><strong>Saddle point</strong> &mdash; stationary point with <code>D &lt; 0</code>; neither max nor min.</li>
+</ul>
+
+<h2>Exam checklist</h2>
+<ul>
+  <li>&#x2610; Did I write "holding <code>y</code> (or <code>x</code>) constant" before differentiating?</li>
+  <li>&#x2610; Did every glued constant factor survive into the answer?</li>
+  <li>&#x2610; Did I read subscript order left to right?</li>
+  <li>&#x2610; Did I close a mixed-partial question with <code>f_xy = f_yx</code> and the continuity condition?</li>
+  <li>&#x2610; For a total-differential question, did I evaluate the partials at the <em>base</em> point?</li>
+  <li>&#x2610; For Euler, did I confirm every term shares one total degree?</li>
+  <li>&#x2610; Did I box the answer pair and close with one significance line?</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="callout">
+  <span class="label">Fastest route through any partial-derivative question</span>
+  1. Reorder <code>f</code> by powers of the target variable &rarr; constants visibly vanish.<br>
+  2. One pass: <code>&part;x</code> (kills <code>x</code>-free terms) &rarr; <code>f_x</code>.<br>
+  3. One pass: <code>&part;y</code> (kills <code>y</code>-free terms) &rarr; <code>f_y</code>.<br>
+  4. If the question wants a sign test, compute <code>f_xx, f_xy, f_yy</code> then
+  <code>D = f_xx f_yy &minus; f_xy&sup2;</code> &mdash; never <code>f_xx + f_yy</code>.<br>
+  5. If <code>f</code> is homogeneous, use <code>x f_x + y f_y = n f</code> and stop.<br>
+  6. Close with <code>f_xy = f_yx</code> (mixed partials) or a boxed <code>dz</code>.
+</div>
+</div><!-- end cheatsheet tab -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT102 Unit 1 &middot; from 10 PYQ sessions (Dec-2023 &rarr; Jun-2025)</p>
+<h1>Partial Differentiation &mdash; questionnaire</h1>
+<div class="q-meta">Q2/Q3 slot &middot; recurring pattern &middot; "find f_x and f_y", "find all second partials", "state Euler's theorem" or "find dz" &rarr; one pass per line with the held variable stated, never a prose blob</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>Find f<sub>x</sub>, f<sub>y</sub> and all four second partial derivatives of f(x, y) = x&sup2;y + 3xy&sup2; &minus; 5x + 7</h3>
+<p>Start with the definition line, then reorder the function by powers of x so the 7 visibly drops. Write "holding y fixed" over the first pass and "holding x fixed" over the second. Then four short second-order lines: f<sub>xx</sub> = 2y, f<sub>xy</sub> = 2x + 6y, f<sub>yx</sub> = 2x + 6y, f<sub>yy</sub> = 6x. Close with f<sub>xy</sub> = f<sub>yx</sub> and the continuity condition &mdash; that closing line is the mark most often lost.</p>
+<div class="q-foot"><b>write</b> &mdash; definition (1) &rarr; f<sub>x</sub> and f<sub>y</sub> with the held variable stated (2) &rarr; four second partials (3) &rarr; f<sub>xy</sub> = f<sub>yx</sub> + condition (1).</div>
+<div class="q-foot"><b>check</b> &mdash; every glued constant must appear as a factor (2xy, not 2x); the constant 7 and the term &minus;5x must contribute zero; attempt the longest-chain question first if the paper offers two.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 12 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>State Euler's theorem for homogeneous functions and verify it for f = (x + y)&sup3;</h3>
+<p>State the theorem with the homogeneity condition spelled out: if f(tx, ty) = t<sup>n</sup>f(x, y) then x f<sub>x</sub> + y f<sub>y</sub> = n f. Then identify the degree &mdash; every term of (x + y)<sup>3</sup> has total degree 3, so n = 3. Compute f<sub>x</sub> = 3(x + y)&sup2; only, then form x f<sub>x</sub> + y f<sub>y</sub> = 3(x + y)&sup2;(x + y) = 3(x + y)<sup>3</sup> = 3 f, and note that this equals n f. Finish by saying the theorem saves the second pass of differentiation.</p>
+<div class="q-foot"><b>write</b> &mdash; theorem + condition (1) &rarr; degree n = 3 shown term by term (1) &rarr; one partial only (1) &rarr; both sides evaluated and matched (2).</div>
+<div class="q-foot"><b>check</b> &mdash; "homogeneous" must be justified, not assumed; writing 3f instead of n f loses the final mark even though the number is right.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Find dz for z = x&sup2;y when x goes 2 &rarr; 2.03 and y goes 3 &rarr; 3.02, and comment on the accuracy</h3>
+<p>Write the total differential dz = f<sub>x</sub> dx + f<sub>y</sub> dy, compute both partials (f<sub>x</sub> = 2xy, f<sub>y</sub> = x&sup2;), take dx = 0.03 and dy = 0.02, and evaluate the partials at the <em>base</em> point (2, 3) &mdash; not at the new point. Then f<sub>x</sub> = 12, f<sub>y</sub> = 4, so dz = 12(0.03) + 4(0.02) = 0.52. Close by computing the exact change (f(2.03, 3.02) &minus; f(2,3) = 0.6109) and stating that the difference is the second-order term xy&middot;dx&middot;dy, so the differential is a first-order approximation.</p>
+<div class="q-foot"><b>write</b> &mdash; formula (1) &rarr; partials (1) &rarr; increments (1) &rarr; evaluate at base point and box dz = 0.52 (1) &rarr; exact-vs-approximate comment (1).</div>
+<div class="q-foot"><b>check</b> &mdash; evaluating the partials at the NEW point gives a different (wrong) number; the sign of dz is positive because both increments are positive.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> Write the limiting definition, or the theorem, in one line before any algebra.</li>
+    <li><strong>Visual:</strong> Reorder the function by powers of the target variable so the constant terms visibly vanish; that reorder is the diagram for this topic.</li>
+    <li><strong>Reason:</strong> One numbered line per pass, each headed by "holding [variable] fixed".</li>
+    <li><strong>Close:</strong> For mixed partials, end with f<sub>xy</sub> = f<sub>yx</sub> plus the continuity condition; for a differential, box the value and add one approximation-accuracy line.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "Let f(x, y) be real-valued. The partial derivative f<sub>x</sub> is defined as the limit of [f(x + h, y) &minus; f(x, y)]/h as h tends to zero, with y held constant; f<sub>y</sub> is defined similarly with x held constant."</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; f<sub>x</sub> and f<sub>y</sub> (held variable stated) &rarr; second partials &rarr; f<sub>xy</sub> = f<sub>yx</sub> + condition &rarr; Euler check or total differential, whichever was asked &rarr; boxed answer.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>"Holding y fixed" first</strong> &mdash; the phrase is a mark and it prevents the commonest error</li>
+    <li><strong>Reorder before differentiating</strong> &mdash; descending powers of the target variable expose the constants</li>
+    <li><strong>One line per pass</strong> &mdash; method marks are awarded per numbered pass</li>
+    <li><strong>Underline keywords</strong> &mdash; partial, held constant, homogeneous, degree n, Schwarz</li>
+    <li><strong>Box every final answer</strong> &mdash; the pair (f<sub>x</sub>, f<sub>y</sub>) or the value of dz</li>
+    <li><strong>Attempt order:</strong> definition and notation first &rarr; Euler's theorem one-liners &rarr; long second-partial chains last</li>
+    <li><strong>Never leave blank:</strong> the definition plus the first pass is 40% of any question</li>
+    <li><strong>Close every answer:</strong> f<sub>xy</sub> = f<sub>yx</sub> / "Hence proved" / boxed result</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Find f<sub>x</sub>, f<sub>y</sub> and all four second partial derivatives of f(x, y) = x&sup2;y + 3xy&sup2; &minus; 5x + 7</h3>
+<p class="answer-lead">A partial derivative is taken with respect to one variable while every other variable is held constant, so write the held variable down before each pass.</p>
+<pre class="ascii-diagram" role="img" aria-label="Reordering the function by powers of x, then two passes showing which terms survive each derivative">  REORDER, THEN TWO PASSES
+  ==========================================================
+    f(x, y) = y x^2 + 3 y^2 x - 5 x + 7
+              term1    term2    term3  term4
+  ----------------------------------------------------------
+   PASS 1  differentiate in x, HOLD y fixed
+              survives    survives  survives  DIES
+  ==========================================================
+   f_x = 2 x y + 3 y^2 - 5
+          |
+          |  f_xx = d/dx  ->  2 y
+          |  f_xy = d/dy  ->  2 x + 6 y
+          v
+   PASS 2  differentiate in y, HOLD x fixed
+              survives    survives   DIES   DIES
+  ==========================================================
+   f_y = x^2 + 6 x y
+          |
+          |  f_yx = d/dx  ->  2 x + 6 y
+          |  f_yy = d/dy  ->  6 x
+          v
+   CLOSE:  f_xy = 2x + 6y  =  f_yx  = 2x + 6y   EQUAL
+           valid because the second partials are continuous
+  ==========================================================</pre>
+<ol class="answer-steps">
+<li><strong>First pass, holding y constant:</strong> <code>&part;/&part;x (x&sup2;y) = 2xy</code>, <code>&part;/&part;x (3xy&sup2;) = 3y&sup2;</code>, <code>&part;/&part;x (&minus;5x) = &minus;5</code>, <code>&part;/&part;x 7 = 0</code>. Hence <code>f_x = 2xy + 3y&sup2; &minus; 5</code>.</li>
+<li><strong>Second pass, holding x constant:</strong> <code>&part;/&part;y (x&sup2;y) = x&sup2;</code>, <code>&part;/&part;y (3xy&sup2;) = 6xy</code>, and the last two terms contain no y. Hence <code>f_y = x&sup2; + 6xy</code>.</li>
+<li><strong>Second-order partials:</strong> <code>f_xx = &part;x(2xy + 3y&sup2; &minus; 5) = 2y</code>, <code>f_xy = &part;y(2xy + 3y&sup2; &minus; 5) = 2x + 6y</code>, <code>f_yx = &part;x(x&sup2; + 6xy) = 2x + 6y</code>, <code>f_yy = &part;y(x&sup2; + 6xy) = 6x</code>.</li>
+<li><strong>Schwarz' theorem:</strong> <code>f_xy = f_yx</code>, which holds because the second partial derivatives are continuous in a neighbourhood of the point.</li>
+<li><strong>Numerical check at (1, 1):</strong> <code>f_x(1,1) = 0</code>, so <code>&part;y f_x</code> at <code>y = 1</code> is <code>2(1) + 6(1) = 8</code>; and <code>f_y(1,1) = 7</code>, so <code>&part;x f_y</code> at <code>x = 1</code> is <code>2(1) + 6(1) = 8</code>. They agree.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box the four second partials and write "Hence <code>f_xy = f_yx</code>, the equality being valid since the second partial derivatives are continuous."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>State Euler's theorem for homogeneous functions and verify it for f = (x + y)&sup3;</h3>
+<p class="answer-lead">Euler's theorem converts homogeneity into a single differentiation, so one pass over the function is enough.</p>
+<pre class="ascii-diagram" role="img" aria-label="Euler's theorem proof chain from homogeneity to the identity x f x plus y f y equals n f">  EULER'S THEOREM  (homogeneous f, degree n)
+  ==========================================================
+   [1] f is homogeneous of degree n
+            |    f(tx, ty) = t^n f(x, y)
+            v
+   [2] differentiate w.r.t. t
+            |    x f_x + y f_y = n t^(n-1) f
+            v
+   [3] put t = 1
+            |    x f_x + y f_y = n f      <- the theorem
+            v
+   [4] HENCE PROVED
+  ----------------------------------------------------------
+   APPLIED TO  f = (x + y)^3
+  ----------------------------------------------------------
+   expand:  (x + y)^3 = x^3 + 3x^2y + 3xy^2 + y^3
+                                |         |       |
+   total degree of each term: 3   2+1=3    1+2=3    3
+                                ALL EQUAL  ->  n = 3
+  ----------------------------------------------------------
+   f_x = 3(x + y)^2            f_y = 3(x + y)^2
+            |                        |
+            v                        v
+   x f_x + y f_y = (x + y) * 3(x + y)^2
+                 = 3 (x + y)^3
+                 = 3 f
+                 = n f                MATCHES</pre>
+<ol class="answer-steps">
+<li><strong>Theorem:</strong> if <code>f</code> is homogeneous of degree <code>n</code>, meaning <code>f(tx, ty) = t^n f(x, y)</code> for all <code>t</code>, then <code>x f_x + y f_y = n f</code>.</li>
+<li><strong>Justify the degree:</strong> expanding gives <code>x&sup3; + 3x&sup2;y + 3xy&sup2; + y&sup3;</code>, and the total degrees are 3, 2+1 = 3, 1+2 = 3, 3. Every term has degree 3, so <code>n = 3</code>.</li>
+<li><strong>One pass only:</strong> <code>f_x = 3(x + y)&sup2;</code> (and symmetrically <code>f_y = 3(x + y)&sup2;</code>).</li>
+<li><strong>Evaluate both sides:</strong> <code>x f_x + y f_y = (x + y) &middot; 3(x + y)&sup2; = 3(x + y)&sup3;</code>, and <code>n f = 3(x + y)&sup3;</code>. The two sides are equal.</li>
+<li><strong>Payoff:</strong> the second order of differentiation was never needed, which is exactly why Euler's theorem is worth remembering in a timed paper.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> "Hence <code>x f_x + y f_y = n f</code> with <code>n = 3</code>, as both sides evaluate to <code>3(x + y)&sup3;</code>. <strong>[boxed]</strong>"</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Find dz for z = x&sup2;y when x goes 2 &rarr; 2.03 and y goes 3 &rarr; 3.02, and comment on the accuracy</h3>
+<p class="answer-lead">The total differential is the linear part of the change in z, so the partials are evaluated at the base point and the second-order terms are dropped.</p>
+<pre class="ascii-diagram" role="img" aria-label="Exact change of z split into a first order differential plus a small second order remainder">  z = x^2 y :  (2, 3) --> (2.03, 3.02)
+  ==========================================================
+   exact change  f(2.03, 3.02) - f(2, 3)
+        2.03^2 = 4.1209 ;  4.1209 x 3.02 = 12.445118
+        12.445118 - 12 = 0.445118
+                       |
+        +--------------+
+        |             |
+        v             v
+   FIRST ORDER (kept)        SECOND ORDER (dropped)
+   dz = f_x dx + f_y dy     remainder = 0.005118
+      f_x(2,3) = 2xy = 12
+      f_y(2,3) = x^2  =  4
+      dx = 0.03 ; dy = 0.02
+      = 12(0.03) + 4(0.02)
+      = 0.36 + 0.08
+      = 0.44                    smaller, so the tangent
+                                plane is a good stand-in
+  ==========================================================
+   Partials are evaluated at the BASE point (2, 3).
+   Using the NEW point (2.03, 3.02) instead gives a different
+   and incorrect number.</pre>
+<ol class="answer-steps">
+<li><strong>Formula and partials:</strong> <code>dz = f_x dx + f_y dy</code> with <code>f_x = 2xy</code> and <code>f_y = x&sup2;</code>.</li>
+<li><strong>Increments:</strong> <code>dx = 2.03 &minus; 2 = 0.03</code> and <code>dy = 3.02 &minus; 3 = 0.02</code>.</li>
+<li><strong>Evaluate at the base point (2, 3):</strong> <code>f_x = 2(2)(3) = 12</code> and <code>f_y = 2&sup2; = 4</code>.</li>
+<li><strong>Assemble:</strong> <code>dz = 12(0.03) + 4(0.02) = 0.36 + 0.08 = 0.44</code>.</li>
+<li><strong>Accuracy comment:</strong> the exact change is <code>f(2.03, 3.02) &minus; f(2, 3) = 12.445118 &minus; 12 = 0.445118</code>. The differential differs by <code>0.005118</code>, the neglected second-order term <code>2xy&middot;dx&middot;dy = 0.0072</code> at first order, so the differential is a first-order approximation and the error vanishes as the increments shrink.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box <code>dz = 0.44</code> and write "the differential is a first-order (tangent-plane) approximation; the exact change is <code>0.445118</code>."</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT102 scheme</a> &mdash; Module 1 scope, which lists "Partial Differentiation" as a required item.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/mathematics-i-bt-102">RGPV Notes BT-102 syllabus page</a> &mdash; the nine Module 1 items verbatim, indexed from rgpv.ac.in.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-102-mathematics-i">CareerShiksha BT102 PYQ archive</a> &mdash; Dec-2025 through Nov-2022 papers.</li>
+    <li><a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">CampusPrep &mdash; BT-102 PYQs (Jun 2022 through Jun 2025)</a>.</li>
+    <li><a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">RGPV Question Papers &mdash; BT-102 archive with solutions</a>.</li>
+  </ul>
+  <p class="source-note">Checked 28 September 2026. The official scheme fixes scope; the syllabus index and paper archives support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt102/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

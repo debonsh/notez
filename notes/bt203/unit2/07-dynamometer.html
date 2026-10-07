@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dynamometer &amp;mdash; Types, Working Principle and Applications</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit2 $</span> cat 07-dynamometer.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 2 &mdash; Measurement &amp; Production</p>
+<h1>Dynamometer &mdash; Types, Working Principle and Applications</h1>
+<p><em>A dynamometer measures <strong>force, torque or power</strong>, and RGPV asks for its
+<strong>types</strong>. That is the whole question &mdash; a definition, a classification into
+absorption and transmission types, and one example of each. It appeared in the December 2020 paper as
+Q2b and it is one of the cheapest 5 marks in the unit, so it is worth knowing cold rather than merely
+recognising.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>A dynamometer is an instrument for measuring force, torque or power. In its
+force form it measures a load directly by the elastic extension of a spring
+or by dead weights. In its power form it is classified into ABSORPTION
+dynamometers, which absorb the power of the prime mover and dissipate it as
+heat (Prony brake, rope brake, hydraulic, eddy-current), and TRANSMISSION
+dynamometers, which measure the power being transmitted without absorbing it
+(belt, torsion and epicyclic types).</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;Ask whether the
+machine <strong>swallows</strong> the power or merely <strong>watches it go past</strong> &mdash;
+absorption or transmission &mdash; and the classification writes itself.</em>&rdquo;</p>
+
+<h2>The classification &mdash; this is the whole answer</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="Dynamometer classified into force and power types, with absorption and transmission branches">
+DYNAMOMETER  =  measures force, torque or power
+|
++-- FORCE TYPE  (a load, measured directly)
+|     +-- spring balance ....... F = kx   (needs CALIBRATION)
+|     +-- dead weights ......... most accurate, compares directly
+|     +-- hydraulic / load cell  gives an electrical output
+|
++-- POWER TYPE  (torque, and hence power)
+    |
+    +-- ABSORPTION  -- takes the power away, wastes it as HEAT
+    |     |            -> laboratory instruments, low speeds
+    |     +-- PRONY brake ....... T = W L
+    |     +-- ROPE brake ........ T = (W - S)(D + d)/2
+    |     +-- hydraulic ......... casing reaction, water takes the heat
+    |     +-- eddy current ...... electrically controllable load
+    |
+    +-- TRANSMISSION -- reads the power, drive keeps running
+          +-- belt .............. tension difference x pulley radius
+          +-- torsion ........... angle of twist of the shaft
+          +-- epicyclic ......... reaction on a floating gear
+
+  THE TEST: does the machine take the power away, or only read it?
+    takes it away -> ABSORPTION    (the power is wasted as heat)
+    reads it      -> TRANSMISSION  (the power goes on to the load)
+</pre>
+
+<table>
+<thead><tr><th>Class</th><th>What it does</th><th>Types</th><th>Where used</th></tr></thead>
+<tbody>
+<tr><td><strong>Absorption</strong></td><td>Absorbs the whole output of the prime mover and dissipates it as heat; the machine is loaded down</td><td>Prony brake, rope brake, hydraulic dynamometer, eddy-current dynamometer</td><td>Testing engines and motors in a laboratory, where the power is meant to be wasted</td></tr>
+<tr><td><strong>Transmission</strong></td><td>Measures the power being transmitted <em>without</em> absorbing it; the power continues to the driven machine</td><td>Belt transmission dynamometer, torsion dynamometer, epicyclic dynamometer</td><td>On a machine in service, where the drive must keep running</td></tr>
+<tr><td><strong>Driving</strong></td><td>Drives the machine being tested and measures the power it supplies &mdash; a calibrated motor</td><td>Calibrated electric motor or generator</td><td>Testing pumps, compressors and small machines</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">The distinction that carries the marks</span>
+<p><strong>An absorption dynamometer must absorb all the power it measures, so that power is thrown
+away as heat &mdash; which is why these are laboratory instruments.</strong> A transmission
+dynamometer measures power in a drive that keeps running, so it can sit on a machine in service. If
+one sentence is written to show the classification is understood rather than memorised, that is the
+one.</p>
+</div>
+
+<h2>The absorption types in detail</h2>
+
+<table>
+<thead><tr><th>Type</th><th>Construction</th><th>How it loads the machine</th><th>Limitation</th></tr></thead>
+<tbody>
+<tr><td><strong>Prony brake</strong></td><td>Two wooden blocks clamped round a brake drum on the shaft, with a lever arm and a dead weight</td><td>Friction of the blocks on the drum; the torque is the weight times the lever arm</td><td>Heat builds up at the friction surface, so it suits only low speeds and small powers</td></tr>
+<tr><td><strong>Rope brake</strong></td><td>One or more ropes round the drum, one end carrying dead weights W and the other a spring balance S</td><td>Friction of the ropes; the net load is (W &minus; S)</td><td>Cooling is easier than the Prony brake, but still limited to moderate powers</td></tr>
+<tr><td><strong>Hydraulic dynamometer</strong></td><td>A rotor inside a casing filled with water; the rotor churns the water</td><td>Fluid friction; the torque is read from the reaction of the casing</td><td>Water carries the heat away, so it handles larger powers than a brake</td></tr>
+<tr><td><strong>Eddy-current dynamometer</strong></td><td>A disc rotating in a magnetic field, with the casing free to turn</td><td>Eddy currents induced in the disc oppose the rotation; the casing reaction gives the torque</td><td>Very smooth and controllable, and the load is varied electrically</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Prony brake and rope brake arrangements showing how the torque is obtained">
+   PRONY BRAKE                          ROPE BRAKE
+   ===========                          ==========
+
+        LEVER ARM L                          dead weight W
+            |                                     |
+            v                                     v
+    +---------------+                     +---------------+
+    |   dead wt W   |                     |      O        |
+    +-------+-------+                     +---------------+
+            |                                     |
+      +-----+-----+                        +------+------+
+      | ##  ##  ## |  <- wooden blocks      | ~~~~~~~ |  <- rope(s)
+      | ## DRUM ## |     clamped on drum    | ~DRUM~  |
+      | ##  ##  ## |                        | ~~~~~~~ |
+      +-----+-----+                        +------+------+
+            |                                     |
+        SHAFT (prime mover)                      v
+                                          spring balance S
+
+   T = W x L                            T = (W - S) x (D + d)/2
+   (weight times lever arm)              D = drum dia, d = rope dia
+                                         the NET load is W - S, because
+   Simple, but heat at the                the spring balance supports
+   blocks limits it to low                part of the weight
+   speeds and small powers
+
+   BOTH give torque; power follows from BP = 2 pi N T / 60
+</pre>
+
+<h2>Transmission types and the force types</h2>
+
+<table>
+<thead><tr><th>Type</th><th>Principle</th></tr></thead>
+<tbody>
+<tr><td><strong>Belt transmission dynamometer</strong></td><td>The difference in tension on the two sides of a belt is measured, and the torque is that difference times the pulley radius</td></tr>
+<tr><td><strong>Torsion dynamometer</strong></td><td>The angle of twist between two sections of the running shaft is measured optically or electrically; torque follows from the twist</td></tr>
+<tr><td><strong>Epicyclic dynamometer</strong></td><td>A gear train in which the reaction on a floating gear gives the transmitted torque</td></tr>
+</tbody>
+</table>
+
+<table>
+<thead><tr><th>Force type</th><th>Principle</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td><strong>Spring or dead-weight dynamometer</strong></td><td>A spring extends in proportion to the load, F = kx, and a pointer reads the extension against a calibrated scale; the dead-weight form compares directly against known weights</td><td>The only type that measures <em>force</em> directly rather than inferring it from a kinematic quantity</td></tr>
+<tr><td><strong>Hydraulic or electrical load cell</strong></td><td>Load applied to a fluid gives a pressure reading, or to a strain-gauged member gives a resistance change</td><td>Used where the force must be logged electrically</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>Why a spring dynamometer must be calibrated.</strong> The spring's
+stiffness k changes with use and with temperature, so the scale cannot be trusted from first
+principles. The instrument is therefore calibrated against known dead weights, and the calibration
+is the only thing that makes the reading meaningful. A question that asks why a spring dynamometer
+needs calibration is asking for exactly that sentence.</div>
+
+<h2>Numericals in great depth</h2>
+
+<p>Four relations cover the whole topic: force from a spring, torque from a brake, power from torque
+and speed, and the net load of a rope brake.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>F = k x</code></td><td>force from a spring of stiffness k extended by x</td><td>N</td></tr>
+<tr><td><code>T = W L</code></td><td>torque from a Prony brake &mdash; weight times lever arm</td><td>N&middot;m</td></tr>
+<tr><td><code>T = (W &minus; S)(D + d)/2</code></td><td>torque from a rope brake</td><td>N&middot;m</td></tr>
+<tr><td><code>BP = 2&pi;NT/60</code></td><td>brake power from torque and speed</td><td>W</td></tr>
+<tr><td><code>W, S</code></td><td>dead weight and spring balance reading</td><td>N</td></tr>
+<tr><td><code>D, d</code></td><td>drum diameter and rope diameter</td><td>m</td></tr>
+<tr><td><code>N</code></td><td>shaft speed</td><td>rpm</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; dynamometer numerals</span>
+<pre><code>Given:  the load (weight, spring stiffness and extension, or W and S),
+        the diameter or lever arm, and the speed
+Find:   force, torque, or brake power
+Formula:F = kx ;  T = WL  or  T = (W-S)(D+d)/2 ;  BP = 2 pi N T / 60
+Solve:  radius and diameter in METRES, then substitute
+Check:  a laboratory engine is a few kW; the 2 pi / 60 converts rpm to
+        radians per second, so dropping it gives a wrong scale</code></pre>
+</div>
+
+<h3>Solved A &mdash; a spring dynamometer</h3>
+<p><em>A spring dynamometer has a spring of stiffness 500 N/m. Under load the spring extends by
+120 mm. Find the force measured, and state why the instrument must be calibrated.</em></p>
+<p><strong>Given:</strong> k = 500 N/m, x = 120 mm.
+<strong>Find:</strong> F. <strong>Formula:</strong> F = kx.
+<strong>Solve:</strong></p>
+<pre><code>x = 120 mm = 0.120 m        (convert to metres FIRST)
+
+F = 500 x 0.120
+  = 60.0 N</code></pre>
+<p><strong>Answer:</strong> the force is <strong>60.0 N</strong>.</p>
+<p><strong>Check:</strong> substituting back, 60.0/500 = 0.120 m, recovering the stated extension.
+Independent sense check: a stiffness of 500 N/m means 500 N would extend the spring a full metre, so
+a 120 mm extension giving 60 N is consistent with a spring of that softness. Had the extension been
+left in millimetres the answer would have come out 60000 N, which is five tonnes from a spring soft
+enough to stretch a metre &mdash; immediately absurd. <strong>Why calibration is needed:</strong> the
+stiffness k is not constant in service &mdash; it changes with age, with temperature and with
+overload, and it is not known to the accuracy the scale implies. The instrument is therefore
+calibrated against known dead weights, and without that calibration the graduation marks are only
+nominal.</p>
+
+<h3>Solved B &mdash; a Prony brake</h3>
+<p><em>A Prony brake carries a dead weight of 200 N at a lever arm of 0.6 m from the shaft axis. The
+shaft rotates at 400 rpm. Find the torque and the brake power.</em></p>
+<p><strong>Given:</strong> W = 200 N, L = 0.6 m, N = 400 rpm.
+<strong>Find:</strong> T and BP. <strong>Formula:</strong> T = WL; BP = 2&pi;NT/60.
+<strong>Solve:</strong></p>
+<pre><code>T = 200 x 0.6 = 120.0 N.m
+
+BP = 2 x pi x 400 x 120 / 60
+   = 301592.9 / 60
+   = 5026.55 W
+   = 5.03 kW</code></pre>
+<p><strong>Answer:</strong> torque <strong>120 N&middot;m</strong>, brake power
+<strong>5.03 kW</strong>.</p>
+<p><strong>Check:</strong> substituting back, 5026.55 &times; 60/(2&pi; &times; 400) = 120.0 N&middot;m,
+recovering the torque. Independent magnitude check: 5 kW is the output of a small single-cylinder
+engine, which is exactly the scale of machine a laboratory Prony brake is used on, and it also sits
+within the low-speed, low-power limit that the block friction imposes. Had the 60 been omitted, the
+power would have come out 60 times too large at about 302 kW, which is a large industrial engine and
+far beyond what a wooden-block brake can absorb.</p>
+
+<h3>Solved C &mdash; a rope brake, and the efficiency</h3>
+<p><em>A rope brake has a drum of 0.5 m diameter with a rope of 0.02 m diameter. The dead weight is
+300 N and the spring balance reads 50 N. The shaft runs at 300 rpm. Find the torque and the brake
+power.</em></p>
+<p>The net load is the difference between the two, because the spring balance is holding part of the
+weight up.</p>
+<p><strong>Given:</strong> W = 300 N, S = 50 N, D = 0.5 m, d = 0.02 m, N = 300 rpm.
+<strong>Find:</strong> T and BP. <strong>Formula:</strong> T = (W &minus; S)(D + d)/2;
+BP = 2&pi;NT/60.
+<strong>Solve:</strong></p>
+<pre><code>net load = W - S = 300 - 50 = 250 N
+
+effective radius = (D + d)/2 = (0.5 + 0.02)/2
+                 = 0.26 m        <- the rope centre sits d/2 out
+                                    from the drum surface
+
+T = 250 x 0.26 = 65.0 N.m
+
+BP = 2 x pi x 300 x 65 / 60
+   = 122522.1 / 60
+   = 2042.04 W
+   = 2.04 kW</code></pre>
+<p><strong>Answer:</strong> torque <strong>65 N&middot;m</strong>, brake power
+<strong>2.04 kW</strong>.</p>
+<p><strong>Check:</strong> substituting back, 2042.04 &times; 60/(2&pi; &times; 300) = 65.0 N&middot;m,
+recovering the torque. Second check on the radius: the effective radius is
+(D + d)/2 = 0.26 m, not D/2 = 0.25 m, because the rope acts at its own centre line, half a rope
+diameter out from the drum surface. Using 0.25 m would give 62.5 N&middot;m and 1.96 kW &mdash; a 4%
+error that is entirely avoidable and is the standard slip on this numeral. Third check on the net
+load: if the spring balance reads 50 N while the weight is 300 N, the brake is being loaded by the
+250 N difference, and using the full 300 N would overstate the torque by 20%.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>Convert to metres before substituting.</strong> A 120 mm extension must become 0.120 m,
+and a rope of 20 mm diameter must become 0.02 m.</li>
+<li><strong>The rope brake radius is (D + d)/2, not D/2.</strong> The rope acts at its own centre line,
+half a rope diameter outside the drum.</li>
+<li><strong>The rope brake net load is (W &minus; S), not W.</strong> The spring balance supports part
+of the weight.</li>
+<li><strong>Remember the 2&pi;/60 in BP = 2&pi;NT/60.</strong> It converts rpm to radians per second;
+without it the power is wrong by a factor of about 9.55.</li>
+<li><strong>Torque in N&middot;m gives power in watts.</strong> Divide by 1000 for kW, and state which
+you are reporting.</li>
+<li><strong>A Prony brake is limited to low speeds and small powers</strong> because the heat at the
+friction surface has nowhere to go. A calculated 300 kW from a Prony brake is a sign of an arithmetic
+slip, not a real machine.</li>
+<li><strong>The spring dynamometer's stiffness k changes in service</strong>, which is why the
+instrument needs calibration rather than trusting its scale.</li>
+<li><strong>Absorption dynamometers waste the power</strong> they measure; transmission types do not.
+Applying the wrong class to a machine in service is a conceptual error, not an arithmetic one.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;A dynamometer is an instrument used for measuring
+force, torque or power, and is classified according to whether it absorbs the power it measures or
+merely measures power being transmitted.&rdquo;</li>
+<li><strong>Classification line</strong> &mdash; &ldquo;Dynamometers are broadly of two kinds:
+absorption dynamometers, such as the Prony brake, rope brake, hydraulic and eddy-current types, which
+absorb the entire power and dissipate it as heat; and transmission dynamometers, such as the belt,
+torsion and epicyclic types, which measure the power transmitted without absorbing it.&rdquo;</li>
+<li><strong>Force line</strong> &mdash; &ldquo;In its simplest form the dynamometer measures force
+directly, either by the extension of a calibrated spring, F = kx, or by comparison with dead
+weights.&rdquo;</li>
+<li><strong>Prony line</strong> &mdash; &ldquo;In the Prony brake the torque is the dead weight
+multiplied by the lever arm, T = WL, and the brake power follows from BP = 2&pi;NT/60.&rdquo;</li>
+<li><strong>Limitation line</strong> &mdash; &ldquo;The absorption types are limited by the heat
+generated at the friction or fluid surface, so they are laboratory instruments suited to low speeds
+and moderate powers.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence the choice of dynamometer is decided by
+whether the power may be absorbed or must continue to the driven machine, which is why absorption
+types are used on test beds and transmission types on drives in service.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Classify first</strong> &mdash; the two-way split into absorption and transmission is the
+spine of the answer</li>
+<li><strong>Sketch one brake</strong> &mdash; a labelled Prony or rope brake diagram is worth more
+than a list of names</li>
+<li><strong>Give a use for each type</strong> &mdash; a type with no application scores half</li>
+<li><strong>State the formula with the torque</strong> &mdash; T = WL or T = (W&minus;S)(D+d)/2</li>
+<li><strong>Name the limitation</strong> &mdash; heat output is why absorption types stay in the
+laboratory</li>
+<li><strong>Remember the force form</strong> &mdash; F = kx and why calibration is needed</li>
+<li><strong>Never leave blank</strong> &mdash; the classification alone clears 4 of 7</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="B" data-explain="An absorption dynamometer absorbs the entire power output of the prime mover and dissipates it as heat, which is why the Prony brake, rope brake, hydraulic and eddy-current types are laboratory instruments. A transmission dynamometer measures the power being transmitted without absorbing it, so the drive keeps running and the instrument can sit on a machine in service.">
+<p><strong>Q1. A dynamometer that absorbs the whole power of the prime mover is called:</strong></p>
+<button data-key="A">A transmission dynamometer</button>
+<button data-key="B">An absorption dynamometer</button>
+<button data-key="C">A driving dynamometer</button>
+<button data-key="D">A torsion dynamometer</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="In a Prony brake the torque is the dead weight on the lever arm multiplied by the length of that arm, T = W x L. The lever arm is measured from the shaft axis, and the brake power then follows from BP = 2 pi N T / 60.">
+<p><strong>Q2. In a Prony brake, the torque is given by:</strong></p>
+<button data-key="A">T = W / L</button>
+<button data-key="B">T = (W &minus; S)(D + d)/2</button>
+<button data-key="C">T = W &times; L</button>
+<button data-key="D">T = 2&pi;NT/60</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="In a rope brake the effective radius is (D + d)/2, not D/2, because the rope acts along its own centre line, which sits half a rope diameter outside the drum surface. Using D/2 understates the torque, and the net load (W - S) must also be used rather than W alone.">
+<p><strong>Q3. In a rope brake the torque is calculated using an effective radius of:</strong></p>
+<button data-key="A">(D + d)/2, because the rope acts at its own centre line</button>
+<button data-key="B">D/2, the drum radius alone</button>
+<button data-key="C">D, the drum diameter</button>
+<button data-key="D">(D &minus; d)/2</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="The factor 2 pi / 60 converts the speed from revolutions per minute to radians per second, which is what makes the product torque times angular velocity come out in watts. Without it the power is wrong by a factor of about 9.55, so the scale of the answer is the giveaway.">
+<p><strong>Q4. In BP = 2&pi;NT/60, the factor 2&pi;/60 serves to:</strong></p>
+<button data-key="A">Convert torque from N&middot;m to N&middot;mm</button>
+<button data-key="B">Convert power from watts to kilowatts</button>
+<button data-key="C">Correct for the friction losses in the brake</button>
+<button data-key="D">Convert the speed from rpm to radians per second</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="The spring's stiffness changes with age, temperature and overload, so its graduations cannot be trusted from first principles. The dynamometer is therefore calibrated against known dead weights, and only that calibration makes the scale meaningful. This is the standard short question on the spring form.">
+<p><strong>Q5. A spring dynamometer must be calibrated because:</strong></p>
+<button data-key="A">The spring is made of non-magnetic material</button>
+<button data-key="B">Gravity varies from place to place</button>
+<button data-key="C">The stiffness of the spring changes with use, temperature and overload</button>
+<button data-key="D">The scale is graduated in newtons rather than kilograms</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Dec-2020 Q2b, and the recurring form.</strong> &ldquo;What is a dynamometer? Explain its
+types.&rdquo; &rarr; Definition covering force, torque and power; the absorption against transmission
+split; a named example of each; the heat limitation on the absorption types.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Explain the working of a Prony brake.&rdquo;
+&rarr; Two blocks clamped on a drum, lever arm with a dead weight, T = WL, then BP = 2&pi;NT/60, and
+the heat limitation at the friction surface.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between absorption and
+transmission dynamometers.&rdquo; &rarr; A four-row table on what it does with the power, the types,
+the application, and whether the machine keeps running.</li>
+<li><strong>Short question.</strong> &ldquo;What is a rope brake and how is torque obtained from
+it?&rdquo; &rarr; Ropes round a drum, dead weight on one end and a spring balance on the other, net
+load (W &minus; S), effective radius (D + d)/2.</li>
+<li><strong>One-line recall.</strong> &ldquo;Why must a spring dynamometer be calibrated?&rdquo;
+&rarr; Because the spring stiffness changes in service, so the scale is only nominal without
+calibration against dead weights.</li>
+<li><strong>One-line recall.</strong> &ldquo;Name three transmission dynamometers.&rdquo; &rarr;
+Belt, torsion and epicyclic types.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="7">
+<li><strong>6 minutes, no notes.</strong> Draw the classification tree from dynamometer down to the
+named types on both branches. Check absorption and transmission are the top split, not force and
+power.</li>
+<li><strong>4 minutes.</strong> Solved A on paper. Check the extension is converted to 0.120 m and the
+force is 60 N, not 60000 N.</li>
+<li><strong>4 minutes.</strong> Solved B on paper. Check the torque is 120 N&middot;m and the power
+about 5.03 kW, in the low-kilowatt band of a laboratory engine.</li>
+<li><strong>5 minutes.</strong> Solved C on paper. Check the effective radius is 0.26 m and not
+0.25 m, and the net load 250 N and not 300 N.</li>
+<li><strong>3 minutes.</strong> Write three applications of absorption and three of transmission
+dynamometers. Check no application has the two classes swapped.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 2 Topic 07</p>
+<h1>Dynamometer &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>A dynamometer is an instrument for measuring force, torque or power.
+
+In its FORCE form it measures a load directly by the elastic extension
+of a calibrated spring (F = kx) or by comparison with dead weights.
+
+In its POWER form it is classified as:
+
+  ABSORPTION dynamometer - absorbs the entire power of the prime mover
+    and dissipates it as heat. Limited by heat, hence laboratory use.
+    Types: Prony brake, rope brake, hydraulic, eddy-current.
+
+  TRANSMISSION dynamometer - measures power being transmitted WITHOUT
+    absorbing it, so the drive keeps running.
+    Types: belt, torsion, epicyclic.
+
+  DRIVING dynamometer - a calibrated motor driving the machine under test.
+
+THE TEST: does it take the power away, or only read it?</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Force     -> F = k x          [spring stiffness x extension]
+2. Torque    -> T = W L                     (Prony brake)
+                T = (W - S)(D + d)/2        (rope brake)
+3. Power     -> BP = 2 pi N T / 60
+                [2 pi / 60 converts rpm to rad/s]
+4. Classify  -> absorption (takes the power) or transmission (reads it)</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Type</th><th>Class</th><th>Torque relation</th><th>Use / limit</th></tr></thead>
+<tbody>
+<tr><td>Spring / dead-weight</td><td>Force</td><td>F = kx</td><td>Direct force measurement; needs calibration</td></tr>
+<tr><td>Prony brake</td><td>Absorption</td><td>T = W L</td><td>Low speeds and small powers; heat at the blocks</td></tr>
+<tr><td>Rope brake</td><td>Absorption</td><td>T = (W &minus; S)(D + d)/2</td><td>Moderate powers; better cooling than the Prony brake</td></tr>
+<tr><td>Hydraulic</td><td>Absorption</td><td>From the casing reaction</td><td>Larger powers; water removes the heat</td></tr>
+<tr><td>Eddy current</td><td>Absorption</td><td>From the casing reaction</td><td>Smooth and electrically controllable</td></tr>
+<tr><td>Belt transmission</td><td>Transmission</td><td>Tension difference &times; pulley radius</td><td>Drive keeps running</td></tr>
+<tr><td>Torsion</td><td>Transmission</td><td>Angle of twist of the shaft</td><td>Rotating shafts in service</td></tr>
+<tr><td>Epicyclic</td><td>Transmission</td><td>Reaction on a floating gear</td><td>Geared drives</td></tr>
+<tr><td>Calibrated motor</td><td>Driving</td><td>Motor input and losses</td><td>Testing pumps and compressors</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Dynamometer</strong> &mdash; an instrument for measuring force, torque or power; in the
+power form classified into absorption and transmission types.</li>
+<li><strong>Absorption dynamometer</strong> &mdash; one which absorbs the whole power of the prime
+mover and dissipates it as heat, so the power is lost to the machine.</li>
+<li><strong>Transmission dynamometer</strong> &mdash; one which measures the power transmitted without
+absorbing it, so the drive continues to the driven machine.</li>
+<li><strong>Prony brake</strong> &mdash; two friction blocks clamped round a brake drum, loaded through
+a lever arm and a dead weight; T = WL.</li>
+<li><strong>Rope brake</strong> &mdash; one or more ropes round a drum with a dead weight at one end
+and a spring balance at the other; T = (W &minus; S)(D + d)/2.</li>
+<li><strong>Effective radius of a rope brake</strong> &mdash; (D + d)/2, since the rope acts along its
+own centre line, half a rope diameter outside the drum surface.</li>
+<li><strong>Brake power</strong> &mdash; the power measured at the output shaft, BP = 2&pi;NT/60 with
+N in rpm and T in N&middot;m.</li>
+<li><strong>Torsion dynamometer</strong> &mdash; a transmission dynamometer measuring the angle of
+twist of a running shaft, from which the torque is obtained.</li>
+<li><strong>Eddy-current dynamometer</strong> &mdash; an absorption dynamometer in which eddy currents
+induced in a rotating disc provide an electrically controllable load.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can define a dynamometer covering force, torque and power</li>
+<li>[ ] Can draw the classification tree down to the named types</li>
+<li>[ ] Can state the one test that separates absorption from transmission</li>
+<li>[ ] Can name four absorption types and three transmission types</li>
+<li>[ ] Can sketch a Prony brake and a rope brake and mark the lever arm</li>
+<li>[ ] Can write T = WL, T = (W&minus;S)(D+d)/2 and BP = 2&pi;NT/60</li>
+<li>[ ] Can say why the rope brake radius is (D + d)/2</li>
+<li>[ ] Can say why the rope brake net load is (W &minus; S)</li>
+<li>[ ] Can compute a torque and a brake power with the units in metres</li>
+<li>[ ] Can state why a spring dynamometer must be calibrated</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Four relations.</strong> Force: F = kx, with x in metres. Torque:
+T = WL for a Prony brake, or T = (W &minus; S)(D + d)/2 for a rope brake &mdash; note the net load and
+the effective radius. Power: BP = 2&pi;NT/60, and never drop the 2&pi;/60. Finish by checking the
+scale: a laboratory brake delivers a few kilowatts, so a result in hundreds of kilowatts means either
+the 60 is missing or a millimetre was left unconverted.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 2 Topic 07 &middot; Dec-2020 Q2b and the recurring form</p>
+<h1>Dynamometer &mdash; questionnaire</h1>
+<div class="q-meta">Q2b slot &middot; Dec-2020 asked "Dynamometer &mdash; types" as a short part-question &rarr; the classification is the whole answer</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>What is a dynamometer? Explain its types with their working.</h3>
+<p>The full form of the question. Define it across force, torque and power, then give the classification with a named example and a working line for each. The absorption against transmission split is the spine, and the heat limitation is what shows the classification is understood.</p>
+<div class="q-foot"><b>write</b> &mdash; definition covering force, torque and power (2) &rarr; absorption and transmission classes with the test that separates them (2) &rarr; named types under each with a working line (2) &rarr; heat limitation on the absorption types (1).</div>
+<div class="q-foot"><b>check</b> &mdash; listing type names with no class attached scores half; omitting the heat limitation loses the reason the absorption types stay in the laboratory; the force form (F = kx) is part of the definition and is often forgotten entirely.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Explain the working of a Prony brake, and state its limitations.</h3>
+<p>A single-instrument question with a sketch and a formula. The limitation is a heat argument, and stating it as a heat argument rather than as "it is not very accurate" is what earns the mark.</p>
+<div class="q-foot"><b>write</b> &mdash; labelled sketch: drum, two friction blocks, lever arm, dead weight (2) &rarr; working: friction loads the shaft, torque is weight times lever arm (1) &rarr; T = WL and BP = 2&pi;NT/60 (1) &rarr; limitation: heat at the friction surface restricts it to low speeds and small powers (1).</div>
+<div class="q-foot"><b>check</b> &mdash; the lever arm must be shown measured from the shaft axis, not from the edge of the drum; omitting the power formula loses a mark; "limited accuracy" without the heat reason scores nothing.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>A Prony brake has a dead weight of 200 N at a lever arm of 0.6 m and runs at 400 rpm. Find the torque and brake power. A rope brake of drum diameter 0.5 m has a rope of 0.02 m, with W = 300 N and S = 50 N at 300 rpm &mdash; find its torque.</h3>
+<p>Both brakes in one numeral question. Two traps carry the marks: the effective radius of the rope brake and its net load.</p>
+<div class="q-foot"><b>write</b> &mdash; stated given values with units (1) &rarr; T = 200 &times; 0.6 = 120 N&middot;m with BP = 5026.55 W = 5.03 kW (2) &rarr; net load 250 N and effective radius 0.26 m (1) &rarr; T = 65 N&middot;m (1).</div>
+<div class="q-foot"><b>check</b> &mdash; using 0.25 m instead of 0.26 m gives 62.5 N&middot;m; using W instead of (W &minus; S) gives 78 N&middot;m; omitting the 60 in the power formula overstates the power by a factor of 60; the Prony result must be in the low-kilowatt band.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence defining the dynamometer across force, torque and power.</li>
+    <li><strong>Visual:</strong> Draw the classification tree before any prose.</li>
+    <li><strong>Table:</strong> Type against class against working, one row each.</li>
+    <li><strong>Close:</strong> The two torque formulas with a worked value, and the heat limitation.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "A dynamometer is an instrument used for measuring force, torque or power, and is classified according to whether it absorbs the power it measures or merely measures power being transmitted."</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; classification tree &rarr; type table with a working line each &rarr; one brake sketched in full &rarr; T = WL and BP = 2&pi;NT/60 with a substitution &rarr; the heat limitation and the laboratory use that follows from it.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Classify before listing</strong> &mdash; absorption and transmission first</li>
+    <li><strong>Name a type under each class</strong> &mdash; four and three respectively</li>
+    <li><strong>Sketch one brake</strong> with the lever arm from the shaft axis</li>
+    <li><strong>Give a use for each type</strong>, not just the name</li>
+    <li><strong>Underline keywords</strong> &mdash; absorption, transmission, dissipate, effective radius</li>
+    <li><strong>Write the formula</strong> even in a theory answer; it is quick credit</li>
+    <li><strong>Box the answers</strong> with N&middot;m and kW</li>
+    <li><strong>Never leave blank</strong> &mdash; the classification alone clears 4 of 7</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>What is a dynamometer? Explain its types with their working.</h3>
+<p class="answer-lead">Define across all three quantities, then classify before listing. The absorption and transmission split is the spine of the answer.</p>
+<pre class="ascii-diagram" role="img" aria-label="Dynamometer classified into force and power types, with absorption and transmission branches">
+DYNAMOMETER  =  measures force, torque or power
+|
++-- FORCE TYPE  (a load, measured directly)
+|     +-- spring balance ....... F = kx   (needs CALIBRATION)
+|     +-- dead weights ......... most accurate, compares directly
+|     +-- hydraulic / load cell  gives an electrical output
+|
++-- POWER TYPE  (torque, and hence power)
+    |
+    +-- ABSORPTION  -- takes the power away, wastes it as HEAT
+    |     |            -> laboratory instruments, low speeds
+    |     +-- PRONY brake ....... T = W L
+    |     +-- ROPE brake ........ T = (W - S)(D + d)/2
+    |     +-- hydraulic ......... casing reaction, water takes the heat
+    |     +-- eddy current ...... electrically controllable load
+    |
+    +-- TRANSMISSION -- reads the power, drive keeps running
+          +-- belt .............. tension difference x pulley radius
+          +-- torsion ........... angle of twist of the shaft
+          +-- epicyclic ......... reaction on a floating gear
+
+  THE TEST: does the machine take the power away, or only read it?
+    takes it away -> ABSORPTION    (the power is wasted as heat)
+    reads it      -> TRANSMISSION  (the power goes on to the load)
+</pre>
+<p><strong>Definition.</strong> A dynamometer is an instrument for measuring force, torque or power.
+In its simplest, force-measuring form it measures a load directly, either by the elastic extension of
+a calibrated spring, F = kx, or by comparison against dead weights. In its power-measuring form it
+determines the torque at a shaft and hence the power from BP = 2&pi;NT/60.</p>
+<table>
+<tr><th>Class</th><th>What it does with the power</th><th>Types</th><th>Working</th></tr>
+<tr><td><strong>Absorption</strong></td><td>Absorbs the whole output of the prime mover and dissipates it as heat</td><td>Prony brake</td><td>Friction blocks on a drum; torque is the dead weight times the lever arm, T = WL</td></tr>
+<tr><td>Absorption</td><td>As above</td><td>Rope brake</td><td>Ropes on a drum with a weight at one end and a spring balance at the other; T = (W &minus; S)(D + d)/2</td></tr>
+<tr><td>Absorption</td><td>As above</td><td>Hydraulic</td><td>A rotor churns water in a casing; the casing reaction gives the torque, and the water removes the heat</td></tr>
+<tr><td>Absorption</td><td>As above</td><td>Eddy current</td><td>Eddy currents induced in a rotating disc load the shaft; the load is varied electrically</td></tr>
+<tr><td><strong>Transmission</strong></td><td>Measures the power transmitted without absorbing it, so the drive keeps running</td><td>Belt</td><td>The difference in belt tension on the two sides times the pulley radius gives the torque</td></tr>
+<tr><td>Transmission</td><td>As above</td><td>Torsion</td><td>The angle of twist of the running shaft is measured, from which the torque follows</td></tr>
+<tr><td>Transmission</td><td>As above</td><td>Epicyclic</td><td>The reaction on a floating gear of the train gives the transmitted torque</td></tr>
+</table>
+<p><strong>Limitation of the absorption types.</strong> Because all the power they measure is
+converted into heat at a friction or fluid surface, they are limited by how fast that heat can be
+carried away. The Prony brake, with only the blocks to dissipate it, suits low speeds and small
+powers; the hydraulic and eddy-current types handle more because water or a large casing surface
+takes the heat. This is why absorption dynamometers are laboratory instruments.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the classification turns on a single
+question &mdash; whether the dynamometer takes the power away or merely reads it as it passes
+&mdash; and that is why absorption types are confined to test beds, where the power is meant to be
+wasted, and transmission types are used on drives in service."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Explain the working of a Prony brake, and state its limitations.</h3>
+<p class="answer-lead">Sketch, working, two formulas, then the limitation stated as a heat argument.</p>
+<pre class="ascii-diagram" role="img" aria-label="Prony brake arrangement showing the drum, friction blocks, lever arm and dead weight">
+        LEVER ARM L
+            |
+            v
+    +---------------+
+    |   dead wt W   |
+    +-------+-------+
+            |
+      +-----+-----+
+      | ##  ##  ## |  <- wooden blocks clamped on the drum
+      | ## DRUM ## |
+      | ##  ##  ## |
+      +-----+-----+
+            |
+        SHAFT (prime mover)
+
+   T = W x L        the lever arm is measured from the SHAFT AXIS
+   BP = 2 pi N T / 60
+
+   The blocks press on the drum and load the shaft by friction.
+   All the power absorbed appears as HEAT at the blocks, which is
+   why the instrument suits low speeds and small powers.
+</pre>
+<p><strong>Construction.</strong> A Prony brake consists of a brake drum keyed to the shaft of the
+prime mover, with two wooden or metal blocks clamped around it. A lever arm is attached to the
+blocks and carries a dead weight at its end. The lever arm is measured <strong>from the shaft
+axis</strong>.</p>
+<p><strong>Working.</strong> The blocks are tightened on the drum until the friction between them and
+the drum absorbs the output of the machine. The friction drags the blocks round in the direction of
+rotation, and this tendency is balanced by the dead weight on the lever arm. When the arm is in
+equilibrium, the torque exerted by friction on the drum equals the torque exerted by the weight on the
+arm, so</p>
+<pre><code>T = W x L          and          BP = 2 pi N T / 60</code></pre>
+<p>with W the dead weight in newtons, L the lever arm in metres, N the speed in rpm and T the torque
+in N&middot;m, giving the brake power in watts.</p>
+<p><strong>Limitations.</strong> All the power absorbed is converted into <strong>heat at the
+friction surface</strong> between the blocks and the drum. That heat has no path away except through
+the blocks and the surrounding air, so the brake can only be used at <strong>low speeds and small
+powers</strong>; at higher powers the blocks char, the friction coefficient changes and the reading
+becomes unreliable. It is also difficult to maintain a steady load, and the blocks wear, so the
+friction condition drifts during a test.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the Prony brake is the simplest absorption
+dynamometer, its torque being the dead weight multiplied by the lever arm, and its use is confined to
+low speeds and small powers because the whole of the power measured is dissipated as heat at the
+friction surface."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>A Prony brake has a dead weight of 200 N at a lever arm of 0.6 m and runs at 400 rpm. Find the torque and brake power. A rope brake of drum diameter 0.5 m has a rope of 0.02 m, with W = 300 N and S = 50 N at 300 rpm &mdash; find its torque.</h3>
+<p class="answer-lead">Two brakes, and the marks are in the two rope-brake details: the net load and the effective radius.</p>
+<pre class="ascii-diagram" role="img" aria-label="Prony and rope brake numerals worked through, showing net load and effective radius">
+   PRONY BRAKE                        ROPE BRAKE
+   ===========                        ==========
+
+   W = 200 N                          W = 300 N   (dead weight)
+   L = 0.6 m                          S =  50 N   (spring balance)
+   N = 400 rpm                        D = 0.5 m   (drum dia)
+                                      d = 0.02 m  (rope dia)
+   T = W x L                          N = 300 rpm
+     = 200 x 0.6
+     = 120.0 N.m                      net load = W - S
+                                                 = 300 - 50 = 250 N
+
+   BP = 2 pi N T / 60
+      = 2 x pi x 400 x 120 / 60       effective radius = (D + d)/2
+      = 5026.55 W                                        = (0.5 + 0.02)/2
+      = 5.03 kW                                          = 0.26 m
+                                                          ^
+                                      NOT D/2 = 0.25 m ---+  the rope acts
+                                                             at its centre line
+
+                                      T = 250 x 0.26 = 65.0 N.m
+</pre>
+<p><strong>Part one &mdash; Prony brake.</strong> <strong>Given:</strong> W = 200 N, L = 0.6 m,
+N = 400 rpm. <strong>Find:</strong> T and BP. <strong>Formula:</strong> T = WL;
+BP = 2&pi;NT/60. <strong>Solve:</strong></p>
+<pre><code>T = 200 x 0.6 = 120.0 N.m
+
+BP = 2 x pi x 400 x 120 / 60
+   = 5026.55 W = 5.03 kW</code></pre>
+<p><strong>Part two &mdash; rope brake.</strong> <strong>Given:</strong> W = 300 N, S = 50 N,
+D = 0.5 m, d = 0.02 m, N = 300 rpm. <strong>Find:</strong> T.
+<strong>Formula:</strong> T = (W &minus; S)(D + d)/2. <strong>Solve:</strong></p>
+<pre><code>net load = 300 - 50 = 250 N
+effective radius = (0.5 + 0.02)/2 = 0.26 m
+
+T = 250 x 0.26 = 65.0 N.m</code></pre>
+<p><strong>Answer:</strong> the Prony brake gives a torque of <strong>120 N&middot;m</strong> and a
+brake power of <strong>5.03 kW</strong>; the rope brake gives a torque of
+<strong>65 N&middot;m</strong>.</p>
+<p><strong>Check:</strong> the Prony result substitutes back, 5026.55 &times; 60/(2&pi; &times; 400) =
+120.0 N&middot;m, and 5.03 kW is the output of a small single-cylinder engine, which is exactly the
+scale of machine a laboratory brake is used on. For the rope brake, the two details each have a
+check: using D/2 = 0.25 m instead of 0.26 m would give 62.5 N&middot;m, a 4% understatement, because
+the rope acts along its own centre line half a rope diameter outside the drum; and using W = 300 N
+instead of the net 250 N would give 78 N&middot;m, a 20% overstatement, because the spring balance is
+holding part of the weight. Both errors are arithmetic, but they are the two the question is set to
+catch.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the Prony brake gives 120 N&middot;m and
+5.03 kW directly from the weight and lever arm, while the rope brake requires the net load of 250 N
+and the effective radius of 0.26 m, giving 65 N&middot;m."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203 Unit 2 text reads &ldquo;Dynamometer
+&mdash; types, working principle, applications&rdquo;, and the December 2020 paper asked
+&ldquo;Dynamometer &mdash; types&rdquo; as Q2b. Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, in which Q2b is &ldquo;Dynamometer
+&mdash; types&rdquo;. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference books</strong> (official BT-203 list) &mdash; Nakra &amp; Chaudhary,
+<em>Instrumentation and Measurements</em>, TMH, for the force and torque measurement, and
+C. M. Agrawal, <em>Basic Mechanical Engineering</em>, Wiley, for the brake types.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hub and the December 2020 archive support revision and question practice. All
+numerical values were computed rather than quoted: 500 &times; 0.120 = 60 N;
+200 &times; 0.6 = 120 N&middot;m with 2&pi;(400)(120)/60 = 5026.55 W; and
+250 &times; 0.26 = 65 N&middot;m with 2&pi;(300)(65)/60 = 2042.04 W.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

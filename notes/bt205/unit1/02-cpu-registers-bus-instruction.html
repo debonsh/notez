@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CPU, Registers, Bus &amp; Instruction Set &mdash; RGPV BT205 &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit1 $ cat 02-cpu-registers-bus-instruction.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT205 Unit 1 &mdash; Organization</p>
+<h1>CPU Organization, Registers, Bus Architecture &amp; Instruction Set</h1>
+<p><em>The CPU is the brain; buses are the nerves; registers are its scratch-pad. RGPV asks: draw CPU block, list registers, explain 3 buses, define instruction set. All four live here.</em></p>
+<h2>CPU = ALU + CU (+ registers)</h2>
+<pre><code>CPU (Central Processing Unit) = brain of computer.
+ALU (Arithmetic Logic Unit):  + - * / and AND OR NOT comparisons.
+CU (Control Unit):            directs everything, executes no data itself.
+Registers:                    tiny, fastest storage inside CPU.</code></pre>
+<table>
+<tr><th>Unit</th><th>Does</th><th>Does NOT do</th></tr>
+<tr><td>ALU</td><td>All arithmetic + logic; result to accumulator</td><td>Never controls I/O timing</td></tr>
+<tr><td>CU</td><td>Fetches, decodes, issues control signals, moves data</td><td>Never computes on data itself</td></tr>
+<tr><td>Registers</td><td>Hold instruction, addresses, data being processed</td><td>Never store programs permanently</td></tr>
+</table>
+<p><strong>Worked example — ADD inside the CPU:</strong> R1 = 12, R2 = 7. CU fetches <code>ADD R1, R2</code>, places operands on the ALU, ALU computes 19, result lands in ACC, then moves to R1. CU never touches the numbers — it only sends the "add now" signal. Flags set: zero = 0 (result ≠ 0), carry = 0, sign = 0 (positive).</p>
+<table>
+<tr><th>Flag</th><th>Set (=1) when…</th><th>Example</th></tr>
+<tr><td>Zero</td><td>Result is 0</td><td><code>5 − 5 = 0</code> → zero = 1 (used by <code>==</code>)</td></tr>
+<tr><td>Carry</td><td>Addition overflows the word</td><td>255 + 1 in 8-bit → carry = 1</td></tr>
+<tr><td>Sign</td><td>Result negative</td><td><code>3 − 9 = −6</code> → sign = 1</td></tr>
+</table>
+<h2>Registers — 8 to memorize (name + 1 line)</h2>
+<table>
+<tr><th>Register</th><th>Holds</th><th>Memory trick</th></tr>
+<tr><td>PC (Program Counter)</td><td>Address of NEXT instruction</td><td>"points ahead"</td></tr>
+<tr><td>IR (Instruction Register)</td><td>Current instruction being decoded</td><td>"now serving"</td></tr>
+<tr><td>MAR (Memory Address Reg.)</td><td>Address sent TO memory</td><td>"address out"</td></tr>
+<tr><td>MDR (Memory Data/Buffer)</td><td>Data coming FROM / going TO memory</td><td>"data in transit"</td></tr>
+<tr><td>Accumulator (ACC)</td><td>ALU results + operands</td><td>"ALU's desk"</td></tr>
+<tr><td>Stack Pointer (SP)</td><td>Top of stack (calls, returns)</td><td>"pile pointer"</td></tr>
+<tr><td>Status/Flag</td><td>Zero, carry, sign, overflow bits</td><td>"result report card"</td></tr>
+<tr><td>General purpose (R0–Rn)</td><td>Temp data for programs</td><td>"scratch pads"</td></tr>
+</table>
+<div class="callout">
+<span class="label">Diagram — CPU + buses (draw this)</span>
+<pre class="ascii-diagram" role="img" aria-label="CPU organization with bus signal directions interrupt acknowledge clock and reset">+------------------------------- CPU --------------------------------+
+| REGISTER FILE: PC IR MAR MDR ACC SP FLAGS R0-Rn                    |
+| ALU: operands -> arithmetic/logic/compare -> result and flags     |
+| CU: fetch, decode, sequencing, and system-bus control              |
++-------------------------------------------------------------------+
+
+SYSTEM-BUS SIGNAL DIRECTIONS
+SIGNAL       SOURCE        DESTINATION         DIRECTION
+ADDRESS      CPU/MAR       memory / I/O         ---------------&gt;
+DATA write   CPU/MDR       memory / I/O         ---------------&gt;
+DATA read    memory / I/O  CPU/MDR              ---------------&gt;
+CONTROL      CPU/CU        memory / I/O         ---------------&gt;
+ATTENTION    device        CPU                  ---------------&gt;
+ACK          CPU/CU        device               ---------------&gt;
+CLOCK        clock gen     CPU + bus devices    ---------------&gt;
+RESET        reset logic   CPU + bus devices    ---------------&gt;
+
+TARGETS REFERENCED BY THE BUS
++------------------+          +---------------------+
+| MEMORY           |          | I/O DEVICE          |
+| ROM/RAM          |          | controller + port   |
++------------------+          +---------------------+</pre>
+</div>
+<h2>Bus architecture — 3 buses, one table (high-frequency 7-marker)</h2>
+<pre><code>A bus = set of parallel wires carrying signals between CPU, memory, I/O.
+System bus = data bus + address bus + control bus together.</code></pre>
+<table>
+<tr><th>Bus</th><th>Carries</th><th>Direction</th><th>Width decides</th></tr>
+<tr><td>Data bus</td><td>Actual data / instructions</td><td>Bidirectional (CPU ↔ memory/IO)</td><td>Word size (8/16/32/64-bit)</td></tr>
+<tr><td>Address bus</td><td>Address of location to read/write</td><td>Unidirectional (CPU → memory/IO)</td><td>Max memory = 2^n (n lines)</td></tr>
+<tr><td>Control bus</td><td>CPU commands; device IRQ/attention; clock/reset inputs</td><td>Mixed by signal</td><td>Timing + coordination</td></tr>
+</table>
+<div class="exam-note"><strong>Address-line rule:</strong> <code>n</code> address lines select <code>2<sup>n</sup></code> locations. Sixteen lines give 65,536 locations, or 64 KB when each location holds one byte.</div>
+<div class="exam-note"><strong>Memory read, in order:</strong> the PC places the address in MAR → memory returns the instruction through MDR → the IR holds it for decoding → the CU issues control signals and the ALU executes. One read uses the address, control, and data buses together.</div>
+<h2>Instruction set + format</h2>
+<pre><code>Instruction = order telling CPU what to do.
+Instruction set = full vocabulary CPU understands (ADD, SUB, LOAD, STORE, JMP...).
+Format:  [ OPCODE | OPERAND(s) ]
+  opcode  = WHAT to do (ADD)      operand = WHERE / WHAT ON (R1, memory addr)</code></pre>
+<p>Example: <code>ADD R1, R2</code> — opcode ADD, operands R1 R2. Decode two more: <code>LOAD R1, [5000H]</code> (opcode LOAD: copy memory cell 5000H into R1) and <code>JMP 2000H</code> (opcode JMP, one operand: set PC = 2000H, jump there). CISC = many complex instructions, e.g. Intel/AMD x86 in laptops; RISC = few simple fast ones, e.g. ARM in phones. One line comparing them is enough for RGPV — with these two chip examples attached.</p>
+<h2>Fetch–Decode–Execute cycle (4 steps, write numbered)</h2>
+<pre><code>1. FETCH:   PC → MAR; memory → MDR → IR; PC = PC + 1
+2. DECODE:  CU interprets opcode in IR; identifies operands
+3. EXECUTE: ALU acts / data moves; flags update
+4. STORE:   result → register/memory; repeat on next PC</code></pre>
+<h2>Solved examples in great depth</h2>
+<pre><code>Given:   quote numbers/keywords  Find: what is asked
+Rule:    2^n for address; word-size for data bus; opcode/operand split
+Solve:   powers of 2 via 2^10 = 1024 = 1K ladder  Check: sanity + unit</code></pre>
+<h3>Solved A — 16 address lines, byte-addressable. Max memory?</h3>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Given</td><td><code>n = 16 lines, 1 byte per location</code></td></tr>
+<tr><td>Formula</td><td><code>locations = 2^n = 2^16</code></td></tr>
+<tr><td>Solve</td><td><code>2^16 = 2^10 × 2^6 = 1024 × 64 = 65,536 bytes = 64 KB</code></td></tr>
+<tr><td>Check</td><td><code>Classic 8086-era answer 64K — matches, unit bytes ✓</code></td></tr>
+</table>
+<h3>Solved B — identify opcode/operands in <code>STORE R1, [2000H]</code></h3>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Opcode</td><td><code>STORE = what to do (write to memory)</code></td></tr>
+<tr><td>Operands</td><td><code>R1 (source data), [2000H] (destination address)</code></td></tr>
+<tr><td>Check</td><td><code>Opcode = verb, operands = nouns — always splits this way</code></td></tr>
+</table>
+<h3>Solved C — which bus? "CPU wants cell 5000H's content"</h3>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Address 5000H travels on</td><td><code>Address bus (CPU → memory, one-way)</code></td></tr>
+<tr><td>Content returns on</td><td><code>Data bus (memory → CPU, reverse leg)</code></td></tr>
+<tr><td>READ command on</td><td><code>Control bus (READ signal)</code></td></tr>
+<tr><td>Check</td><td><code>All three buses used in ONE read — textbook line for extra marks</code></td></tr>
+</table>
+<div class="callout"><span class="label">Numeral traps</span>
+<ul>
+<li><strong>2^n vs 2n:</strong> 16 lines = 2^16 = 64K, NOT 32. Memorize 2^10=1K, 2^20=1M, 2^30=1G.</li>
+<li><strong>Address bus direction:</strong> one-way CPU→memory. Writing "bidirectional" loses the mark.</li>
+<li><strong>CU computes nothing:</strong> never write "CU performs addition" — that is ALU + accumulator.</li>
+<li><strong>MAR vs MDR:</strong> MAR = address, MDR = data. One-letter swap, full mark lost.</li>
+</ul></div>
+<div class="callout"><span class="label">Special lines for extra marks</span>
+<ul>
+<li><em>"The control unit fetches, decodes and coordinates, but all computation occurs in the ALU."</em></li>
+<li><em>"A single memory read uses all three buses: address selects, control commands READ, data returns."</em></li>
+<li><em>"With n address lines the CPU addresses 2^n locations; hence 16 lines address 64 KB byte-wise."</em></li>
+<li>End with a <strong>boxed cycle: FETCH → DECODE → EXECUTE → STORE</strong>.</li>
+</ul></div>
+<div class="callout"><span class="label">Exam tips</span>
+<ul>
+<li>Draw the <strong>CPU box (ALU+CU+registers) + memory + I/O + 3 buses</strong> — diagram = 2 marks.</li>
+<li>Register table: write <strong>all 8 with full forms</strong>; RGPV deducts for abbreviations alone.</li>
+<li>For "organization" 7-marker: order = CPU → registers table → buses table → cycle steps.</li>
+</ul></div>
+<h2>Retrieval practice &mdash; MCQs</h2>
+<div class="quiz" data-answer="b" data-explain="ALU computes (+ − × ÷ AND OR NOT); CU only directs traffic with control signals and never computes."><p class="q">Which unit performs addition inside the CPU...?</p><button data-key="a">Control Unit</button><button data-key="b">Arithmetic Logic Unit</button><button data-key="c">Address bus</button><button data-key="d">Hard disk</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="c" data-explain="Address bus is unidirectional CPU→memory and its n lines address 2^n locations; data bus is bidirectional and decides word size."><p class="q">Address bus is...?</p><button data-key="a">Bidirectional, carries data</button><button data-key="b">Carries READ/WRITE signals</button><button data-key="c">Unidirectional CPU→memory, n lines → 2^n locations</button><button data-key="d">Inside ALU only</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="a" data-explain="PC holds the address of the NEXT instruction; after fetch PC increments. IR holds the current instruction."><p class="q">Program Counter holds...?</p><button data-key="a">Address of the next instruction</button><button data-key="b">Current instruction opcode</button><button data-key="c">ALU result</button><button data-key="d">Data from memory</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="d" data-explain="16 lines → 2^16 = 65,536 bytes = 64 KB byte-addressed. Ladder: 2^10=1K, 2^16=64K, 2^20=1M."><p class="q">16 address lines, byte-addressable = max memory...?</p><button data-key="a">16 KB</button><button data-key="b">32 KB</button><button data-key="c">16 bytes</button><button data-key="d">64 KB</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="Instruction = opcode (WHAT: ADD) + operands (ON WHAT: R1, R2). The set of all opcodes a CPU understands is its instruction set."><p class="q">In ADD R1, R2 — ADD is the...?</p><button data-key="a">Operand</button><button data-key="b">Opcode</button><button data-key="c">Address bus</button><button data-key="d">Flag</button><p class="feedback"></p></div>
+<h2>PYQ drill</h2>
+<div class="callout"><span class="label">Drill set A &mdash; Theory (7 marks)</span>
+<ol>
+<li>Draw and explain the block diagram of CPU. Explain ALU, CU and registers. <em>(Jun-2024 pattern)</em></li>
+<li>What is bus architecture? Explain data, address and control buses with directions. <em>(Dec-2023 pattern)</em></li>
+<li>Define instruction set. Explain instruction format and the fetch-decode-execute cycle. <em>(Jun-2022 pattern)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Drill set B &mdash; Numerals/shorts</span>
+<ol start="4">
+<li>20 address lines, byte-addressed. Max memory? <em>(Ans: 2^20 = 1 MB)</em></li>
+<li>Distinguish MAR vs MDR and PC vs IR in one line each. <em>(Viva gold)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Primary source — read next</span>
+<a href="https://www.scribd.com/document/905427083/47901b8754284066a5d381d0ee8effd2-BT205-BCE-Notes-Unit-I-II-1-1">Dept. ESH BT205 Unit-I notes (Scribd)</a> &mdash; CPU, system bus, registers section.
+</div>
+<div class="callout"><span class="label">More PYQs to solve</span>
+<ul>
+<li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha — BT-205 PYQ archive</a></li>
+<li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2024.html">RGPVOnline — Jun-2024 PDF</a></li>
+</ul></div>
+</div>
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT205 Unit 1</p>
+<h1>CPU / Bus / Instructions — Quick Reference</h1>
+<h2>The statement</h2>
+<p><code>CPU = ALU (computes) + CU (directs) + registers (fast scratch-pad)</code>.</p>
+<h2>Registers (8)</h2>
+<pre><code>PC-next · IR-now · MAR-addr-out · MDR-data-transit
+ACC-ALU desk · SP-stack top · FLAG-report · R0-Rn scratch</code></pre>
+<h2>Buses</h2>
+<table><tr><th>Bus</th><th>Dir</th><th>Decides</th></tr><tr><td>Data</td><td>2-way</td><td>word size</td></tr><tr><td>Address</td><td>1-way</td><td>2^n memory</td></tr><tr><td>Control</td><td>mixed signals</td><td>timing</td></tr></table>
+<h2>Instruction</h2>
+<pre><code>[OPCODE=what | OPERANDS=on-what]; e.g. ADD R1, R2
+cycle: FETCH → DECODE → EXECUTE → STORE</code></pre>
+<h2>Key definitions</h2>
+<ul><li><strong>System bus:</strong> data + address + control together</li><li><strong>Word size:</strong> data-bus width (32/64-bit)</li><li><strong>CISC vs RISC:</strong> many-complex (x86) vs few-simple (ARM)</li></ul>
+<h2>Exam checklist</h2>
+<ul><li>&#x2610; CPU diagram with 3 buses?</li><li>&#x2610; 8 registers with full forms?</li><li>&#x2610; Bus table with directions?</li><li>&#x2610; 2^n math with KB/MB?</li><li>&#x2610; Cycle in 4 numbered steps?</li></ul>
+<h2>Math shortcut</h2>
+<pre><code>2^10=1K · 2^16=64K · 2^20=1M · 2^30=1G
+n lines → 2^n bytes (byte-addressed) → ÷1024 = KB</code></pre>
+</div>
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT205 Unit 1 &middot; from 10 PYQ sessions + Dec-2020 paper</p>
+<h1>CPU, Bus &amp; Instructions — questionnaire</h1>
+<div class="q-meta">organization 7-marker · rotates CPU block / bus table / instruction cycle · 2ⁿ numeral is the most common short question here</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks · 15 min</span><span class="q-freq">★★★ recurring</span></div>
+<h3>CPU block diagram: ALU, CU, registers</h3>
+<p>CPU = ALU (computes) + CU (directs, computes nothing) + registers. Draw the CPU box → memory + I/O with 3 buses. 8-register table with full forms (PC-next, IR-now, MAR-address-out, MDR-data, ACC, SP, flag, R0–Rn). Close: CU fetches, decodes and coordinates; all computation lives in the ALU.</p>
+<div class="q-foot"><b>write</b> — diagram (2) → ALU/CU contrast (2) → register table (2) → closing line (1). Full forms beside abbreviations.</div>
+<div class="q-foot"><b>check</b> — "CU never computes" stated explicitly; MAR-vs-MDR one-liner; bus names on the diagram double as Q2 backup.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks · 10 min</span><span class="q-freq">★★★ recurring</span></div>
+<h3>Bus architecture + address math</h3>
+<p>Bus = parallel-wire pathway; system bus = data + address + control. Data is bidirectional, address runs CPU to memory/I/O, and control signals are classified by source: CPU commands out, device IRQ/attention in, CPU interrupt ACK out; clock/reset come from their system sources. Ladder math stepwise: 16 lines → 64 KB, 20 → 1 MB, 32 → 4 GB. One memory read uses all three buses.</p>
+<div class="q-foot"><b>write</b> — definition (1) → direction table (2) → ladder math (1) → "one read uses all three" close (1).</div>
+<div class="q-foot"><b>check</b> — address bus is unidirectional, underline it; show 2¹⁰=1K ladder steps for method marks.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks · 10 min</span><span class="q-freq">★★ frequent</span></div>
+<h3>Instruction format + fetch-decode-execute</h3>
+<p>Instruction set = CPU vocabulary; format [opcode = WHAT | operands = ON-WHAT], e.g. ADD R1,R2. Cycle in 4 numbered steps — FETCH (PC→MAR→MDR→IR, PC+1), DECODE, EXECUTE, STORE. CISC-vs-RISC one line.</p>
+<div class="q-foot"><b>write</b> — format box (1) → opcode/operand split (1) → 4 cycle steps (2) → boxed cycle close (1).</div>
+<div class="q-foot"><b>check</b> — numbered steps, not prose; underline opcode, MAR/MDR; end boxed.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> Define the unit, bus, register, or instruction in one precise line.</li>
+    <li><strong>Visual:</strong> Draw the CPU–memory–I/O block with all three buses labelled.</li>
+    <li><strong>Reason:</strong> Use a numbered register/bus table; write the full form beside every abbreviation.</li>
+    <li><strong>Close:</strong> Box the fetch–decode–execute cycle or the final address result.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> “The CPU is the control and processing centre of a computer: the ALU performs operations, the CU directs them, and registers hold the values being used.”</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition → labelled block diagram → register table → bus directions → four-step cycle → checked 2<sup>n</sup> result.</p>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer · 7 marks</span>
+<h3>CPU block diagram: ALU, CU, registers</h3>
+<p class="answer-lead">The CPU is the processing and control centre. The ALU computes; the CU fetches, decodes, and coordinates; registers hold values currently needed by the CPU.</p>
+<pre class="ascii-diagram" role="img" aria-label="CPU internals and system bus signal directions">CPU INTERNALS
++------------+---------------------------------------------------------+
+| UNIT       | ROLE                                                    |
+| Registers  | PC IR MAR MDR ACC SP FLAGS R0-Rn                        |
+| ALU        | operands -> arithmetic/logic/compare -> result/flags    |
+| CU         | fetch, decode, sequencing, and bus control              |
++------------+---------------------------------------------------------+
+
+SYSTEM-BUS SIGNAL DIRECTIONS
+ADDRESS     CPU/MAR -----------------------&gt; memory / I/O
+DATA write  CPU/MDR -----------------------&gt; memory / I/O
+DATA read   CPU/MDR &lt;------------------------ memory / I/O
+CONTROL     CPU/CU -------------------------&gt; memory / I/O
+ATTENTION   device --------------------------&gt; CPU
+ACK         CPU/CU -------------------------&gt; device
+CLOCK       clock source -------------------&gt; CPU + bus devices
+RESET       reset source/controller ------&gt; CPU + bus devices</pre>
+<ol class="answer-steps">
+<li>Draw the CPU box, ALU, CU, and registers before writing prose.</li>
+<li>State ALU functions: addition, subtraction, multiplication, division, comparison, and Boolean logic.</li>
+<li>State CU functions: fetch, decode, issue control signals, coordinate movement, and update the program counter.</li>
+<li>Name the registers with full forms: PC, IR, MAR, MDR, ACC, SP, status/flags, and general-purpose registers.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> “The CU directs the work; the ALU performs the data operations; registers provide the CPU’s fastest working memory.”</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer · 5 marks</span>
+<h3>Bus architecture + address math</h3>
+<p class="answer-lead">A bus is a group of parallel wires carrying signals between CPU, memory, and I/O. A system bus contains data, address, and control buses.</p>
+<pre class="ascii-diagram" role="img" aria-label="Address data control interrupt acknowledge clock and reset directions">+----------------------+------------+--------------------+--------------------+
+| SIGNAL               | SOURCE     | DIRECTION          | DESTINATION        |
++----------------------+------------+--------------------+--------------------+
+| Address              | CPU/MAR    | ---------------&gt;   | memory / I/O       |
+| Data write           | CPU/MDR    | ---------------&gt;   | memory / I/O       |
+| Data read            | memory/I/O | ---------------&gt;   | CPU/MDR            |
+| Control commands     | CPU/CU     | ---------------&gt;   | memory / I/O       |
+| Attention / IRQ      | device     | ---------------&gt;   | CPU                |
+| Interrupt ACK        | CPU/CU     | ---------------&gt;   | device             |
+| Clock                | clock gen  | ---------------&gt;   | CPU + bus devices  |
+| Reset                | reset ctrl | ---------------&gt;   | CPU + bus devices  |
++----------------------+------------+--------------------+--------------------+
+
+READ 5000H
+  CPU/MAR ---- address 5000H ----&gt; MEMORY
+  CPU/CU  ---- READ ------------&gt; MEMORY
+  MEMORY  ---- instruction/data -&gt; CPU/MDR
+
+ADDRESS CAPACITY (byte-addressable)
+  n address lines -&gt; 2 power n locations
+  16 lines: 65,536 locations = 64 KiB
+  20 lines: 1,048,576 locations = 1 MiB
+  32 lines: 4,294,967,296 locations = 4 GiB</pre>
+<ol class="answer-steps">
+<li>Data bus is bidirectional and its width indicates the word size.</li>
+<li>Address bus is unidirectional from CPU to memory/I/O; <code>n</code> lines address <code>2^n</code> locations.</li>
+<li>Classify control signals by source: the CPU issues read/write commands, a device raises IRQ/attention, the CPU returns interrupt ACK, and clock/reset sources feed CPU and bus devices.</li>
+<li>One memory read uses all three buses: address selects, control commands, data returns.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box the address result and write the direction of every bus beside its name.</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer · 5 marks</span>
+<h3>Instruction format + fetch-decode-execute</h3>
+<p class="answer-lead">An instruction tells the CPU what operation to perform and on which operands. The instruction set is the complete vocabulary understood by the CPU.</p>
+<pre class="ascii-diagram" role="img" aria-label="Instruction format and distinct fetch decode execute store writeback and PC outcome stages">INSTRUCTION WORD: ADD R1, R2
++-----------------------------------+
+| opcode: ADD; operands: R1, R2     |
+| WHAT operation ON what            |
++-----------------+-----------------+
+
+START
+                  |
+                  v
++-----------------+-----------------+
+| 1 FETCH                           |
+| PC -> MAR; memory -> MDR -> IR    |
++-----------------+-----------------+
+                  |
+                  v
++-----------------+-----------------+
+| 2 DECODE                          |
+| CU reads opcode and operands      |
++-----------------+-----------------+
+                  |
+                  v
++-----------------+-----------------+
+| 3 EXECUTE                         |
+| ALU performs the operation        |
++-----------------+-----------------+
+                  |
+                  v
++-----------------+-----------------+
+| 4 STORE / WRITEBACK               |
+| result -> register or memory      |
++-----------------+-----------------+
+                  |
+                  v
++-----------------------------------+
+| 5 PC OUTCOME                      |
+| ordinary: next PC to FETCH        |
+| branch: target PC to FETCH        |
+| HALT: CPU enters STOP             |
++-----------------+-----------------+</pre>
+<ol class="answer-steps">
+<li><strong>Fetch:</strong> PC supplies the address; MAR holds it; memory returns the instruction through MDR into IR; PC advances.</li>
+<li><strong>Decode:</strong> CU interprets the opcode and identifies operands.</li>
+<li><strong>Execute:</strong> ALU performs the operation and flags record the result.</li>
+<li><strong>Store:</strong> the result goes to a register or memory, then the next instruction is fetched.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box <code>FETCH -> DECODE -> EXECUTE -> STORE</code> and identify opcode versus operand in the example.</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT205 scheme</a> — syllabus scope and course structure.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">RGPV Notes BT205 hub</a> — aligned Unit 1 and Unit 2 notes.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT205 PYQ archive</a> — previous-year question index.</li>
+    <li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">RGPVOnline BT205 paper archive</a> — downloadable paper and solution page.</li>
+  </ul>
+  <p class="source-note">Checked 25 September 2026. The official scheme sets scope; the notes and paper archive support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt205/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

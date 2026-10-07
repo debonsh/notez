@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 Key-Sheet &mdash; BT203 Materials &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); }
+.kicker { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; font-family: monospace; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: monospace; font-size: 0.85rem; color: var(--ink-soft); }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } }
+:root { --accent-soft: #1b1e25; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+a:hover { background: transparent; color: var(--accent); }
+table tr:hover td { background: transparent; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt203/unit1 $ cat formula-sheet.md</p></div>
+<p class="kicker">Printable &middot; BT203 Unit 1 &middot; exam morning</p>
+<h1>Unit 1 Key-Sheet &mdash; Materials</h1>
+<p><em>Every figure and formula in Unit 1 on one page. Print this and leave the eight lesson
+files at home.</em></p>
+
+<h2>01 Classification</h2>
+<pre><code>ferrous (base metal iron)  |  non-ferrous (no iron)
+FERROUS -&gt; carbon &lt; 2% = STEEL      (0.03 - 2.0% C)
+        -&gt; carbon &gt; 2% = CAST IRON  (2.0 - 6.67% C)
+NON-FERROUS -&gt; light (density &lt; 5 g/cm3: Al 2.7, Mg, Ti)
+             -&gt; heavy (density &gt; 5 g/cm3: Cu 8.96, Pb, Zn)
+             -&gt; precious (Au, Ag, Pt)   -&gt; non-metallic
+BOUNDARY TO BOX: 2.0% carbon</code></pre>
+
+<h2>02 Cast iron &amp; carbon steels</h2>
+<pre><code>STEEL bands        CAST IRON types
+low    0.03-0.25    white     1.8-3.0%  C as Fe3C, hard + brittle
+medium 0.25-0.60    grey      2.5-4.0%  C as graphite FLAKES
+high   0.60-1.00    ductile   3.0-4.0%  C as graphite SPHEROIDS
+alloy  +Cr/Ni/Mo/V/W malleable 2.5-3.0%  C as ROSETTES
+WHY CAST IRON BREAKS: high C -&gt; brittle -&gt; cannot flow plastically
+m_e = m x p / 100        add case:  x / (m + x) = p / 100</code></pre>
+
+<h2>03 Iron-carbon diagram</h2>
+<pre><code>eutectoid  0.77% C at 727 degC     eutectic  4.3% C at 1147 degC
+steel / cast iron boundary  2.0% C
+PHASES (3)      alpha ferrite (soft, max 0.022% C)
+                gamma austenite (soft, max 2.0% C)
+                cementite Fe3C (hard, brittle, 6.67% C)
+MICROCONSTITUENTS (2)  pearlite = alpha + Fe3C lamellae
+                      ledeburite = gamma + Fe3C
+A3 / Acm / A1(727)  critical lines
+LEVER RULE  %phase = (C0 - C_left) / (C_right - C_left) x 100
+  below A1  : endpoints 0.022 / 6.67
+  pearlite region : endpoints 0.77 / 6.67
+  the two answers ALWAYS sum to 100%</code></pre>
+
+<h2>04 Alloy steels</h2>
+<pre><code>Cr  continuous Cr2O3 film;  ABOVE 12% = stainless   cutlery, plant
+Ni  stabilises austenite, toughness         cryogenic, corrosion
+Mo  hardenability, resists tempering         gears, crankshafts
+Mn  sulphur getter, toughness, hardenability rail and wagon steel
+V   hard stable carbides, grain refinement   tools, springs, bolts
+W   red-hot hardness                         high-speed cutting tools
+Si  deoxidiser, graphitiser                  spring steel, cast iron
+NAMED GRADES: 18-8 (18 Cr, 8 Ni) | rail 0.5-1.0 C + 1-1.5 Mn
+              tool 0.6-1.5 C + Cr/Mo/V/W   | heat-resisting Cr Ni Mo Si</code></pre>
+
+<h2>05 Mechanical properties</h2>
+<pre><code>elasticity   returns to shape          E = stress / strain
+plasticity   permanent deformation      %EL, %RA
+ductility    drawn to WIRE   (tension)  %EL, %RA
+malleability flattened to SHEET (comp)  rolling test
+brittleness  fractures, no flow         Izod / Charpy
+hardness     resists INDENTATION        Brinell / Rockwell / Vickers
+toughness    absorbs energy TO FRACTURE  Izod / Charpy, whole area
+resilience   absorbs energy ELASTICALLY area under elastic part
+THE FOUR PAIRS: ductility/malleability  hardness/toughness
+                strength/hardness       resilience/toughness
+A = (pi/4) d^2      sigma = P/A      e = sigma/E</code></pre>
+
+<h2>06 Tensile test &amp; stress-strain</h2>
+<pre><code>SIX STAGES: 1 proportional  2 elastic  3 yield
+               4 strain hardening -> UTS  5 necking  6 fracture
+E        = slope of the straight-line portion
+resilience = area under the elastic portion
+toughness  = area under the WHOLE curve
+YIELD stress = working limit    UTS = peak, start of necking
+ENGINEERING uses ORIGINAL A0 and L0      (valid up to UTS)
+TRUE uses the instantaneous area         (rises to fracture)
+%EL = (L1 - L0)/L0 x 100
+%RA = (A0 - A1)/A0 x 100 = (d0^2 - d1^2)/d0^2 x 100
+BRITTLE: steep elastic, NO yield point, NO necking, tiny area</code></pre>
+
+<h2>07 Hooke's law &amp; modulus</h2>
+<pre><code>WITHIN THE ELASTIC LIMIT:
+  stress is proportional to strain
+  sigma = E . e        e = sigma/E        E = sigma/e
+  elongation:  dL = P L0 / (A E)
+UNIT CONVERSION:  1 GPa = 1000 MPa = 1000 N/mm^2
+  stress in MPa  -&gt;  convert E to N/mm^2 (200 GPa = 200 000)
+  strain is DIMENSIONLESS; if it has units, a conversion was skipped
+MODULI:  E Young (tension) | K bulk (volume, fluids) | G rigidity (shear)
+VALUES: steel 200 GPa | aluminium 70 GPa | lead 15 GPa
+STIFFNESS = property of the MATERIAL (E)
+FLEXIBILITY = property of the MEMBER (shape, length, section)</code></pre>
+
+<h2>08 Hardness &amp; impact testing</h2>
+<pre><code>BHN = 2P / ( pi . D . (D - d) )     P kgf | D mm | d mm
+standard  P = 3000 kgf, D = 10 mm  -&gt;  to ~600 BHN
+          P =  500 kgf, D = 10 mm  -&gt;  to ~200 BHN
+reverse   d = D - 2P / (pi . D . BHN)
+TEST       INDENTER                       LOAD
+Brinell    10 mm steel / carbide ball     3000 / 500 kgf
+Rockwell   1.5875 mm ball / 120 deg cone  100 / 150 kgf
+Vickers    diamond pyramid 136 deg       1 - 30 kgf
+Mohs       scratch scale                  -
+IZOD   specimen VERTICAL, notch to the blow  -&gt; shear + bending
+CHARPY specimen HORIZONTAL, notch underside -&gt; bending only, ~55 J
+HARDNESS is SURFACE (indentation).  TOUGHNESS is BULK (impact energy)
+HARDENING RAISES HARDNESS AND LOWERS TOUGHNESS</code></pre>
+
+<h2>7-mark skeletons (copy order)</h2>
+<table>
+<tr><th>Question</th><th>Skeleton</th></tr>
+<tr><td>Classify materials</td><td>definition + full ASCII tree + 4 examples with applications + boxed 2% boundary</td></tr>
+<tr><td>Types of steel</td><td>definition with 2% ceiling + carbon ladder diagram + 4-row table + trade-off close</td></tr>
+<tr><td>Types of cast iron</td><td>2.0-6.67% definition + graphite-form diagram + 4-row table + boxed carbon form</td></tr>
+<tr><td>Iron-carbon diagram</td><td>labelled drawing + 3 phases + 2 microconstituents + eutectoid/eutectic + lever rule + significance</td></tr>
+<tr><td>Alloy steels</td><td>definition + 6-row element table (effect + mechanism + application) + boxed 12% Cr</td></tr>
+<tr><td>Mechanical properties</td><td>8-row definition-and-test table + 4 contrast pairs + spring vs crankshaft close</td></tr>
+<tr><td>Tensile test</td><td>apparatus + conversion formulas + 6-stage labelled curve + engineering vs true + significance</td></tr>
+<tr><td>Hooke's law</td><td>statement with "within the elastic limit" + 4 equation forms + elongation derivation + slope close</td></tr>
+<tr><td>Hardness / BHN</td><td>definition + Brinell diagram + BHN formula + 3-test table + hardness is NOT toughness</td></tr>
+</table>
+
+<h2>The five numbers to memorise tonight</h2>
+<table>
+<tr><th>Figure</th><th>What it decides</th></tr>
+<tr><td><strong>2.0% C</strong></td><td>Steel below it, cast iron above it</td></tr>
+<tr><td><strong>0.77% C at 727&deg;C</strong></td><td>Eutectoid; hypo- versus hypereutectoid steel</td></tr>
+<tr><td><strong>4.3% C at 1147&deg;C</strong></td><td>Eutectic; ledeburite forms</td></tr>
+<tr><td><strong>12% Cr</strong></td><td>Above this the oxide film is continuous, so the steel is stainless</td></tr>
+<tr><td><strong>3000 kgf / 10 mm ball</strong></td><td>The standard Brinell condition</td></tr>
+</table>
+
+<div class="zevu-footer"><p># shared via zevu &middot; built with ART (zevu psa) &middot; <a href="index.html">&larr; hub</a></p></div>
+</main>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

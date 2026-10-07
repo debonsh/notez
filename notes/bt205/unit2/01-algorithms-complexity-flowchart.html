@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorithms, Complexity &amp; Flowcharts &mdash; RGPV BT205 &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit2 $ cat 01-algorithms-complexity-flowchart.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT205 Unit 2 &mdash; Algorithms</p>
+<h1>Algorithms, Complexities &amp; Flowcharts</h1>
+<p><em>Dec-2020 Q3a literal: "Define algorithm? Characteristics?" plus Q4a "different ways to write an algorithm, pros and cons". This file is those 7 marks — and the flowchart + dry run is a common midsem long question.</em></p>
+<h2>Algorithm — definition (verbatim)</h2>
+<pre><code>An algorithm is a finite, step-by-step procedure that takes
+input, performs definite operations, and produces output -
+terminating after a finite number of steps.</code></pre>
+<p>Recipe analogy for the examiner: ingredients (input) → numbered steps (procedure) → dish (output), and the recipe must END (finiteness).</p>
+<h2>5 characteristics (write numbered, 1 line each)</h2>
+<table>
+<tr><th>#</th><th>Characteristic</th><th>Meaning</th></tr>
+<tr><td>1</td><td>Input</td><td>Zero or more values given from outside</td></tr>
+<tr><td>2</td><td>Output</td><td>At least one result produced</td></tr>
+<tr><td>3</td><td>Definiteness</td><td>Each step precise, no ambiguity</td></tr>
+<tr><td>4</td><td>Finiteness</td><td>Terminates after finite steps — never infinite</td></tr>
+<tr><td>5</td><td>Effectiveness</td><td>Each step doable in finite time with pen and paper</td></tr>
+</table>
+<h2>Complexity — Big-O intuition (midsem short favourite)</h2>
+<pre><code>Time complexity = how steps grow as input n grows.
+Space complexity = how extra memory grows with n.
+Big-O = worst-case ceiling: O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n^2)</code></pre>
+<table>
+<tr><th>Code shape</th><th>Complexity</th><th>Example</th></tr>
+<tr><td>Single statement</td><td><code>O(1)</code></td><td><code>c = a + b</code></td></tr>
+<tr><td>One loop over n</td><td><code>O(n)</code></td><td>linear search, array sum</td></tr>
+<tr><td>Loop inside loop</td><td><code>O(n²)</code></td><td>bubble sort, matrix add</td></tr>
+</table>
+<h2>Ways to write an algorithm + pros/cons (Dec-2020 Q4a)</h2>
+<table>
+<tr><th>Way</th><th>Pros</th><th>Cons</th></tr>
+<tr><td>Natural language (steps in English)</td><td>Easy to start, no symbols to learn</td><td>Ambiguous, long, no standard</td></tr>
+<tr><td>Pseudocode (half-English, half-code)</td><td>Precise, maps straight to C++</td><td>Needs convention discipline</td></tr>
+<tr><td>Flowchart (diagram)</td><td>Visual, logic visible at a glance, great for loops/branches</td><td>Clumsy for big programs, redrawing cost</td></tr>
+<tr><td>Actual program</td><td>Runs — ultimate proof</td><td>Language-locked, hides idea in syntax</td></tr>
+</table>
+<h2>Flowchart symbols — 6, draw each once</h2>
+<table>
+<tr><th>Shape</th><th>Means</th><th>Example</th></tr>
+<tr><td>Oval (terminator)</td><td>START / STOP</td><td>Every chart opens + closes with it</td></tr>
+<tr><td>Parallelogram</td><td>Input / Output</td><td><code>READ n</code>, <code>PRINT sum</code></td></tr>
+<tr><td>Rectangle</td><td>Process (compute/assign)</td><td><code>sum = sum + i</code></td></tr>
+<tr><td>Diamond</td><td>Decision (yes/no branches)</td><td><code>i &lt;= n?</code></td></tr>
+<tr><td>Small circle</td><td>Connector (jump between pages)</td><td>A, B labels</td></tr>
+<tr><td>Arrow</td><td>Flow direction</td><td>Always top → bottom, left → right</td></tr>
+</table>
+<div class="callout">
+<span class="label">Diagram — shapes + mini chart (draw this)</span>
+<pre class="ascii-diagram" role="img" aria-label="Flowchart symbols and sum chart, high definition">ASCII FLOWCHART LEGEND
+  Terminal      ( START / STOP )
+  Input/output  [/ READ n /]
+  Process       [ SUM = 0; I = 1 ]
+  Decision       /------------------\
+                 / I LE n?            \
+                 \                     /
+                  \------------------/
+  Flow arrows: down; sideways arrows left/right
+
+SUM OF FIRST N NUMBERS
+( START )
+    |
+    v
+[/ READ n /]
+    |
+    v
+[ SUM = 0; I = 1 ]
+    |
+    +------------------------------------------v
+                                    /----------+---------\
+                                   / I LE n?             \
++--------------------------------->\                     /------ no
+|                                   \------+-------------/        |
+|                                          | yes                  |
+|                                          v                      v
+|                                  [ SUM += I; I++ ]        [/ PRINT SUM /]
+|                                         |                      |
+|                                         |                  ( STOP )
++-----------------------------------------+
+n=4: I=1 2 3 4 5; SUM=0 1 3 6 10; O(n) time, O(1) space
+LE = less/equal
+</pre>
+</div>
+<h2>Solved examples in great depth (with dry runs)</h2>
+<pre><code>Given:   task + sample input  Find: steps/chart + trace table
+Rule:    symbol per line; decision always has 2 exits (yes/no)
+Solve:   write -> dry-run on tiny input -> state output
+Check:   hand-trace matches claimed answer</code></pre>
+<h3>Solved A — algorithm + flowchart: sum of first n numbers (midsem long)</h3>
+<pre><code>Step 1: START
+Step 2: READ n
+Step 3: SET sum = 0, i = 1
+Step 4: REPEAT while i &lt;= n:  sum = sum + i;  i = i + 1
+Step 5: PRINT sum
+Step 6: STOP</code></pre>
+<table>
+<tr><th>Dry run (n = 4)</th><th>i</th><th>sum</th></tr>
+<tr><td>start</td><td>1</td><td>0</td></tr>
+<tr><td>pass 1–4</td><td>1→2→3→4→5</td><td>0→1→3→6→10</td></tr>
+<tr><td>i = 5 &gt; 4, exit</td><td>5</td><td><code>10 ✓ (= 4×5/2)</code></td></tr>
+</table>
+<h3>Solved B — greatest of three numbers (decision-chain classic)</h3>
+<pre><code>START -> READ a, b, c
+IF a &gt;= b AND a &gt;= c -> PRINT a
+ELSE IF b &gt;= c -> PRINT b
+ELSE -> PRINT c -> STOP</code></pre>
+<p>Dry run <code>(7, 3, 9)</code>: a≥b true, a≥c false → check b≥c? 3≥9 false → PRINT 9 ✓.</p>
+<h3>Solved C — factorial + complexity label</h3>
+<pre><code>READ n -> fact = 1, i = 1
+WHILE i &lt;= n: fact = fact * i; i++
+PRINT fact -> STOP   | single loop -> O(n) time, O(1) space</code></pre>
+<p>Dry run <code>n = 5</code>: 1→1→2→6→24→120 ✓. Always append the Big-O line — 1 free mark.</p>
+<div class="exam-note"><strong>Dry-run check:</strong> factorial of 5 changes as <code>1 → 1 → 2 → 6 → 24 → 120</code>. The final <code>i = 6</code> fails the loop condition, so the program stops with output 120 and time complexity <code>O(n)</code>.</div>
+<div class="callout"><span class="label">Dry-run traps</span>
+<ul>
+<li><strong>Off-by-one:</strong> trace <code>i &lt;= n</code> vs <code>i &lt; n</code> on paper — #1 flowchart mark-killer.</li>
+<li><strong>Diamond exits:</strong> every decision MUST show yes + no arrows labelled, else diagram incomplete.</li>
+<li><strong>START/STOP ovals:</strong> missing terminators = −1 even if logic is perfect.</li>
+<li><strong>Complexity of nested loops:</strong> two nested n-loops = O(n²), not O(2n). Say "multiply, don't add".</li>
+</ul></div>
+<div class="callout"><span class="label">Special lines for extra marks</span>
+<ul>
+<li><em>"An algorithm must terminate: finiteness separates an algorithm from a mere procedure."</em></li>
+<li><em>"Pseudocode is the bridge: precise enough to code from, free of any single language's syntax."</em></li>
+<li><em>"The dry run is the proof: traced values 0→1→3→6→10 certify the logic before any compiler."</em></li>
+<li>End flowchart answers with <strong>complexity line (O(n)) + verified output</strong>.</li>
+</ul></div>
+<div class="callout"><span class="label">Exam tips</span>
+<ul>
+<li>Q3a skeleton: <strong>definition (1) + 5 characteristics table (3) + recipe line (1)</strong>.</li>
+<li>Q4a skeleton: <strong>4 ways table with pros+cons (4) + "flowchart best for logic, program best for proof" close (1)</strong>.</li>
+<li>Flowchart long: <strong>symbols → chart → dry-run table → Big-O</strong>; draw with ruler, label arrows.</li>
+</ul></div>
+<h2>Retrieval practice &mdash; MCQs</h2>
+<div class="quiz" data-answer="c" data-explain="All five must hold: input, output, definiteness, finiteness, effectiveness. Infinite loop fails finiteness — not an algorithm."><p class="q">Which is NOT an algorithm characteristic...?</p><button data-key="a">Definiteness</button><button data-key="b">Finiteness</button><button data-key="c">Infinite execution allowed</button><button data-key="d">Effectiveness</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="Single loop over n = O(n) time, few variables = O(1) space. Nested loops would be O(n²)."><p class="q">Array-sum loop complexity is...?</p><button data-key="a">O(1) time, O(n²) space</button><button data-key="b">O(n) time, O(1) space</button><button data-key="c">O(n²) time, O(n) space</button><button data-key="d">O(log n) always</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="d" data-explain="Diamond = decision with yes/no exits (e.g. i≤n?). Rectangle = process, parallelogram = I/O, oval = START/STOP."><p class="q">Diamond symbol means...?</p><button data-key="a">Start of chart</button><button data-key="b">Print a value</button><button data-key="c">Add two numbers</button><button data-key="d">Decision with two branches</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="a" data-explain="Pseudocode: precise, maps to C++, language-free. Natural language is ambiguous; flowcharts don't scale; programs lock syntax."><p class="q">Best pre-coding representation is...?</p><button data-key="a">Pseudocode</button><button data-key="b">Vague English paragraph</button><button data-key="c">Only the final program</button><button data-key="d">A printer diagram</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="Trace n=4: sums 0→1→3→6→10, exits at i=5. Matches n(n+1)/2 = 10. Dry runs catch off-by-one slips."><p class="q">Sum 1..4 dry run gives...?</p><button data-key="a">9</button><button data-key="b">10</button><button data-key="c">14</button><button data-key="d">24</button><p class="feedback"></p></div>
+<h2>PYQ drill</h2>
+<div class="callout"><span class="label">Drill set A &mdash; Theory</span>
+<ol>
+<li>Define algorithm. Explain its characteristics. <em>(Dec-2020 Q3a — literal)</em></li>
+<li>Explain different ways to write an algorithm with pros and cons. <em>(Dec-2020 Q4a — literal)</em></li>
+<li>What is complexity? Distinguish time vs space with Big-O examples. <em>(Midsem short)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Drill set B &mdash; Charts + runs</span>
+<ol start="4">
+<li>Flowchart + dry run: factorial of 6. <em>(Ans: 720, O(n))</em></li>
+<li>Flowchart: greatest of three (a,b,c) = (12, 7, 19). <em>(Ans: 19)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Primary source — read next</span>
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">rgpvnotes.in — BT-205 Unit 2 hub</a> &mdash; algorithm + flowchart pages.
+</div>
+<div class="callout"><span class="label">More PYQs to solve</span>
+<ul>
+<li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha — BT-205 PYQ archive</a></li>
+<li><a href="https://career-shiksha.com/post/important-rgpv-question-bt-205-basic-computer-engineering-1st-year/">Important-Qs Unit-2</a></li>
+</ul></div>
+</div>
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT205 Unit 2</p>
+<h1>Algorithms — Quick Reference</h1>
+<h2>Definition</h2>
+<p><code>finite steps: input → definite ops → output → terminates</code>.</p>
+<h2>5 traits</h2>
+<pre><code>input / output / definiteness / finiteness / effectiveness</code></pre>
+<h2>Complexity</h2>
+<pre><code>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n^2)
+1 loop=O(n) / nested=O(n^2) / time=steps / space=memory</code></pre>
+<h2>Symbols</h2>
+<pre><code>oval START/STOP / parallelogram I/O / rectangle process
+diamond decision(yes/no) / circle connector / arrow flow</code></pre>
+<h2>4 ways</h2>
+<ul><li><strong>English:</strong> easy, ambiguous</li><li><strong>Pseudocode:</strong> precise, code-ready</li><li><strong>Flowchart:</strong> visual logic</li><li><strong>Program:</strong> runnable proof</li></ul>
+<h2>Exam checklist</h2>
+<ul><li>&#x2610; Definition + recipe line?</li><li>&#x2610; 5 traits numbered?</li><li>&#x2610; 4-ways pros/cons table?</li><li>&#x2610; Chart with ovals + labelled arrows?</li><li>&#x2610; Dry-run table + Big-O + boxed output?</li></ul>
+<h2>Chart shortcut</h2>
+<pre><code>START -> READ -> init -> loop(diamond) -> PRINT -> STOP
+trace tiny n -> table -> verify n(n+1)/2 or factorial</code></pre>
+</div>
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT205 Unit 2 &middot; from 10 PYQ sessions + Dec-2020 paper</p>
+<h1>Algorithms &amp; Flowcharts — questionnaire</h1>
+<div class="q-meta">Dec-2020 asked BOTH Q3a (traits) and Q4a (ways) · flowchart + dry run is the common midsem long question</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks · 15 min</span><span class="q-freq">★★★ recurring</span></div>
+<h3>Define algorithm + characteristics</h3>
+<p>Verbatim definition (finite steps, input → output, terminates) + recipe analogy. 5-trait numbered table — input, output, definiteness, finiteness, effectiveness — one line each. Close: finiteness separates an algorithm from a mere procedure.</p>
+<div class="q-foot"><b>write</b> — definition + analogy (2) → 5 traits (4) → finiteness close (1). Numbered traits, not prose.</div>
+<div class="q-foot"><b>check</b> — "infinite loop fails finiteness" example; underline definiteness, finiteness, effectiveness.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">7 marks · 15 min</span><span class="q-freq">★★★ recurring</span></div>
+<h3>Ways to write an algorithm + pros/cons</h3>
+<p>4-way table: English (easy, ambiguous) → pseudocode (precise, code-ready) → flowchart (visual logic) → program (runnable proof). Close: flowchart best for logic, program best for proof.</p>
+<div class="q-foot"><b>write</b> — table with pros + cons columns (6) → close (1). Both columns filled per row.</div>
+<div class="q-foot"><b>check</b> — "pseudocode is the bridge" closing line; Q1 + Q2 back-to-back reads as mastery.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks · 10 min</span><span class="q-freq">★★★ midsem long</span></div>
+<h3>Flowchart + dry run (sum / factorial)</h3>
+<p>6-symbol mini-table → chart (START → READ → init → loop-diamond → PRINT → STOP) → dry-run trace table on tiny n → boxed output + Big-O line.</p>
+<div class="q-foot"><b>write</b> — symbols (1) → chart, ruler + labelled arrows (2) → trace table (1) → output + O(n) (1).</div>
+<div class="q-foot"><b>check</b> — trace tiny n (4/5); off-by-one checked aloud; boxed output + complexity.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> Define the algorithm or flowchart idea in one precise sentence.</li>
+    <li><strong>Visual:</strong> Draw the chart with START, decision arrows, process, output, and STOP.</li>
+    <li><strong>Reason:</strong> Trace a tiny input in a table and show each intermediate value.</li>
+    <li><strong>Close:</strong> State the time/space complexity and box the verified output.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> “An algorithm is a finite, step-by-step procedure that takes input, performs definite operations, produces output, and terminates.”</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition → characteristics/table → labelled chart → dry-run table → complexity and final output.</p>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer · 7 marks</span>
+<h3>Define algorithm + characteristics</h3>
+<p class="answer-lead">An algorithm is a finite, step-by-step procedure that takes input, performs definite operations, produces output, and terminates.</p>
+<pre class="ascii-diagram" role="img" aria-label="Algorithm input processing output and termination">ALGORITHM PIPELINE
++--------+    +--------+    +--------+    +--------+    +--------+    +--------+
+| INPUT  |--->| STEP 1 |--->| ...    |--->| STEP n |--->| OUTPUT |--->| STOP   |
++--------+    +--------+    +--------+    +--------+    +--------+    +--------+
+
+INPUT zero+ | steps precise + effective | OUTPUT one+ | STOP finite
+TRAITS: 1 INPUT  2 OUTPUT  3 DEFINITENESS  4 FINITENESS  5 EFFECTIVENESS</pre>
+<ol class="answer-steps">
+<li><strong>Input:</strong> zero or more supplied values define the problem.</li>
+<li><strong>Output:</strong> at least one useful result is produced.</li>
+<li><strong>Definiteness:</strong> every step has one clear meaning and no ambiguity.</li>
+<li><strong>Finiteness:</strong> the procedure stops after a finite number of steps.</li>
+<li><strong>Effectiveness:</strong> each operation is simple enough to be carried out in finite time.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> “An infinite procedure is not an algorithm; finiteness separates an algorithm from a mere procedure.”</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer · 7 marks</span>
+<h3>Ways to write an algorithm + pros/cons</h3>
+<p class="answer-lead">Use a comparison table, then choose the representation that matches the task.</p>
+<pre class="ascii-diagram" role="img" aria-label="Natural language pseudocode flowchart and program representations">REPRESENTATION CHOICES
+                             +------+------+
+                             | PROBLEM     |
+                             +------+------+
+                                    |
++-------+------------------+------------------+------------------+
+        |                  |                  |                  |
+        v                  v                  v                  v
++-------+-------+  +-------+-------+  +-------+-------+  +-------+-------+
+| NATURAL       |  | PSEUDOCODE    |  | FLOWCHART     |  | PROGRAM       |
+| LANGUAGE      |  | precise       |  | visual        |  | executable    |
+| easy / ambig  |  | language-free |  | hard to scale |  | syntax-heavy  |
++---------------+  +---------------+  +---------------+  +---------------+
+          BEST FLOW: PLAN -> VISUALIZE -> CODE -> TEST</pre>
+<ol class="answer-steps">
+<li>Natural language is easy to start but can be long and ambiguous.</li>
+<li>Pseudocode is precise, language-independent, and close enough to code for implementation.</li>
+<li>Flowcharts make branches and loops visible but become unwieldy for large programs.</li>
+<li>A real program is executable proof, but syntax can hide the underlying idea.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> “Pseudocode bridges explanation and implementation; a flowchart makes control flow visible.”</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer · 5 marks</span>
+<h3>Flowchart + dry run (sum / factorial)</h3>
+<p class="answer-lead">Draw the chart first, label both decision exits, then trace a tiny input and state complexity.</p>
+<pre class="ascii-diagram" role="img" aria-label="Flowchart for sum of first n numbers">ASCII FLOWCHART LEGEND
+  Terminal      ( START / STOP )
+  Input/output  [/ READ n /]
+  Process       [ SUM = 0; I = 1 ]
+  Decision       /------------------\
+                 / I LE n?            \
+                 \                     /
+                  \------------------/
+  Flow arrows: down; sideways arrows left/right
+
+SUM OF FIRST N NUMBERS
+( START )
+    |
+    v
+[/ READ n /]
+    |
+    v
+[ SUM = 0; I = 1 ]
+    |
+    +------------------------------------------v
+                                    /----------+---------\
+                                   / I LE n?             \
++--------------------------------->\                     /------ no
+|                                   \------+-------------/        |
+|                                          | yes                  |
+|                                          v                      v
+|                                  [ SUM += I; I++ ]        [/ PRINT SUM /]
+|                                         |                      |
+|                                         |                  ( STOP )
++-----------------------------------------+
+n=4: I=1 2 3 4 5; SUM=0 1 3 6 10; O(n) time, O(1) space
+LE = less/equal</pre>
+<ol class="answer-steps">
+<li>Use ovals for START/STOP, parallelogram for I/O, rectangle for process, and diamond for the decision.</li>
+<li>Label the <code>yes</code> and <code>no</code> arrows; do not leave a decision with one exit.</li>
+<li>Trace <code>n=4</code> and record <code>I</code> and <code>SUM</code> at every pass.</li>
+<li>Write the verified output and the time complexity beside it.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box the output, state <code>O(n)</code>, and mention that the dry run checks off-by-one errors.</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT205 scheme</a> — syllabus scope and course structure.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">RGPV Notes BT205 hub</a> — aligned Unit 1 and Unit 2 notes.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT205 PYQ archive</a> — previous-year question index.</li>
+    <li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">RGPVOnline BT205 paper archive</a> — downloadable paper and solution page.</li>
+  </ul>
+  <p class="source-note">Checked 25 September 2026. The official scheme sets scope; the notes and paper archive support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt205/unit2 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

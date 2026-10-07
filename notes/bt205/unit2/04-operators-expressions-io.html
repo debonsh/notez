@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operators, Precedence &amp; I/O &mdash; RGPV BT205 &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt205/unit2 $</span> cat 04-operators-expressions-io.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT205 Unit 2 &mdash; Operators</p>
+<h1>Operators, Expressions, Precedence &amp; I/O</h1>
+<p><em>Syllabus lists "Operators, Expressions" then "Precedence and Associativity" — Examiners convert these straight into output-tracing shorts. Master the ladder + integer-division trap and these 2 marks are free.</em></p>
+<h2>6 operator families (one example each)</h2>
+<table>
+<tr><th>Family</th><th>Operators</th><th>Example → result</th></tr>
+<tr><td>Arithmetic</td><td><code>+ - * / % ++ --</code></td><td><code>7/2 → 3</code> (int!), <code>7%2 → 1</code></td></tr>
+<tr><td>Relational</td><td><code>== != &lt; &gt; &lt;= &gt;=</code></td><td><code>5 == 5 → 1 (true)</code></td></tr>
+<tr><td>Logical</td><td><code>&amp;&amp; || !</code></td><td><code>(5&gt;3)&amp;&amp;(2&gt;9) → 0</code></td></tr>
+<tr><td>Assignment</td><td><code>= += -= *= /= %=</code></td><td><code>x += 2</code> means <code>x = x+2</code></td></tr>
+<tr><td>Bitwise</td><td><code>&amp; | ^ ~ &lt;&lt; &gt;&gt;</code></td><td><code>5 &amp; 3 → 1</code> (101 &amp; 011)</td></tr>
+<tr><td>Special</td><td><code>sizeof ?: , ::</code></td><td><code>sizeof(int) → 4</code></td></tr>
+</table>
+<h2>Precedence ladder — memorize top to bottom (THE table)</h2>
+<pre><code>HIGH → LOW:
+1. ()  []                    brackets first, always
+2. !  ~  ++  --  (unary)     right-to-left
+3. *  /  %                   left-to-right
+4. +  -                      left-to-right
+5. &lt;  &lt;=  &gt;  &gt;=                left-to-right
+6. ==  !=                    left-to-right
+7. &amp;&amp;                         left-to-right
+8. ||                         left-to-right
+9. ?:  =  += ...             right-to-left  ← LOWEST</code></pre>
+<p>Associativity = tie-breaker when precedence ties: arithmetic goes <strong>left-to-right</strong> (<code>10-4-3 = (10-4)-3 = 3</code>), assignment goes <strong>right-to-left</strong> (<code>a = b = 5</code> assigns 5 to b, then a).</p>
+<div class="callout">
+<span class="label">Diagram — ladder + traps (draw this)</span>
+<pre id="grid10" class="ascii-diagram" role="img" aria-label="Operator precedence ladder, high definition">HIGH
++--------------------------------------+--------------------------------------+
+| 1  postfix and scope: () [] . :: -> ++ --    left to right                  |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 2  unary: ++ -- + - ! ~ sizeof (cast)        right to left                  |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 3  multiplicative: * / %                       left to right                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 4  additive: + -                               left to right                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 5  shift: left shift, right shift              left to right                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 6  relational: less-than/less-or-equal/greater-than/greater-or-equal L->R   |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 7  equality: == !=                             left to right                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 8  bitwise AND                                 left to right                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 9  bitwise XOR                                 left to right                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 10 bitwise OR                                  left to right                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 11 logical AND: &amp;&amp;                            left to right                 |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 12 logical OR                                  left to right                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 13 conditional: ?:                             right to left                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++--------------------------------------+--------------------------------------+
+| 14 assignment: = += -= *= /= %= ...            right to left                |
++--------------------------------------+--------------------------------------+
+                                       |
+                                       v
++-----------------------------------------------------------------------------+
+| 15 comma: ,                                    left to right                |
++--------------------------------------+--------------------------------------+
+LOW
+LEGEND: &amp;&amp; is higher than ||; ?: is higher than assignment
+                                       |
+                                       v
++-----------------------------------------------------------------------------+
+| TRAPS: 7/2=3 (int/int); = assigns; == compares; a=b=5 right; &amp;&amp; above OR    |
+| When in doubt, add ()                                                       |
++--------------------------------------+--------------------------------------+</pre>
+</div>
+<h2>Expressions + type conversion</h2>
+<pre><code>Expression = operands + operators producing a value: (a + b) * c - d / e
+int/int → int (7/2 = 3); int/float → float (7/2.0 = 3.5)
+Implicit: char→int→float→double (widening, automatic)
+Explicit (cast): (float)7/2 = 3.5 — USE THIS in averages!</code></pre>
+<h2>I/O: cin &gt;&gt; and cout &lt;&lt; (Exp 08 zone)</h2>
+<pre><code>#include &lt;iostream&gt;
+int marks;  cin &gt;&gt; marks;          // &gt;&gt; extraction: keyboard → variable
+cout &lt;&lt; "Marks=" &lt;&lt; marks;       // &lt;&lt; insertion: variable → screen
+cin &gt;&gt; a &gt;&gt; b;                    // chained input, space-separated</code></pre>
+<h2>Verified dry runs (all g++ checked — trace these by hand first)</h2>
+<pre><code>int a = 10 - 4 - 3;        // (10-4)-3 = 3        [left-to-right]
+int b = 2 + 3 * 4;         // 2 + 12 = 14         [* before +]
+int c = 7 / 2;             // 3                   [int division!]
+float d = 7 / 2;           // 3.0  NOT 3.5        [division done as int first]
+float e = (float)7 / 2;    // 3.5                 [cast fixes it]
+int f = 5;  f += 3;        // f = 8
+int g = (5 &gt; 3) &amp;&amp; (2 &gt; 9);  // 1 &amp;&amp; 0 = 0
+// OUTPUTS: 3 14 3 3 3.5 8 0</code></pre>
+<div class="exam-note"><strong>Trace rule:</strong> resolve brackets first, then apply precedence, then use associativity for equal-level operators. Show every intermediate value; for averages, cast one operand to <code>float</code> so integer division does not discard the fraction.</div>
+<div class="exam-note"><strong>Worked trace:</strong> <code>10 + 3 * 2 % 4 - 1</code> becomes <code>10 + (3 * 2) % 4 - 1</code>, then <code>10 + 2 - 1</code>, so the result is <strong>11</strong>. The intermediate values belong in the written answer.</div>
+<h2>Solved examples in great depth</h2>
+<h3>Solved A — trace: <code>int x = 10 + 3 * 2 % 4 - 1;</code></h3>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Ladder</td><td><code>* % same level (left→right), then + -</code></td></tr>
+<tr><td>Pass 1</td><td><code>3*2 = 6 → 6%4 = 2</code></td></tr>
+<tr><td>Pass 2</td><td><code>10 + 2 - 1 = 11</code></td></tr>
+<tr><td>Answer</td><td><code>x = 11 ✓ (g++ verified)</code></td></tr>
+</table>
+<h3>Solved B — average of 3 ints done RIGHT (Exp 08 classic)</h3>
+<pre><code>int a=70, b=80, c=90;
+float avg = (a + b + c) / 3;      // WRONG → 80.0 by luck? (240/3=80 exact)
+float avg2 = (float)(a+b+c) / 3;  // RIGHT → always correct
+// with 70,81,90: wrong = 80.0, right = 80.3333 — cast wins</code></pre>
+<h3>Solved C — what prints? (midsem tracing short)</h3>
+<pre><code>int i = 5;
+cout &lt;&lt; i++ &lt;&lt; " ";   // prints 5, THEN i becomes 6
+cout &lt;&lt; ++i;          // i becomes 7 first, prints 7
+// OUTPUT: 5 7  (post uses-then-adds, pre adds-then-uses)
+// WARNING: never join both in ONE cout line — order undefined!</code></pre>
+<div class="callout"><span class="label">Operator traps (the big four)</span>
+<ul>
+<li><strong><code>7/2 = 3</code>:</strong> int/int truncates. Need 3.5? Write <code>7/2.0</code> or <code>(float)7/2</code>.</li>
+<li><strong><code>=</code> vs <code>==`:</strong> `if (x = 5)` assigns (always true); `if (x == 5)` compares. #1 C++ bug in exams.</li>
+<li><strong><code>&amp;&amp;</code> beats <code>||</code>:</strong> <code>a || b &amp;&amp; c</code> = <code>a || (b &amp;&amp; c)</code>. Doubt? parenthesize.</li>
+<li><strong><code>i++` vs `++i`:</strong> post = use-then-add; pre = add-then-use. In lone statements identical.</li>
+</ul></div>
+<div class="callout"><span class="label">Special lines for extra marks</span>
+<ul>
+<li><em>"Precedence decides WHO goes first; associativity decides the ORDER among equals."</em></li>
+<li><em>"Integer division truncates toward zero — the cast (float) is the one-character fix."</em></li>
+<li><em>"When in doubt, parenthesize: brackets cost nothing and prevent precedence bugs."</em></li>
+<li>End tracing answers with <strong>intermediate values + boxed output</strong>.</li>
+</ul></div>
+<div class="callout"><span class="label">Exam tips</span>
+<ul>
+<li>Precedence question: <strong>rewrite ladder 1–9 first</strong> (1 mark), then trace (1 mark).</li>
+<li>Average/percentage programs: <strong>always cast</strong> — examiners specifically test <code>/3</code> vs <code>/3.0</code>.</li>
+<li><code>=</code> vs <code>==</code>: spotting it in error-finding questions = instant 2 marks.</li>
+</ul></div>
+<h2>Retrieval practice &mdash; MCQs</h2>
+<div class="quiz" data-answer="b" data-explain="int/int truncates: 7/2 = 3. float d = 7/2 is 3.0 (division happens in int first). (float)7/2 = 3.5."><p class="q">int x = 7/2; x equals...?</p><button data-key="a">3.5</button><button data-key="b">3</button><button data-key="c">4</button><button data-key="d">Error</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="c" data-explain="* and % tie → left-to-right: 3*2=6, 6%4=2, then 10+2-1=11."><p class="q">10 + 3*2%4 - 1 equals...?</p><button data-key="a">13</button><button data-key="b">9</button><button data-key="c">11</button><button data-key="d">10</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="a" data-explain="if (x = 5) assigns 5 (truthy) — always true. Comparison needs ==."><p class="q">if (x = 5) in C++...?</p><button data-key="a">Assigns 5, condition always true</button><button data-key="b">Compares x with 5</button><button data-key="c">Syntax error always</button><button data-key="d">Deletes x</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="d" data-explain="&& outranks ||: a || (b && c). Parentheses make it explicit and safe."><p class="q">a || b &amp;&amp; c parses as...?</p><button data-key="a">(a || b) &amp;&amp; c</button><button data-key="b">a || b || c</button><button data-key="c">Error, can't mix</button><button data-key="d">a || (b &amp;&amp; c)</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="cout << inserts to screen; cin >> extracts from keyboard. Directions: << to screen, >> into variable."><p class="q">cin &gt;&gt; vs cout &lt;&lt; ...?</p><button data-key="a">Both print to screen</button><button data-key="b">>> reads in, << writes out</button><button data-key="c">Both read input</button><button data-key="d">Both are keywords</button><p class="feedback"></p></div>
+<h2>PYQ drill</h2>
+<div class="callout"><span class="label">Drill set A &mdash; Theory</span>
+<ol>
+<li>Explain precedence and associativity with the 9-level ladder + one example each. <em>(Midsem long)</em></li>
+<li>Classify operators (6 families) with examples. <em>(Midsem short)</em></li>
+<li>What is type conversion? Implicit vs explicit (cast) with the average example. <em>(Exp-08 linked)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Drill set B &mdash; Tracing</span>
+<ol start="4">
+<li>Trace: <code>int k = 20 - 5 * 2 + 8 / 4;</code> <em>(Ans: 20-10+2 = 12)</em></li>
+<li>Output of: <code>int a=5,b=2; cout&lt;&lt;a/b&lt;&lt;" "&lt;&lt;(float)a/b;</code> <em>(Ans: 2 2.5)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Primary source — read next</span>
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">rgpvnotes.in — BT-205 Unit 2 hub</a> &mdash; operators + precedence pages.
+</div>
+<div class="callout"><span class="label">More PYQs to solve</span>
+<ul>
+<li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha — BT-205 PYQ archive</a></li>
+<li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-dec-2023.html">RGPVOnline — Dec-2023 PDF</a></li>
+</ul></div>
+</div>
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT205 Unit 2</p>
+<h1>Operators — Quick Reference</h1>
+<h2>Ladder (high→low)</h2>
+<pre><code>() · ! ++ -- · * / % · + - · &lt; · == · &amp;&amp; · || · = += ?:
+ties: arithmetic L→R · assignment R→L</code></pre>
+<h2>4 traps</h2>
+<pre><code>7/2=3 (cast!) · = vs == · &amp;&amp;&gt;|| · i++vs++i</code></pre>
+<h2>I/O</h2>
+<pre><code>cin&gt;&gt;a&gt;&gt;b (in) · cout&lt;&lt;x (out) · #include&lt;iostream&gt;</code></pre>
+<h2>Cast rule</h2>
+<pre><code>int/int=int · (float)a/b=decimal · averages ALWAYS cast</code></pre>
+<h2>Key definitions</h2>
+<ul><li><strong>Precedence:</strong> who first</li><li><strong>Associativity:</strong> order among equals</li><li><strong>Expression:</strong> operands+operators→value</li></ul>
+<h2>Exam checklist</h2>
+<ul><li>&#x2610; Ladder written first?</li><li>&#x2610; Intermediates shown?</li><li>&#x2610; Cast in averages?</li><li>&#x2610; Boxed output?</li></ul>
+<h2>Shortcut</h2>
+<pre><code>BODMAS-like: () → * / % → + - → compare → &amp;&amp; → || → =
+doubt → () it · average → (float) it</code></pre>
+</div>
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT205 Unit 2 &middot; from 10 PYQ sessions + Dec-2020 paper</p>
+<h1>Operators &amp; Precedence — questionnaire</h1>
+<div class="q-meta">output-tracing shorts every cycle · the ladder itself is a 5-mark long · int division is the most-tested single fact</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">5 marks · 15 min</span><span class="q-freq">★★★ recurring</span></div>
+<h3>Precedence + associativity ladder</h3>
+<p>9-level ladder high → low with associativity arrows (arithmetic L→R, assignment R→L). Worked trace: 10+3*2%4−1 → 11, stepwise. Tie-break examples: 10−4−3 = 3, a=b=5 flows right.</p>
+<div class="q-foot"><b>write</b> — rewrite ladder first (2) → trace with intermediates (2) → boxed value (1). Ladder-first banks marks even if the trace slips.</div>
+<div class="q-foot"><b>check</b> — intermediates shown = method marks; "when in doubt, parenthesize" close.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">2–3 marks · 5 min</span><span class="q-freq">★★★ recurring</span></div>
+<h3>Trace the output</h3>
+<p>Bracket-innermost-first, ladder down, int/int stays int. Demo pair: a/b → 2 vs (float)a/b → 2.5. Post-vs-pre across two statements → 5 7.</p>
+<div class="q-foot"><b>write</b> — one line per evaluation step (1) → boxed outputs (1). 4–6 lines total.</div>
+<div class="q-foot"><b>check</b> — 7/2 = 3 beside its cast fix is the full answer; = vs == spotting = instant marks.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">2–3 marks · 5 min</span><span class="q-freq">★★ frequent</span></div>
+<h3>Type conversion + cin/cout</h3>
+<p>Implicit widening chain (char → int → float → double) vs explicit cast, with the average-of-3 demo (wrong 80.0 vs right 80.3333). cin&gt;&gt; reads in, cout&lt;&lt; writes out, both chainable.</p>
+<div class="q-foot"><b>write</b> — chain + cast demo (2) → I/O directions (1). Averages ALWAYS cast — write it as a rule.</div>
+<div class="q-foot"><b>check</b> — show working and intermediates; box outputs.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> State the operator family, precedence rule, or I/O direction.</li>
+    <li><strong>Visual:</strong> Copy the relevant precedence level or cast example before tracing.</li>
+    <li><strong>Reason:</strong> Show each intermediate value and explain the type conversion.</li>
+    <li><strong>Close:</strong> Box the final output and add “when in doubt, parenthesise”.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> “Precedence determines which operator is evaluated first, and associativity determines the order when operators have equal precedence.”</p>
+  <p class="answer-close"><strong>For this topic:</strong> rule → precedence ladder → one-line trace → cast or I/O check → boxed output.</p>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer · 5 marks</span>
+<h3>Precedence + associativity ladder</h3>
+<p class="answer-lead">Precedence decides which operator acts first; associativity decides the order among operators at the same level.</p>
+<pre class="ascii-diagram" role="img" aria-label="C++ operator precedence ladder from high to low">HIGH
+1  postfix and scope: () [] . :: -> ++ --    left to right
+   |
+   v
+2  unary: ++ -- + - ! ~ sizeof (cast)        right to left
+   |
+   v
+3  multiplicative: * / %                       left to right
+   |
+   v
+4  additive: + -                               left to right
+   |
+   v
+5  shift: left shift, right shift              left to right
+   |
+   v
+6  relational: less-than/less-or-equal/greater-than/greater-or-equal L->R
+   |
+   v
+7  equality: == !=                             left to right
+   |
+   v
+8  bitwise AND                                 left to right
+   |
+   v
+9  bitwise XOR                                 left to right
+   |
+   v
+10 bitwise OR                                  left to right
+   |
+   v
+11 logical AND: &amp;&amp;                            left to right
+   |
+   v
+12 logical OR                                  left to right
+   |
+   v
+13 conditional: ?:                             right to left
+   |
+   v
+14 assignment: = += -= *= /= %= ...            right to left
+   |
+   v
+15 comma: ,                                    left to right
+LOW
+LEGEND: &amp;&amp; is higher than ||; ?: is higher than assignment
+TRACE: * and % before + and -; ties go left to right
+                             |
+                             v
++----------------------------+---------------------------+
+| 10 + 3 * 2 % 4 - 1                                     |
++----------------------------+---------------------------+
+                             |
+                             v
++----------------------------+---------------------------+
+| step 1: 3 * 2 = 6                                      |
++----------------------------+---------------------------+
+                             |
+                             v
++----------------------------+---------------------------+
+| step 2: 6 % 4 = 2                                      |
++----------------------------+---------------------------+
+                             |
+                             v
++----------------------------+---------------------------+
+| step 3: 10 + 2 - 1 = 11                                |
++----------------------------+---------------------------+
+                             |
+                             v
++--------------------------------------------------------+
+| RESULT: x = 11                                         |
++----------------------------+---------------------------+</pre>
+<ol class="answer-steps">
+<li>Write the ladder from high to low before evaluating the expression.</li>
+<li>Resolve brackets first, then apply the highest available precedence.</li>
+<li>Use left-to-right for arithmetic ties and right-to-left for assignment.</li>
+<li>Show each intermediate result so method marks are visible.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box the final value and write “when in doubt, parenthesise.”</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer · 2–3 marks</span>
+<h3>Trace the output</h3>
+<p class="answer-lead">Use one line per evaluation step. The final line is the boxed output.</p>
+<pre class="ascii-diagram" role="img" aria-label="Trace of ten plus three times two modulo four minus one">PRECEDENCE: * and % before + and -; ties go left to right
+TRACE
+                   |
+                   v
++------------------+------------------+
+| int x = 10 + 3 * 2 % 4 - 1          |
++------------------+------------------+
+                   |
+                   v
++------------------+------------------+
+| step 1: 3 * 2 = 6                   |
++------------------+------------------+
+                   |
+                   v
++------------------+------------------+
+| step 2: 6 % 4 = 2                   |
++------------------+------------------+
+                   |
+                   v
++------------------+------------------+
+| step 3: 10 + 2 - 1 = 11             |
++------------------+------------------+
+                   |
+                   v
++-------------------------------------+
+| RESULT: x = 11                      |
++------------------+------------------+
+
+CONVERSION CHECK (division occurs before assignment)
+int a = 7 / 2;       -> 3
+float b = 7 / 2;     -> 3.0
+float c = (float)7/2; -> 3.5
+a=7; b=2; a/b -> 3; (float)a/b -> 3.5</pre>
+<ol class="answer-steps">
+<li>Evaluate <code>*</code> and <code>%</code> before <code>+</code> and <code>-</code>.</li>
+<li>Integer division truncates the fractional part.</li>
+<li>Cast one operand before division when a decimal result is required.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> show the intermediate values, not only the final number.</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer · 2–3 marks</span>
+<h3>Type conversion + cin/cout</h3>
+<p class="answer-lead">Implicit conversion widens a value automatically; an explicit cast changes the type before an operation.</p>
+<pre class="ascii-diagram" role="img" aria-label="Implicit and explicit type conversion and input output">IMPLICIT WIDENING
+                   |
+                   v
++------------------+------------------+
+| char                                |
++------------------+------------------+
+                   |
+                   v
++------------------+------------------+
+| int                                 |
++------------------+------------------+
+                   |
+                   v
++------------------+------------------+
+| float                               |
++------------------+------------------+
+                   |
+                   v
++-------------------------------------+
+| double                              |
++------------------+------------------+
+
+DIVISION
+int / int:        7 / 2          -> 3
+float assignment: float b = 7 / 2 -> 3.0
+cast first:       (float)7 / 2   -> 3.5
+
+I/O DIRECTIONS
+keyboard -> cin &gt;&gt; marks -> marks variable
+marks variable -> cout &lt;&lt; marks -> screen
+CHAINED INPUT: cin &gt;&gt; a &gt;&gt; b
+CHAINED OUTPUT: cout &lt;&lt; a &lt;&lt; b</pre>
+<ol class="answer-steps">
+<li>State the conversion chain and the difference between implicit and explicit conversion.</li>
+<li>Use <code>(float)sum / count</code> or <code>sum / 3.0</code> for averages.</li>
+<li>Write <code>cin &gt;&gt;</code> for input and <code>cout &lt;&lt;</code> for output; both can be chained.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box both outputs and state the cast that prevents truncation.</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT205 scheme</a> — syllabus scope and course structure.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">RGPV Notes BT205 hub</a> — aligned Unit 1 and Unit 2 notes.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT205 PYQ archive</a> — previous-year question index.</li>
+    <li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">RGPVOnline BT205 paper archive</a> — downloadable paper and solution page.</li>
+  </ul>
+  <p class="source-note">Checked 25 September 2026. The official scheme sets scope; the notes and paper archive support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt205/unit2 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

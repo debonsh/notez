@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Languages, Paradigms &amp; POP vs OOP &mdash; RGPV BT205 &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit2 $ cat 02-languages-paradigms-oop.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT205 Unit 2 &mdash; Paradigms</p>
+<h1>Languages, Paradigms &amp; POP vs OOP</h1>
+<p><em>Dec-2020 Q3b literal: "Differentiate Procedure-Oriented vs Object-Oriented languages". Plus OOP characteristics = recurring short question. Both live here.</em></p>
+<h2>Programming intro + program design steps</h2>
+<pre><code>Programming = writing instructions a computer executes to solve a problem.
+Design order: understand problem → plan (algorithm/flowchart) →
+code → test/debug → document → maintain.</code></pre>
+<h2>Categories of languages (3 levels)</h2>
+<table>
+<tr><th>Level</th><th>Form</th><th>Translator</th><th>Example</th></tr>
+<tr><td>Low: machine</td><td>0s and 1s only</td><td>None (direct)</td><td><code>10110000 01100001</code></td></tr>
+<tr><td>Low: assembly</td><td>Mnemonics (ADD, MOV)</td><td>Assembler</td><td><code>ADD AX, BX</code></td></tr>
+<tr><td>High-level</td><td>English-like</td><td>Compiler / interpreter</td><td>C, C++, Java, Python</td></tr>
+</table>
+<p>Higher level = more portable, less control; lower level = faster, machine-locked. C++ sits high but close to hardware — why RGPV teaches it.</p>
+<h2>Programming paradigms (the worldview behind code)</h2>
+<table>
+<tr><th>Paradigm</th><th>Organizes around</th><th>Example</th></tr>
+<tr><td>Procedural (POP)</td><td>Functions/procedures acting on separate data</td><td>C, Pascal</td></tr>
+<tr><td>Object-oriented (OOP)</td><td>Objects binding data + functions</td><td>C++, Java, Python</td></tr>
+<tr><td>Functional</td><td>Pure functions, no shared state</td><td>Haskell (name only)</td></tr>
+<tr><td>Logic</td><td>Facts + rules, query answers</td><td>Prolog (name only)</td></tr>
+</table>
+<h2>4 OOP pillars — E-I-P-A (memorize with examples)</h2>
+<table>
+<tr><th>Pillar</th><th>Means</th><th>Example</th></tr>
+<tr><td>Encapsulation</td><td>Data + functions wrapped in one class; hide internals</td><td><code>class Bank { private balance; public deposit(); }</code></td></tr>
+<tr><td>Inheritance</td><td>New class reuses old (parent → child)</td><td><code>Car : Vehicle</code> inherits wheels, adds AC</td></tr>
+<tr><td>Polymorphism</td><td>Same name, many forms (overloading/overriding)</td><td><code>area(r)</code> vs <code>area(l,b)</code></td></tr>
+<tr><td>Abstraction</td><td>Show what, hide how</td><td>Drive car without knowing engine; <code>cout</code> without internals</td></tr>
+</table>
+<div class="callout">
+<span class="label">Diagram — POP vs OOP (draw this)</span>
+<pre class="ascii-diagram" id="grid8" role="img" aria-label="POP scattered versus OOP bundled, high definition">POP: procedures act on separate data
++----------+       +---------------------+ acts on +---------------------+
+| task     |------>| procedure f1()      |-------->| data A              |
++----------+       +---------------------+         +---------------------+
+           |       +---------------------+ acts on +---------------------+
+           +------>| procedure f2()      |-------->| data B              |
+                   +---------------------+         +---------------------+
+Functions and data are separate; arrows mean calls/actions, not a pipeline.
+
+OOP: an object binds data and methods
+  +--------------------------------+
+  | Car object                     |
+  | data: speed, fuel              |
+  | methods: start, stop           |
+  +--------------------------------+</pre>
+</div>
+<h2>POP vs OOP — 6-row exam table (Dec-2020 Q3b)</h2>
+<table>
+<tr><th>#</th><th>POP (C)</th><th>OOP (C++)</th></tr>
+<tr><td>1</td><td>Program = list of functions</td><td>Program = interacting objects</td></tr>
+<tr><td>2</td><td>Data and functions separate; global data shared</td><td>Data + functions bound in class; private by default</td></tr>
+<tr><td>3</td><td>Top-down design</td><td>Bottom-up design</td></tr>
+<tr><td>4</td><td>No inheritance/reuse; copy-paste code</td><td>Inheritance + polymorphism → reuse</td></tr>
+<tr><td>5</td><td>Less secure (any function edits data)</td><td>Secure (encapsulation hides data)</td></tr>
+<tr><td>6</td><td>Example: C, Pascal, FORTRAN</td><td>Example: C++, Java, Python</td></tr>
+</table>
+<div class="exam-note"><strong>OOP memory hook:</strong> encapsulation wraps, inheritance reuses, polymorphism gives one name many forms, and abstraction hides how. POP starts with functions and works top-down; OOP starts with objects and builds bottom-up.</div>
+<div class="exam-note"><strong>Worked OOP model:</strong> a library can use <code>Book(title, fine)</code>, <code>Member(name)</code>, and <code>Transaction(date)</code> classes. Encapsulation keeps fine inside <code>Book</code>, inheritance reuses <code>Member</code> for student and faculty types, and polymorphism lets one fine-calculation call use the correct rule.</div>
+<h2>Solved examples in great depth</h2>
+<h3>Solved A — "Differentiate POP vs OOP" (7-mark skeleton)</h3>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Open (1)</td><td><code>POP organizes around functions; OOP around objects binding data+functions</code></td></tr>
+<tr><td>Body (5)</td><td><code>6-row table above — unit of program, data handling, design direction, reuse, security, examples</code></td></tr>
+<tr><td>Close (1)</td><td><code>"Hence OOP scales to large software: encapsulation protects, inheritance reuses."</code></td></tr>
+</table>
+<h3>Solved B — classify: library fine system (books, members, issue/return)</h3>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Objects</td><td><code>Book(title, finePerDay), Member(name, books[]), Transaction(dates)</code></td></tr>
+<tr><td>Pillars used</td><td><code>Encapsulation (fine inside Book); inheritance (Student/Faculty : Member); polymorphism (calcFine() per type)</code></td></tr>
+<tr><td>Why OOP</td><td><code>New member types add without touching old code — reuse + safety</code></td></tr>
+</table>
+<h3>Solved C — one-line distinctions (2-mark shorts)</h3>
+<table>
+<tr><th>Pair</th><th>Answer line</th></tr>
+<tr><td>Compiler vs interpreter</td><td><code>Whole program → object file vs line-by-line execution</code></td></tr>
+<tr><td>Encapsulation vs abstraction</td><td><code>Wrapping data+fns vs hiding how, showing what</code></td></tr>
+<tr><td>Overloading vs overriding</td><td><code>Same name different params (compile time) vs child redefines parent (run time)</code></td></tr>
+</table>
+<div class="callout"><span class="label">Concept traps</span>
+<ul>
+<li><strong>C is NOT OOP:</strong> C = procedural (no classes/objects). C++ adds OOP to C. Saying "C is OOP" = zero.</li>
+<li><strong>Top-down vs bottom-up:</strong> POP breaks big task down (top-down); OOP builds objects up (bottom-up). Reversed = lost mark.</li>
+<li><strong>Abstraction ≠ encapsulation:</strong> encapsulation wraps; abstraction hides. Pair them, never merge them.</li>
+<li><strong>Python IS OOP</strong> (everything is an object) — valid example alongside C++/Java.</li>
+</ul></div>
+<div class="callout"><span class="label">Special lines for extra marks</span>
+<ul>
+<li><em>"In POP data is a shared playground; in OOP each object is a fenced garden — encapsulation is the fence."</em></li>
+<li><em>"Inheritance models real hierarchies once and reuses them forever: write Vehicle, derive Car, Bus, Truck."</em></li>
+<li><em>"Polymorphism is one interface, many implementations — the same call behaves per object."</em></li>
+<li>Close comparison answers with a <strong>scale line: OOP wins as software grows</strong>.</li>
+</ul></div>
+<div class="callout"><span class="label">Exam tips</span>
+<ul>
+<li>POP-vs-OOP: <strong>6 rows minimum + examples row</strong>; underline private/inheritance.</li>
+<li>Pillars: write <strong>E-I-P-A with one code-flavoured example each</strong> — examiners tick examples.</li>
+<li>Language categories: <strong>3 rows + translator column</strong> (assembler/compiler/interpreter).</li>
+</ul></div>
+<h2>Retrieval practice &mdash; MCQs</h2>
+<div class="quiz" data-answer="b" data-explain="C is procedural (functions + separate data, no classes). C++ adds classes/objects — OOP."><p class="q">C vs C++ paradigmatically...?</p><button data-key="a">Both are OOP</button><button data-key="b">C is procedural, C++ adds OOP</button><button data-key="c">Both are machine languages</button><button data-key="d">C++ is only functional</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="c" data-explain="Encapsulation wraps data+functions in a class and hides internals (private balance, public deposit)."><p class="q">Bank balance hidden inside class with deposit() is...?</p><button data-key="a">Inheritance</button><button data-key="b">Polymorphism</button><button data-key="c">Encapsulation</button><button data-key="d">Compilation</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="a" data-explain="POP = top-down (break task into functions); OOP = bottom-up (build objects, combine)."><p class="q">Design directions POP vs OOP...?</p><button data-key="a">Top-down vs bottom-up</button><button data-key="b">Bottom-up vs top-down</button><button data-key="c">Both top-down</button><button data-key="d">Neither uses design</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="d" data-explain="Assembly needs an assembler; high-level needs compiler/interpreter; machine needs none."><p class="q">Assembly language translator is...?</p><button data-key="a">Compiler</button><button data-key="b">Interpreter</button><button data-key="c">No translator</button><button data-key="d">Assembler</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="area(r) vs area(l,b): same name, different params = overloading = compile-time polymorphism."><p class="q">area(r) and area(l,b) together show...?</p><button data-key="a">Encapsulation</button><button data-key="b">Polymorphism (overloading)</button><button data-key="c">Inheritance</button><button data-key="d">Abstraction failure</button><p class="feedback"></p></div>
+<h2>PYQ drill</h2>
+<div class="callout"><span class="label">Drill set A &mdash; Theory</span>
+<ol>
+<li>Differentiate procedure-oriented and object-oriented languages (6 points + examples). <em>(Dec-2020 Q3b — literal)</em></li>
+<li>Explain any four characteristics of OOP with examples. <em>(Every-cycle short/long)</em></li>
+<li>Classify programming languages; explain translators. <em>(Midsem short)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Drill set B &mdash; Applied</span>
+<ol start="4">
+<li>Model a college (Student, Faculty, Course) with objects + one inheritance + one overloading. <em>(Design 5-marker)</em></li>
+<li>One line each: abstraction vs encapsulation; overloading vs overriding. <em>(2-mark shorts)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Primary source — read next</span>
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">rgpvnotes.in — BT-205 Unit 2 hub</a> &mdash; paradigms + OOP pages.
+</div>
+<div class="callout"><span class="label">More PYQs to solve</span>
+<ul>
+<li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha — BT-205 PYQ archive</a></li>
+<li><a href="https://career-shiksha.com/post/important-rgpv-question-bt-205-basic-computer-engineering-1st-year/">Important-Qs Unit-2</a></li>
+</ul></div>
+</div>
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT205 Unit 2</p>
+<h1>Paradigms — Quick Reference</h1>
+<h2>One-liner</h2>
+<p><code>POP = functions on separate data (top-down) · OOP = objects bind both (bottom-up)</code>.</p>
+<h2>Languages</h2>
+<pre><code>machine 0/1 (none) · assembly mnemonics (assembler) · high-level (compiler/interpreter)</code></pre>
+<h2>E-I-P-A</h2>
+<pre><code>Encapsulate(wrap) · Inherit(reuse) · Polymorph(many-forms) · Abstract(hide-how)</code></pre>
+<h2>POP vs OOP (6)</h2>
+<table><tr><th>#</th><th>POP</th><th>OOP</th></tr><tr><td>1</td><td>functions</td><td>objects</td></tr><tr><td>2</td><td>data apart</td><td>data bound</td></tr><tr><td>3</td><td>top-down</td><td>bottom-up</td></tr><tr><td>4</td><td>no reuse</td><td>inheritance</td></tr><tr><td>5</td><td>unsafe</td><td>private safe</td></tr><tr><td>6</td><td>C</td><td>C++/Java</td></tr></table>
+<h2>Key definitions</h2>
+<ul><li><strong>Overloading:</strong> same name, diff params (compile time)</li><li><strong>Overriding:</strong> child redefines parent (run time)</li><li><strong>Design:</strong> problem→plan→code→test→document</li></ul>
+<h2>Exam checklist</h2>
+<ul><li>&#x2610; 6-row table + examples?</li><li>&#x2610; E-I-P-A with examples?</li><li>&#x2610; 3 language levels + translators?</li><li>&#x2610; Scale closing line?</li></ul>
+<h2>Shortcut</h2>
+<pre><code>fenced garden = encapsulation · family tree = inheritance
+one remote many TVs = polymorphism · car dashboard = abstraction</code></pre>
+</div>
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT205 Unit 2 &middot; from 10 PYQ sessions + Dec-2020 paper</p>
+<h1>Paradigms &amp; OOP — questionnaire</h1>
+<div class="q-meta">Q3b POP-vs-OOP is a recurring question · pillars are the recurring short question · "differentiate" always wants a table</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks · 15 min</span><span class="q-freq">★★★ recurring question</span></div>
+<h3>POP vs OOP</h3>
+<p>One-line worldviews (functions vs objects). 6-row table: unit of program, data handling, design direction, reuse, security, examples. Close: OOP scales — encapsulation protects, inheritance reuses.</p>
+<div class="q-foot"><b>write</b> — worldviews (1) → 6 rows (5) → scale close (1). Examples row mandatory (C vs C++/Java).</div>
+<div class="q-foot"><b>check</b> — top-down-vs-bottom-up row most-ticked, never reversed; "C is NOT OOP" stated once.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks · 10 min</span><span class="q-freq">★★★ recurring</span></div>
+<h3>Four OOP pillars with examples</h3>
+<p>E-I-P-A table: encapsulation (Bank/balance), inheritance (Car:Vehicle), polymorphism (area(r) vs area(l,b)), abstraction (dashboard/cout). One code-flavoured example each — examples carry half the marks.</p>
+<div class="q-foot"><b>write</b> — acronym E-I-P-A first (1) → 4 rows with examples (4).</div>
+<div class="q-foot"><b>check</b> — fenced-garden / family-tree hooks; overloading-vs-overriding bonus line if space remains.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">3 marks · 6 min</span><span class="q-freq">★★ frequent</span></div>
+<h3>Language categories + translators</h3>
+<p>3-level table: machine 0/1 (none) → assembly mnemonics + assembler → high-level + compiler/interpreter. Program-design 6-step line.</p>
+<div class="q-foot"><b>write</b> — table with translator column (2) → design steps (1). Translator column is the tick magnet.</div>
+<div class="q-foot"><b>check</b> — compare → table + close; acronym-first recall (E-I-P-A).</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> Define POP and OOP in two contrasting sentences.</li>
+    <li><strong>Visual:</strong> Draw the data/function separation and the object binding.</li>
+    <li><strong>Reason:</strong> Use a six-row comparison table and one code-flavoured example per pillar.</li>
+    <li><strong>Close:</strong> State when OOP scales better, with a precise concluding sentence.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> “POP organizes a program around functions acting on separate data, whereas OOP organizes it around objects that bind data and functions together.”</p>
+  <p class="answer-close"><strong>For this topic:</strong> one-line contrast → POP/OOP diagram → comparison table → E-I-P-A examples → conclusion.</p>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer · 7 marks</span>
+<h3>POP vs OOP</h3>
+<p class="answer-lead">POP organizes a program around functions acting on separate data. OOP organizes it around objects that bind data and functions together.</p>
+<pre class="ascii-diagram" role="img" aria-label="Procedure oriented and object oriented program organisation">POP (top-down): procedures act on separate data
++----------+       +---------------------+ acts on +---------------------+
+| task     |------>| procedure f1()      |-------->| data A              |
++----------+       +---------------------+         +---------------------+
+           |       +---------------------+ acts on +---------------------+
+           +------>| procedure f2()      |-------->| data B              |
+                   +---------------------+         +---------------------+
+Functions and data remain separate; arrows mean calls/actions, not a pipeline.
+
+OOP (bottom-up): data and methods are bound in an object
+  +--------------------------------+       +------------+
+  | Car object                     |------>| system     |
+  | data: speed, fuel              |       |            |
+  | methods: start, stop           |       |            |
+  +--------------------------------+       +------------+</pre>
+<ol class="answer-steps">
+<li>Unit of design: functions/procedures versus interacting objects.</li>
+<li>Data handling: separate shared data versus data bound with methods and hidden by access rules.</li>
+<li>Direction: top-down decomposition versus bottom-up object construction.</li>
+<li>Reuse and safety: copy-paste/global access versus inheritance, polymorphism, and encapsulation.</li>
+<li>Examples: C/Pascal/Fortran versus C++/Java/Python.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> “As software grows, OOP reuses behaviour and protects data; POP is simpler for small programs.”</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer · 5 marks</span>
+<h3>Four OOP pillars with examples</h3>
+<p class="answer-lead">Write E-I-P-A in order and attach one concrete example to each pillar.</p>
+<pre class="ascii-diagram" role="img" aria-label="Encapsulation inheritance polymorphism abstraction diagram">OOP principles: E-I-P-A
++------------------------------------------------------+
+| Object boundary: E-I-P-A                             |
+| +----------------------+    +----------------------+ |
+| | E Encapsulation      |    | I Inheritance        | |
+| | private balance      |    | Vehicle is base for  | |
+| | public deposit()     |    | Car, Bus, Truck      | |
+| +----------------------+    +----------------------+ |
+| +----------------------+    +----------------------+ |
+| | P Polymorphism       |    | A Abstraction        | |
+| | area(r), area(l,b)   |    | drive Car without    | |
+| | one call name        |    | engine details       | |
+| +----------------------+    +----------------------+ |
++------------------------------------------------------+</pre>
+<ol class="answer-steps">
+<li>Encapsulation wraps data and methods and hides implementation behind a public interface.</li>
+<li>Inheritance reuses a base class and extends it for a specialised type.</li>
+<li>Polymorphism lets one interface or name select the correct implementation.</li>
+<li>Abstraction exposes what an object does while hiding how it does it.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> “Encapsulation protects, inheritance reuses, polymorphism adapts, and abstraction simplifies.”</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer · 3 marks</span>
+<h3>Language categories + translators</h3>
+<p class="answer-lead">Move from machine code to assembly to high-level language and name the translator at each level.</p>
+<pre class="ascii-diagram" role="img" aria-label="Programming language levels and translators">TRANSLATION (execution path)
+High-level source ---> compiler / translator ---> machine code
++----------------------+    +------------------------+    +--------------+
+| C, C++, Java         |--->| compiler / translator  |--->| machine code |
+| if (x == 0) { ... }  |    |                        |    | 0 / 1        |
++----------------------+    +------------------------+    +--------------+
+
+Assembly source ---> assembler ---> machine code
+  +----------------------+    +------------+    +--------------+
+  | assembly source      |--->| assembler  |--->| machine code |
+  +----------------------+    +------------+    +--------------+
+
+INCREASING ABSTRACTION (classification only; not a translation path)
+LOWER ABSTRACTION    machine code    assembly    high-level source    HIGHER ABSTRACTION
+
+Program design order: understand, plan, code, test, document, maintain</pre>
+<ol class="answer-steps">
+<li>Machine language uses binary digits and runs directly on hardware.</li>
+<li>Assembly uses mnemonics and needs an assembler.</li>
+<li>High-level languages are readable and need a compiler or interpreter for execution.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box the three language levels and pair every level with its translator.</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT205 scheme</a> — syllabus scope and course structure.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">RGPV Notes BT205 hub</a> — aligned Unit 1 and Unit 2 notes.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT205 PYQ archive</a> — previous-year question index.</li>
+    <li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">RGPVOnline BT205 paper archive</a> — downloadable paper and solution page.</li>
+  </ul>
+  <p class="source-note">Checked 25 September 2026. The official scheme sets scope; the notes and paper archive support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt205/unit2 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

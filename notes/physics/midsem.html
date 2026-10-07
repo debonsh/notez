@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BT201 Mid-Sem Battle Plan &mdash; Tue 13 Oct 2026 &middot; by Zevu</title>
+<style>
+:root{color-scheme:dark;--ink:#e6e3dc;--ink-soft:#a29d92;--paper:#14161b;--accent:#e0a370;
+--accent-soft:#1b1e25;--rule:#2b2e36;--code-bg:#1b1e25;--code-ink:#dcd7cd;
+--good:#7bc97f;--good-bg:#17251a;--bad:#ef6b68;--bad-bg:#2a1718;--warn:#d8b25a}
+*{box-sizing:border-box}html{font-size:17px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,serif;line-height:1.62}
+main{max-width:52rem;margin:0 auto;padding:2.5rem 1.25rem 6rem}
+h1,h2,h3{font-weight:normal;line-height:1.22}
+h1{font-size:2rem;margin:0 0 .5rem}
+h2{font-size:1.4rem;margin:2.6rem 0 .7rem;border-bottom:1px solid var(--rule);padding-bottom:.3rem}
+h3{font-size:1.08rem;margin:1.7rem 0 .5rem}
+p{margin:.85rem 0}
+a{color:var(--accent);text-underline-offset:3px}
+code{font-family:ui-monospace,monospace;font-size:.85em;background:var(--code-bg);
+padding:.1em .32em;border-radius:4px;color:var(--code-ink)}
+pre{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;
+padding:.9rem 1.1rem;overflow-x:auto;font-family:ui-monospace,monospace}
+blockquote{margin:1.2rem 0;padding:.5rem 1.1rem;border-left:3px solid var(--accent);
+background:var(--code-bg);color:var(--ink-soft)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;margin:1.1rem 0}
+th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.08em;
+text-transform:uppercase;color:var(--ink-soft)}
+tbody tr:hover td{background:rgba(224,163,112,.05)}
+.kicker{font-family:ui-monospace,monospace;font-size:.72rem;letter-spacing:.14em;
+text-transform:uppercase;color:var(--ink-soft);margin-bottom:1rem}
+.zevu-header{margin-bottom:1.4rem;padding-bottom:.5rem;border-bottom:1px solid var(--rule)}
+.zevu-header .prompt{font-family:ui-monospace,monospace;font-size:.82rem;color:var(--ink-soft)}
+.zevu-header .user,.zevu-footer .prompt{color:var(--accent)}
+.zevu-footer{margin-top:3rem;padding-top:.7rem;border-top:1px solid var(--rule);
+font-family:ui-monospace,monospace;font-size:.66rem;color:var(--ink-soft);opacity:.75}
+.callout{background:var(--code-bg);border:1px solid var(--rule);border-left:3px solid var(--accent);
+border-radius:8px;padding:.9rem 1.1rem;margin:1.2rem 0;font-size:.93rem}
+.callout .label{display:block;font-family:ui-monospace,monospace;font-size:.68rem;
+letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.35rem}
+.callout.warn{border-left-color:var(--warn)}
+.callout.good{border-left-color:var(--good)}
+.ascii-diagram{margin:1rem 0;padding:1rem 1.1rem;overflow-x:auto;background:#101217;
+border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:6px;
+font-family:ui-monospace,monospace;font-size:.7rem;line-height:1.38;white-space:pre}
+.tab-bar{display:flex;gap:.4rem;flex-wrap:wrap;margin:1.4rem 0 1.6rem;
+border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.tab-btn{background:none;border:1px solid var(--rule);color:var(--ink-soft);
+padding:.4rem .85rem;border-radius:6px;cursor:pointer;font-size:.86rem;font-family:ui-monospace,monospace}
+.tab-btn:hover{border-color:var(--accent);color:var(--ink)}
+.tab-btn.active{border-color:var(--accent);color:var(--accent)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.dim{color:var(--ink-soft)}.good-t{color:var(--good)}.bad-t{color:var(--bad)}
+.bar{background:var(--accent);height:.55rem;border-radius:2px;display:block;min-width:2px}
+.barwrap{background:var(--rule);border-radius:2px;width:100%;min-width:90px;overflow:hidden}
+.factgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:.6rem;margin:1.2rem 0}
+.fact{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;padding:.6rem .75rem}
+.fact dt{font-family:ui-monospace,monospace;font-size:.63rem;letter-spacing:.1em;
+text-transform:uppercase;color:var(--ink-soft);margin:0 0 .2rem}
+.fact dd{margin:0;font-size:1.02rem;color:var(--accent)}
+.mcq{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;padding:.85rem 1rem;margin:.9rem 0}
+.mcq .q{font-weight:600;margin-bottom:.55rem}
+.mcq .meta{font-family:ui-monospace,monospace;font-size:.66rem;color:var(--ink-soft);margin-bottom:.5rem}
+.mcq button{display:block;width:100%;text-align:left;background:none;color:var(--ink);
+border:1px solid var(--rule);border-radius:6px;padding:.42rem .6rem;margin-top:.3rem;
+cursor:pointer;font-size:.9rem;font-family:inherit}
+.mcq button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.mcq button:disabled{cursor:default;opacity:.75}
+.mcq button.correct{border-color:var(--good);color:var(--good);background:var(--good-bg)}
+.mcq button.wrong{border-color:var(--bad);color:var(--bad);background:var(--bad-bg)}
+.mcq .fb{margin-top:.6rem;font-size:.86rem;display:none;border-top:1px solid var(--rule);padding-top:.55rem}
+.mcq .fb.show{display:block}
+.mcq .fb b{color:var(--accent)}
+.scorebox{background:var(--code-bg);border:2px solid var(--accent);border-radius:8px;padding:1rem 1.15rem;margin:1.2rem 0}
+.scorebox .big{font-size:2.2rem;color:var(--accent);font-family:ui-monospace,monospace;line-height:1}
+.timerbox{background:var(--code-bg);border:1px solid var(--rule);border-left:3px solid var(--accent);
+border-radius:8px;padding:.9rem 1.1rem;margin:1.2rem 0;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.timerbox .clock{font-family:ui-monospace,monospace;font-size:2rem;color:var(--accent);line-height:1}
+.timerbox button{background:none;border:1px solid var(--rule);color:var(--ink-soft);padding:.35rem .7rem;
+border-radius:6px;cursor:pointer;font-family:ui-monospace,monospace;font-size:.78rem}
+.timerbox button:hover{border-color:var(--accent);color:var(--accent)}
+details{margin:.8rem 0;border:1px solid var(--rule);border-radius:8px;padding:.5rem .8rem;background:var(--code-bg)}
+summary{cursor:pointer;font-weight:600;font-size:.93rem;color:var(--ink)}
+summary:hover{color:var(--accent)}
+details .inner{margin-top:.7rem;padding-top:.7rem;border-top:1px solid var(--rule);font-size:.92rem}
+.qa{display:inline-block;font-family:ui-monospace,monospace;font-size:.68rem;
+border:1px solid var(--rule);border-radius:4px;padding:.05rem .35rem;color:var(--ink-soft)}
+.qa.a{color:var(--good);border-color:var(--good)}.qa.b{color:var(--warn);border-color:var(--warn)}
+.srcgap{font-size:.9rem;color:var(--ink-soft)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media print{:root{color-scheme:light;--ink:#1a1a1a;--ink-soft:#555;--paper:#fff;--rule:#ddd;
+--code-bg:#f5f5f5;--code-ink:#222;--accent:#a05c1e;--good:#1a6b1f;--bad:#a11}
+body{background:#fff}main{padding:0;max-width:100%}
+.tab-panel{display:block!important}
+.zevu-footer,.timerbox button{display:none}
+table tr:hover td{background:transparent}
+details{border-color:#ccc;background:#fafafa}details .inner{display:block}.mcq .fb{display:block}}
+@media (max-width:640px){html{font-size:15px}main{padding:1.5rem .9rem 3rem}table{font-size:.8rem}}
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header">
+<p class="prompt"><span class="user">zevu</span>:~/learn/bt201 $ cat midsem.md</p>
+</div>
+<p class="kicker">BT201 &middot; Mid-Sem &middot; Tue 13 Oct 2026 &middot; Units 1+2 only</p>
+<h1>BT201 Mid-Sem &mdash; Predicted Paper &amp; Battle Plan</h1>
+<p><em>Units 1 and 2 &mdash; Quantum Mechanics and Wave Optics. Two facts reshape how you revise this. First, the marks in BT-201 are spread almost evenly across all five units (18&ndash;23% each), so no unit can be dropped. Second, unlike BT-102, this subject is roughly <b>80% derivation and 20% numerical</b>, and the numericals all come from just two places: Newton's rings and optical-fibre numerical aperture. Learn those two and the numerical part of the paper is done.</em></p>
+<dl class="factgrid"><div class="fact"><dt>Date</dt><dd>Tue 13 Oct 2026</dd></div><div class="fact"><dt>Time</dt><dd>12:00 &ndash; 1:30 PM</dd></div><div class="fact"><dt>Shift</dt><dd>I</dd></div><div class="fact"><dt>Same day</dt><dd>BT-102 at 15:00</dd></div><div class="fact"><dt>Mid-sem marks</dt><dd>10 <span class='dim'>(likely)</span></dd></div><div class="fact"><dt>In scope</dt><dd>Units 1 + 2</dd></div></dl>
+
+<div class="tab-bar">
+<button class="tab-btn active" onclick="showTab('paper')">Paper</button>
+<button class="tab-btn" onclick="showTab('bank')">Bank &amp; analysis</button>
+<button class="tab-btn" onclick="showTab('test')">Self-test</button>
+<button class="tab-btn" onclick="showTab('mock')">Timed mock</button>
+<button class="tab-btn" onclick="showTab('plan')">Plan</button>
+</div>
+
+<div id="paper" class="tab-panel active">
+<p class="kicker">Section 1 &middot; What will actually be on the paper</p>
+<h1>Format, and the assumption that keeps getting made</h1>
+
+<div class="callout warn">
+<span class="label">Read this before you plan the paper</span>
+<p><strong>Every RGPV first-year end-sem paper says the same three things:</strong>
+<em>&ldquo;Attempt any five questions. All questions carry equal marks. In case of any
+doubt the English version is final.&rdquo;</em> It prints 8 questions for 70 marks, so
+each is <strong>14 marks</strong>, normally <strong>(a) 7 + (b) 7</strong>. There is no
+Section A / Section B and no compulsory-versus-choice split.</p>
+<p>Several exam-prep pages claim RGPV papers run as &ldquo;Section A: 5 &times; 2 marks,
+Section B: 2 &times; 5 marks&rdquo;. <strong>That format is not in any RGPV paper.</strong>
+It was checked against 7 real scans across seven papers (Nov-2019 to Dec-2025).</p>
+</div>
+
+<div class="callout">
+<span class="label">What is actually known about the mid-sem itself</span>
+<p>Confirmed from the official RGPV ordinance and the July 2018 scheme: the
+<b>whole semester mid-sem bucket is 20 marks</b> per theory subject (70 end-sem
++ 20 mid-sem + 10 internal = 100), and RGPV requires <b>at least two mid-term tests</b>.
+So MST-1 is most likely <b>10 marks</b>.</p>
+<p>Two things nobody can confirm, because RGPV publishes no mid-sem papers and the
+Board of Studies sets the detail locally: whether MST-1 is 10 or 20 marks, and the
+paper's duration and section layout.</p>
+<p>One real data point survives: an ITM Gwalior <em>BT-204 Mid Term 1</em> paper
+circulates online and its instruction line reads <b>&ldquo;Attempt all
+questions.&rdquo;</b> No choice at all &mdash; a small question count, all compulsory,
+equal marks, which is the end-sem pattern scaled down.</p>
+</div>
+
+<h2>How to plan for a paper nobody has seen</h2>
+<p>Do not memorise a layout. Memorise the <em>topics</em> &mdash; they transfer between
+any layout. Then when the paper lands, read the marks against each question and spend
+your time proportionally. The predicted paper below is written in the end-sem format
+because that is the house style RGPV reuses.</p>
+
+<p class="kicker">Section 2 &middot; Predicted paper</p>
+<h1>BT201 &mdash; Units 1+2 only, predicted</h1>
+<blockquote>RGPV end-sem house format (8 printed, attempt any 5, 14 each). Nov-2019 prints 10+4 with a short-notes question of &amp;ldquo;any four&amp;rdquo;; from Jun-2020 it is 7+7 with &amp;ldquo;any two&amp;rdquo;. Watch for the change when reading old papers.</blockquote>
+<div class="callout"><span class="label">Q1 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> State and prove the Heisenberg uncertainty principle with its elementary proof.</p><p><b>(b)</b> Derive the time-dependent and time-independent Schr&ouml;dinger equations.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Uncertainty 6 of 7 papers, Schr&amp;ouml;dinger 6 of 7. The two most-asked Unit 1 stems, and both in your mid-sem scope. <b>Prep:</b> <span class="dim">unit1/03-schrodinger-equation.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q2 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> Define the wave function, state its physical significance and the conditions it must satisfy.</p><p><b>(b)</b> Deduce the energy of a particle trapped in a one-dimensional box, and write its wave function.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Wave function significance 5 of 7, energy in a box 4 of 7. Dec-2025 set the energy question as a numerical with m = 9.11&amp;times;10&lt;sup&gt;&amp;minus;31&lt;/sup&gt; kg and L = 10 nm. <b>Prep:</b> <span class="dim">unit1/04-particle-in-a-box.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q3 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> Establish the relation between phase velocity and group velocity.</p><p><b>(b)</b> Discuss the energy and momentum operators.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> vg/vp relation 4 of 7, operators 5 of 7. The v&lt;sub&gt;g&lt;/sub&gt; = 2v&lt;sub&gt;p&lt;/sub&gt; result for a free particle is the mark that distinguishes a full answer from a restatement of definitions. <b>Prep:</b> <span class="dim">unit1/02-wave-nature-debroglie.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q4 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> Explain Young's double-slit experiment and derive the expression for fringe width.</p><p><b>(b)</b> Explain Fraunhofer diffraction from a single slit.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> YDSE 4 of 7, single slit 3 of 7. The Unit 2 pair that most often appears together. <b>Prep:</b> <span class="dim">unit2/01-youngs-double-slit.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q5 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> Explain the formation of Newton's rings and derive the expression for the diameter of dark and bright fringes.</p><p><b>(b)</b> Given the diameters of the n<sup>th</sup> and (n+1)<sup>th</sup> dark rings and the radius of curvature, calculate the wavelength of light.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Newton's rings in 6 of 7 papers &amp;mdash; the single most reliable Unit 2 question, and it arrives with a numerical attached more often than not. <b>Prep:</b> <span class="dim">unit2/02-newtons-rings.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q6 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> Explain the construction and working of the Michelson interferometer, with its types of fringes.</p><p><b>(b)</b> Explain the Rayleigh criterion of resolution and the resolving power of a diffraction grating.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Michelson 5 of 7, Rayleigh criterion 4 of 7. Both are pure explanation, no derivation &amp;mdash; they are marks for structure, not algebra. <b>Prep:</b> <span class="dim">unit2/03-michelson-interferometer.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q7 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> A plane transmission grating has 4250 lines per cm and a second-order spectral line is observed at 30&deg;. Find the wavelength.</p><p><b>(b)</b> In Newton's rings in reflected light, the diameter of the 10th dark ring is 0.50 cm for light of wavelength 6000 &Aring;. Find the radius of curvature of the lens and the film thickness.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> The recurring numerical set. Grating: d(&amp;theta;) = n&amp;lambda;. Newton's: D&lt;sub&gt;n&lt;/sub&gt;&amp;sup2; = 4n&amp;lambda;R. Both have appeared verbatim with these numbers. <b>Prep:</b> <span class="dim">unit2/02-newtons-rings.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q8 &middot; any &middot; 14 (7 x 2) marks</span><p><b>(a)</b> Short note 1: Mach-Zehnder interferometer.</p><p><b>(b)</b> Short note 2: properties of laser light / division of amplitude and wavefront.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> The short-notes question is unit-flexible and offers a fixed rotating pool. Mach-Zehnder is a Unit 2 item and appears in the pool often, so it is a safe pick in a Units 1+2 paper. <b>Prep:</b> <span class="dim">unit2/04-mach-zehnder.html (not built yet)</span></p></div>
+<h2>Where the marks go</h2>
+<table><thead><tr><th>Paper slot</th><th>Unit</th><th>Expected topic</th><th>Confidence</th></tr></thead><tbody><tr><td><b>Q1</b></td><td>U1</td><td>Uncertainty + Schrodinger</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q2</b></td><td>U1</td><td>Wave function + particle in a box</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q3</b></td><td>U1</td><td>vg/vp + energy-momentum operators</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q4</b></td><td>U2</td><td>YDSE + single-slit diffraction</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q5</b></td><td>U2</td><td>Newton's rings + its numerical</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q6</b></td><td>U2</td><td>Michelson + Rayleigh criterion</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q7</b></td><td>U2</td><td>Grating + Newton's rings numericals</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q8</b></td><td>any</td><td>Short notes, unit-flexible</td><td style="color:var(--bad)"><b>C</b></td></tr></tbody></table>
+<div class="callout good">
+<span class="label">The single highest-value fact on this page</span>
+<p><b>Heisenberg's uncertainty principle, the Schr&ouml;dinger equation and Newton's rings each appeared in 6 of 7 papers</b> &mdash; the first two in Unit 1, the third in Unit 2, so all three are in your mid-sem. Optical-fibre numerical aperture appeared in 6 of 7 as well. Four stems cover the overwhelming majority of the questions you can actually be asked on the 13th.</p>
+</div>
+</div>
+
+<div id="bank" class="tab-panel">
+<p class="kicker">Section 3 &middot; Evidence</p>
+<h1>What the last seven papers (Nov-2019 to Dec-2025) of real papers actually ask</h1>
+<p>Seven BT-201 papers (Nov-2019, Jun-2020, Dec-2020, Jun-2022, Nov-2022, Jun-2023, Dec-2023) were read and classified by unit, with Dec-2024 and Dec-2025 checked for recency. The mark split <b>changed in 2022</b>: Nov-2019 prints <b>10 + 4</b> per question, while Jun-2022 onward print <b>7 + 7</b>. A 10-mark part is a long derivation; a 7-mark part is a focused explanation.</p>
+<h2>Unit weight &mdash; measured, not assumed</h2>
+<p>Syllabus share per unit is 20% because there are five units. What follows is where
+the marks <em>actually went</em> in 7 papers.</p>
+<table><thead><tr><th>Unit</th><th>Share of marks asked</th><th>%</th><th>Items</th><th>Read</th></tr></thead><tbody><tr><td><b>U1</b> Quantum Mechanics</td><td class="barwrap"><span class="bar" style="width:83%"></span></td><td class=""><b>19%</b></td><td>23</td><td class="dim">in scope &amp;mdash; 6-of-7 items live here</td></tr><tr><td><b>U2</b> Wave Optics</td><td class="barwrap"><span class="bar" style="width:100%"></span></td><td class="good-t"><b>23%</b></td><td>27</td><td class="dim">in scope &amp;mdash; the most-asked unit, and the numericals</td></tr><tr><td><b>U3</b> Introduction to Solids</td><td class="barwrap"><span class="bar" style="width:78%"></span></td><td class=""><b>18%</b></td><td>22</td><td class="dim">end-sem only</td></tr><tr><td><b>U4</b> Lasers</td><td class="barwrap"><span class="bar" style="width:91%"></span></td><td class=""><b>21%</b></td><td>25</td><td class="dim">end-sem only</td></tr><tr><td><b>U5</b> Electrostatics in Vacuum</td><td class="barwrap"><span class="bar" style="width:78%"></span></td><td class=""><b>18%</b></td><td>22</td><td class="dim">end-sem only</td></tr></tbody></table>
+<h2>The repeat list &mdash; this is the exam</h2>
+<p>RGPV re-uses question stems verbatim across years. A stem appearing in six sittings
+has a far higher chance of appearing in the seventh than any new question does.</p>
+<table><thead><tr><th>#</th><th>Question stem, recurring across sessions</th><th>Times</th><th>Unit</th><th>Sessions</th></tr></thead><tbody><tr><td>1</td><td>Newton's rings &amp;mdash; experiment, fringe diameter, and the NUMERICAL</td><td><span class="qa a">6x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Dec-20, Nov-22, Dec-23, Dec-25, Jun-24, Jun-22</td></tr><tr><td>2</td><td>Heisenberg uncertainty principle &amp;mdash; state, prove, elementary proof</td><td><span class="qa a">6x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Jun-23, Dec-23, Dec-25</td></tr><tr><td>3</td><td>Time-dependent and time-independent Schr&amp;ouml;dinger equation</td><td><span class="qa a">6x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Nov-22, Jun-23, Dec-23</td></tr><tr><td>4</td><td>Optical fibre &amp;mdash; numerical aperture, acceptance angle, cone</td><td><span class="qa a">6x</span></td><td>U4</td><td class="dim" style="font-size:.82rem">Jun-22, Nov-22, Dec-23, Dec-25, Jun-23</td></tr><tr><td>5</td><td>Maxwell's equations in vacuum</td><td><span class="qa a">6x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">Jun-20, Dec-20, Nov-22, Dec-25, Jun-23</td></tr><tr><td>6</td><td>He-Ne laser &amp;mdash; construction and working</td><td><span class="qa a">6x</span></td><td>U4</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Dec-20, Nov-22, Dec-23, Jun-25</td></tr><tr><td>7</td><td>Energy and momentum operators</td><td><span class="qa a">5x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-23, Dec-23, Dec-25</td></tr><tr><td>8</td><td>Physical significance of the wave function</td><td><span class="qa a">5x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Jun-23, Dec-23</td></tr><tr><td>9</td><td>Michelson interferometer</td><td><span class="qa a">5x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Dec-20, Jun-22, Dec-23, Dec-25</td></tr><tr><td>10</td><td>V-number of an optical fibre</td><td><span class="qa b">4x</span></td><td>U4</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Dec-25</td></tr><tr><td>11</td><td>Gauss's theorem and Stokes' theorem</td><td><span class="qa b">4x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">Nov-19, Dec-20, Jun-23, Dec-23, Nov-22</td></tr><tr><td>12</td><td>Energy of a particle in a one-dimensional box</td><td><span class="qa b">4x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Dec-25, Jun-22</td></tr><tr><td>13</td><td>Relation between phase velocity and group velocity</td><td><span class="qa b">4x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Nov-22, Dec-23, Dec-25</td></tr><tr><td>14</td><td>Young's double slit &amp;mdash; fringe width derivation</td><td><span class="qa b">4x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-23, Dec-23, Dec-20</td></tr><tr><td>15</td><td>Rayleigh criterion of resolution</td><td><span class="qa b">4x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-22, Dec-23, Dec-25</td></tr><tr><td>16</td><td>Fraunhofer diffraction from a single slit</td><td><span class="qa b">3x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Dec-25</td></tr><tr><td>17</td><td>Curl and gradient of a given vector field</td><td><span class="qa b">3x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">Jun-20, Dec-20, Dec-23</td></tr></tbody></table>
+<h2>Marks-wise shortlist &mdash; memorise these on the train</h2>
+<table><thead><tr><th>#</th><th>Question they ask</th><th>Answer in one line</th><th>Add this to earn the last mark</th></tr></thead><tbody><tr><td>1</td><td>Heisenberg uncertainty</td><td><b>&Delta;x &middot; &Delta;p &ge; &#8463;/2, with &Delta;x&middot;&Delta;E &ge; &#8463;/2</b></td><td class="dim" style="font-size:.85rem">Name the three assumptions of the elementary proof: a,b&Delta;x small, ab&Delta;x&#178;&lt;&lt;&#8463;, f differentiable &mdash; they are graded individually</td></tr><tr><td>2</td><td>Wave function conditions</td><td><b>&psi; must be single-valued, finite, continuous, and &psi; with d&psi;/dx continuous</b></td><td class="dim" style="font-size:.85rem">The last two together mean no infinite discontinuity in potential &mdash; state why each condition exists</td></tr><tr><td>3</td><td>Particle in a 1-D box, energy</td><td><b>E = n&sup2;h&sup2;/(8mL&sup2;), with &psi; = A sin(n&pi;x/L)</b></td><td class="dim" style="font-size:.85rem">Ground state n=1 gives h&sup2;/(8mL&sup2;). Point out that E scales with n&sup2;, not n</td></tr><tr><td>4</td><td>Phase and group velocity</td><td><b>v<sub>p</sub> = &omega;/k, v<sub>g</sub> = d&omega;/dk; v<sub>p</sub>v<sub>g</sub> = c&sup2;/n&sup2;</b></td><td class="dim" style="font-size:.85rem">For a free particle &omega; = &#8463;k&sup2;/2m, so v<sub>g</sub> = 2v<sub>p</sub>. The ratio, not just the definitions, is the mark</td></tr><tr><td>5</td><td>Newton's rings dark fringe diameter</td><td><b>D&sup2; = 4n&lambda;R, so D<sub>n</sub> = 2&radic;(n&lambda;R)</b></td><td class="dim" style="font-size:.85rem">D&sup2; is proportional to n, so D<sub>20</sub> can be found from D<sub>4</sub> and D<sub>12</sub> without knowing &lambda;R. Dec-2020 set exactly this</td></tr><tr><td>6</td><td>Newton's rings numerical shortcut</td><td><b>(&lambda;R)/D&sup2; = (D<sub>m</sub>&sup2; &minus; D<sub>n</sub>&sup2;) / [4(m&sup2;&minus;n&sup2;)]</b></td><td class="dim" style="font-size:.85rem">Uses two measured diameters only. Write this form in the exam &mdash; it skips &lambda;R entirely</td></tr><tr><td>7</td><td>Fresnel bright fringe diameter</td><td><b>D<sup2</sup> = 4n&lambda;R &minus; 4&lambda;&sup2;R&sup2;</b></td><td class="dim" style="font-size:.85rem">The dark formula has no &lambda;&sup2; term. Mixing the two is the standard error</td></tr><tr><td>8</td><td>Numerical aperture</td><td><b>NA = &radic;(n<sub>1</sub>&sup2; &minus; n<sub>2</sub>&sup2;)</b></td><td class="dim" style="font-size:.85rem">NA can never exceed 1, and equals 1 for a single fibre. The n&sup2; difference, not the ratio, goes under the root</td></tr><tr><td>9</td><td>Acceptance angle</td><td><b>sin a = NA, so a = sin<sup>&minus;1</sup>(NA)</b></td><td class="dim" style="font-size:.85rem">The numbers 1.55 and 1.50 appear in three separate papers &mdash; NA = 0.33, a = 19.3&deg;. Memorise the answer as well as the method</td></tr><tr><td>10</td><td>Fringe width in YDSE</td><td><b>&beta; = &lambda;D/d, where D is the screen distance and d the slit separation</b></td><td class="dim" style="font-size:.85rem">D and d get confused constantly. Say which is which when you define them</td></tr><tr><td>11</td><td>Conditions for interference</td><td><b>Coherent sources, same frequency, constant phase difference, and non-perpendicular observation</b></td><td class="dim" style="font-size:.85rem">Naming coherent as &ldquo;constant phase difference maintained over time&rdquo; is the definition mark</td></tr></tbody></table>
+<h2>Two facts to be careful about</h2>
+<div class="callout warn">
+<span class="label">Traps in the data</span>
+<ul>
+<li><strong>The short-notes question is unit-flexible.</strong> In almost every paper the
+final question offers three to five options drawn from two to four units and you pick
+any two. It is excluded from the unit counts, which means the real distribution varies
+more than the table shows &mdash; and that you can never be examined on an unpopular unit
+through it.</li>
+<li><strong>Older papers are not a good proxy.</strong> BT-201's paper format <b>changed in 2022</b> and this matters. Nov-2019 prints <b>10 + 4</b> per question with a short-notes question of &ldquo;any four&rdquo;. From Jun-2020 onward it is <b>7 + 7</b> with &ldquo;any two&rdquo;. A 10-mark part expects a full derivation; a 7-mark part expects a focused explanation. If you revise using a 2019 paper you will over-prepare derivations for marks that now want structure. Use the GS papers from Jun-2022 onward.
+
+Also note the silences: the <b>photoelectric effect, de Broglie wavelength, Davisson-Germer, Born interpretation, Fresnel biprism, Fabry-Perot and laser speckles were never asked between 2019 and 2025</b>, despite all being on the syllabus. They are not the place to spend your time.</li>
+</ul>
+</div>
+</div>
+
+<div id="test" class="tab-panel">
+<p class="kicker">Section 4 &middot; Self-test</p>
+<h1>14-question short-answer bank</h1>
+<p>Every question here comes from a stem that has appeared in a real RGPV paper, with
+the frequency it has appeared. Click an option to see whether you had it. The score
+lands at the bottom, and the gaps link to the file that closes them.</p>
+<div class="scorebox">
+<p class="big" id="score-live">0 / 0 answered, 0 correct</p>
+<div class="barwrap" style="height:.55rem;margin:.7rem 0"><span class="bar" id="meter-fill" style="width:0%"></span></div>
+<p class="dim" style="font-size:.88rem">Work top to bottom without scrolling back up after
+each answer. The point is to find the gap while the question is still fresh.</p>
+</div>
+<div class="mcq" data-answer="A" data-topic="Uncertainty principle" data-file="!unit1/03-schrodinger-equation.html"><p class="meta">01 &middot; U1 &amp;middot; 6 of 7 papers &middot; &times;6 in past papers</p><p class="q">Heisenberg's uncertainty principle states:</p><button data-key="A">&amp;Delta;x &amp;middot; &amp;Delta;p &amp;ge; &amp;#8463;/2</button><button data-key="B">&amp;Delta;x + &amp;Delta;p &amp;ge; &amp;#8463;</button><button data-key="C">&amp;Delta;x = &amp;Delta;p</button><button data-key="D">&amp;Delta;x &amp;middot; &amp;Delta;p = 0</button><p class="fb" data-text="The product of the uncertainties, not their sum, is bounded by &amp;#8463;/2. The statement is only meaningful for a single particle, never for a collection of them &amp;mdash; saying so is the significance mark."></p></div>
+<div class="mcq" data-answer="B" data-topic="Particle in a box" data-file="!unit1/04-particle-in-a-box.html"><p class="meta">02 &middot; U1 &amp;middot; 4 of 7 papers &middot; &times;4 in past papers</p><p class="q">The energy of a particle in a one-dimensional box of width L in state n is:</p><button data-key="A">E = nh&amp;sup2;/(8mL&amp;sup2;)</button><button data-key="B">E = n&amp;sup2;h&amp;sup2;/(8mL&amp;sup2;)</button><button data-key="C">E = h&amp;sup2;/(2mL&amp;sup2;)</button><button data-key="D">E = n&amp;sup2;&amp;pi;&amp;sup2;&amp;#8463;&amp;sup2;/(mL&amp;sup2;)</button><p class="fb" data-text="E&lt;sub&gt;n&lt;/sub&gt; = n&amp;sup2;h&amp;sup2;/(8mL&amp;sup2;) = n&amp;sup2;&amp;pi;&amp;sup2;&amp;#8463;&amp;sup2;/(2mL&amp;sup2;), so E scales with n&amp;sup2; and the ground state is h&amp;sup2;/(8mL&amp;sup2;). Option D has the wrong constant factor of two."></p></div>
+<div class="mcq" data-answer="B" data-topic="Phase and group velocity" data-file="!unit1/02-wave-nature-debroglie.html"><p class="meta">03 &middot; U1 &amp;middot; 4 of 7 papers &middot; &times;4 in past papers</p><p class="q">For a free particle, the relation between group and phase velocity is:</p><button data-key="A">v&lt;sub&gt;g&lt;/sub&gt; = v&lt;sub&gt;p&lt;/sub&gt;</button><button data-key="B">v&lt;sub&gt;g&lt;/sub&gt; = 2 v&lt;sub&gt;p&lt;/sub&gt;</button><button data-key="C">v&lt;sub&gt;g&lt;/sub&gt; = v&lt;sub&gt;p&lt;/sub&gt;/2</button><button data-key="D">v&lt;sub&gt;g&lt;/sub&gt; + v&lt;sub&gt;p&lt;/sub&gt; = c</button><p class="fb" data-text="With &amp;omega; = &amp;#8463;k&amp;sup2;/2m, v&lt;sub&gt;p&lt;/sub&gt; = &amp;#8463;k/2m and v&lt;sub&gt;g&lt;/sub&gt; = d&amp;omega;/dk = &amp;#8463;k/m, giving v&lt;sub&gt;g&lt;/sub&gt; = 2v&lt;sub&gt;p&lt;/sub&gt;. Writing the two definitions without this ratio loses the mark."></p></div>
+<div class="mcq" data-answer="B" data-topic="Wave function" data-file="!unit1/04-particle-in-a-box.html"><p class="meta">04 &middot; U1 &amp;middot; 5 of 7 papers &middot; &times;5 in past papers</p><p class="q">The wave function &amp;psi; for a particle must be:</p><button data-key="A">Real, positive and finite everywhere</button><button data-key="B">Single-valued, finite and continuous, with &amp;psi; and its derivative continuous</button><button data-key="C">Normalised to unity at every point</button><button data-key="D">Differentiable everywhere</button><p class="fb" data-text="The four conditions are single-valuedness, finiteness, continuity, and continuity of the first derivative. Option C confuses the normalisation condition (&amp;int;|&amp;psi;|&amp;sup2;dV = 1 over all space) with a pointwise requirement."></p></div>
+<div class="mcq" data-answer="A" data-topic="Newton's rings" data-file="!unit2/02-newtons-rings.html"><p class="meta">05 &middot; U2 &amp;middot; 6 of 7 papers &middot; &times;6 in past papers</p><p class="q">For Newton's rings, the diameter of the nth dark ring is:</p><button data-key="A">D&lt;sub&gt;n&lt;/sub&gt;&amp;sup2; = 4n&amp;lambda;R</button><button data-key="B">D&lt;sub&gt;n&lt;/sub&gt;&amp;sup2; = 2n&amp;lambda;R</button><button data-key="C">D&lt;sub&gt;n&lt;/sub&gt; = 4n&amp;lambda;R</button><button data-key="D">D&lt;sub&gt;n&lt;/sub&gt;&amp;sup2; = 4n&amp;lambda;R &amp;minus; 4&amp;lambda;&amp;sup2;R&amp;sup2;</button><p class="fb" data-text="D&lt;sub&gt;n&lt;/sub&gt;&amp;sup2; = 4n&amp;lambda;R for dark rings, and the diameter is a square root of that. Option C forgets the square. Option D is the bright-fringe formula, and confusing dark with bright is the classic error here."></p></div>
+<div class="mcq" data-answer="B" data-topic="Newton's rings" data-file="!unit2/02-newtons-rings.html"><p class="meta">06 &middot; U2 &amp;middot; the mark that is always asked &middot; &times;6 in past papers</p><p class="q">In reflected Newton's rings, the central spot is:</p><button data-key="A">Bright</button><button data-key="B">Dark, because the two reflected beams are exactly out of phase</button><button data-key="C">Of undefined intensity</button><button data-key="D">Identical to the first bright ring</button><p class="fb" data-text="One reflection is from air to glass and carries a phase change of pi, the other from glass to air and does not, so the two beams are exactly out of phase and the centre is dark. In transmitted light the centre is bright. Stating the two reflections and the phase change is the full mark."></p></div>
+<div class="mcq" data-answer="B" data-topic="Optical fibre" data-file="!unit2/05-optical-fibre.html"><p class="meta">07 &middot; U4 &amp;middot; 6 of 7 papers &middot; &times;6 in past papers</p><p class="q">The numerical aperture of an optical fibre is:</p><button data-key="A">NA = n&lt;sub&gt;1&lt;/sub&gt;/n&lt;sub&gt;2&lt;/sub&gt;</button><button data-key="B">NA = &amp;radic;(n&lt;sub&gt;1&lt;/sub&gt;&amp;sup2; &amp;minus; n&lt;sub&gt;2&lt;/sub&gt;&amp;sup2;)</button><button data-key="C">NA = n&lt;sub&gt;2&lt;/sub&gt;&amp;sup2; &amp;minus; n&lt;sub&gt;1&lt;/sub&gt;&amp;sup2;</button><button data-key="D">NA = 1 &amp;minus; n&lt;sub&gt;1&lt;/sub&gt;/n&lt;sub&gt;2&lt;/sub&gt;</button><p class="fb" data-text="NA = &amp;radic;(n&lt;sub&gt;1&lt;/sub&gt;&amp;sup2; &amp;minus; n&lt;sub&gt;2&lt;/sub&gt;&amp;sup2;), so it can never exceed 1 and equals 1 for a single fibre in air. For n&lt;sub&gt;1&lt;/sub&gt; = 1.55 and n&lt;sub&gt;2&lt;/sub&gt; = 1.50, NA = 0.33 &amp;mdash; the constants RGPV uses most often."></p></div>
+<div class="mcq" data-answer="A" data-topic="Optical fibre" data-file="!unit2/05-optical-fibre.html"><p class="meta">08 &middot; U4 &amp;middot; the paired question &middot; &times;6 in past papers</p><p class="q">The acceptance angle of an optical fibre is:</p><button data-key="A">sin a = NA</button><button data-key="B">tan a = NA</button><button data-key="C">cos a = NA</button><button data-key="D">a = NA n&lt;sub&gt;1&lt;/sub&gt;</button><p class="fb" data-text="sin a = NA, so a = sin&lt;sup&gt;&amp;minus;1&lt;/sup&gt;(NA). For NA = 0.33 that is 19.3&amp;deg;. The acceptance cone has half-angle equal to the acceptance angle, measured to the fibre axis &amp;mdash; saying which axis is the mark."></p></div>
+<div class="mcq" data-answer="B" data-topic="Young's double slit" data-file="!unit2/01-youngs-double-slit.html"><p class="meta">09 &middot; U2 &amp;middot; 4 of 7 papers &middot; &times;4 in past papers</p><p class="q">The fringe width in Young's double-slit experiment is:</p><button data-key="A">&amp;beta; = &amp;lambda;d/D</button><button data-key="B">&amp;beta; = &amp;lambda;D/d</button><button data-key="C">&amp;beta; = &amp;lambda;/dD</button><button data-key="D">&amp;beta; = &amp;lambda;dD</button><p class="fb" data-text="&amp;beta; = &amp;lambda;D/d, where D is the distance to the screen and d the separation of the two slits. D and d are swapped in half of all wrong answers, so define both when you state the formula."></p></div>
+<div class="mcq" data-answer="B" data-topic="Interference" data-file="!unit2/01-youngs-double-slit.html"><p class="meta">10 &middot; U2 &amp;middot; the definition mark &middot; &times;4 in past papers</p><p class="q">Two sources must satisfy which condition to produce a stable interference pattern?</p><button data-key="A">Identical wavelengths only</button><button data-key="B">Coherent: same frequency and a constant phase difference</button><button data-key="C">The same amplitude</button><button data-key="D">Polarisation in the same plane only</button><p class="fb" data-text="Coherence means same frequency and a phase difference that does not change with time. Amplitude equality affects contrast, not the existence of fringes. Defining coherence properly is a mark in its own right."></p></div>
+<div class="mcq" data-answer="A" data-topic="Single-slit diffraction" data-file="!unit2/06-single-slit-diffraction.html"><p class="meta">11 &middot; U2 &amp;middot; 3 of 7 papers &middot; &times;3 in past papers</p><p class="q">Fraunhofer diffraction from a single slit has its first subsidiary maximum at about:</p><button data-key="A">4.5% of the principal maximum</button><button data-key="B">50%</button><button data-key="C">100%</button><button data-key="D">1% of the central maximum</button><p class="fb" data-text="Roughly 4.5% of the central maximum, which is why the single-slit pattern has a bright central fringe and much weaker secondary fringes. This figure is asked directly and it is memorised, not derived, in the exam."></p></div>
+<div class="mcq" data-answer="A" data-topic="Operators" data-file="!unit1/03-schrodinger-equation.html"><p class="meta">12 &middot; U1 &amp;middot; 5 of 7 papers &middot; &times;5 in past papers</p><p class="q">The energy and momentum operators for a particle are:</p><button data-key="A">E = &amp;minus;i&amp;#8463;&amp;part;/&amp;part;t and p = &amp;minus;i&amp;#8463;&amp;part;/&amp;part;x</button><button data-key="B">E = i&amp;#8463;&amp;part;/&amp;part;x and p = i&amp;#8463;&amp;part;/&amp;part;t</button><button data-key="C">E = &amp;#8463;&amp;part;/&amp;part;t and p = &amp;#8463;&amp;part;/&amp;part;x</button><button data-key="D">E = p&amp;sup2;/2m and p = mx</button><p class="fb" data-text="The minus sign and the placement of i are both graded. Acting on &amp;psi;, p = &amp;minus;i&amp;#8463;d/dx gives the de Broglie relation and E = &amp;minus;i&amp;#8463;&amp;part;/&amp;part;t gives the Schr&amp;ouml;dinger equation &amp;mdash; saying that closes the loop and earns the significance mark."></p></div>
+<div class="mcq" data-answer="A" data-topic="Michelson" data-file="!unit2/03-michelson-interferometer.html"><p class="meta">13 &middot; U2 &amp;middot; 5 of 7 papers &middot; &times;5 in past papers</p><p class="q">Michelson's interferometer is classified as an interferometer based on:</p><button data-key="A">Amplitude division</button><button data-key="B">Wavefront division</button><button data-key="C">Division of wavefront and amplitude both</button><button data-key="D">Polarisation</button><p class="fb" data-text="Michelson divides the amplitude: the beam is split by a beamsplitter and the two halves travel different paths, one with a compensating mirror. Young's double slit divides the wavefront. Getting this pair the right way round is the mark."></p></div>
+<div class="mcq" data-answer="B" data-topic="Resolution" data-file="!unit2/07-resolution-grating.html"><p class="meta">14 &middot; U2 &amp;middot; 4 of 7 papers &middot; &times;4 in past papers</p><p class="q">The Rayleigh criterion of resolution states that two images are just resolved when:</p><button data-key="A">The intensity at the central maximum is twice the background</button><button data-key="B">The central maximum of one diffraction pattern falls on the first minimum of the other</button><button data-key="C">Both images fall on the principal axis</button><button data-key="D">The wavelength is halved</button><p class="fb" data-text="R resolves exactly when the central maximum of one pattern coincides with the first minimum of the other. The corresponding limit for a single slit is &amp;theta; = 1.22&amp;lambda;/D, which is the formula to quote alongside it."></p></div>
+<div id="score-final"></div>
+</div>
+
+<div id="mock" class="tab-panel">
+<p class="kicker">Section 5 &middot; Timed mock</p>
+<h1>90-minute closed-book run</h1>
+<p>Set the timer, then close every other tab. Answer on paper. The point of the mock is
+not the score &mdash; it is finding out whether you can write full answers and still have
+ten minutes to check.</p>
+<div class="timerbox">
+<span class="clock" id="clock" data-minutes="90">90:00</span>
+<button id="tstart">start</button>
+<button id="treset" disabled>reset</button>
+<span class="dim" style="font-size:.85rem">90 minutes &mdash; matches your
+12:00&ndash;1:30 slot at 50 minutes/question if the paper is 8 printed.</span>
+</div>
+<div class="callout">
+<span class="label">The mock, as you will actually face it</span>
+<p>Attempt <b>any five</b> of the eight. All questions equal marks. <b>(a) 7 + (b) 7.</b></p>
+</div>
+<ol>
+<li><b>2 min</b> read the whole paper once. Rank the eight questions
+easiest-to-hardest. Do not start writing yet.</li>
+<li><b>5 min</b> per (a) part, <b>9 min</b> per (b) part. Fourteen marks in fourteen
+minutes is the real per-question budget, and it is why questions get abandoned.</li>
+<li><b>Definition first, always.</b> One line before any diagram. A guaranteed mark for
+fifteen seconds.</li>
+<li><b>Diagram or table before prose.</b> Examiners scan visuals. A labelled diagram is
+half the answer and it is the part you cannot write badly.</li>
+<li><b>Underline the command word</b> (define, explain, differentiate, classify, derive,
+list) and <b>box the final answer</b>.</li>
+<li><b>Never leave a question blank.</b> A definition plus a labelled diagram is about
+40% of any question, and it is free.</li>
+<li><b>Reserve the last 10 minutes</b> to add the closing significance line to every
+answer. That line is where the last mark per question lives.</li>
+</ol>
+<h2>Mark it honestly</h2>
+<p>Mark your own paper against the marking structure in each topic file's Questionnaire.
+If you scored under 12/20 on a question, you did not learn it &mdash; read the file, then
+re-run the mock in three days.</p>
+</div>
+
+<div id="plan" class="tab-panel">
+<p class="kicker">Section 6 &middot; Plan</p>
+<h1>Tue 13 Oct 2026 &mdash; how to get there</h1>
+<pre><code>BT-201 is Tue 13 Oct, 12:00-1:30 PM. It is the first paper
+of the day, so anything you revise before it must be short and
+already known. Do not plan to learn anything new on the morning
+of the 13th.
+
+  10-11 OCT  LEARN  (overlaps BT-205, so 2h/day max)
+    Unit 1 01-04: de Broglie &amp; vg/vp, Schrodinger + uncertainty,
+             particle in a box, wave function conditions.
+    These three stems (uncertainty, Schrodinger, box) are 6-of-7 each.
+
+  11 OCT PM  UNIT 2
+    YDSE + interference conditions, single slit, Newton rings,
+    Michelson. Newton rings is the single most-asked item in the
+    subject and it always arrives with a numerical.
+
+  EVERY DAY, 20 MIN, NON-NEGOTIABLE
+    Rewrite the two numerical formulas from memory:
+      Newton dark : D_n^2 = 4 n lambda R
+      and the two-diameter shortcut
+        lambda R / D^2 = (D_m^2 - D_n^2) / 4 (m^2 - n^2)
+    Then do one of the six real numericals. There are only six
+    that RGPV has ever set, and they are listed in the Bank tab.
+
+  12 OCT  nothing on physics. It is tomorrow's paper and you
+    also have BT-204 and BT-205 today.
+
+  13 OCT
+    11:00 AM (60 min before): read the shortlist aloud, twice.
+    Do the two formulas on a blank sheet.
+    Then stop and eat.</code></pre>
+<div class="callout good">
+<span class="label">Your whole week, so nothing collides</span>
+<b>Tue 13 Oct &mdash; BT-201 at 12:00&ndash;1:30 PM, then BT-102 at 3:00&ndash;4:30 PM.</b> Two papers, one day, with a ninety-minute gap.<br><br>BT-201 is first, so it is the one you write while fresh and the one you revise in the morning. BT-102 goes second and should already be drilled &mdash; the gap is for eating, not for learning.<br><br>This is your last exam of the mid-sem block. Whatever is left unlearned on the 13th is not recoverable, so front-load BT-201 and BT-102 during the 10th and 11th rather than leaving them for the 13th.
+</div>
+<h2>Hall tactics that actually move the score</h2>
+<ul>
+<li><strong>Read the command word and obey it.</strong> &ldquo;Differentiate&rdquo; wants
+a table with four rows. &ldquo;Explain&rdquo; wants prose plus a diagram. All-prose for a
+differentiate question is the most common way to lose a full mark.</li>
+<li><strong>Answer the asked question, not the topic.</strong> If it asks for
+<em>applications</em>, the mark is in the application, not the definition.</li>
+<li><strong>Two-column tables beat paragraphs.</strong> A comparison scored on four pairs
+is four marks; the same four facts in prose often scores two.</li>
+<li><strong>Know more than the count they ask for.</strong> RGPV asks for &ldquo;any
+four&rdquo; or &ldquo;any two&rdquo;. Choose the ones you can define.</li>
+<li><strong>Write the units and the formula even when you cannot finish.</strong> A
+correctly written formula with a substituted value earns method marks that a blank line
+does not.</li>
+<li><strong>Leave a mark of space between questions.</strong> Examiners mark sequentially;
+a cramped boundary invites marks to migrate to the wrong answer.</li>
+</ul>
+</div>
+
+<div class="callout" style="margin-top:3rem">
+<span class="label">Method, sources and confidence</span>
+<p><strong>How this page was built.</strong> Seven real RGPV BT-201 papers were downloaded from rgpvonline.com and read; every sub-question was classified into one of the five syllabus units. 119 sub-questions were classified. Unit weights and the repeat list are counts from that corpus. The recurring numericals were extracted with their givens, because RGPV re-uses not just the questions but the numbers.</p>
+<p><strong>Papers read:</strong> Nov-2019, Jun-2020 and Dec-2020 have real text layers; Jun-2022, Nov-2022, Jun-2023, Dec-2023 are OCR-derived from scans. Dec-2024 and Dec-2025 were checked for recency and confirm the ranking.</p>
+<p><strong>Syllabus source:</strong> <a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/engineering-physics-bt-201">RGPV Notes &amp;mdash; BT-201 Engineering Physics (full text of all 5 units)</a>
+&mdash; full unit text for all five units, cross-checked against the RGPV AICTE
+flexible-curricula scheme of July 2018.</p>
+<p><strong>Marks-format source:</strong> RGPV Ordinance 04(A) for B.E. (CBGS)
+&sect;5.3&ndash;5.5 and the New Scheme of Examination W.E.F. July 2018, both from
+rgpv.ac.in.</p>
+<p class="srcgap"><strong>What is confirmed vs inferred on this page.</strong> The
+20-mark mid-sem bucket, the 70/20/10 split, the &ldquo;attempt any five, equal marks&rdquo;
+end-sem format, and the 14-marks-per-question split all come from official RGPV
+documents or real scanned papers. The paper <em>pattern</em> for the mid-sem, the exact
+MST-1 mark value, and the duration are <strong>inferred</strong> &mdash; RGPV publishes no
+mid-sem papers and defers the detail to each Board of Studies. Treat the predicted
+questions as high-probability, not certain.</p>
+<p class="srcgap"><em>Notes checked 28 September 2026. The paper list was read directly
+from the scans; the unit assignment of each question is my own mapping from the syllabus,
+and a few borderline items are judgement calls I have flagged where they matter.</em></p>
+</div>
+
+<div class="zevu-footer">
+<p class="prompt">zevu:~/learn/bt201 $ <span style="color:var(--ink-soft)">
+# shared via zevu &middot; built with ART (zevu psa) &middot; <a href="unit1/index.html">unit1/index.html</a></span></p>
+</div>
+</main>
+<script>
+(function(){
+'use strict';
+window.showTab=function(name){
+  var p=document.querySelectorAll('.tab-panel'),b=document.querySelectorAll('.tab-btn');
+  for(var i=0;i<p.length;i++)p[i].classList.remove('active');
+  for(var j=0;j<b.length;j++)b[j].classList.remove('active');
+  var el=document.getElementById(name);
+  if(el)el.classList.add('active');
+  if(typeof event!=='undefined'&&event&&event.target)event.target.classList.add('active');
+};
+document.addEventListener('DOMContentLoaded',function(){
+  var boxes=[].slice.call(document.querySelectorAll('.mcq'));
+  var total=boxes.length,done=0,right=0,missed=[];
+  boxes.forEach(function(box){
+    var btns=[].slice.call(box.querySelectorAll('button'));
+    var ans=box.getAttribute('data-answer');
+    var fb=box.querySelector('.fb');
+    btns.forEach(function(btn){
+      btn.addEventListener('click',function(){
+        if(box.getAttribute('data-done'))return;
+        box.setAttribute('data-done','1');
+        var mine=btn.getAttribute('data-key');
+        var ok=mine===ans;
+        btns.forEach(function(b){b.disabled=true;});
+        btn.classList.add(ok?'correct':'wrong');
+        if(!ok){
+          btns.forEach(function(b){if(b.getAttribute('data-key')===ans)b.classList.add('correct');});
+          var t=box.getAttribute('data-topic');
+          if(t)missed.push({topic:t,file:box.getAttribute('data-file')||''});
+        }
+        if(fb){fb.classList.add('show');
+          fb.innerHTML='<b>'+(ok?'Correct.':'Not quite.')+'</b> '+(fb.getAttribute('data-text')||'');}
+        done++; if(ok)right++;
+        var d=document.getElementById('score-live');
+        if(d)d.textContent=right+' / '+done+' answered, '+right+' correct';
+        var pEl=document.getElementById('meter-fill');
+        if(pEl)pEl.style.width=Math.round(done/total*100)+'%';
+        if(done===total)finish();
+      });
+    });
+  });
+  function finish(){
+    var pct=Math.round(right/total*100);
+    var out=document.getElementById('score-final');
+    if(!out)return;
+    var band=pct>=85?'Exam-ready on this list. Go to the timed mock next.'
+      :pct>=65?'Solid. The gaps below are your marks; read those files before the mock.'
+      :pct>=40?'Half the bank is missing. Do not attempt a mock yet - read the missed files first.'
+      :'This bank is unfamiliar. Start with the top 5 repeat items, then come back.';
+    var uniq={};
+    missed.forEach(function(m){if(!uniq[m.topic])uniq[m.topic]=m;});
+    var keys=Object.keys(uniq);
+    var h='<div class="scorebox"><div class="big">'+right+' / '+total+' &nbsp;('+pct+'%)</div><p>'+band+'</p>';
+    if(keys.length){
+      h+='<p class="dim" style="font-size:.9rem">Revisit these '+keys.length+' topic'+(keys.length>1?'s':'')+':</p><ul>';
+      keys.forEach(function(k){
+        var f=uniq[k].file||'',link='';
+        if(f.charAt(0)==='!'){link=' <span class="dim">(note not built yet)</span>';}
+        else if(f){link=' &mdash; <a href="'+f+'">open the file</a>';}
+        h+='<li>'+k+link+'</li>';
+      });
+      h+='</ul>';
+    }else{
+      h+='<p class="good-t">Full marks. Nothing in the must-memorise bank was missed.</p>';
+    }
+    h+='<p class="dim" style="font-size:.85rem">This scores the short-answer bank only. '
+      +'It does not test your diagrams, your formulas, or your timing.</p></div>';
+    out.innerHTML=h;
+  }
+  var disp=document.getElementById('clock');
+  if(disp){
+    var mins=parseInt(disp.getAttribute('data-minutes'),10)||90,left=mins*60,tick=null;
+    function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+    function run(){disp.textContent=fmt(left);left--;
+      if(left<0){left=0;clearInterval(tick);disp.textContent='00:00';
+        disp.style.color='var(--bad)';}}
+    document.getElementById('tstart').addEventListener('click',function(){
+      if(tick)return;tick=setInterval(run,1000);run();
+      this.textContent='running';this.disabled=true;
+      document.getElementById('treset').disabled=false;});
+    document.getElementById('treset').addEventListener('click',function(){
+      clearInterval(tick);tick=null;left=mins*60;disp.textContent=fmt(left);disp.style.color='';
+      var s=document.getElementById('tstart');s.textContent='start';s.disabled=false;});
+  }
+});
+})();
+</script>
+
+<script src="../../assets/nav.js"></script>
+<script src="../../assets/site.js" defer></script>
+</body>
+</html>

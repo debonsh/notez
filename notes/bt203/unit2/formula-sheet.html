@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 2 Key-Sheet &mdash; BT203 Measurement &amp; Production &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); }
+.kicker { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; font-family: monospace; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: monospace; font-size: 0.85rem; color: var(--ink-soft); }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } }
+:root { --accent-soft: #1b1e25; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+a:hover { background: transparent; color: var(--accent); }
+table tr:hover td { background: transparent; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt203/unit2 $ cat formula-sheet.md</p></div>
+<p class="kicker">Printable &middot; BT203 Unit 2 &middot; exam morning</p>
+<h1>Unit 2 Key-Sheet &mdash; Measurement &amp; Production</h1>
+<p><em>Every figure, least count and formula in Unit 2 on one page. Print this and leave the eight
+lesson files at home.</em></p>
+
+<h2>01 Errors in measurement</h2>
+<pre><code>error = measured value - true value
+  systematic  constant BIAS, same sign every reading
+              NOT removed by averaging
+              removed by CALIBRATION, correction, zeroing, better method
+  random      unpredictable SCATTER, sign and size vary
+              reduced by AVERAGING, finer least count, controlled environment
+  gross       a blunder - misreading, wrong zero - removed by care
+absolute   e  = Vm - Vt
+relative   er = e / Vt          (dimensionless)
+percentage e% = (e / Vt) x 100  <- the TRUE value goes in the denominator
+AVERAGING: kills random error, does NOTHING to a systematic one
+accuracy  = closeness to the TRUE value
+precision = closeness of readings TO EACH OTHER
+sensitivity = response per unit change of input
+THE TEST: is the whole cluster offset from the standard (bias),
+          or just scattered about it (random)?</code></pre>
+
+<h2>02 Micrometer / dial gauge / slip gauge</h2>
+<pre><code>MICROMETER
+  LC = pitch / thimble divisions = 0.5 / 50 = 0.01 mm
+  RANGE = the SPINDLE LENGTH  -> a 25 mm spindle gives 0-25 mm
+     (10 x spindle = 250 mm is the TOTAL TRAVEL, NOT the range)
+  READING = main scale (sleeve) + circular scale (thimble)   ADD them
+  pitch 0.5 mm, 50 divisions; 100 divisions would give 0.005 mm
+  zero error: zero ABOVE the datum = POSITIVE -> correction negative
+              zero BELOW the datum = NEGATIVE -> correction positive
+              TRUE = measured - zero error  (sign carried through)
+DIAL GAUGE
+  same 0.01 mm LC, but a COMPARATOR: zeroed against a MASTER,
+  reads only the DEVIATION of the work from it. Never an absolute size.
+SLIP GAUGE
+  hardened block lapped to a fixed length; lengths are STACKED, not adjusted
+  series A (decimal) / B (binary) / C (supplementary)
+  DIFFERENTIAL gauge = the one you SUBTRACT to come down in size
+  81-piece set: any length 1-1000 mm, normally 3 gauges
+  TWO-PIECE METHOD: measure the large gauge alone (x), measure the
+    stack (y), then the small gauge = y - x</code></pre>
+
+<h2>03 Vernier calliper</h2>
+<pre><code>LC = 1 MSD - 1 VSD       with n VSD spanning (n - 1) MSD:
+LC = MSD / n
+  n = 10  spans  9 mm  ->  0.1  mm
+  n = 20  spans 19 mm  ->  0.05 mm
+  n = 50  spans 49 mm  ->  0.02 mm   <- THE STANDARD CALLIPER
+  NOT 0.01 mm (that is the micrometer). The "10 MSD / 9 MSD rule"
+  gives 0.1 mm, not 0.01 mm.
+READING = MSR + (coinciding division x LC)
+ZERO ERROR: jaws closed, vernier zero RIGHT of main zero = POSITIVE
+                             LEFT  of main zero = NEGATIVE
+  TRUE = measured - zero error, sign always carried through
+  the correction always has the OPPOSITE sign to the error
+DIRECTION CHECK: positive error reads TOO MUCH, so true < measured
+PARTS: main scale, vernier scale, outside jaws, inside jaws,
+       depth rod, locking screw</code></pre>
+
+<h2>04 Sine bar &amp; combination set</h2>
+<pre><code>sin(theta) = h / L
+  L = CENTRE DISTANCE between the two rollers  <- the HYPOTENUSE
+  h = slip gauge stack height under the high roller <- OPPOSITE side
+SET an angle     h = L sin(theta)
+MEASURE an angle theta = sin^-1 (h / L)
+TAPER: the angle obtained is the HALF-ANGLE -> DOUBLE it for the included
+ANCHORS: sin 30 = 0.5 -> h = L/2      sin 45 = 0.707 -> h = 0.707 L
+LIMITS: accuracy depends on L and on h; NOT recommended above ~45 deg,
+        where the sine curve flattens and loses sensitivity
+COMBINATION SET (two different things):
+  slip gauge combination set -> builds h (81 pieces, 3 gauges)
+  combination square set     -> rule + square/protractor/centre heads</code></pre>
+
+<h2>05 Lathe &amp; drilling machines</h2>
+<pre><code>THE INVERSION: lathe - the WORK rotates, tool stationary
+               drill - the TOOL rotates, work stationary
+
+LATHE parts: bed, headstock, tailstock, carriage (saddle,
+  cross-slide, compound rest, tool post), apron, feed rod, lead screw
+  compound rest -> swivels for SHORT tapers
+  feed rod -> turning      lead screw -> THREAD CUTTING
+OPERATIONS: turning, facing, chamfering, knurling (FORMING, not cutting),
+  thread cutting, drilling, boring, taper turning, grooving, parting off
+
+DRILL parts: base, column, table, head, spindle, quill, feed mechanism
+OPERATIONS: drilling, reaming, boring, counterboring (FLAT cylindrical
+  recess), countersinking (CONICAL recess), spot facing, tapping, trepanning
+
+N = 1000 V / (pi D)      V m/min, D mm, N rpm
+   the 1000 converts mm to m -- steel lands in the low HUNDREDS of rpm
+feed rate = f x N        f mm/rev, N rpm -> mm/min
+T = L / (f N)            machining time, L in mm -> T in minutes
+S = L (D1 - D2) / (2 l)  tailstock set-over: L = TOTAL, l = TAPERED
+tan(alpha) = (D1 - D2) / (2 l)    alpha is the HALF-angle</code></pre>
+
+<h2>06 Temperature, pressure, velocity, flow, force, torque</h2>
+<pre><code>QUANTITY     INSTRUMENT            PRINCIPLE
+temperature  liquid-in-glass       thermal EXPANSION       up to ~600 C
+             thermocouple          SEEBECK emf            -200 to 1200 C
+             resistance            change of resistance   most accurate
+             PYROMETER             RADIATION, NON-CONTACT above ~1200 C
+pressure     manometer             liquid column          p = rho g h
+             Bourdon tube          elastic deflection
+             diaphragm/bellows     elastic deflection     low pressures
+velocity     pitot tube            total - static, v = sqrt(2gh)
+flow         venturi               variable HEAD, small loss
+             orifice               variable HEAD, LARGE loss
+             rotameter             variable AREA, direct reading
+force        spring balance        elastic extension      F = kx
+             strain gauge/load cell resistance change
+             proving ring          elastic deflection
+torque       dynamometer           T = F x r  (force at known radius)
+             torsion meter         angle of twist
+
+p = rho g h        rho water 1000, MERCURY 13600 (13.6 is SP. GRAVITY!)
+v = sqrt(2 g h)
+Q = Cd A sqrt(2 g h)      A = pi d^2 / 4 with d in METRES
+T = F r                   r in METRES
+CONVERT TO METRES AND kg/m3 BEFORE SUBSTITUTING</code></pre>
+
+<h2>07 Dynamometer</h2>
+<pre><code>CLASSIFY FIRST: absorption (takes the power) vs transmission (reads it)
+  ABSORPTION -> Prony brake, rope brake, hydraulic, eddy-current
+                absorbs ALL the power, wastes it as HEAT
+                -> laboratory only, limited to low speeds/small powers
+  TRANSMISSION -> belt, torsion, epicyclic
+                measures power passing through, drive keeps running
+  DRIVING -> a calibrated motor driving the machine under test
+FORCE form: F = kx        needs CALIBRATION because k drifts with
+                          age, temperature and overload
+T = W x L                          Prony brake (L from the SHAFT AXIS)
+T = (W - S) x (D + d) / 2          rope brake
+     ^ net load      ^ EFFECTIVE radius (rope acts at its own
+       (the spring     centre line, d/2 outside the drum)
+        holds part)
+BP = 2 pi N T / 60     the 2 pi/60 converts rpm to rad/s</code></pre>
+
+<h2>08 Welding, casting &amp; patterns</h2>
+<pre><code>WELDING = joining by heat, pressure, or both, with or without a filler
+  FUSION (joint faces MELT): gas, ARC, thermit, resistance
+     arc family: SMAW (coated electrode), TIG (tungsten, inert gas),
+                 MIG (wire + gas), SAW (under flux)
+     ARC WELDING: arc struck between coated electrode and work; the
+       coating gives SHIELDING GAS + SLAG; electrode fed down as consumed
+  PRESSURE / SOLID-STATE (no melting): forge, friction, ultrasonic
+  SOLDERING filler < 450 C  } base metal DOES NOT MELT
+  BRAZING   filler > 450 C  } so neither is fusion welding
+
+CASTING steps: pattern -> moulding -> core -> melt + pour ->
+               solidify -> shakeout + fettling
+PATTERN ALLOWANCES: shrinkage, machining, DRAFT (an ANGLE), shake,
+                    distortion
+  Lp = L (1 + s) + m           s = shrinkage as a decimal
+  draft extra width = h tan(theta)     depends on DEPTH
+  THE PATTERN IS ALWAYS LARGER THAN THE CASTING
+
+P = V I                     arc power (a few kW)
+H = (V I x 60)/(1000 S)     heat input, S = travel speed in mm/min
+                            ~1 kJ/mm; RISES as speed FALLS</code></pre>
+
+<h2>The least counts &mdash; do not mix these up</h2>
+<table>
+<tr><th>Instrument</th><th>Least count</th><th>How it is derived</th></tr>
+<tr><td><strong>Micrometer</strong></td><td><strong>0.01 mm</strong></td><td>pitch 0.5 mm / 50 thimble divisions</td></tr>
+<tr><td><strong>Vernier calliper (standard)</strong></td><td><strong>0.02 mm</strong></td><td>MSD / n = 1 mm / 50 divisions</td></tr>
+<tr><td>Vernier, 20 divisions</td><td>0.05 mm</td><td>1 mm / 20</td></tr>
+<tr><td>Vernier, 10 divisions</td><td>0.1 mm</td><td>1 mm / 10 &mdash; <em>not</em> 0.01</td></tr>
+<tr><td>Dial gauge</td><td>0.01 mm</td><td>same as the micrometer, but a comparator</td></tr>
+<tr><td>Micrometer, 100 divisions</td><td>0.005 mm</td><td>0.5 mm / 100</td></tr>
+</table>
+
+<h2>The ranges and figures to memorise tonight</h2>
+<table>
+<tr><th>Figure</th><th>What it decides</th></tr>
+<tr><td><strong>0.01 mm</strong></td><td>Micrometer least count; dial gauge too</td></tr>
+<tr><td><strong>0.02 mm</strong></td><td>Standard vernier calliper least count</td></tr>
+<tr><td><strong>0&ndash;25 mm</strong></td><td>Range of a micrometer with a 25 mm spindle (range = spindle length)</td></tr>
+<tr><td><strong>0.5 mm pitch, 50 divisions</strong></td><td>The standard micrometer screw &mdash; gives the 0.01 mm</td></tr>
+<tr><td><strong>sin 30&deg; = 0.5</strong></td><td>Sine bar: h is exactly half of L</td></tr>
+<tr><td><strong>~45&deg;</strong></td><td>Sine bar limit, above which sensitivity falls</td></tr>
+<tr><td><strong>13600 kg/m&sup3;</strong></td><td>Density of mercury &mdash; 13.6 is the <em>specific gravity</em>, not the density</td></tr>
+<tr><td><strong>~1200&deg;C</strong></td><td>Above this, only the non-contact pyrometer works</td></tr>
+<tr><td><strong>450&deg;C</strong></td><td>Divides soldering from brazing by filler melting point</td></tr>
+</table>
+
+<div class="zevu-footer"><p># shared via zevu &middot; built with ART (zevu psa) &middot; <a href="index.html">&larr; hub</a></p></div>
+</main>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

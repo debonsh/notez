@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operators &amp; Born Interpretation &mdash; RGPV BT201 PYQ Prep &middot; by Zevu</title>
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #26201a;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { background: var(--accent-soft); }
+
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--accent-soft); color: var(--ink); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+
+.terminal-diagram { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.terminal-diagram .highlight { color: var(--accent); }
+
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt201/unit1 $</span> cat 02-operators-born.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+</div>
+
+<!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT201 Unit 1 &mdash; Quantum Mechanics</p>
+<h1>Operators &amp; Born Interpretation &mdash; From &psi; to Probability</h1>
+<p><em>Topic 01 gave every particle a wavelength. Now: how do we compute with it? Answer: replace every
+observable with an <strong>operator</strong> that acts on the wavefunction &psi;, and read |&psi;|&sup2; as
+<strong>probability</strong> (Born). This is the grammar Schrodinger equation is written in — master it once,
+Topics 03–04 become easy.</em></p>
+
+<h2>Why operators?</h2>
+<p>Classically you measure position <code>x</code>, momentum <code>p</code>, energy <code>E</code> directly.
+Quantum mechanically the particle IS a wave <code>&psi;(x,t)</code>, so each observable becomes a
+mathematical operation on &psi;. Measuring = applying the operator and reading its <strong>eigenvalue</strong>.</p>
+<pre><code>operator × wavefunction = eigenvalue × wavefunction
+Ô&psi; = o·&psi;    (o = value you measure)</code></pre>
+
+<h2>The operator table (memorize this)</h2>
+<table>
+<tr><th>Observable</th><th>Classical</th><th>Quantum operator (1D)</th></tr>
+<tr><td>Position x</td><td><code>x</code></td><td><code>x̂ = x</code> (multiply by x)</td></tr>
+<tr><td>Momentum p</td><td><code>mv</code></td><td><code>p̂ = &minus;i&#8463; &part;/&part;x</code></td></tr>
+<tr><td>Kinetic energy</td><td><code>p&sup2;/2m</code></td><td><code>T̂ = &minus;&#8463;&sup2;/2m &middot; &part;&sup2;/&part;x&sup2;</code></td></tr>
+<tr><td>Total energy</td><td><code>E</code></td><td><code>Ê = i&#8463; &part;/&part;t</code></td></tr>
+<tr><td>Hamiltonian H</td><td><code>p&sup2;/2m + V</code></td><td><code>Ĥ = &minus;&#8463;&sup2;/2m &nabla;&sup2; + V(x)</code></td></tr>
+</table>
+<div class="callout">
+  <span class="label">Where they come from (2-line origin)</span>
+  Free particle: <code>&psi; = Ae<sup>i(kx&minus;&omega;t)</sup></code> with <code>p = &#8463;k</code>, <code>E = &#8463;&omega;</code>.
+  Differentiate: <code>&part;&psi;/&part;x = ik&psi; &rarr; &minus;i&#8463;&part;&psi;/&part;x = &#8463;k&psi; = p&psi;</code>.
+  Similarly <code>i&#8463;&part;&psi;/&part;t = &#8463;&omega;&psi; = E&psi;</code>. That is why the operators look that way.
+</div>
+
+<h2>Born interpretation (1926) — the meaning of &psi;</h2>
+<p><strong>Statement (verbatim):</strong> <code>|&psi;(x,t)|&sup2; dx</code> = probability of finding the particle
+between <code>x</code> and <code>x+dx</code> at time <code>t</code>.</p>
+<pre><code>probability density:  P(x,t) = |&psi;|&sup2; = &psi;*&psi;
+normalization:      &int;<sub>&minus;&infin;</sub><sup>&infin;</sup> |&psi;|&sup2; dx = 1   (particle is SOMEWHERE)</code></pre>
+<p>A valid wavefunction must be: <strong>finite</strong>, <strong>continuous</strong>,
+<strong>single-valued</strong>, and <strong>differentiable</strong> (with continuous derivative except at infinite walls).</p>
+
+<h2>Free-particle wavefunction</h2>
+<p>No forces, <code>V = 0</code>, fixed momentum <code>p</code> and energy <code>E = p&sup2;/2m</code>:</p>
+<pre><code>&psi;(x,t) = A·e<sup>i(kx &minus; &omega;t)</sup>
+k = 2&pi;/&lambda; = p/&#8463;      (wave number)
+&omega; = 2&pi;&nu; = E/&#8463;       (angular frequency)</code></pre>
+<p>|&psi;|&sup2; = |A|&sup2; = constant — a pure free particle is equally likely everywhere (hence real particles
+are <strong>wave packets</strong>, Topic 05).</p>
+
+<h2>Example 1 &mdash; normalize over length L</h2>
+<p><strong>Q:</strong> <code>&psi; = A·e<sup>ikx</sup></code> confined to <code>0 &lt; x &lt; L</code>. Find A.</p>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>&int;&#8320;ᴸ |&psi;|&sup2; dx = |A|&sup2; &int;&#8320;ᴸ dx = |A|&sup2;L = 1</code></td></tr>
+<tr><td>2</td><td><code>A = 1/&radic;L</code> (take real positive)</td></tr>
+<tr><td>3</td><td>Normalized: <code>&psi; = (1/&radic;L)·e<sup>ikx</sup></code></td></tr>
+</table>
+
+<h2>Example 2 &mdash; momentum eigenvalue check</h2>
+<p><strong>Q:</strong> Show <code>p̂&psi; = p&psi;</code> for <code>&psi; = A·e<sup>i(kx&minus;&omega;t)</sup></code>.</p>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>p̂&psi; = &minus;i&#8463; &part;/&part;x [A·e<sup>i(kx&minus;&omega;t)</sup>]</code></td></tr>
+<tr><td>2</td><td><code>= &minus;i&#8463; · (ik) · &psi; = &#8463;k·&psi;</code></td></tr>
+<tr><td>3</td><td><code>&#8463;k = p</code> &rarr; eigenvalue is the momentum &#x2713;</td></tr>
+</table>
+
+<h2>Example 3 &mdash; reject a bad wavefunction (PYQ style)</h2>
+<p><strong>Q:</strong> Is <code>&psi; = A·tan(x)</code> on <code>[0, &pi;]</code> acceptable?</p>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>tan(x) &rarr; &infin;</code> at <code>x = &pi;/2</code> — not finite</td></tr>
+<tr><td>2</td><td>Also multi-branch outside — fails single-valued + finite</td></tr>
+<tr><td>3</td><td><strong>Rejected.</strong> RGPV loves this 2-marker.</td></tr>
+</table>
+
+<pre class="terminal-diagram">  <span class="highlight">operator → eigenvalue map</span>
+
+  p̂&psi; = &minus;i&#8463; &psi;'  →  p = &#8463;k
+  Ê&psi; = i&#8463; &psi;&#775;   →  E = &#8463;&omega;
+  Ĥ&psi; = E&psi;         →  stationary states (Topic 03)
+
+  |&psi;|&sup2; dx = probability in dx   &int;|&psi;|&sup2; = 1</pre>
+
+<h2>Numericals in great depth &mdash; normalization without fear</h2>
+<p>Only ONE numeral pattern here: <strong>find A from ∫|ψ|² = 1</strong>. Steps never change:</p>
+<pre><code>Given:   ψ (with unknown A) + interval [a, b]
+Step 1:  |ψ|² = ψ*ψ  (drop e^(ikx): |e^(ikx)|² = 1 — show this line!)
+Step 2:  ∫|ψ|²dx = |A|² × (integral of the rest) = 1
+Step 3:  solve for A, take positive root
+Check:   plug back — integral must equal exactly 1</code></pre>
+
+<h3>Solved A &mdash; sine wavefunction (exact warm-up for Topic 04)</h3>
+<p><strong>Q:</strong> <code>ψ = A·sin(πx/L)</code> on <code>[0, L]</code>. Normalize.</p>
+<table>
+<tr><th>Step</th><th>Work (write exactly this)</th></tr>
+<tr><td>|ψ|²</td><td><code>|ψ|² = A²·sin²(πx/L)</code> (A real, sin real — no conjugate fuss)</td></tr>
+<tr><td>Integral</td><td><code>∫₀ᴸ sin²(πx/L)dx = L/2</code> (standard result — quote it, then use it)</td></tr>
+<tr><td>Normalize</td><td><code>A²·(L/2) = 1 → A² = 2/L → A = √(2/L)</code></td></tr>
+<tr><td>Answer</td><td><code>ψ = √(2/L)·sin(πx/L)</code> — this is the Topic-04 ground state &#x2713;</td></tr>
+</table>
+<p>Memorize <code>∫₀ᴸ sin²(nπx/L)dx = L/2</code> — it returns in every box/well numeral.</p>
+
+<h3>Solved B &mdash; probability in a slice (what Born really asks)</h3>
+<p><strong>Q:</strong> Normalized <code>ψ = √(2/L)·sin(πx/L)</code>. Probability in <code>[0, L/2]</code>?</p>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Set up</td><td><code>P = ∫₀^(L/2) (2/L)·sin²(πx/L)dx</code></td></tr>
+<tr><td>Identity</td><td><code>sin²θ = (1−cos2θ)/2</code>, so <code>P = (1/L)[x − (L/2π)sin(2πx/L)]₀^(L/2)</code></td></tr>
+<tr><td>Evaluate</td><td><code>sin(π) = 0, sin(0) = 0 → P = (1/L)(L/2) = 1/2</code></td></tr>
+<tr><td>Meaning</td><td>Symmetric ground state — half the probability in each half &#x2713;</td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">Derivation lines examiners reward (copy these)</span>
+  <ul>
+    <li><em>"Operating on the free-particle wavefunction ψ = Ae<sup>i(kx−ωt)</sup> with p̂ = −iℏ∂/∂x yields eigenvalue p = ℏk, identifying momentum with the operator."</em></li>
+    <li><em>"|ψ|² is the probability density (Born, 1926); ψ itself carries no direct physical meaning — only its squared modulus is observable."</em></li>
+    <li><em>"A uniform |ψ|² for the pure plane wave implies complete position delocalization, necessitating wave-packet superposition for localized particles (Δx·Δp ≥ ℏ/2)."</em></li>
+    <li>Always write <code>Ôψ = o·ψ</code> first, then substitute — the general line earns a mark before any algebra.</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <span class="label">Numeral traps</span>
+  <ul>
+    <li><strong>|e<sup>ikx</sup>|² = 1</strong> — students expand it and drown. Write the modulus line immediately.</li>
+    <li><strong>Complex conjugate:</strong> |ψ|² = ψ*ψ, not ψ². For real ψ (sin) they coincide — say so.</li>
+    <li><strong>Limits:</strong> box = 0→L, free = −∞→∞. Wrong limits = zero marks for setup.</li>
+    <li><strong>A sign:</strong> always take positive root; negative is the same state up to phase.</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <span class="label">Exam tips — extra marks</span>
+  <ul>
+    <li>Draw <strong>|ψ|² vs x</strong> (one hump for ground state) — 1 free mark in validity questions.</li>
+    <li>State all <strong>4 validity conditions</strong> as a numbered list even if only one is violated — step marks.</li>
+    <li>Underline operators, box A. Examiners scan for <code>∫|ψ|² = 1</code> — make it unmissable.</li>
+    <li>Link forward: <em>"This normalization recurs in the 1D-box energies (Topic 04)."</em> — shows command of the unit.</li>
+  </ul>
+</div>
+
+
+<div class="callout">
+  <span class="label">Diagram — |ψ|²: plane wave vs ground state</span>
+  <svg viewBox="0 0 400 190" width="100%" role="img" aria-label="Uniform probability versus sine-squared hump">
+    <rect x="0" y="0" width="400" height="190" fill="#000000" rx="8"/>
+    <text x="30" y="25" fill="#a29d92" font-size="12">free: |ψ|² = |A|² (uniform)</text>
+    <line x1="30" y1="55" x2="370" y2="55" stroke="#e0a370" stroke-width="2.5"/>
+    <text x="30" y="100" fill="#a29d92" font-size="12">box n=1: |ψ|² = (2/L)sin²(πx/L)</text>
+    <path d="M 30 170 Q 115 170 115 170 Q 200 90 200 90 Q 200 90 285 170 Q 285 170 370 170" fill="none" stroke="#7bc97f" stroke-width="2.5"/>
+    <line x1="30" y1="170" x2="370" y2="170" stroke="#2b2e36"/>
+    <text x="185" y="185" fill="#7bc97f" font-size="11">one hump → P(left half) = 1/2</text>
+  </svg>
+</div>
+
+<h2>Retrieval practice &mdash; MCQs</h2>
+
+<div class="quiz"
+     data-answer="b"
+     data-explain="p̂ = −iħ ∂/∂x. Apply to Ae^(ikx): −iħ·(ik) = ħk = p. The −iħ factor is what pulls the momentum eigenvalue out of the plane wave.">
+  <p class="q">Momentum operator in 1D is...?</p>
+  <button data-key="a">p̂ equals iħ times x</button>
+  <button data-key="b">p̂ equals −iħ ∂/∂x</button>
+  <button data-key="c">p̂ equals −ħ²/2m ∂²/∂x²</button>
+  <button data-key="d">p̂ equals iħ ∂/∂t</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="c"
+     data-explain="Born: |ψ|²dx is probability in dx. So ψ itself is probability AMPLITUDE; only its squared magnitude is physical probability.">
+  <p class="q">|ψ(x,t)|² represents...?</p>
+  <button data-key="a">Charge density of the electron cloud</button>
+  <button data-key="b">Energy density of the wave</button>
+  <button data-key="c">Probability density of finding the particle</button>
+  <button data-key="d">Momentum of the particle at x</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="a"
+     data-explain="Particle must be somewhere: total probability = 1. ∫|ψ|²dx = 1 fixes the normalization constant A. Used in every box/well problem.">
+  <p class="q">Normalization condition is...?</p>
+  <button data-key="a">Integral of |ψ|² over all space equals 1</button>
+  <button data-key="b">ψ equals 1 at x equals 0</button>
+  <button data-key="c">Derivative of ψ equals zero everywhere</button>
+  <button data-key="d">ψ is real-valued only</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="d"
+     data-explain="Ê = iħ ∂/∂t gives E = ħω on e^(−iωt). Kinetic T̂ = p̂²/2m = −ħ²/2m ∂²/∂x². Mixing these two is the classic MCQ trap.">
+  <p class="q">Energy operator (time side) is...?</p>
+  <button data-key="a">Ê equals −iħ ∂/∂x</button>
+  <button data-key="b">Ê equals −ħ²/2m ∂²/∂x²</button>
+  <button data-key="c">Ê equals x times p</button>
+  <button data-key="d">Ê equals iħ ∂/∂t</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="b"
+     data-explain="Valid ψ: finite, continuous, single-valued, differentiable. tan(x) blows up at π/2 → not finite → rejected. Discontinuous/jumping ψ also rejected.">
+  <p class="q">Which wavefunction is INVALID?</p>
+  <button data-key="a">ψ equals A·sin(nπx/L), zero at walls</button>
+  <button data-key="b">ψ equals A·tan(x) on [0, π] — diverges at π/2</button>
+  <button data-key="c">ψ equals A·e^(ikx) with constant |A|</button>
+  <button data-key="d">ψ equals (1/√L)·e^(ikx) normalized</button>
+  <p class="feedback"></p>
+</div>
+
+<h2>PYQ drill &mdash; 5 high-probability questions</h2>
+
+<div class="callout">
+  <span class="label">Drill set A &mdash; Theory (3–5 marks)</span>
+  <ol>
+    <li>State Born interpretation. What conditions must &psi; satisfy? <em>(Dec 2023 pattern)</em></li>
+    <li>Write momentum, energy, and Hamiltonian operators. Derive <code>p̂ = &minus;i&#8463;&part;/&part;x</code> from <code>&psi; = Ae<sup>i(kx&minus;&omega;t)</sup></code>. <em>(Jun 2024)</em></li>
+    <li>Write free-particle wavefunction and show |&psi;|&sup2; is uniform. Why do real particles need wave packets? <em>(Dec 2024)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Drill set B &mdash; Numerals / checks</span>
+  <ol start="4">
+    <li>Normalize <code>&psi; = A&middot;e<sup>ikx</sup></code> on <code>[0, L]</code>. <em>(Ans: A = 1/&radic;L)</em></li>
+    <li>Given <code>&psi; = √(2/L)·sin(&pi;x/L)</code>, verify <code>&int;&#8320;ᴸ|&psi;|&sup2;dx = 1</code>. <em>(Warm-up for Topic 04)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Primary source — read next</span>
+  <a href="https://lnct.ac.in/wp-content/uploads/2020/04/Engineering-Physics-BT-201-B.Tech_.-I-Year-CO-01Unit-I-QUANTUMPHYSICS.pdf">LNCT Unit-I Quantum Physics (Dr. Ashim Jain)</a>
+  &mdash; operators + Schrodinger + well sections.
+</div>
+
+<div class="callout">
+  <span class="label">More PYQs to solve</span>
+  <ul>
+    <li><a href="https://career-shiksha.com/post/rgpv-question-papers-bt-201-engineering-physics/">CareerShiksha — BT-201 PYQ archive</a></li>
+    <li><a href="https://www.rgpvonline.com/be/bt-201-engineering-physics-jun-2023.html">RGPVOnline — Jun-2023 PDF</a></li>
+  </ul>
+</div>
+
+</div><!-- end lesson tab -->
+
+<!-- CHEAT-SHEET TAB -->
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT201 Unit 1</p>
+<h1>Operators &amp; Born &mdash; Quick Reference</h1>
+
+<h2>Operator table</h2>
+<table>
+<tr><th>Observable</th><th>Operator</th></tr>
+<tr><td>position</td><td><code>x̂ = x</code></td></tr>
+<tr><td>momentum</td><td><code>p̂ = &minus;i&#8463;&part;/&part;x</code></td></tr>
+<tr><td>kinetic</td><td><code>T̂ = &minus;&#8463;&sup2;/2m &part;&sup2;/&part;x&sup2;</code></td></tr>
+<tr><td>energy (time)</td><td><code>Ê = i&#8463;&part;/&part;t</code></td></tr>
+<tr><td>Hamiltonian</td><td><code>Ĥ = &minus;&#8463;&sup2;/2m &nabla;&sup2; + V</code></td></tr>
+</table>
+
+<h2>Born rules</h2>
+<pre><code>P(x,t) = |&psi;|&sup2; = &psi;*&psi;     (density)
+&int;|&psi;|&sup2; dx = 1               (normalization)
+&psi;: finite, continuous, single-valued, differentiable</code></pre>
+
+<h2>Free particle</h2>
+<pre><code>&psi; = A·e<sup>i(kx&minus;&omega;t)</sup>   k = p/&#8463;   &omega; = E/&#8463;
+|&psi;|&sup2; = |A|&sup2; (uniform) → need packets (T05)</code></pre>
+
+<h2>Eigenvalue pattern</h2>
+<ul>
+  <li><strong>Ô&psi; = o&psi;</strong> — operator gives back ψ scaled by measured value</li>
+  <li><strong>p̂</strong> on plane wave → <code>p = &#8463;k</code></li>
+  <li><strong>Ê</strong> on plane wave → <code>E = &#8463;&omega;</code></li>
+  <li><strong>Ĥ&psi; = E&psi;</strong> — time-independent Schrodinger eq (Topic 03)</li>
+</ul>
+
+<h2>Exam checklist</h2>
+<ul>
+  <li>&#x2610; Wrote all 5 operators with −i&#8463;/i&#8463; signs correct?</li>
+  <li>&#x2610; Stated Born + normalization integral?</li>
+  <li>&#x2610; Listed 4 validity conditions on &psi;?</li>
+  <li>&#x2610; Free-particle &psi; with k = p/&#8463;, &omega; = E/&#8463;?</li>
+  <li>&#x2610; One normalization worked (A = 1/&radic;L)?</li>
+  <li>&#x2610; Wrote Ô&psi; = o&psi; line + boxed A + |&psi;|&sup2; sketch?</li>
+</ul>
+
+<h2>Numeral shortcut (memorize)</h2>
+<pre><code>|e^(ikx)|² = 1  →  A = 1/√L on [0,L]
+∫₀ᴸ sin²(nπx/L)dx = L/2  →  A = √(2/L)
+probability in [a,b] = ∫ₐᵇ|ψ|²dx (use sin² = (1−cos2θ)/2)</code></pre>
+
+</div><!-- end cheatsheet tab -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt201/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (event && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

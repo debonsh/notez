@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Surveying Fundamentals &amp;mdash; Principles, Chain Surveying, Corrections and EDM</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt204/unit2 $</span> cat 01-surveying-fundamentals.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT204 Unit 2 &mdash; Surveying &amp; Positioning</p>
+<h1>Surveying Fundamentals &mdash; Principles, Chain Surveying, Corrections and EDM</h1>
+<p><em>This is the foundation unit for everything else in BT-204 Unit 2. RGPV asks it directly as
+&ldquo;what is surveying and what are its principles&rdquo; (2 of 10 papers), and it is the vocabulary
+every levelling and traversing question assumes. The chain corrections are the only numerals here, and
+they are the same three moves every time: slope, temperature, and a tape of the wrong length.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>Surveying is the art and science of determining the relative positions of
+points on, above or below the surface of the earth, by measuring the
+horizontal and vertical distances between them, the angles between them, and
+the directions of the lines joining them, and then presenting the result to a
+suitable scale in the form of a map or plan. Its two governing principles are
+to WORK FROM THE WHOLE TO THE PART, and to LOCATE A POINT BY MEASURING AT
+LEAST TWO INDEPENDENT QUANTITIES to it from known points.</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;Surveying is two
+jobs, not one: <strong>measurement</strong>, in which you take the field readings, and
+<strong>network design</strong>, in which you decide which readings to take so that an error cannot
+hide. The two principles below are both about the second job.&rdquo;</em></p>
+
+<h2>The two principles &mdash; this is the examined part</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="The two principles of surveying, whole to part and location by two measurements">
+PRINCIPLE 1 -- WORK FROM THE WHOLE TO THE PART
+
+     WRONG: build up from small pieces        RIGHT: fix the frame first,
+            (errors accumulate)               then infill (errors localised)
+
+     c----d                                   A-------------------B
+     |    |                                     |   .           |
+     a----b                                     |       .       |
+        errors add end to end                    |   .       .   |
+     so the far corner drifts                     D-------------------C
+        ...............
+                                                  frame ABCD surveyed first
+                                                  and checked; detail fills in
+
+  Why: a small error in a small triangle is a LARGE error in the far corner.
+  Fixing a big accurate frame first, and filling in detail afterwards, keeps
+  every detail error local instead of letting it accumulate.
+
+PRINCIPLE 2 -- LOCATE A POINT BY TWO MEASUREMENTS
+
+     a single distance only says the point
+     is SOMEWHERE on a circle          ->  ambiguous
+
+     + -------------------------- P1
+              \                  /
+               \                /        two distances from two
+                \              /         known points fix it
+                 \            /          uniquely
+                  \          /
+              A ----------- B
+                   BASE LINE
+
+  So every point is fixed by TWO independent quantities -- two distances
+  (chain surveying) or one distance and one angle (theodolite traversing).
+</pre>
+
+<table>
+<thead><tr><th>Principle</th><th>Statement</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td><strong>Work from the whole to the part</strong></td><td>Establish a framework of accurately measured major control points first, then fill in the detail within it</td><td>Confines any error to the small area where it occurred, instead of letting it accumulate across the whole survey</td></tr>
+<tr><td><strong>Fix a point by two independent measurements</strong></td><td>Locate every point by at least two measurements taken from known points</td><td>One measurement leaves the point ambiguous on a circle, so a mistake in it cannot be detected; a second measurement makes the position determinate and checkable</td></tr>
+</tbody>
+</table>
+
+<h2>Classification of surveying</h2>
+
+<table>
+<thead><tr><th>Basis</th><th>Types</th><th>Distinguished by</th></tr></thead>
+<tbody>
+<tr><td rowspan="2"><strong>Nature of the surface</strong></td><td><strong>Plane surveying</strong></td><td>The earth's curvature is ignored &mdash; the surface is treated as flat. Valid for areas up to about 250 km<sup>2</sup></td></tr>
+<tr><td><strong>Geodetic surveying</strong></td><td>The curvature is accounted for. Used for large areas and for national surveys</td></tr>
+<tr><td rowspan="4"><strong>Object of the survey</strong></td><td><strong>Topographic</strong></td><td>Shows the natural and artificial features of a region &mdash; the ordinary map</td></tr>
+<tr><td><strong>Cadastral</strong></td><td>Fixes property boundaries and areas, for land records and taxation</td></tr>
+<tr><td><strong>Engineering</strong></td><td>Provides the data for a specific project &mdash; a road, canal, railway or building</td></tr>
+<tr><td><strong>Hydrographic, astronomical</strong></td><td>Water bodies and their beds; and positions from celestial bodies</td></tr>
+<tr><td rowspan="4"><strong>Instruments used</strong></td><td><strong>Chain or tape</strong></td><td>Linear measurement only, with the area broken into triangles</td></tr>
+<tr><td><strong>Compass</strong></td><td>Bearings of lines</td></tr>
+<tr><td><strong>Plane table</strong></td><td>Plotting in the field, by the graphical method</td></tr>
+<tr><td><strong>Theodolite, tacheometric, EDM</strong></td><td>Angles; angles and distances together; and electronic distance measurement</td></tr>
+</tbody>
+</table>
+
+<h2>Chain surveying &mdash; the terms the questions use</h2>
+
+<table>
+<thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><strong>Main station</strong></td><td>A point at the end of a main survey line, forming part of the framework</td></tr>
+<tr><td><strong>Subsidiary or tie station</strong></td><td>A point on a main line from which detail is located</td></tr>
+<tr><td><strong>Base line</strong></td><td>The longest main line, measured most carefully, on which the framework rests</td></tr>
+<tr><td><strong>Check line</strong></td><td>A line measured <strong>only to verify</strong> that no mistake has been made &mdash; it is not used to fix anything</td></tr>
+<tr><td><strong>Tie line</strong></td><td>A line joining two known points to <strong>fix</strong> a station, or to check an inaccessible distance</td></tr>
+<tr><td><strong>Offset</strong></td><td>The lateral distance from a chain line to a detail &mdash; <strong>perpendicular</strong> or <strong>oblique</strong></td></tr>
+<tr><td><strong>Ranging</strong></td><td>Fixing intermediate points on a straight line between two stations, when the line is longer than the chain</td></tr>
+<tr><td><strong>Ranging rod</strong></td><td>The marked pole used for ranging; 2 m or 3 m, painted in 0.2 m bands</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>Check line against tie line.</strong> This pair is asked directly, and
+the words sound interchangeable. A <strong>check line</strong> exists <em>only</em> to detect error
+&mdash; if it disagrees with what the framework predicts, a mistake has been made. A <strong>tie
+line</strong> is a working measurement that <em>fixes</em> a point, or carries a measurement across an
+obstacle. A check line proves; a tie line locates.</div>
+
+<h2>Chain corrections &mdash; the three numerals</h2>
+
+<p>A chain is correct only under the conditions it was standardised for. Everything else needs a
+correction, and all three corrections below are for <em>length</em>.</p>
+
+<table>
+<thead><tr><th>Correction</th><th>Formula</th><th>Sign</th></tr></thead>
+<tbody>
+<tr><td><strong>Slope</strong> (or hypotenusal)</td><td>C<sub>s</sub> = h<sup>2</sup> / 2L, where h is the difference in level between the ends</td><td>Always <strong>subtracted</strong> &mdash; the sloping distance is longer than the horizontal one</td></tr>
+<tr><td><strong>Temperature</strong></td><td>C<sub>t</sub> = &alpha; (T<sub>m</sub> &minus; T<sub>0</sub>) L</td><td><strong>Added</strong> when measured hotter than standard, subtracted when colder</td></tr>
+<tr><td><strong>Standardisation</strong> (wrong tape length)</td><td>True length = measured &times; (actual length / nominal length)</td><td>Added if the tape is too long, subtracted if too short</td></tr>
+<tr><td><strong>Tension and sag</strong></td><td>From the modulus and the weight per unit length</td><td>Not usually needed at this level &mdash; name them only</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Comparing the sloping distance with the horizontal, and the h squared over 2L approximation">
+   SLOPE CORRECTION -- why it is always subtracted
+
+        A
+        |\
+        | \  measured along the ground = L  (the SLOPE distance)
+    h   |  \        <-- always LONGER than the flat one
+        |   \
+        |    \
+        B-----C
+           H  = horizontal distance (what we want)
+
+      H is less than L, so the correction is SUBTRACTED.
+
+      exact        Cs = L (1 - cos(theta)) = L - H
+      approximate  Cs = h^2 / 2L          (for small angles)
+
+   WHY THE APPROXIMATION IS GOOD ENOUGH:
+
+      100 m line, 5 deg slope
+        exact        = 0.3805 m
+        h^2 / 2L     = 0.3798 m       <-- 0.002% out
+
+      h = 100 sin 5 = 8.7156 m, so h^2/2L = 75.96/200
+                                          = 0.3798 m
+
+   The two agree because for a small angle, 1 - cos(theta) = theta^2/2
+   and (h/L) = sin(theta) = theta. The h^2/2L form is the one to
+   quote, because h is what you actually measure in the field.
+</pre>
+
+<h2>Numericals in great depth</h2>
+
+<p>Every correction is the same three moves: identify which correction applies, get the sign right,
+and apply it to the measured length. The sign is where the marks are lost.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>L</code></td><td>measured slope length of the line</td><td>m</td></tr>
+<tr><td><code>h</code></td><td>difference in level between the two ends</td><td>m</td></tr>
+<tr><td><code>C<sub>s</sub> = h<sup>2</sup>/2L</code></td><td>slope correction &mdash; always subtracted</td><td>m</td></tr>
+<tr><td><code>&alpha;</code></td><td>coefficient of thermal expansion &mdash; 0.0000112 per &deg;C for steel</td><td>/&deg;C</td></tr>
+<tr><td><code>T<sub>m</sub>, T<sub>0</sub></code></td><td>mean field temperature and standard temperature (usually 20&deg;C)</td><td>&deg;C</td></tr>
+<tr><td><code>C<sub>t</sub> = &alpha;(T<sub>m</sub> &minus; T<sub>0</sub>)L</code></td><td>temperature correction</td><td>m</td></tr>
+<tr><td><code>TL = ML &times; l<sub>a</sub>/l<sub>n</sub></code></td><td>true length from a tape whose actual length differs from nominal</td><td>m</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; chain corrections</span>
+<pre><code>Given:  the measured length, and the condition that differs from
+        standard (height difference, or temperature, or true tape length)
+Find:   the correction, or the corrected length
+Formula:Cs = h^2/(2L) ;  Ct = alpha (Tm - To) L ;  TL = ML x la/ln
+Solve:  substitute in metres and degrees C, then ADD or SUBTRACT
+        according to the rule -- and state which you did
+Check:  a correction is always SMALL relative to the length.
+        If it is not, the formula or the units are wrong.</code></pre>
+</div>
+
+<h3>Solved A &mdash; slope correction</h3>
+<p><em>A line measured along sloping ground is 20.00 m long, and the difference in level between its
+two ends is 2.00 m. Find the correction for slope and the true horizontal length.</em></p>
+<p><strong>Given:</strong> L = 20.00 m, h = 2.00 m.
+<strong>Find:</strong> C<sub>s</sub> and the horizontal length.
+<strong>Formula:</strong> C<sub>s</sub> = h<sup>2</sup>/2L.
+<strong>Solve:</strong></p>
+<pre><code>Cs = (2.00)^2 / (2 x 20.00)
+   = 4.00 / 40.00
+   = 0.10 m
+
+horizontal length = 20.00 - 0.10 = 19.90 m</code></pre>
+<p><strong>Answer:</strong> the slope correction is <strong>0.10 m</strong>, and the true horizontal
+length is <strong>19.90 m</strong>.</p>
+<p><strong>Check:</strong> substituting back, 19.90 + 0.10 = 20.00 m, recovering the measured length.
+Independent check by the exact formula: h/L = 0.10, so &theta; = 5.74&deg; and the exact horizontal
+length is 20.00 &times; cos 5.74&deg; = 19.900 m &mdash; agreeing with the approximation to three
+decimal places, which confirms both the arithmetic and that the small-angle approximation is valid at
+this slope. <strong>On the sign:</strong> the correction must be <em>subtracted</em>, because a
+distance measured along sloping ground is always longer than its horizontal projection. An answer of
+20.10 m would mean the correction had been added, which is physically impossible.</p>
+
+<h3>Solved B &mdash; temperature correction</h3>
+<p><em>A 30.00 m steel tape was standardised at 20&deg;C. A line is measured with it on a day when the
+tape temperature is 35&deg;C, and the measured length is 30.00 m. Taking
+&alpha; = 0.0000112 per &deg;C, find the temperature correction and the true length.</em></p>
+<p><strong>Given:</strong> L = 30.00 m, T<sub>0</sub> = 20&deg;C, T<sub>m</sub> = 35&deg;C,
+&alpha; = 0.0000112 per &deg;C.
+<strong>Find:</strong> C<sub>t</sub> and the true length.
+<strong>Formula:</strong> C<sub>t</sub> = &alpha;(T<sub>m</sub> &minus; T<sub>0</sub>)L.
+<strong>Solve:</strong></p>
+<pre><code>Ct = 0.0000112 x (35 - 20) x 30.00
+   = 0.0000112 x 15 x 30.00
+   = 0.00504 m
+
+true length = 30.00 + 0.00504 = 30.00504 m</code></pre>
+<p><strong>Answer:</strong> the temperature correction is <strong>+0.00504 m</strong>, giving a true
+length of <strong>30.005 m</strong>.</p>
+<p><strong>Check:</strong> substituting back, 0.00504/(0.0000112 &times; 30.00) = 15&deg;C, recovering
+the temperature difference. <strong>On the sign:</strong> the tape is hotter than standard, so it has
+<em>expanded</em>, so each tape length laid down is slightly longer than 30 m, so the distance
+measured is slightly too short &mdash; and the correction must be <strong>added</strong>. Reversing
+that reasoning is the standard error, so it is worth stating on the page: <em>hot tape, add; cold
+tape, subtract.</em> The magnitude also passes a sense check, since 5 mm in 30 m is about 1 part in
+6000, which is the right order for a 15&deg;C change in steel.</p>
+
+<h3>Solved C &mdash; a tape of the wrong length</h3>
+<p><em>A line is measured as 150.00 m using a tape nominally 30 m long, which is later found to be
+actually 30.005 m long. Find the true length of the line. State also whether the error in the tape is
+a cumulative or a compensating error.</em></p>
+<p><strong>Given:</strong> measured length ML = 150.00 m; nominal length
+l<sub>n</sub> = 30.000 m; actual length l<sub>a</sub> = 30.005 m.
+<strong>Find:</strong> the true length, and the class of the error.
+<strong>Formula:</strong> TL = ML &times; l<sub>a</sub>/l<sub>n</sub>.
+<strong>Solve:</strong></p>
+<pre><code>TL = 150.00 x (30.005 / 30.000)
+   = 150.00 x 1.0001667
+   = 150.025 m
+
+error per tape length = 30.005 - 30.000 = +0.005 m
+number of tape lengths laid = 150.00 / 30.000 = 5
+total error = 5 x 0.005 = +0.025 m   ->  150.000 + 0.025 = 150.025 m</code></pre>
+<p><strong>Answer:</strong> the true length is <strong>150.025 m</strong>. The error is
+<strong>cumulative</strong>, because the same error of 0.005 m is repeated on every tape length laid
+down, so it accumulates in proportion to the number of settings.</p>
+<p><strong>Check:</strong> the two routes agree exactly &mdash; the ratio method gives 150.025 m and
+the accumulation method gives 150.000 + 0.025 = 150.025 m. That agreement is itself the check, because
+it proves the error scales with the number of tape lengths, which is precisely what
+&ldquo;cumulative&rdquo; means. Second check on sign and size: the tape is <em>too long</em>, so each
+length it reports as 30 m is really slightly more, so the true distance must be <em>larger</em> than
+the measured one &mdash; and 150.025 is larger than 150.000. An answer below 150 m would mean the tape
+had been found too short.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>Slope correction is always subtracted.</strong> Sloping ground always over-measures, so
+the correction can never be added.</li>
+<li><strong>Hot tape, add; cold tape, subtract.</strong> A tape hotter than standard has expanded, so
+it under-reads, so the true distance is longer.</li>
+<li><strong>h is the difference in level, not the slope length.</strong> In C<sub>s</sub> =
+h<sup>2</sup>/2L, the h is the rise between the ends and the L is the measured sloping length.</li>
+<li><strong>The temperature correction needs &alpha; in per &deg;C and a temperature difference, not
+an absolute temperature.</strong> Using 35 instead of 15 gives more than twice the answer.</li>
+<li><strong>A tape too long means a true length larger than measured.</strong> Ratio it the right way
+up: TL = ML &times; actual / nominal.</li>
+<li><strong>Corrections are always small.</strong> A correction of a metre in a 30 m line means a
+formula or a unit has gone wrong &mdash; &alpha; is per &deg;C, not per 100&deg;C.</li>
+<li><strong>Naming the error class:</strong> a tape of wrong length gives a <em>cumulative</em> error;
+a mistake in reading a single chain gives a <em>compensating</em> one.</li>
+<li><strong>Check line against tie line.</strong> A check line only detects error; a tie line fixes
+position. They are not interchangeable.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;Surveying is the art and science of determining the
+relative positions of points on the surface of the earth by measuring the horizontal and vertical
+distances between them and the angles between them, and of presenting the result to a suitable scale
+as a map or plan.&rdquo;</li>
+<li><strong>Principles line</strong> &mdash; &ldquo;The two principles of surveying are, first, to
+work from the whole to the part, that is to establish an accurate framework of control points before
+filling in the detail; and second, to locate a point by at least two independent measurements taken
+from known points.&rdquo;</li>
+<li><strong>Why line</strong> &mdash; &ldquo;Working from the whole to the part confines any error to
+the small area in which it occurred rather than allowing it to accumulate across the whole survey, and
+a second measurement makes the position of a point determinate instead of leaving it ambiguous on a
+circle.&rdquo;</li>
+<li><strong>Correction line</strong> &mdash; &ldquo;A chain is correct only under the conditions for
+which it was standardised; the errors of slope and temperature are corrected by
+C<sub>s</sub> = h<sup>2</sup>/2L and C<sub>t</sub> = &alpha;(T<sub>m</sub> &minus; T<sub>0</sub>)L,
+and a tape of incorrect length is corrected by multiplying the measured length by the ratio of the
+actual to the nominal length.&rdquo;</li>
+<li><strong>EDM line</strong> &mdash; &ldquo;Electronic distance measurement determines distance by
+the time taken, or the phase difference, of a modulated electromagnetic wave travelling to a
+reflector and back, giving the distance directly and to a high accuracy over long lines.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence the whole of surveying rests on the two
+principles of framework first and two measurements per point, and the corrections applied to a chain
+exist only because the field conditions never match the conditions under which the chain was
+standardised.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Give both principles with the reason</strong> &mdash; the statement alone scores half</li>
+<li><strong>Draw the whole-to-part diagram</strong> &mdash; it explains the principle faster than
+prose</li>
+<li><strong>Name the correction and its sign</strong> before substituting</li>
+<li><strong>State the class of the error</strong> when asked &mdash; cumulative or compensating</li>
+<li><strong>Underline keywords</strong> &mdash; framework, independent measurements, hypotenusal,
+cumulative, compensating</li>
+<li><strong>Box the corrected length</strong> with its unit</li>
+<li><strong>Never leave blank</strong> &mdash; the definition and two principles clear 4 of 7</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="C" data-explain="The two principles of surveying are to work from the whole to the part, establishing an accurate framework of control points before filling in detail, and to locate a point by at least two independent measurements from known points. Working from the whole to the part confines any error to the small area where it occurred instead of letting it accumulate.">
+<p><strong>Q1. The principle of &ldquo;working from the whole to the part&rdquo; means:</strong></p>
+<button data-key="A">Measuring the largest distances first and the smallest last</button>
+<button data-key="B">Surveying the whole country before surveying a single plot</button>
+<button data-key="C">Establishing an accurate framework of control points first, then filling in the detail within it</button>
+<button data-key="D">Completing the plan before taking any field measurements</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="A distance measured along sloping ground is always longer than its horizontal projection, so the slope correction is always subtracted. Here Cs = h squared over 2L = 4.00/40.00 = 0.10 m, giving a horizontal length of 19.90 m from a measured 20.00 m.">
+<p><strong>Q2. A 20 m line measured on sloping ground has a difference in level of 2 m between its ends. The slope correction is:</strong></p>
+<button data-key="A">0.10 m, subtracted</button>
+<button data-key="B">0.10 m, added</button>
+<button data-key="C">1.00 m, subtracted</button>
+<button data-key="D">0.20 m, added</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="A tape hotter than its standard temperature has expanded, so each tape length laid down is slightly longer than nominal and the distance it reports is slightly too short. The true distance is therefore longer than the measured one, so the temperature correction is added. Hot tape, add; cold tape, subtract.">
+<p><strong>Q3. A steel tape standardised at 20&deg;C is used at 35&deg;C. The temperature correction is:</strong></p>
+<button data-key="A">Subtracted, because the tape has expanded</button>
+<button data-key="B">Added, because the expanded tape under-reads the distance</button>
+<button data-key="C">Zero, because temperature does not affect a steel tape</button>
+<button data-key="D">Added, because the tape has contracted</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="A check line exists only to verify that no mistake has been made, and it is not used to fix anything. A tie line is a working measurement that fixes the position of a station or carries a measurement across an obstacle. The pair sounds interchangeable but the functions are opposite.">
+<p><strong>Q4. A line measured only to verify that no mistake has been made is called:</strong></p>
+<button data-key="A">A base line</button>
+<button data-key="B">A tie line</button>
+<button data-key="C">An offset line</button>
+<button data-key="D">A check line</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="Electronic distance measurement determines distance from the time taken or the phase difference of a modulated electromagnetic wave sent to a reflector and returned. It gives the distance directly, over long lines, and to a much higher accuracy than chaining, which is why it has largely replaced the chain for long measurements.">
+<p><strong>Q5. Electronic distance measurement (EDM) determines distance from:</strong></p>
+<button data-key="A">The number of chain lengths laid end to end</button>
+<button data-key="B">The time or phase difference of a modulated wave reflected back from the far station</button>
+<button data-key="C">The angle subtended at the instrument by a staff of known length</button>
+<button data-key="D">The difference in level between the two stations</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring, 2 of 10 papers.</strong> &ldquo;What is surveying? Explain its principles and
+object.&rdquo; &rarr; Definition covering measurement and presentation to scale; then the two
+principles, each with the reason it exists; then the object &mdash; to produce a map or plan to a
+suitable scale.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Classify surveying.&rdquo; &rarr; Three bases:
+the nature of the surface (plane against geodetic), the object (topographic, cadastral, engineering,
+hydrographic, astronomical), and the instruments used (chain, compass, plane table, theodolite,
+tacheometric, EDM).</li>
+<li><strong>Recurring, 2 of 10 papers.</strong> &ldquo;What is surveying and what is EDM?&rdquo;
+&rarr; Definition, then EDM by the time or phase difference of a modulated wave, with its advantages
+of speed, range and accuracy over chaining.</li>
+<li><strong>Short question.</strong> &ldquo;Distinguish between a check line and a tie line.&rdquo;
+&rarr; A check line only verifies; a tie line fixes position or crosses an obstacle.</li>
+<li><strong>Short question.</strong> &ldquo;Where is chain surveying unsuitable?&rdquo; &rarr;
+Undulating ground, a built-up area, a wooded or bushy area, and where the ground is crowded with
+detail &mdash; because offsets become long and the chain cannot be laid.</li>
+<li><strong>One-line recall.</strong> &ldquo;What is ranging?&rdquo; &rarr; Fixing intermediate
+points on a straight line between two stations when the line is longer than the chain.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="7">
+<li><strong>6 minutes, no notes.</strong> Draw the whole-to-part diagram and write both principles
+with a reason for each. Check the second principle says <em>two independent</em> measurements.</li>
+<li><strong>4 minutes.</strong> Solved A on paper. Check the correction is 0.10 m and is
+<em>subtracted</em>.</li>
+<li><strong>4 minutes.</strong> Solved B on paper. Check the correction is +0.00504 m and is
+<em>added</em>, because a hot tape under-reads.</li>
+<li><strong>5 minutes.</strong> Solved C on paper. Check the true length 150.025 m is <em>larger</em>
+than the measured 150.00 m, because the tape was too long.</li>
+<li><strong>3 minutes.</strong> Name the three corrections for a chain and the sign rule for each.
+Check slope is always subtracted.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT204 Unit 2 Topic 01</p>
+<h1>Surveying Fundamentals &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>Surveying is the art and science of determining the relative positions of
+points on the surface of the earth by measuring the horizontal and vertical
+distances between them and the angles between them, and of presenting the
+result to a suitable scale as a map or plan.
+
+THE TWO PRINCIPLES
+  1. WORK FROM THE WHOLE TO THE PART -- establish an accurate framework of
+     control points first, then fill in the detail within it.
+     Reason: confines an error to the area where it occurred instead of
+     letting it accumulate across the whole survey.
+  2. LOCATE A POINT BY TWO INDEPENDENT MEASUREMENTS from known points.
+     Reason: one measurement leaves the point ambiguous on a circle; a
+     second makes it determinate and checkable.
+
+CLASSIFICATION: by surface (plane, geodetic), by object (topographic,
+cadastral, engineering, hydrographic, astronomical), by instrument
+(chain, compass, plane table, theodolite, tacheometric, EDM).</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Slope        -> Cs = h^2 / (2L)        ALWAYS SUBTRACTED
+                   exact form L(1-cos theta), same to 3 dp below ~10 deg
+2. Temperature  -> Ct = alpha (Tm - To) L
+                   alpha = 0.0000112 per degC for steel
+                   HOT tape -> ADD     COLD tape -> SUBTRACT
+3. Wrong tape   -> TL = ML x (actual length / nominal length)
+                   tape too long -> ADD  (TL greater than ML)
+4. Error class  -> a wrong tape length gives a CUMULATIVE error
+                   (repeated on every setting, so it accumulates)</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Base line</td><td>The longest main line, measured most carefully, on which the framework rests</td></tr>
+<tr><td>Check line</td><td>Measured <strong>only to detect error</strong>; fixes nothing</td></tr>
+<tr><td>Tie line</td><td>Joins two known points to <strong>fix</strong> a station or span an obstacle</td></tr>
+<tr><td>Offset</td><td>Lateral distance from the chain line to a detail; perpendicular or oblique</td></tr>
+<tr><td>Ranging</td><td>Fixing intermediate points on a line longer than the chain</td></tr>
+<tr><td>Main station</td><td>A point at the end of a main survey line, part of the framework</td></tr>
+<tr><td>Subsidiary station</td><td>A point on a main line from which detail is located</td></tr>
+<tr><td>Plane surveying</td><td>Curvature ignored; valid to about 250 km<sup>2</sup></td></tr>
+<tr><td>Geodetic surveying</td><td>Curvature accounted for; large areas and national surveys</td></tr>
+<tr><td>&alpha; for steel</td><td>0.0000112 per &deg;C</td></tr>
+<tr><td>Standard temperature</td><td>20&deg;C</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Surveying</strong> &mdash; the art and science of determining the relative positions of
+points on the earth's surface by measuring distances and angles, and presenting the result to scale.</li>
+<li><strong>Plane surveying</strong> &mdash; surveying in which the curvature of the earth is ignored
+and the surface treated as a plane.</li>
+<li><strong>Geodetic surveying</strong> &mdash; surveying in which the curvature of the earth is taken
+into account.</li>
+<li><strong>Base line</strong> &mdash; the longest and most carefully measured main line of a chain
+survey.</li>
+<li><strong>Check line</strong> &mdash; a line measured only to verify that no mistake has been made
+in the framework.</li>
+<li><strong>Tie line</strong> &mdash; a line joining two known points, used to fix a station or to
+check or carry a measurement past an obstacle.</li>
+<li><strong>Offset</strong> &mdash; the lateral distance measured from a chain line to a detail.</li>
+<li><strong>Ranging</strong> &mdash; the process of fixing intermediate points on a straight line
+between two stations.</li>
+<li><strong>EDM</strong> &mdash; electronic distance measurement; determining distance from the time
+or phase difference of a modulated electromagnetic wave returned from a reflector.</li>
+<li><strong>Cumulative error</strong> &mdash; an error that is repeated on every setting and so
+accumulates in proportion to the number of settings; the wrong length of a tape is the standard
+example.</li>
+<li><strong>Compensating error</strong> &mdash; an error that is as likely to be positive as negative
+and therefore tends to cancel over many observations.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can define surveying covering distances, angles and presentation to scale</li>
+<li>[ ] Can state both principles and give the reason for each</li>
+<li>[ ] Can classify surveying on all three bases</li>
+<li>[ ] Can distinguish a check line from a tie line without hesitating</li>
+<li>[ ] Can define base line, offset, ranging and station</li>
+<li>[ ] Can write the slope correction and say why it is always subtracted</li>
+<li>[ ] Can write the temperature correction and state the hot-add cold-subtract rule</li>
+<li>[ ] Can correct a length for a tape of the wrong length, the right way up</li>
+<li>[ ] Can say whether a tape error is cumulative or compensating</li>
+<li>[ ] Can explain EDM and two advantages over chaining</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Three corrections, three signs.</strong> Slope: h<sup>2</sup>/2L,
+<strong>always subtract</strong>. Temperature: &alpha;(T<sub>m</sub> &minus; T<sub>0</sub>)L, with
+&alpha; = 0.0000112 &mdash; <strong>hot tape add, cold tape subtract</strong>. Wrong tape length:
+TL = ML &times; actual/nominal &mdash; <strong>tape too long means a bigger true length</strong>. A
+correction should always be small relative to the length; if it is not, the units or the formula have
+gone wrong.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT204 Unit 2 Topic 01 &middot; surveying and EDM in 2 of 10 papers</p>
+<h1>Surveying Fundamentals &mdash; questionnaire</h1>
+<div class="q-meta">Q4 slot &middot; &ldquo;what is surveying, and EDM&rdquo; &rarr; a definition plus the two principles with reasons, then the correction numerals</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733; 2 papers</span></div>
+<h3>What is surveying? Explain its principles and object, and classify the types of survey.</h3>
+<p>A definition, two principles each with a reason, and a classification table. The reasons are what separate a full answer from a recalled one &mdash; most candidates can state the principles but not say why they exist.</p>
+<div class="q-foot"><b>write</b> &mdash; definition covering distance, angles and presentation to scale (2) &rarr; two principles stated (2) &rarr; a reason for each, whole-to-part confining error and two measurements making the point determinate (2) &rarr; classification on the three bases (1).</div>
+<div class="q-foot"><b>check</b> &mdash; the principles without reasons score half; omitting &ldquo;two independent measurements&rdquo; and saying only two measurements loses the point of the second principle; a classification covering only one basis is incomplete.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; 2 papers</span></div>
+<h3>What is EDM? State its principle and its advantages over chaining.</h3>
+<p>A short, self-contained question. The principle is the phase or time measurement of a modulated wave, and the advantages are speed, range and accuracy &mdash; each of which contrasts with a specific weakness of the chain.</p>
+<div class="q-foot"><b>write</b> &mdash; EDM defined as electronic distance measurement (1) &rarr; principle: a modulated electromagnetic wave is sent to a reflector and the time or phase difference on return gives the distance (2) &rarr; advantages: speed, long lines without ranging, and accuracy independent of ground conditions (2).</div>
+<div class="q-foot"><b>check</b> &mdash; describing EDM as an optical instrument loses the principle mark; giving advantages without the contrast to chaining scores half; the word <em>modulated</em> is the technical term the examiner looks for.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>A line on sloping ground is 20 m with a 2 m difference in level. A 30 m tape standardised at 20&deg;C is used at 35&deg;C. Find both corrections.</h3>
+<p>Two corrections in one question, and the marks are entirely in the two signs. The arithmetic is a single line each.</p>
+<div class="q-foot"><b>write</b> &mdash; slope: C<sub>s</sub> = 4.00/40.00 = 0.10 m, subtracted (2) &rarr; temperature: C<sub>t</sub> = 0.0000112 &times; 15 &times; 30 = 0.00504 m (2) &rarr; a stated sign rule for each (1).</div>
+<div class="q-foot"><b>check</b> &mdash; adding the slope correction is physically impossible, since sloping ground always over-measures; subtracting the temperature correction reverses the hot-tape rule; using 35 instead of the difference 15 in the temperature formula more than doubles it.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence defining surveying across measurement and presentation.</li>
+    <li><strong>Visual:</strong> Draw the whole-to-part diagram before any prose.</li>
+    <li><strong>Table:</strong> Principle against reason, then the classification table.</li>
+    <li><strong>Close:</strong> The three corrections with their sign rules, and one substituted example.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> &ldquo;Surveying is the art and science of determining the relative positions of points on the surface of the earth by measuring the horizontal and vertical distances between them and the angles between them, and of presenting the result to a suitable scale as a map or plan.&rdquo;</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; both principles with reasons &rarr; classification on three bases &rarr; check line against tie line &rarr; the three corrections with signs and a worked example.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Definition verbatim</strong> &mdash; distances, angles, presented to scale</li>
+    <li><strong>Both principles with a reason each</strong> &mdash; never the statement alone</li>
+    <li><strong>Diagram for the first principle</strong> &mdash; it explains error accumulation instantly</li>
+    <li><strong>Classify on all three bases</strong>, not just one</li>
+    <li><strong>Underline keywords</strong> &mdash; framework, independent measurements, hypotenusal, cumulative</li>
+    <li><strong>State the sign</strong> with every correction</li>
+    <li><strong>Box the corrected length</strong> with its unit</li>
+    <li><strong>Never leave blank</strong> &mdash; the definition and two principles clear 4 of 7</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>What is surveying? Explain its principles and object, and classify the types of survey.</h3>
+<p class="answer-lead">Definition, both principles with their reasons, then the classification on three bases. The reasons are where the explanation marks sit.</p>
+<pre class="ascii-diagram" role="img" aria-label="The two principles of surveying, whole to part and location by two measurements">
+PRINCIPLE 1 -- WORK FROM THE WHOLE TO THE PART
+
+     WRONG: build up from small pieces        RIGHT: fix the frame first,
+            (errors accumulate)               then infill (errors localised)
+
+     c----d                                   A-------------------B
+     |    |                                     |   .           |
+     a----b                                     |       .       |
+        errors add end to end                    |   .       .   |
+     so the far corner drifts                     D-------------------C
+        ...............
+                                                  frame ABCD surveyed first
+                                                  and checked; detail fills in
+
+  Why: a small error in a small triangle is a LARGE error in the far corner.
+  Fixing a big accurate frame first, and filling in detail afterwards, keeps
+  every detail error local instead of letting it accumulate.
+
+PRINCIPLE 2 -- LOCATE A POINT BY TWO MEASUREMENTS
+
+     a single distance only says the point
+     is SOMEWHERE on a circle          ->  ambiguous
+
+     + -------------------------- P1
+              \\                  /
+               \\                /        two distances from two
+                \\              /         known points fix it
+                 \\            /          uniquely
+                  \\          /
+              A ----------- B
+                   BASE LINE
+
+  So every point is fixed by TWO independent quantities -- two distances
+  (chain surveying) or one distance and one angle (theodolite traversing).
+</pre>
+<p><strong>Definition.</strong> Surveying is the art and science of determining the relative positions
+of points on, above or below the surface of the earth, by measuring the horizontal and vertical
+distances between them and the angles between them, and of presenting the result to a suitable scale
+in the form of a map or plan.</p>
+<table>
+<tr><th>Principle</th><th>Statement</th><th>Reason</th></tr>
+<tr><td>Work from the whole to the part</td><td>Establish a framework of accurately measured major control points first, then fill in the detail inside it</td><td>A small error in a small triangle becomes a large error at a distant point; fixing an accurate frame first keeps every detail error local instead of letting errors accumulate</td></tr>
+<tr><td>Fix a point by two independent measurements</td><td>Locate every point by at least two measurements from known points</td><td>A single distance only places the point somewhere on a circle, so an error in it cannot be detected; a second measurement makes the position determinate and provides a check</td></tr>
+</table>
+<p><strong>Object.</strong> To prepare a map or plan to a suitable scale showing the relative positions
+of the features surveyed, and to furnish the data needed for the design of an engineering work.</p>
+<p><strong>Classification.</strong> <em>By the nature of the surface:</em> plane surveying, in which
+the curvature of the earth is ignored and the surface treated as flat, valid for areas up to about
+250 km<sup>2</sup>; and geodetic surveying, in which the curvature is taken into account, used for
+large areas and for national surveys. <em>By the object:</em> topographic, showing natural and
+artificial features; cadastral, fixing property boundaries; engineering, supplying data for a specific
+project; and hydrographic and astronomical. <em>By the instrument:</em> chain or tape, compass, plane
+table, theodolite, tacheometric, and EDM.</p>
+<p class="answer-close"><strong>Exam close:</strong> &ldquo;Hence all surveying rests on the two
+principles of establishing an accurate framework before filling in detail, and of fixing every point
+by two independent measurements &mdash; the first controlling the accumulation of error and the second
+making each point both determinate and checkable.&rdquo;</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>What is EDM? State its principle and its advantages over chaining.</h3>
+<p class="answer-lead">The principle is a time or phase measurement of a modulated wave; the advantages each answer a specific weakness of the chain.</p>
+<pre class="ascii-diagram" role="img" aria-label="Electronic distance measurement by a modulated wave returned from a reflector">
+   EDM -- ELECTRONIC DISTANCE MEASUREMENT
+   ======================================
+
+        INSTRUMENT                              REFLECTOR
+        (at A)                                  (at B, a prism)
+           |                                        |
+           |  --------- modulated wave ---------->   |
+           |                                        |
+           |  <--------- returned wave ----------   |
+           |                                        |
+        measures the TIME taken, or more usually
+        the PHASE DIFFERENCE between the outgoing
+        and the returning wave
+
+                        |
+                        v
+        D = (v x t) / 2        v = velocity of the wave
+                               /2 because it travels there AND back
+
+        or by phase:   D = (n x lambda + delta) / 2
+                       lambda = wavelength of the modulation
+
+   WHY IT BEATS THE CHAIN:
+     no ranging needed over long lines
+     ground may be undulating, wooded or built over
+     a single measurement, not many tape lengths
+     accuracy independent of temperature, slope and tension
+</pre>
+<p><strong>What it is.</strong> EDM, electronic distance measurement, is the determination of the
+distance between two stations by electronic means rather than by laying a chain or tape along the
+ground.</p>
+<p><strong>Principle.</strong> A <strong>modulated electromagnetic wave</strong> &mdash; light, infrared
+or microwave &mdash; is transmitted from the instrument at one station to a reflector or a
+transponder at the other, and returned. The distance is obtained either from the <strong>time</strong>
+the wave takes to travel to the reflector and back, the distance being half the product of the
+velocity and the time, or, more usually and more accurately, from the <strong>phase
+difference</strong> between the outgoing and the returning wave, resolved against the known
+wavelengths of the modulation.</p>
+<p><strong>Advantages over chaining.</strong></p>
+<ul>
+<li><strong>Speed.</strong> One measurement replaces many tape lengths laid end to end.</li>
+<li><strong>Range.</strong> Lines of kilometres can be measured in a single setting, where a chain
+would need continuous ranging.</li>
+<li><strong>Independence of ground conditions.</strong> The line need not be walkable &mdash; rivers,
+ravines, traffic and vegetation do not obstruct the measurement.</li>
+<li><strong>Accuracy.</strong> The result does not depend on temperature, slope, tension or sag, so
+the corrections that dominate chain surveying largely disappear.</li>
+<li><strong>Fewer errors.</strong> There is no cumulative error from repeatedly laying a tape, which
+is the characteristic error of chaining.</li>
+</ul>
+<p class="answer-close"><strong>Exam close:</strong> &ldquo;Hence EDM replaces the physical laying of
+a chain by a measurement of the travel of a modulated wave, which removes at once the cumulative
+error of the chain, the need for ranging, and the dependence of the result on the slope,
+temperature and tension of the tape.&rdquo;</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>A line on sloping ground is 20 m with a 2 m difference in level. A 30 m tape standardised at 20&deg;C is used at 35&deg;C. Find both corrections.</h3>
+<p class="answer-lead">One line of arithmetic each, and both marks are in the sign. State the rule before substituting.</p>
+<pre class="ascii-diagram" role="img" aria-label="Slope correction subtracted and temperature correction added, with the reasoning for each sign">
+   CORRECTION 1 -- SLOPE                 CORRECTION 2 -- TEMPERATURE
+   =====================                 ==========================
+
+   L = 20.00 m  (along the ground)       tape standardised at 20 C
+   h =  2.00 m  (difference in level)    used at 35 C  ->  HOTTER
+
+   Cs = h^2 / (2L)                       Ct = alpha (Tm - To) L
+      = 4.00 / 40.00                       = 0.0000112 x (35-20) x 30
+      = 0.10 m                             = 0.0000112 x 15 x 30
+                                           = 0.00504 m
+   ALWAYS SUBTRACTED
+   because ground distance is             ADDED
+   ALWAYS longer than horizontal          because a HOT tape has EXPANDED,
+                                          so each 30 m laid is really more,
+   horizontal = 20.00 - 0.10               so the distance is UNDER-read,
+              = 19.90 m                   so the true length is LONGER
+
+                                          true length = 30.00 + 0.00504
+                                                      = 30.005 m
+
+   THE TWO SIGNS ARE THE WHOLE QUESTION:
+     slope       -> always subtract    (never physically possible to add)
+     hot tape    -> add                (expanded tape under-reads)
+     cold tape   -> subtract           (contracted tape over-reads)
+</pre>
+<p><strong>Part one &mdash; slope.</strong> <strong>Given:</strong> L = 20.00 m, h = 2.00 m.
+<strong>Find:</strong> C<sub>s</sub>. <strong>Formula:</strong> C<sub>s</sub> = h<sup>2</sup>/2L.
+<strong>Solve:</strong></p>
+<pre><code>Cs = 4.00 / 40.00 = 0.10 m,  SUBTRACTED
+horizontal length = 20.00 - 0.10 = 19.90 m</code></pre>
+<p><strong>Part two &mdash; temperature.</strong> <strong>Given:</strong> L = 30.00 m,
+T<sub>0</sub> = 20&deg;C, T<sub>m</sub> = 35&deg;C, &alpha; = 0.0000112 per &deg;C.
+<strong>Find:</strong> C<sub>t</sub>. <strong>Formula:</strong>
+C<sub>t</sub> = &alpha;(T<sub>m</sub> &minus; T<sub>0</sub>)L. <strong>Solve:</strong></p>
+<pre><code>Ct = 0.0000112 x 15 x 30.00 = 0.00504 m,  ADDED
+true length = 30.00 + 0.00504 = 30.005 m</code></pre>
+<p><strong>Answer:</strong> slope correction <strong>0.10 m subtracted</strong>, giving a horizontal
+length of <strong>19.90 m</strong>; temperature correction <strong>0.00504 m added</strong>, giving a
+true length of <strong>30.005 m</strong>.</p>
+<p><strong>Check:</strong> the slope result substitutes back, 19.90 + 0.10 = 20.00 m, and checked
+exactly, h/L = 0.10 gives &theta; = 5.74&deg; and 20.00 cos 5.74&deg; = 19.900 m, agreeing with the
+approximation to three decimals. The temperature result substitutes back,
+0.00504/(0.0000112 &times; 30.00) = 15&deg;C, recovering the difference. Both magnitudes pass a sense
+check: 0.10 m in 20 m is 1 part in 200, and 0.005 m in 30 m is 1 part in 6000, both the right order.
+On the signs &mdash; the slope correction can never be added, because sloping ground always
+over-measures; and a hot tape must be added, because an expanded tape under-reads the distance.</p>
+<p class="answer-close"><strong>Exam close:</strong> &ldquo;Hence the slope correction is subtracted
+because the ground distance always exceeds the horizontal, and the temperature correction is added
+because a tape warmer than its standard has expanded and therefore under-reads &mdash; so the two
+corrections act in opposite directions and each must be signed before it is applied.&rdquo;</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-204 Unit 2, &ldquo;Surveying &amp;
+Positioning&rdquo;. The MST-1 syllabus page lists introduction to surveying, instruments, measurement
+of distance by conventional and EDM methods, measurement of directions and angles, and measurement of
+elevation. Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-civil-engineering-bt-204">RGPV Notes &mdash; BT-204 Basic Civil Engineering &amp; Mechanics</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-204 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-civil-engineering-bt-204">rgpvnotes.in BT-204 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ corpus</strong> &mdash; ten BT-204 papers (Nov-2019 to Dec-2025) were read for the
+mid-term battle plan; the frequency figures on this page are counts from that corpus.</li>
+<li><strong>Reference books</strong> &mdash; B. C. Punmia, <em>Surveying</em>, Laxmi Publications,
+and S. Ramamrutham, <em>Basic Civil Engineering</em>, Dhanpat Rai, for the principles, chain terms and
+corrections.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hub and the paper corpus support revision and question practice. All numerical values
+were computed rather than quoted: 2.00<sup>2</sup>/(2 &times; 20.00) = 0.10 m;
+0.0000112 &times; 15 &times; 30.00 = 0.00504 m; and 150.00 &times; 30.005/30.000 = 150.025 m. The
+exact slope form L(1 &minus; cos &theta;) is given alongside the h<sup>2</sup>/2L approximation, and
+the two are shown to agree to three decimal places at 5.74&deg;.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

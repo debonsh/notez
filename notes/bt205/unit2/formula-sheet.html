@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 2 Key-Sheet &mdash; BT205 &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); }
+.kicker { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; font-family: monospace; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: monospace; font-size: 0.85rem; color: var(--ink-soft); }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } }
+:root { --accent-soft: #1b1e25; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+a:hover { background: transparent; color: var(--accent); }
+table tr:hover td { background: transparent; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit2 $ cat formula-sheet.md</p></div>
+<p class="kicker">Printable &middot; BT205 Unit 2 &middot; exam morning</p>
+<h1>Unit 2 Key-Sheet — Algorithms &amp; C++</h1>
+<p><em>One block per topic. Print with the Unit-1 sheet; predicted paper: <a href="../midsem.html">../midsem.html</a>.</em></p>
+<h2>01 Algorithms</h2>
+<pre><code>finite steps: input → definite ops → output → terminates
+traits: input · output · definiteness · finiteness · effectiveness
+O(1)&lt;O(log n)&lt;O(n)&lt;O(n²) · 1 loop=O(n) · nested=O(n²)
+symbols: oval START · parallelogram I/O · rectangle process · diamond decision
+ways: English(ambiguous) · pseudocode(code-ready) · flowchart(visual) · program(proof)</code></pre>
+<h2>02 Paradigms</h2>
+<pre><code>machine 0/1 · assembly mnemonics(assembler) · high-level(compiler/interpreter)
+POP: functions apart, top-down, C · OOP: objects bind, bottom-up, C++
+E-I-P-A: Encapsulate(wrap) Inherit(reuse) Polymorph(many-forms) Abstract(hide-how)</code></pre>
+<h2>03 Tokens &amp; types</h2>
+<pre><code>5 tokens: keyword · identifier · constant · operator · separator(;)
+identifier: no leading digit · no keyword · case-sensitive
+int4B · float4B · double8B · char1B('A' vs "A"+\0) · bool · phone→string
+main: #include → using → int main(){…return 0;}</code></pre>
+<h2>04 Operators</h2>
+<pre><code>() · ! ++ -- · * / % · + - · &lt; · == · &amp;&amp; · || · = (ties: arith L→R, assign R→L)
+7/2=3! → (float)7/2=3.5 · = vs == · &amp;&amp;&gt;|| · cin&gt;&gt; in · cout&lt;&lt; out</code></pre>
+<h2>05 Control flow</h2>
+<pre><code>ranges→if-ladder · menu→switch(+break! int/char only)
+for(counted 0+) · while(tested 0+) · do(menu 1+, ends with ;)
+break=exit · continue=skip · fact f*=i · prime %+break · fibo shift · %10+/10 digits</code></pre>
+<h2>06 Arrays &amp; functions</h2>
+<pre><code>int m[5] · index 0…n−1 · loop i&lt;n · max: mx=m[0] from 1 · miss=−1
+declare(;)→define({})→call()→return · void swap(int &amp;a,int &amp;b){t-exchange}
+no-&amp; = copies swap only! · mat[r][c] nested rows×cols</code></pre>
+<h2>5-mark skeletons</h2>
+<table>
+<tr><th>Q</th><th>Skeleton</th></tr>
+<tr><td>Algorithm traits</td><td>definition + 5-row table + recipe line</td></tr>
+<tr><td>Ways to write algo</td><td>4-way pros/cons table + closing line</td></tr>
+<tr><td>POP vs OOP</td><td>6-row table + examples + scale close</td></tr>
+<tr><td>Precedence</td><td>ladder 1–9 + traced expression + boxed value</td></tr>
+<tr><td>Program (any)</td><td>logic (1) + code (2) + trace (1) + output (1)</td></tr>
+<tr><td>Swap function</td><td>def + code with &amp; + why-&amp; + before/after</td></tr>
+</table>
+<div class="zevu-footer"><p># shared via zevu · built with ART (zevu psa) · <a href="index.html">← hub</a> · <a href="../midsem.html">midsem paper →</a></p></div>
+</main>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

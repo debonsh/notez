@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alloy Steels and Their Applications &amp;mdash; What Each Element Is For</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit1 $</span> cat 04-alloy-steels.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 1 &mdash; Materials</p>
+<h1>Alloy Steels and Their Applications &mdash; What Each Element Is For</h1>
+<p><em>A carbon steel runs out of properties. You cannot make it stainless, you cannot keep it
+strong at 600&deg;C, and you cannot stop it wearing out in a crusher. Adding a few percent of another
+metal fixes each of those &mdash; and the reason is always the same: <strong>the alloying element
+interferes with something carbon already does</strong>. Learn what each element attacks, and the
+applications stop being a list to memorise.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>An alloy steel is a carbon steel containing small additions of elements
+such as Cr, Ni, Mo, V, W or Mn, added to impart properties that carbon
+alone cannot give -- corrosion resistance, high-temperature strength,
+hardenability, wear resistance or toughness.</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;Each alloying
+element is added for one reason &mdash; to interfere with a specific weakness of plain carbon
+steel.&rdquo;</em></p>
+
+<h2>What each element actually does</h2>
+
+<table>
+<thead><tr><th>Element</th><th>Typical addition</th><th>What it does</th><th>Consequence in service</th></tr></thead>
+<tbody>
+<tr><td>Chromium</td><td>0.5 - 20%</td><td>Builds a self-healing Cr<sub>2</sub>O<sub>3</sub> film; above about 12% the steel becomes stainless</td><td>Corrosion and oxidation resistance</td></tr>
+<tr><td>Nickel</td><td>1 - 30%</td><td>Stabilises austenite so the structure stays face-centred cubic; also raises toughness</td><td>Cryogenic service, corrosion resistance, toughness</td></tr>
+<tr><td>Molybdenum</td><td>0.2 - 3%</td><td>Improves hardenability and resists tempering; forms carbides that resist softening</td><td>Gears, crankshafts, high-temperature parts</td></tr>
+<tr><td>Manganese</td><td>0.5 - 2%</td><td>Sulphur getter, and it increases hardenability</td><td>Rail and wagon steel, wear parts</td></tr>
+<tr><td>Vanadium</td><td>0.1 - 0.5%</td><td>Forms very hard, stable carbides that refine grain</td><td>Tool steel, springs, high-strength bolts</td></tr>
+<tr><td>Tungsten</td><td>0.5 - 6%</td><td>Red-hot hardness; resists softening at high temperature</td><td>Cutting tools that run hot</td></tr>
+<tr><td>Silicon</td><td>0.2 - 2%</td><td>Deoxidiser and graphitiser</td><td>Spring steel, cast iron</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Each alloying element mapped to the weakness of carbon steel it removes and the application that results">
+              PLAIN CARBON STEEL
+                        |
+     +---------+--------+--------+---------+
+     |         |        |        |         |
+     v         v        v        v         v
+  RUSTS   SOFTENS   WEARS   BRITTLE  LOSES
+  quickly  at 600C   out fast at cold   strength
+     |         |        |        |         |
+     v         v        v        v         v
+  Cr forms   Mo resists V forms  Ni       Mn raises
+  Cr2O3      tempering  hard     keeps    harden-
+  film       and adds   carbides austenite ability
+     |         |        |        |         |
+     v         v        v        v         v
+ STAINLESS  GEARS,   TOOL      CRYO-     RAIL &
+ STEEL      CRANK-    STEEL     GENIC     WAGON
+            SHAFTS              STEEL     STEEL
+</pre>
+
+<h2>The three named alloy steels</h2>
+
+<table>
+<thead><tr><th>Steel</th><th>Composition</th><th>Why it is special</th><th>Application</th></tr></thead>
+<tbody>
+<tr><td>Stainless (18-8)</td><td>18% Cr, 8% Ni, balance Fe</td><td>Cr exceeds the 12% threshold, so the oxide film is continuous and self-repairing</td><td>Cutlery, surgical instruments, chemical plant</td></tr>
+<tr><td>Rail steel</td><td>0.5 - 1.0% C, up to 1.5% Mn</td><td>High carbon for wear, high manganese for toughness against wheel impact</td><td>Railway rails</td></tr>
+<tr><td>Tool steel</td><td>0.6 - 1.5% C + Cr, Mo, V, W</td><td>Carbide formers give hardness that survives heat; W and Mo give red-hot hardness</td><td>Cutting tools, dies, punches</td></tr>
+<tr><td>Heat-resisting steel</td><td>Low C + Cr, Ni, Mo, Si</td><td>Slow oxidation and creep at elevated temperature</td><td>Boiler tubes, turbine parts</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>The 12% rule.</strong> Stainless steel is not stainless because it
+contains a lot of alloy &mdash; it is stainless because chromium exceeds about <strong>12%</strong>,
+which is the minimum for a continuous, adherent, self-healing Cr<sub>2</sub>O<sub>3</sub> film.
+Below 12% the film breaks up and the steel rusts. If a question asks why 18-8 is stainless,
+that percentage is the answer.</div>
+
+<h2>Numericals in great depth</h2>
+
+<p>Alloy-steel numerals are composition arithmetic, the same move as topic 02, but with a
+twist: sometimes you add an element, which changes the denominator.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>m</code></td><td>total mass of alloy</td><td>kg</td></tr>
+<tr><td><code>p</code></td><td>percentage of an element by mass</td><td>%</td></tr>
+<tr><td><code>m_e = m &times; p / 100</code></td><td>mass of one element</td><td>kg</td></tr>
+<tr><td><code>x / (m + x) = p / 100</code></td><td>mass of alloying element to add</td><td>kg</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; composition and alloying numerals</span>
+<pre><code>Given:  the alloy specification (percentages) and the batch mass
+Find:   mass of a named element, or mass to add
+Formula:m_e = m x p / 100    (add case: x / (m + x) = p / 100)
+Solve:  substitute, keep full precision, write the unit
+Check:  add the parts back to the total</code></pre>
+</div>
+
+<h3>Solved A &mdash; an 18-8 stainless batch</h3>
+<p><em>A heat of 18-8 stainless steel weighs 5 kg and contains 18% chromium, 8% nickel, the
+balance being iron. Find the mass of each element.</em></p>
+<p><strong>Given:</strong> m = 5 kg, p<sub>Cr</sub> = 18%, p<sub>Ni</sub> = 8%.
+<strong>Find:</strong> mass of each. <strong>Formula:</strong> m<sub>e</sub> = m &times; p / 100.
+<strong>Solve:</strong></p>
+<pre><code>m_Cr = 5 x 18 / 100 = 0.90 kg
+m_Ni = 5 x  8 / 100 = 0.40 kg
+m_Fe = 5 x 74 / 100 = 3.70 kg</code></pre>
+<p><strong>Answer:</strong> chromium <strong>0.90 kg</strong>, nickel <strong>0.40 kg</strong>, iron
+<strong>3.70 kg</strong>. The chromium figure is the one that matters: 0.90 kg in the batch is
+18% by mass, comfortably above the 12% threshold, so this grade does form the continuous oxide
+film.</p>
+<p><strong>Check:</strong> 0.90 + 0.40 + 3.70 = 5.00 kg, exactly the batch weight. Independent
+second check: 0.90 / 5 &times; 100 = 18%, returning the input value; and 18% + 8% = 26%, leaving
+74% iron, so 5 &times; 0.74 = 3.70 kg agrees with the subtraction route. Two routes, same
+answer.</p>
+
+<h3>Solved B &mdash; chromium to add, where the denominator moves</h3>
+<p><em>How much chromium must be added to 100 kg of steel to give an alloy containing 2%
+chromium?</em></p>
+<p>The percentage is taken over the <strong>final</strong> mass, which now includes the chromium
+being added.</p>
+<p><strong>Given:</strong> m = 100 kg, target p<sub>Cr</sub> = 2%.
+<strong>Find:</strong> x, chromium to add. <strong>Formula:</strong> x / (m + x) = p / 100.
+<strong>Solve:</strong></p>
+<pre><code>x / (100 + x) = 0.02
+x = 0.02 (100 + x) = 2 + 0.02 x
+x (1 - 0.02) = 2
+x = 2 / 0.98 = 2.0408 kg</code></pre>
+<p><strong>Answer:</strong> add <strong>2.04 kg</strong> of chromium; the resulting alloy weighs
+102.04 kg.</p>
+<p><strong>Check:</strong> substitute back &mdash; 2.0408 / 102.0408 &times; 100 = 2.000%, exactly
+the target. Independent check by ratio: in a 2% Cr alloy the chromium-to-iron ratio is 2 : 98, so
+100 kg of iron needs 100 &times; 2 / 98 = 2.0408 kg. Note also that this alloy, at 2% chromium,
+is nowhere near the 12% needed for stainless &mdash; a useful reminder that an alloyed steel is
+not automatically a stainless steel.</p>
+
+<h3>Solved C &mdash; rail steel from the wagon angle</h3>
+<p><em>A wagon axle is made of steel containing 1.2% carbon. A heat of 1000 kg is cast. Find the
+mass of carbon and of iron in the heat, and state why a rail grade uses a higher manganese
+addition than a plain structural steel.</em></p>
+<p><strong>Given:</strong> m = 1000 kg, p<sub>C</sub> = 1.2%. <strong>Find:</strong> masses, and
+the reason for the manganese. <strong>Formula:</strong> m<sub>e</sub> = m &times; p / 100.
+<strong>Solve:</strong></p>
+<pre><code>m_C  = 1000 x 1.2 / 100 = 12 kg
+m_Fe = 1000 x 98.8 / 100 = 988 kg</code></pre>
+<p><strong>Answer:</strong> carbon <strong>12 kg</strong>, iron <strong>988 kg</strong>. Manganese
+is added because a rail takes repeated wheel impact, and manganese both increases hardenability and
+combines with sulphur to form harmless manganese sulphide; without it the rail would have low
+notch toughness and would shatter rather than deform. A structural beam carries static load and
+needs none of that.</p>
+<p><strong>Check:</strong> 12 + 988 = 1000 kg exactly. Second check: 12 / 1000 &times; 100 = 1.2%,
+the stated carbon. The scale is right too &mdash; 1.2% carbon is high-carbon territory (topic 02's
+0.60&ndash;1.0% band, slightly above it), which is exactly what a wear surface needs.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>The add-to denominator.</strong> For &ldquo;how much chromium to add&rdquo; the
+percentage is over the final mass. 0.02 &times; 100 = 2 kg gives 1.96%, not 2%.</li>
+<li><strong>12% is not 18%.</strong> 18-8 is the <em>composition</em>; 12% is the <em>threshold</em>
+above which the oxide film becomes continuous. Questions ask about the threshold.</li>
+<li><strong>Percent by mass, not by volume.</strong> A 5 kg heat is a mass balance; do not attempt
+a volume balance.</li>
+<li><strong>Watch for percentages that do not add to 100.</strong> If a question lists 18% Cr and
+8% Ni, the balance is 74% Fe &mdash; do not assume a further unspecified element is present.</li>
+<li><strong>Distinguish addition from composition.</strong> &ldquo;Contains 1.2% carbon&rdquo; is a
+composition statement; &ldquo;1.2% carbon must be added&rdquo; is a process question with a different
+denominator.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;Alloy steels are carbon steels to which small
+percentages of elements such as chromium, nickel, molybdenum, vanadium or tungsten are added to
+impart properties carbon alone cannot provide.&rdquo;</li>
+<li><strong>Significance line</strong> &mdash; &ldquo;Each element is added to defeat one specific
+weakness &mdash; chromium against corrosion, molybdenum against tempering, tungsten against
+red-hot softening &mdash; so alloy design is the choice of which failure to prevent.&rdquo;</li>
+<li><strong>Method line</strong> &mdash; &ldquo;A composition is always a <em>mass</em> balance, so
+the mass of one element is the batch mass multiplied by its percentage over 100, and the
+percentage of an added element is taken over the final, larger mass.&rdquo;</li>
+<li><strong>Limitation line</strong> &mdash; &ldquo;Alloying raises cost and often lowers
+weldability, so a stainless or tool grade is specified only where plain carbon steel would
+actually fail.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence 18-8 stainless is corrosion resistant
+<strong>because its 18% chromium exceeds the 12% needed for a continuous oxide film</strong>, and
+that is the single number that identifies the grade.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Element to effect table first</strong> &mdash; one row per element, before any prose.</li>
+<li><strong>Give the mechanism, not the adjective</strong> &mdash; &ldquo;chromium forms a
+Cr<sub>2</sub>O<sub>3</sub> film&rdquo; scores; &ldquo;chromium prevents rust&rdquo; does
+not.</li>
+<li><strong>Underline the keyword</strong> &mdash; corrosion, hardenability, red-hot hardness,
+toughness.</li>
+<li><strong>State the application with its reason</strong> &mdash; &ldquo;rail steel, because it
+must resist wheel impact&rdquo;.</li>
+<li><strong>Attempt order</strong> &mdash; this is the second-easiest Unit 1 question after
+classification; take it early.</li>
+<li><strong>Never leave blank</strong> &mdash; five elements with one line each clears 4 of 7.</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="C" data-explain="Chromium above about 12% forms a continuous, adherent, self-healing Cr2O3 film. 18-8 stainless contains 18% chromium, well above the threshold, and the 8% nickel keeps the structure austenitic so the film can repair itself.">
+<p><strong>Q1. An 18-8 stainless steel is corrosion resistant because it contains:</strong></p>
+<button data-key="A">8% nickel, which forms an oxide film</button>
+<button data-key="B">18% carbon, which reacts with oxygen</button>
+<button data-key="C">18% chromium, above the 12% threshold for a continuous oxide film</button>
+<button data-key="D">26% nickel, which is above the corrosion threshold</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="Tungsten and molybdenum give red-hot hardness: their carbides resist softening, so a tungsten tool steel keeps its cutting edge at temperatures where plain high-carbon steel would lose it.">
+<p><strong>Q2. Which element is added to tool steel specifically for red-hot hardness?</strong></p>
+<button data-key="A">Tungsten</button>
+<button data-key="B">Copper</button>
+<button data-key="C">Zinc</button>
+<button data-key="D">Aluminium</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="Manganese is both a sulphur getter and a hardenability raiser. Rail steel needs toughness against repeated wheel impact, which a high-carbon plain steel would not have without the manganese.">
+<p><strong>Q3. Rail steel contains a higher percentage of manganese mainly to:</strong></p>
+<button data-key="A">Increase corrosion resistance</button>
+<button data-key="B">Increase toughness and hardenability against wheel impact</button>
+<button data-key="C">Reduce the melting point for casting</button>
+<button data-key="D">Make the steel lighter</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="x/(100 + x) = 0.02 gives x = 2/0.98 = 2.0408 kg. Adding 2.00 kg instead would give 2.00/102.00 = 1.9608%, short of the 2% specified.">
+<p><strong>Q5. How much chromium must be added to 100 kg of steel to give a 2% chromium alloy?</strong></p>
+<button data-key="A">2.00 kg</button>
+<button data-key="B">20.0 kg</button>
+<button data-key="C">2.04 kg</button>
+<button data-key="D">0.20 kg</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="Molybdenum improves hardenability and resists tempering, and it forms carbides that resist softening. That is why it appears in gears, crankshafts and high-temperature parts.">
+<p><strong>Q4. Molybdenum is added to alloy steel mainly to improve:</strong></p>
+<button data-key="A">Corrosion resistance against acids</button>
+<button data-key="B">Electrical conductivity</button>
+<button data-key="C">Density and weight</button>
+<button data-key="D">Hardenability and resistance to tempering</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring 7-marker.</strong> &ldquo;What are alloy steels? Explain the properties of
+different alloying elements with their applications.&rdquo; &rarr; Definition, then a six-row
+element table: element, addition, effect, application. Close with the 12% chromium
+threshold.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What is stainless steel? Why is it
+stainless?&rdquo; &rarr; &ldquo;A steel containing at least 12% chromium, of which 18-8 is the
+commonest grade&rdquo;, then the Cr<sub>2</sub>O<sub>3</sub> film mechanism.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Why is molybdenum added to steel?&rdquo;
+&rarr; Hardenability and tempering resistance; gears and crankshafts.</li>
+<li><strong>One-line recall.</strong> &ldquo;Which element is called the sulphur getter and
+why?&rdquo; &rarr; Manganese, which combines with sulphur as MnS and stops the brittle inclusions.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="5">
+<li><strong>4 minutes, no notes.</strong> Write the element-to-effect table from memory: Cr, Ni, Mo,
+Mn, V, W. Check you can give an effect, not just a name.</li>
+<li><strong>3 minutes.</strong> Explain why 18-8 is stainless in three sentences. Check the 12%
+threshold appears.</li>
+<li><strong>5 minutes.</strong> Solved B on paper. Check the denominator is 102.04 kg, not
+100 kg.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 1 Topic 04</p>
+<h1>Alloy Steels and Their Applications &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>An alloy steel is a carbon steel containing small additions of Cr, Ni, Mo,
+V, W or Mn to impart properties carbon alone cannot give -- corrosion
+resistance, high-temperature strength, hardenability, wear resistance
+or toughness. Each element is added to defeat one specific weakness.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Name the weakness      -&gt; rusts / softens at heat / wears / brittle / weak
+2. Name the element        -&gt; Cr / Mo + Si / V / Ni / Mn
+3. State the mechanism     -&gt; Cr2O3 film / resists tempering / hard carbides /
+                              stabilises austenite / raises hardenability
+4. Name the application    -&gt; stainless / boiler tube / tool / cryogenic / rail</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Element</th><th>Addition</th><th>Primary effect</th><th>Application</th></tr></thead>
+<tbody>
+<tr><td>Chromium</td><td>0.5 - 20%</td><td>Continuous Cr<sub>2</sub>O<sub>3</sub> film above 12%</td><td>Stainless steel, cutting tools</td></tr>
+<tr><td>Nickel</td><td>1 - 30%</td><td>Stabilises austenite, raises toughness</td><td>Cryogenic and corrosion-resistant parts</td></tr>
+<tr><td>Molybdenum</td><td>0.2 - 3%</td><td>Hardenability, tempering resistance</td><td>Gears, crankshafts, high-temperature parts</td></tr>
+<tr><td>Manganese</td><td>0.5 - 2%</td><td>Sulphur getter, hardenability, toughness</td><td>Rail and wagon steel, wear parts</td></tr>
+<tr><td>Vanadium</td><td>0.1 - 0.5%</td><td>Hard stable carbides, grain refinement</td><td>Tool steel, springs, bolts</td></tr>
+<tr><td>Tungsten</td><td>0.5 - 6%</td><td>Red-hot hardness</td><td>High-speed cutting tools</td></tr>
+<tr><td>Silicon</td><td>0.2 - 2%</td><td>Deoxidiser, graphitiser</td><td>Spring steel, cast iron</td></tr>
+<tr><td>18-8 stainless</td><td>18% Cr, 8% Ni</td><td>Well above the 12% threshold</td><td>Cutlery, surgical and chemical equipment</td></tr>
+<tr><td>Rail steel</td><td>0.5 - 1.0% C, 1 - 1.5% Mn</td><td>Wear resistance plus impact toughness</td><td>Railway rails</td></tr>
+<tr><td>Tool steel</td><td>0.6 - 1.5% C + Cr/Mo/V/W</td><td>Hardness surviving heat input</td><td>Cutting tools, dies, punches</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Alloy steel</strong> &mdash; a steel containing, besides carbon, one or more elements
+added specifically to enhance mechanical or chemical properties.</li>
+<li><strong>Stainless steel</strong> &mdash; a steel containing at least about 12% chromium, which
+forms a continuous self-healing oxide film that prevents rusting.</li>
+<li><strong>18-8 stainless</strong> &mdash; the commonest austenitic grade, 18% chromium and 8%
+nickel; the nickel keeps the structure austenitic so the film can repair itself.</li>
+<li><strong>Hardenability</strong> &mdash; the ability of a steel to harden through its section
+when quenched, raised mainly by molybdenum and manganese.</li>
+<li><strong>Red-hot hardness</strong> &mdash; the ability of a tool material to retain its
+hardness at elevated cutting temperature; the property tungsten is added for.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can give the effect of Cr, Ni, Mo, Mn, V and W without hesitating</li>
+<li>[ ] Can state the 12% chromium threshold and why it matters</li>
+<li>[ ] Can name four named alloy steels with composition and application</li>
+<li>[ ] Can explain what &ldquo;red-hot hardness&rdquo; means and which element gives it</li>
+<li>[ ] Can say what manganese does that carbon does not</li>
+<li>[ ] Can solve an add-to-denominator composition numeral</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Two moves only.</strong> Composition: multiply batch mass by the
+percentage over 100. Addition: solve x / (m + x) = p / 100, then divide x back by (m + x) to confirm
+the percentage. Finish by adding all the parts to the batch mass.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 1 Topic 04 &middot; from 10 PYQ sessions (Dec-2023 &rarr; Jun-2025)</p>
+<h1>Alloy Steels and Their Applications &mdash; questionnaire</h1>
+<div class="q-meta">Q1/Q3 slot &middot; recurring pattern &middot; "alloying elements and their applications" &rarr; a six-row element table carries the marks, one mechanism per row</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>What are alloy steels? Explain the properties of different alloying elements with their applications.</h3>
+<p>Definition first, then a six-row table &mdash; Cr, Ni, Mo, Mn, V, W &mdash; each row carrying addition, mechanism and application. Close on the 12% chromium threshold, which is the one figure in the topic that a short question can ask on its own.</p>
+<div class="q-foot"><b>write</b> &mdash; definition (1) &rarr; element table with mechanism and application, six rows (5) &rarr; boxed 12% threshold (1).</div>
+<div class="q-foot"><b>check</b> &mdash; listing element names with no mechanism costs the table half; the Cr2O3 film must be named, not paraphrased as "a protective layer"; omitting the threshold loses the closing mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>What is stainless steel? Why is it stainless, and what is 18-8?</h3>
+<p>Three short parts. Define stainless as a steel above the chromium threshold, explain the self-healing oxide film, then give 18-8 as the commonest grade with its composition and why the nickel is there.</p>
+<div class="q-foot"><b>write</b> &mdash; definition with the 12% figure (2) &rarr; Cr2O3 film mechanism, continuous and self-healing (2) &rarr; 18-8 composition and role of nickel (1).</div>
+<div class="q-foot"><b>check</b> &mdash; "18% chromium makes it stainless" skips the threshold and scores half; the self-healing property is the word that earns the mechanism marks; nickel stabilises austenite, it does not form the film.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Why are molybdenum and tungsten added to alloy steels? Where are they used?</h3>
+<p>Treat these two together, since both attack heat. State the mechanism for each &mdash; Mo resists tempering and raises hardenability, W gives red-hot hardness through stable carbides &mdash; then the applications that follow from each mechanism.</p>
+<div class="q-foot"><b>write</b> &mdash; Mo mechanism (1) &rarr; Mo application (1) &rarr; W mechanism, red-hot hardness (1) &rarr; W application, hot cutting tools (1) &rarr; contrast line (1).</div>
+<div class="q-foot"><b>check</b> &mdash; giving one joint application for both elements loses the distinction mark; "for hardness" without saying which kind of hardness leaves the red-hot half unscored.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence defining an alloy steel and the reason for adding elements.</li>
+    <li><strong>Visual:</strong> Draw the element-to-weakness map, or lay out the element table, before any prose.</li>
+    <li><strong>Reason:</strong> One row per element &mdash; addition, mechanism, application &mdash; never an adjective alone.</li>
+    <li><strong>Close:</strong> Box the 12% chromium threshold and add the significance line about choosing which failure to prevent.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "An alloy steel is a carbon steel containing small additions of elements such as chromium, nickel, molybdenum, vanadium or tungsten, added to impart properties that carbon alone cannot give."</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; element table &rarr; named grades 18-8, rail, tool &rarr; mechanism paragraph for the two most-asked elements &rarr; boxed 12% threshold &rarr; significance line.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Statement first</strong> &mdash; the definition, one line, before the table</li>
+    <li><strong>Table or map before prose</strong> &mdash; six rows is a 7-mark answer</li>
+    <li><strong>Underline keywords</strong> &mdash; hardenability, corrosion, red-hot hardness, toughness</li>
+    <li><strong>Box every final answer</strong> &mdash; 12% and the 18-8 composition</li>
+    <li><strong>Attempt order:</strong> second after classification; it is table work, so it is quick</li>
+    <li><strong>Never leave blank</strong> &mdash; five elements with one mechanism each clears 4 of 7</li>
+    <li><strong>Mechanism, not adjective</strong> &mdash; "Cr2O3 film", never "protective coating"</li>
+    <li><strong>Close every answer:</strong> "hence proved" / boxed threshold / one significance line</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>What are alloy steels? Explain the properties of different alloying elements with their applications.</h3>
+<p class="answer-lead">Define the family, then work one row per element. Each row must carry a mechanism, not just a property name.</p>
+<pre class="ascii-diagram" role="img" aria-label="Each alloying element mapped to the weakness of carbon steel it removes and the application that results">
+              PLAIN CARBON STEEL
+                        |
+     +---------+--------+--------+---------+
+     |         |        |        |         |
+     v         v        v        v         v
+  RUSTS   SOFTENS   WEARS   BRITTLE  LOSES
+  quickly  at 600C   out fast at cold   strength
+     |         |        |        |         |
+     v         v        v        v         v
+  Cr forms   Mo resists V forms  Ni       Mn raises
+  Cr2O3      tempering  hard     keeps    harden-
+  film       and adds   carbides austenite ability
+     |         |        |        |         |
+     v         v        v        v         v
+ STAINLESS  GEARS,   TOOL      CRYO-     RAIL &
+ STEEL      CRANK-    STEEL     GENIC     WAGON
+            SHAFTS              STEEL     STEEL
+</pre>
+<table>
+<tr><th>Element</th><th>Typical addition</th><th>Mechanism</th><th>Application</th></tr>
+<tr><td>Chromium</td><td>0.5 - 20%</td><td>Forms a continuous, self-healing Cr<sub>2</sub>O<sub>3</sub> film; above about 12% the steel is stainless</td><td>Stainless steel, cutting tools, chemical plant</td></tr>
+<tr><td>Nickel</td><td>1 - 30%</td><td>Stabilises austenite so the structure stays face-centred cubic; also raises toughness at low temperature</td><td>Cryogenic vessels, corrosion-resistant parts</td></tr>
+<tr><td>Molybdenum</td><td>0.2 - 3%</td><td>Improves hardenability and resists softening on tempering; forms heat-stable carbides</td><td>Gears, crankshafts, high-temperature components</td></tr>
+<tr><td>Manganese</td><td>0.5 - 2%</td><td>Combines with sulphur as harmless MnS and raises hardenability and toughness</td><td>Rail and wagon steel, crusher jaws, wear plates</td></tr>
+<tr><td>Vanadium</td><td>0.1 - 0.5%</td><td>Forms very hard, thermally stable carbides and refines the grain</td><td>Tool steel, springs, high-strength bolts</td></tr>
+<tr><td>Tungsten</td><td>0.5 - 6%</td><td>Red-hot hardness; its carbides resist softening at cutting temperature</td><td>High-speed cutting tools that run hot</td></tr>
+</table>
+<p class="answer-close"><strong>Exam close:</strong> "Each element is added to defeat one specific weakness of plain carbon steel, so alloy design is essentially the choice of which failure to prevent; 18-8 stainless resists corrosion because its 18% chromium exceeds the 12% needed for a continuous oxide film."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>What is stainless steel? Why is it stainless, and what is 18-8?</h3>
+<p class="answer-lead">Three short parts in order: definition with the threshold, then the film mechanism, then the named grade. The threshold and the self-healing property are the two marks most often lost.</p>
+<pre class="ascii-diagram" role="img" aria-label="How chromium above 12 percent forms a continuous self-healing oxide film on stainless steel">
+        STEEL SURFACE + OXYGEN
+                    |
+                    v
+        +-----------------------+
+        |  Cr atoms at surface  |
+        |  need at least 12%   |
+        +-----------------------+
+                    |
+                    v
+        +-----------------------+
+        |  Cr2O3 FILM forms     |
+        |  continuous + adherent|
+        +-----------------------+
+             |              ^
+             |              |
+        protects       oxygen reaches
+        the steel     the bare metal
+        below         through a scratch
+                    |
+                    v
+        +-----------------------+
+        |  film heals itself in |
+        |  the scratch - steel |
+        |  never rusts         |
+        +-----------------------+
+
+   Cr below 12%  ->  film breaks up  ->  RUSTS
+</pre>
+<p><strong>Definition:</strong> stainless steel is a steel containing at least about
+<strong>12% chromium</strong>. 18-8 is the commonest austenitic grade, containing
+<strong>18% chromium</strong> and <strong>8% nickel</strong>.</p>
+<p><strong>Why:</strong> chromium reacts with oxygen to form a chromium oxide, Cr<sub>2</sub>O<sub>3</sub>,
+film on the surface. Above about 12% the film is continuous, adherent and self-healing &mdash;
+wherever it is scratched, fresh chromium re-oxidises and repairs the film. Because the film
+separates the steel from oxygen and water, the steel underneath does not corrode.</p>
+<p><strong>Role of the nickel:</strong> nickel stabilises the austenitic structure, which keeps the
+film able to repair itself and also raises low-temperature toughness, so 18-8 is usable for
+cryogenic service.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Stainlessness therefore depends on the
+chromium exceeding the 12% threshold rather than on the total alloy content, which is why an
+18-8 grade resists corrosion and a 2% chromium alloy does not."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Why are molybdenum and tungsten added to alloy steels? Where are they used?</h3>
+<p class="answer-lead">Both attack heat, but in different ways. Separate the two mechanisms clearly, then follow each to its application.</p>
+<pre class="ascii-diagram" role="img" aria-label="Contrast between molybdenum for hardenability and tungsten for red-hot hardness, with applications">
+        HEAT ATTACKS STEEL TWO WAYS
+                    |
+                    |
+  SLOW SOFTENING         OVERHEAT AT THE
+  on tempering           cutting edge
+        |                       |
+        v                       v
+ +------------------+    +------------------+
+ | MOLYBDENUM       |    | TUNGSTEN         |
+ | resists tempering|    | carbides so      |
+ | raises           |    | stable the edge  |
+ | hardenability    |    | against heat     |
+ +------------------+    +------------------+
+        |                       |
+        v                       v
+ need strength            need the CUTTING
+ THROUGH the              EDGE to survive
+ section                 its own heat
+        |                       |
+        v                       v
+ gears, crankshafts,    high-speed cutting
+ ball bearings,         tools, drills,
+ high-temperature       taps, dies
+ components
+</pre>
+<p><strong>Molybdenum</strong> improves <strong>hardenability</strong>, the ability of a steel to
+harden through its whole section when quenched, and it resists the softening that tempering would
+otherwise cause. It also forms carbides that resist heat. That combination is why it appears in
+gears, crankshafts, ball bearings and high-temperature components.</p>
+<p><strong>Tungsten</strong> gives <strong>red-hot hardness</strong>. Its carbides are so stable
+that the cutting edge keeps its hardness at temperatures where a plain high-carbon tool steel would
+soften and break down. That is why it appears in high-speed cutting tools, drills, taps and
+dies.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Molybdenum is added for strength retained
+through the section, tungsten for a cutting edge that survives its own heat, which is why the two
+are never interchangeable."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203 Unit 1, "Alloy steels their
+applications". Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub, for cross-checking the addition ranges.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, for the paper pattern these drills
+follow. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference book</strong> (official BT-203 list) &mdash; C. M. Agrawal,
+<em>Basic Mechanical Engineering</em>, Wiley &mdash; primary text for Unit 1.</li>
+</ul>
+<p class="source-note">Links last checked 28 September 2026. The official scheme fixes the
+syllabus scope; the notes hubs and paper archive support revision and question practice. No paper
+session is attributed beyond the December 2020 archive named above.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

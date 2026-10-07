@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hooke's Law and Modulus of Elasticity &amp;mdash; The Straight Line Every Material Starts With</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit1 $</span> cat 07-hookes-law-modulus.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 1 &mdash; Materials</p>
+<h1>Hooke's Law and Modulus of Elasticity &mdash; The Straight Line Every Material Starts With</h1>
+<p><em>Hooke's law is one sentence long and every calculation in this topic is that sentence with
+different words swapped in. The only thing that catches people is units: modulus is quoted in GPa
+while stress is quoted in MPa, and mixing them puts your answer out by a factor of a thousand. Fix
+that one habit and this topic is free marks.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>Within the elastic limit, the stress produced in a body is directly
+proportional to the strain produced. Hence stress / strain = a constant
+for that material, and that constant is the modulus of elasticity.</code></pre>
+
+<pre><code>   WITHIN THE ELASTIC LIMIT
+   -------------------------------------------
+   stress   sigma  is proportional to   strain  e
+
+                   sigma = E . e
+                   sigma / e = E  (constant for the material)
+   -------------------------------------------</code></pre>
+
+<p>The five words <strong>within the elastic limit</strong> carry the marks. Outside that range the
+body is permanently deformed, the graph is no longer a straight line, and the ratio
+&sigma;/e is no longer constant. An answer that omits the phrase is an answer that is only right
+inside one part of the curve.</p>
+
+<h2>The four derived forms</h2>
+
+<table>
+<thead><tr><th>Form</th><th>Equation</th><th>Use it when you know</th></tr></thead>
+<tbody>
+<tr><td>Definition</td><td>&sigma; = E &times; e</td><td>&sigma; and e</td></tr>
+<tr><td>Rearranged</td><td>e = &sigma; / E</td><td>&sigma; and E</td></tr>
+<tr><td>Rearranged</td><td>E = &sigma; / e</td><td>&sigma; and e</td></tr>
+<tr><td>Geometric</td><td>&delta;L = P L<sub>0</sub> / (A E)</td><td>load, length, area and E</td></tr>
+</tbody>
+</table>
+
+<p>The fourth is the one that catches people out. Combine &sigma; = P/A with e = &delta;L /
+L<sub>0</sub> in &sigma; = E &times; e and the stress and strain both cancel their areas and
+lengths, giving:</p>
+
+<pre><code>   sigma = E . e
+   P/A   = E . (dL / L0)
+
+        P . L0
+   dL = ---------
+         A . E
+</code></pre>
+
+<p>which is the elongation formula every bar, rod and tie in structural work uses.</p>
+
+<h2>Modulus of elasticity, symbol by symbol</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="The elongation formula with each symbol defined and its unit">
+        P . L0
+  dL = ---------          the ELONGATION of a bar under an axial load
+         A . E
+        |  | | |
+        |  | | +-- E  modulus of elasticity    [GPa or N/mm2]
+        |  | +---- L0 original length of bar     [mm]
+        |  +------ A  cross-sectional area       [mm2]
+        +--------- P  axial load                 [N]
+
+     units:  N . mm        mm
+             ---------- = --   so dL comes out in mm
+             mm2 . N/mm2
+</pre>
+
+<h2>Three moduli, three different meanings</h2>
+
+<table>
+<thead><tr><th>Modulus</th><th>Symbol</th><th>Strain it measures</th><th>Typical value</th></tr></thead>
+<tbody>
+<tr><td>Young's modulus (longitudinal)</td><td>E</td><td>Extension under tension</td><td>Steel 200 GPa, aluminium 70 GPa</td></tr>
+<tr><td>Bulk modulus</td><td>K</td><td>Change in volume under uniform pressure</td><td>Liquids very large, gases small</td></tr>
+<tr><td>Modulus of rigidity (shear)</td><td>G</td><td>Shear deformation under twisting force</td><td>Steel about 80 GPa</td></tr>
+</tbody>
+</table>
+
+<p>When BT-203 says &ldquo;modulus of elasticity&rdquo; without qualification it means
+<strong>Young's modulus E</strong>, the tensile one. Bulk modulus is what gets asked when the
+question mentions liquid or gas, because that is the only one a fluid really has.</p>
+
+<h2>Stiffness versus flexibility</h2>
+<p>Two words that sound like synonyms and are opposites.</p>
+
+<pre class="ascii-diagram" role="img" aria-label="Stiffness versus flexibility as a continuum of Young's modulus values from lead to diamond">
+  LOW E  -> STRETCHES A LOT          HIGH E -> STRETCHES ALMOST NOT AT ALL
+  (FLEXIBLE)                          (STIFF)
+       |                                      |
+       v                                      v
+  +--------------+  +--------------+  +--------------+  +--------------+
+  |    LEAD      |  |  ALUMINIUM   |  |    STEEL     |  |   DIAMOND   |
+  |  ~ 15 GPa   |  |  ~ 70 GPa    |  | ~ 200 GPa    |  |  ~ 1000 GPa |
+  +--------------+  +--------------+  +--------------+  +--------------+
+        flexible          moderate           stiff           very stiff
+        use: seals         use: aircraft      use: structure  use: cutting
+</pre>
+
+<p><strong>Stiffness</strong> is a property of the <em>material</em> and is measured by E. A stiff
+material has a large E, deforms very little under a given stress, and is described as hard or rigid
+&mdash; but note that hardness and stiffness are not the same thing, and neither is strength.</p>
+
+<p><strong>Flexibility</strong> is the ability of a <em>structure</em> to bend. A long slender beam
+can be made of very stiff steel and still be highly flexible, because flexibility depends on shape
+and section as well as on E. That distinction is worth a mark: <em>stiffness is a property of the
+material, flexibility of the member</em>.</p>
+
+<h2>Numericals in great depth</h2>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>P</code></td><td>axial load or force</td><td>N (or kN)</td></tr>
+<tr><td><code>A = &pi;/4 d<sup>2</sup></code></td><td>cross-sectional area</td><td>mm<sup>2</sup></td></tr>
+<tr><td><code>&sigma; = P / A</code></td><td>direct stress</td><td>N/mm<sup>2</sup> = MPa</td></tr>
+<tr><td><code>E</code></td><td>Young's modulus</td><td>N/mm<sup>2</sup> or GPa</td></tr>
+<tr><td><code>e = &sigma; / E</code></td><td>longitudinal strain</td><td>dimensionless</td></tr>
+<tr><td><code>&delta;L = P L<sub>0</sub> / (A E)</code></td><td>elongation of the bar</td><td>mm</td></tr>
+<tr><td><code>1 GPa</code></td><td>equivalent to 1000 MPa = 1000 N/mm<sup>2</sup></td><td>&mdash;</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; every elasticity numeral</span>
+<pre><code>Given:  load P, diameter d, length L0, modulus E
+Find:   stress, strain, elongation, or E itself
+Formula:A = pi/4 d^2 ; sigma = P/A ; e = sigma/E ; dL = e L0
+Solve:  ALWAYS convert E and sigma to the same units first
+Check:  the strain must be a pure number; the elongation must be small</code></pre>
+</div>
+
+<div class="exam-note"><strong>The conversion that decides the question.</strong>
+<strong>1 GPa = 1000 MPa = 1000 N/mm<sup>2</sup>.</strong> Either convert E to N/mm<sup>2</sup>, or
+convert the stress to GPa. Mixing MPa with GPa divides instead of multiplying and every answer comes
+out a thousand times too small. Everything else on this page is easier than that one conversion.</div>
+
+<h3>Solved A &mdash; finding the modulus</h3>
+<p><em>A steel bar is stressed to 250 MPa and its strain at that point is measured as
+0.0005. Calculate Young's modulus for the material.</em></p>
+<p><strong>Given:</strong> &sigma; = 250 MPa, e = 0.0005.
+<strong>Find:</strong> E. <strong>Formula:</strong> E = &sigma; / e. <strong>Solve:</strong></p>
+<pre><code>E = 250 / 0.0005 N/mm^2
+  = 500 000 N/mm^2
+  = 500 GPa</code></pre>
+<p><strong>Answer:</strong> <strong>E = 500,000 N/mm<sup>2</sup> = 500 GPa</strong>.</p>
+<p><strong>Check:</strong> this is far above the 200 GPa of steel, so it is not a steel &mdash; the
+figures correspond to a tungsten-class material, and the calculation is self-consistent.
+Structurally: 0.0005 strain is 0.5 mm on a 1 m bar, a small elastic deformation as expected. And
+dividing 250 by 0.0005 is the same as multiplying 250 by 2000, which is how the modulus of a hard
+metal arrives at a figure five times that of steel. Nothing in the arithmetic forces an error.</p>
+
+<h3>Solved B &mdash; strain from stress and modulus</h3>
+<p><em>A steel tie-rod of 25 mm diameter carries an axial load of 40 kN. Taking E for steel as
+200 GPa, calculate the stress and the strain in the rod.</em></p>
+<p><strong>Given:</strong> d = 25 mm, P = 40 kN = 40,000 N, E = 200 GPa = 200,000 N/mm<sup>2</sup>.
+<strong>Find:</strong> &sigma;, e. <strong>Formula:</strong> &sigma; = P/A, then e = &sigma;/E.
+<strong>Solve:</strong></p>
+<pre><code>A     = (pi / 4) x 25^2 = 490.874 mm^2
+sigma = 40000 / 490.874 = 81.49 N/mm^2 = 81.49 MPa
+
+e = 81.49 / 200000 = 0.0004074   (dimensionless)</code></pre>
+<p><strong>Answer:</strong> stress <strong>81.49 MPa</strong>, strain <strong>0.000407</strong>.</p>
+<p><strong>Check:</strong> the units cancel in the strain step, leaving a pure number as a strain must
+be. Second check: 0.000407 strain on a 2 m rod gives 0.8149 mm of elongation, and 2000 mm &times;
+0.0004074 = 0.8149 mm &mdash; a fraction of a millimetre on a two-metre rod, exactly the order of
+magnitude a 40 kN load should produce. Had E been left in GPa while the stress was in MPa, the
+strain would have come out 0.407, i.e. 40% strain, which is absurd for a steel tie and would have
+been the tell.</p>
+
+<h3>Solved C &mdash; elongation of a bar</h3>
+<p><em>How much does a 2 m long steel bar of 25 mm diameter stretch under the same 40 kN load?
+Take E = 200 GPa.</em></p>
+<p>Same data as Solved B, different question &mdash; which is the point: the stress and strain are
+intermediate quantities, not the answer.</p>
+<p><strong>Given:</strong> P = 40,000 N, L<sub>0</sub> = 2 m = 2000 mm, A = 490.874 mm<sup>2</sup>,
+E = 200,000 N/mm<sup>2</sup>. <strong>Find:</strong> &delta;L.
+<strong>Formula:</strong> &delta;L = P L<sub>0</sub> / (A E). <strong>Solve:</strong></p>
+<pre><code>dL = P L0 / (A E)
+   = 40000 x 2000 / (490.874 x 200000)
+   = 80 000 000 / 98 174 800
+   = 0.8149 mm
+
+   or  dL = e L0 = 0.0004074 x 2000 = 0.8149 mm</code></pre>
+<p><strong>Answer:</strong> the bar stretches <strong>0.815 mm</strong>.</p>
+<p><strong>Check:</strong> the two routes agree to four figures &mdash; 0.8149 mm from the direct
+formula and from e &times; L<sub>0</sub> &mdash; because the direct formula was derived from the
+two together, so they are not independent. A genuine independent check is dimensional: P
+L<sub>0</sub> is N &times; mm and A E is mm<sup>2</sup> &times; N/mm<sup>2</sup>, which is also
+N &times; mm, so the quotient must be mm &mdash; and it is. As a physical sanity check, 0.815 mm on
+2000 mm is about 1 part in 2455, i.e. a strain near 4.07 &times; 10<sup>&minus;4</sup>, which
+agrees with the strain computed independently in Solved B.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>MPa against GPa.</strong> Mixing them is the single most common error in this topic.
+1 GPa = 1000 MPa = 1000 N/mm<sup>2</sup>.</li>
+<li><strong>Hooke's law holds only in the elastic range.</strong> A strain of 0.4 is outside it;
+if a question gives a strain above about 0.005 for a metal, the linear law does not apply.</li>
+<li><strong>Strain is dimensionless.</strong> If your answer carries units, the modulus was in the
+wrong units.</li>
+<li><strong>&delta;L is not L.</strong> The elongation is a fraction of the length; writing the new
+length instead of the increase loses the mark, and the increase is usually a fraction of a
+millimetre.</li>
+<li><strong>Length must be in the same unit as the answer.</strong> Mixing 2 m with a diameter in mm
+is the second commonest slip, immediately after the GPa problem.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;Within the elastic limit, the stress produced in a
+body is directly proportional to the strain produced, so the ratio &sigma;/e is constant for that
+material and is the modulus of elasticity.&rdquo;</li>
+<li><strong>Significance line</strong> &mdash; &ldquo;The slope of the linear portion of the
+stress-strain curve is E, so the slope of a material's elastic behaviour is a single number
+identifying it as surely as its density.&rdquo;</li>
+<li><strong>Method line</strong> &mdash; &ldquo;Always bring stress and modulus to the same units
+first &mdash; <strong>1 GPa = 1000 MPa = 1000 N/mm<sup>2</sup></strong> &mdash; because strain is
+their ratio and is therefore dimensionless.&rdquo;</li>
+<li><strong>Limitation line</strong> &mdash; &ldquo;The law is empirical and is valid only inside
+the elastic limit; beyond it the material deforms permanently and &sigma;/e is no longer
+constant.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence
+<strong>E = &sigma;/e</strong> is the constant of proportionality, and the elongation of any bar is
+<strong>&delta;L = P L<sub>0</sub> / (A E)</strong>.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Write the statement first, with the phrase "within the elastic limit"</strong> &mdash;
+it is a mark, and it is the mark most often left out.</li>
+<li><strong>Convert units before you substitute</strong> &mdash; write the conversion line on the page
+so the examiner sees it.</li>
+<li><strong>Write all four forms of the equation</strong> &mdash; it covers whichever one the
+question wants.</li>
+<li><strong>Underline the keyword</strong> &mdash; elastic limit, proportional, modulus,
+dimensionless.</li>
+<li><strong>State what the answer means</strong> &mdash; "the bar stretches 0.815 mm" scores better
+than a bare number.</li>
+<li><strong>Attempt order</strong> &mdash; do this question early; the arithmetic is short and
+certain.</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="C" data-explain="Hooke's law states that stress is directly proportional to strain only within the elastic limit. Beyond it the body deforms permanently, the graph curves, and the ratio of stress to strain is no longer a constant.">
+<p><strong>Q1. Hooke's law is valid:</strong></p>
+<button data-key="A">At any stress up to fracture</button>
+<button data-key="B">Only above the ultimate tensile stress</button>
+<button data-key="C">Only within the elastic limit</button>
+<button data-key="D">Only for a constant temperature</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="E = sigma/e = 250/0.0005 = 500 000 N/mm2 = 500 GPa. 1 GPa equals 1000 MPa, so 500 000 N/mm2 is 500 GPa. That figure is far above steel's 200 GPa, so the data describe a much harder metal.">
+<p><strong>Q2. A material at 250 MPa strain 0.0005. Its Young's modulus is:</strong></p>
+<button data-key="A">500 GPa</button>
+<button data-key="B">0.5 GPa</button>
+<button data-key="C">0.0002 MPa</button>
+<button data-key="D">125 GPa</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="Stiffness is a property of the material, measured by E, while flexibility is a property of the member and depends on its shape, length and cross-section as well as on E. A long slender steel beam is flexible even though steel is stiff.">
+<p><strong>Q3. Stiffness and flexibility are related how?</strong></p>
+<button data-key="A">They are the same property with different names</button>
+<button data-key="B">Stiffness is a property of the material; flexibility depends on the shape of the member as well</button>
+<button data-key="C">Flexible materials always have a higher Young's modulus</button>
+<button data-key="D">Flexibility is measured by tensile strength</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="delta L = P L0 / (A E) = 40000 x 2000 / (490.874 x 200000) = 0.8149 mm. About 1 part in 2455 of the length, which is the order of magnitude expected from a 40 kN load on a 25 mm steel bar.">
+<p><strong>Q4. A 2 m long, 25 mm diameter steel bar (E = 200 GPa) stretches under 40 kN by about:</strong></p>
+<button data-key="A">815 mm</button>
+<button data-key="B">8.15 mm</button>
+<button data-key="C">0.0815 mm</button>
+<button data-key="D">0.815 mm</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="1 GPa = 1000 MPa = 1000 N/mm2. Since strain is the ratio of stress to modulus, the two must be expressed in the same units; dividing MPa by GPa instead of multiplying by 1000 makes every strain a thousand times too small.">
+<p><strong>Q5. One gigapascal is equal to:</strong></p>
+<button data-key="A">1000 MPa, or 1000 N/mm<sup>2</sup></button>
+<button data-key="B">1 MPa, or 0.001 N/mm<sup>2</sup></button>
+<button data-key="C">100 MPa, or 100 N/mm<sup>2</sup></button>
+<button data-key="D">1000 N/mm, or 1 MPa</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring 7-marker.</strong> &ldquo;State and explain Hooke's law. Define modulus of
+elasticity and explain how it is determined.&rdquo; &rarr; Statement with the elastic-limit phrase,
+the four forms of the equation, then the slope of the linear portion of the stress-strain
+curve.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between stiffness and
+flexibility.&rdquo; &rarr; Material property versus member property; E versus shape and
+section.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What are the three moduli of elasticity?&rdquo;
+&rarr; Young's, bulk and rigidity, each with the type of strain it measures.</li>
+<li><strong>One-line recall.</strong> &ldquo;What is the value of Young's modulus for steel?&rdquo;
+&rarr; About 200 GPa, i.e. 200,000 N/mm<sup>2</sup>.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="5">
+<li><strong>4 minutes, no notes.</strong> Write Hooke's law and all four derived forms from
+memory. Check the phrase "within the elastic limit" is there.</li>
+<li><strong>6 minutes.</strong> Solved C on paper, from memory. Check E was converted to
+200,000 N/mm<sup>2</sup> and L<sub>0</sub> to 2000 mm before substituting.</li>
+<li><strong>3 minutes.</strong> Write the conversion 1 GPa = 1000 MPa three times. This is the
+whole difference between 0.815 mm and 815 mm.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 1 Topic 07</p>
+<h1>Hooke's Law and Modulus of Elasticity &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>Within the elastic limit, the stress produced in a body is directly
+proportional to the strain produced. Hence stress / strain = a constant
+for that material, and that constant is the modulus of elasticity.
+
+   sigma = E . e</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Start from        sigma = E . e
+2. Substitute stress sigma = P/A  and strain  e = dL / L0
+       P/A = E . (dL / L0)
+3. Rearrange for the elongation of a bar
+       P . L0
+  dL = ---------
+        A . E
+4. Recover the other two forms
+  e = sigma / E        E = sigma / e</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Formula</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td>Young's modulus</td><td>E = &sigma; / e</td><td>N/mm<sup>2</sup> or GPa</td></tr>
+<tr><td>Longitudinal strain</td><td>e = &sigma; / E</td><td>dimensionless</td></tr>
+<tr><td>Direct stress</td><td>&sigma; = P / A</td><td>MPa</td></tr>
+<tr><td>Cross-sectional area</td><td>A = &pi;/4 &times; d<sup>2</sup></td><td>mm<sup>2</sup></td></tr>
+<tr><td>Elongation</td><td>&delta;L = P L<sub>0</sub> / (A E)</td><td>mm</td></tr>
+<tr><td>Bulk modulus</td><td>K = volumetric strain / pressure</td><td>N/mm<sup>2</sup></td></tr>
+<tr><td>Modulus of rigidity</td><td>G = shear stress / shear strain</td><td>N/mm<sup>2</sup></td></tr>
+<tr><td>Unit conversion</td><td>1 GPa = 1000 MPa = 1000 N/mm<sup>2</sup></td><td>&mdash;</td></tr>
+<tr><td>E, steel</td><td>about 200 GPa</td><td>&mdash;</td></tr>
+<tr><td>E, aluminium</td><td>about 70 GPa</td><td>&mdash;</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Stress</strong> &mdash; internal resisting force per unit area, &sigma; = P / A.</li>
+<li><strong>Strain</strong> &mdash; change in dimension per unit original dimension, e =
+&delta;L / L<sub>0</sub>; dimensionless.</li>
+<li><strong>Elastic limit</strong> &mdash; the stress beyond which the body does not return to its
+original dimensions.</li>
+<li><strong>Modulus of elasticity (Young's modulus)</strong> &mdash; the constant of proportionality
+between stress and longitudinal strain within the elastic limit.</li>
+<li><strong>Stiffness</strong> &mdash; resistance to deformation, a property of the material
+measured by E.</li>
+<li><strong>Flexibility</strong> &mdash; the ability of a member to bend, depending on the material
+<em>and</em> on its shape, length and section.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can state Hooke's law including "within the elastic limit"</li>
+<li>[ ] Can write all four forms, including &delta;L = P L<sub>0</sub>/(A E)</li>
+<li>[ ] Can say where E comes off the stress-strain curve &mdash; the slope of the linear part</li>
+<li>[ ] Can distinguish stiffness from flexibility, material versus member</li>
+<li>[ ] Can convert 200 GPa to 200,000 N/mm<sup>2</sup> without hesitating</li>
+<li>[ ] Can state E for steel, aluminium and one more material</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Four moves, always in this order.</strong> (1) A = &pi;/4 d<sup>2</sup>.
+(2) &sigma; = P / A, in MPa. (3) Convert E to N/mm<sup>2</sup> &mdash; <strong>200 GPa =
+200,000 N/mm<sup>2</sup></strong>. (4) e = &sigma; / E must come out dimensionless, then
+&delta;L = e L<sub>0</sub> with L<sub>0</sub> in the unit you want the answer in. If the strain has
+units, step 3 was skipped.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 1 Topic 07 &middot; from 10 PYQ sessions (Dec-2023 &rarr; Jun-2025)</p>
+<h1>Hooke's Law and Modulus of Elasticity &mdash; questionnaire</h1>
+<div class="q-meta">Q1/Q3 slot &middot; recurring pattern &middot; "state Hooke's law / find E / find elongation" &rarr; the derivation block and the unit conversion are worth marks on their own</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>State and explain Hooke's law. Define the modulus of elasticity and explain how it is determined.</h3>
+<p>Statement with the elastic-limit phrase, then all four forms of the equation, then the derivation of the elongation formula, then how E is measured off the curve. The derivation is what separates a 4 from a 7.</p>
+<div class="q-foot"><b>write</b> &mdash; statement with "within the elastic limit" (2) &rarr; E = &sigma;/e and the other three forms (2) &rarr; derivation of &delta;L = P L<sub>0</sub>/(A E) (2) &rarr; determination from the curve slope (1).</div>
+<div class="q-foot"><b>check</b> &mdash; omitting "within the elastic limit" costs the qualification mark; giving only E = &sigma;/e and not the derived forms loses the derivation marks; failing to state that E is the slope of the linear portion loses the last mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Differentiate between stiffness and flexibility. Is stiffness a property of the material or of the member?</h3>
+<p>Two definitions, then the decisive sentence: stiffness is a material property measured by E, flexibility belongs to the member and depends on shape and section as well. Give the long slender steel beam as the counter-example.</p>
+<div class="q-foot"><b>write</b> &mdash; stiffness defined via E (1) &rarr; flexibility defined via shape and section (1) &rarr; the material-versus-member verdict (2) &rarr; beam example (1).</div>
+<div class="q-foot"><b>check</b> &mdash; answering "both are the same" is the trap and scores nothing; the beam example is what carries the last mark; naming Young's modulus for stiffness is essential.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>A 2 m long, 25 mm diameter steel bar stretches 0.815 mm under 40 kN. Find its strain and verify Young's modulus.</h3>
+<p>Two steps then the reverse calculation. Strain from the elongation, then E = &sigma; / e back the other way, and check the modulus is the expected 200 GPa.</p>
+<div class="q-foot"><b>write</b> &mdash; area (1) &rarr; stress (1) &rarr; strain from &delta;L/L<sub>0</sub> (1) &rarr; E back from &sigma;/e, shown as about 200 GPa (2).</div>
+<div class="q-foot"><b>check</b> &mdash; L<sub>0</sub> must be 2000 mm for the strain to come out right; the final E must land near 200 GPa, and anything a thousand times off is a GPa/MPA mix-up.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One precise sentence including "within the elastic limit".</li>
+    <li><strong>Visual:</strong> Write the equation block with all four forms and the unit conversion.</li>
+    <li><strong>Reason:</strong> Derive the elongation formula step by step, with no algebra skipped.</li>
+    <li><strong>Close:</strong> Box the boxed pair E = &sigma;/e and &delta;L = P L<sub>0</sub>/(A E), then add the limitation line.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "Within the elastic limit, the stress produced in a body is directly proportional to the strain produced, so the ratio of stress to strain is a constant for that material, called the modulus of elasticity."</p>
+  <p class="answer-close"><strong>For this topic:</strong> statement &rarr; &sigma; = E&middot;e &rarr; three rearrangements &rarr; elongation derivation &rarr; determination from the curve slope &rarr; stiffness versus flexibility &rarr; unit conversion &rarr; limitation line.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Statement first</strong> &mdash; with "within the elastic limit" written out in full</li>
+    <li><strong>Equation block before prose</strong> &mdash; four forms plus the conversion line</li>
+    <li><strong>Underline keywords</strong> &mdash; proportional, elastic limit, modulus, strain</li>
+    <li><strong>Box every final answer</strong> &mdash; E = &sigma;/e and &delta;L = P L<sub>0</sub>/(A E)</li>
+    <li><strong>Attempt order:</strong> early; the arithmetic is short and certain</li>
+    <li><strong>Never leave blank</strong> &mdash; the statement plus two equations clears 3 of 7</li>
+    <li><strong>Show the conversion</strong> &mdash; 1 GPa = 1000 MPa written on the page is worth a mark</li>
+    <li><strong>Close every answer:</strong> "hence proved" / boxed equations / limitation line</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>State and explain Hooke's law. Define the modulus of elasticity and explain how it is determined.</h3>
+<p class="answer-lead">Write the statement with its qualification, then the equation block, then derive rather than quote the elongation formula.</p>
+<pre class="ascii-diagram" role="img" aria-label="Hooke's law equation block showing the four forms and the elongation formula">
+        WITHIN THE ELASTIC LIMIT
+        -------------------------------------------
+        stress   sigma  is proportional to   strain  e
+
+                        sigma = E . e
+                        sigma / e = E  (constant for the material)
+        -------------------------------------------
+
+        FOUR FORMS OF THE SAME LAW
+
+        sigma = E . e           e = sigma / E
+        E = sigma / e           dL = P L0 / (A E)
+
+        DERIVATION OF THE ELONGATION FORM
+
+        sigma = E . e
+        P/A   = E . (dL / L0)
+
+              P . L0
+        dL = ---------
+              A . E
+
+        ---------------------------------------------------------------
+        UNITS:  1 GPa = 1000 MPa = 1000 N/mm2   <-- convert FIRST
+        ---------------------------------------------------------------
+</pre>
+<pre class="ascii-diagram" role="img" aria-label="Slope of the straight line portion of the stress-strain curve equals Young's modulus">
+        STRESS
+          |          /
+          |        / |         the straight-line portion
+          |      /   |         of the curve is the ELASTIC region
+          |    /     |         its SLOPE is Young's modulus
+          |  /       |
+          |/         |
+          +-----------+----------------> STRAIN
+          |    e
+          |
+          slope = stress / strain = E
+</pre>
+<ol class="answer-steps">
+<li><strong>Statement:</strong> within the elastic limit, the stress produced in a body is directly proportional to the strain produced.</li>
+<li><strong>Modulus of elasticity:</strong> the constant of proportionality between stress and longitudinal strain, E = &sigma; / e, measured in N/mm<sup>2</sup> or GPa.</li>
+<li><strong>Other forms:</strong> &sigma; = E &times; e, and e = &sigma; / E.</li>
+<li><strong>Derivation of the elongation form:</strong> substituting &sigma; = P/A and e = &delta;L / L<sub>0</sub> into &sigma; = E &times; e gives P/A = E &delta;L / L<sub>0</sub>, hence &delta;L = P L<sub>0</sub> / (A E).</li>
+<li><strong>Determination:</strong> E is obtained as the slope of the straight-line proportional portion of the stress-strain curve, or by loading a specimen and dividing a measured stress by the corresponding strain.</li>
+<li><strong>Limitation:</strong> the law is empirical and valid only inside the elastic limit; beyond it the body deforms permanently and the ratio is no longer constant.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> "Hence E = &sigma;/e is the constant of proportionality and the elongation of any bar is &delta;L = P L<sub>0</sub>/(A E), with 1 GPa = 1000 MPa always converted before substituting."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Differentiate between stiffness and flexibility. Is stiffness a property of the material or of the member?</h3>
+<p class="answer-lead">Define both, then give the verdict, then prove the verdict with the long slender beam. The example is what carries the distinction.</p>
+<pre class="ascii-diagram" role="img" aria-label="Stiffness is set by Young's modulus while flexibility depends on member shape length and section">
+   STIFFNESS  -- a property of the MATERIAL
+   set by Young's modulus E
+   low E  <--------------------------> high E
+   lead 15 GPa   aluminium 70   steel 200   diamond 1000
+   stretches a lot            stretches almost nothing
+
+   FLEXIBILITY -- a property of the MEMBER
+   set by shape, length and section as well as by E
+
+        LONG SLENDER BEAM (steel, E = 200 GPa - very stiff material)
+        |<---------------------- long ---------------------->|
+        +----------------------------------------------------+
+          bends a LOT  ->  the MEMBER is flexible
+
+        SHORT STUBBY BLOCK of the SAME steel
+        +----------+
+          bends very little -> the MEMBER is stiff
+
+   same E, very different flexibility
+</pre>
+<table>
+<tr><th>Aspect</th><th>Stiffness</th><th>Flexibility</th></tr>
+<tr><td>Definition</td><td>Resistance to deformation under load</td><td>Ability of a member to bend</td></tr>
+<tr><td>Governed by</td><td>Young's modulus E of the material</td><td>E plus shape, length and section of the member</td></tr>
+<tr><td>Belongs to</td><td>The material</td><td>The member</td></tr>
+<tr><td>Example</td><td>Steel E = 200 GPa is stiff; lead E = 15 GPa is not</td><td>A long slender steel beam is flexible; a short stub of the same steel is not</td></tr>
+</table>
+<p class="answer-close"><strong>Exam close:</strong> "So stiffness is a property of the material while flexibility is a property of the member &mdash; the same steel can be stiff in a short block and flexible in a long beam, because only the material property is independent of geometry."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>A 2 m long, 25 mm diameter steel bar stretches 0.815 mm under 40 kN. Find its strain and verify Young's modulus.</h3>
+<p class="answer-lead">Work forward to the stress, then take the strain from the measured elongation, then run Hooke's law backwards to recover E.</p>
+<pre class="ascii-diagram" role="img" aria-label="Two-step verification of Young's modulus from a loaded bar, forward and backward">
+   GIVEN
+     d0   = 25 mm            L0  = 2000 mm
+     P    = 40 kN            dL  = 0.815 mm
+
+   STEP 1  area
+     A = (pi / 4) x 25^2 = 490.874 mm^2
+
+   STEP 2  stress
+     sigma = 40000 / 490.874 = 81.49 MPa
+
+   STEP 3  strain from the measured extension
+     e = dL / L0 = 0.815 / 2000 = 0.0004075
+
+   STEP 4  run the law BACKWARDS
+     E = sigma / e = 81.49 / 0.0004075
+       = 200 000 N/mm^2
+       = 200 GPA  <-- exactly the handbook value for steel
+
+   ---------------------------------------------------------------
+   VERIFIED.  If this had come out as 0.2 GPa or 200 000 GPa,
+   the error would have been MPa mixed with GPa.
+   ---------------------------------------------------------------
+</pre>
+<pre><code>A     = (pi/4) x 25^2      = 490.874 mm^2
+sigma = 40000 / 490.874      = 81.49 MPa
+e     = 0.815 / 2000         = 0.0004075
+E     = 81.49 / 0.0004075    = 200 000 N/mm^2 = 200 GPa</code></pre>
+<p><strong>Answer:</strong> the strain is <strong>0.0004075</strong> and the recovered modulus is
+<strong>200 GPa</strong>, which matches the accepted value for steel and therefore verifies both the
+measurement and the law.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Since the modulus recovered from the extension
+is exactly 200 GPa, the bar is steel and the whole set of readings is internally consistent; a
+result a factor of a thousand away would indicate that MPa and GPa had been mixed."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203 Unit 1, "Hooke's law and modulus of
+elasticity". Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub, for cross-checking the standard modulus values.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, for the paper pattern these drills
+follow. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference book</strong> (official BT-203 list) &mdash; C. M. Agrawal,
+<em>Basic Mechanical Engineering</em>, Wiley &mdash; primary text for Unit 1.</li>
+</ul>
+<p class="source-note">Links last checked 28 September 2026. The official scheme fixes the
+syllabus scope; the notes hubs and paper archive support revision and question practice. No paper
+session is attributed beyond the December 2020 archive named above.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

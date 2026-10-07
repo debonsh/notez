@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cast Iron and Carbon Steels &amp;mdash; Composition and Types</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit1 $</span> cat 02-cast-iron-carbon-steels.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 1 &mdash; Materials</p>
+<h1>Cast Iron and Carbon Steels &mdash; Composition and Types</h1>
+<p><em>This is Dec-2020 Q1a, asked almost verbatim: "What is steel? Discuss some of the different
+types of steel with their applications." It is the highest-scoring recall question in Unit 1,
+because the whole answer is four carbon bands and four cast-iron types. There is one idea doing
+all the work &mdash; <strong>carbon decides everything</strong> &mdash; and once you own that, the
+tables write themselves.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>A carbon steel is an iron-carbon alloy containing 0.03% to 2.0% carbon; a cast
+iron is the same alloy system above 2.0% carbon, up to 6.67%. Raising
+carbon raises hardness and strength but destroys ductility and
+weldability, so each band ends up with its own application.</code></pre>
+
+<p>Write that sentence before any table. It carries the definition mark, and the last clause
+(&ldquo;raising carbon&hellip;&rdquo;) is the sentence that connects every row you are about to
+write.</p>
+
+<h2>Where the boundary sits</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="Carbon content scale from pure iron to cast iron with the steel and cast iron boundary at 2 percent">
+    |         |         |         |         |         |         |
+    v         v         v         v         v         v         v
++------------+ +------------+ +------------+ +------------+ +--------------+ +-------+
+| PURE IRON  | | LOW C      | | MEDIUM C   | | HIGH C     | | CAST IRON    | | MAX C |
+| no carbide | | STEEL      | | STEEL      | | STEEL      | | 2.0-6.67%    | | 6.67% |
+|            | | 0.03-0.25% | | 0.25-0.60% | | 0.60-1.00% | | white, grey, | |       |
+|            | |            | |            | |            | | ductile,     | |       |
+|            | |            | |            | |            | | malleable    | |       |
++------------+ +------------+ +------------+ +------------+ +--------------+ +-------+
+    ^         ^         ^         ^         ^         ^
+   0%      0.03%     0.25%     0.60%     2.0%      4.3%   6.67%
+                              eutectoid       steel / cast iron
+                              0.77% C          boundary at 2.0%
+                              at 727 degC      carbon
+                              (topic 03)
+</pre>
+
+<p>Two of those figures carry more marks than the rest. <strong>2.0%</strong> is the steel /
+cast-iron boundary, and <strong>0.77%</strong> is the eutectoid carbon content at 727&deg;C, which
+decides whether a steel is hypo- or hypereutectoid. You meet 0.77% again in topic 03.</p>
+
+<h2>The four carbon steels</h2>
+
+<table>
+<thead><tr><th>Steel</th><th>Carbon</th><th>Governing property</th><th>Application</th></tr></thead>
+<tbody>
+<tr><td>Low carbon (mild)</td><td>0.03 - 0.25%</td><td>Soft, ductile, weldable, cheap</td><td>Sheet, wire, rolled sections, car bodies</td></tr>
+<tr><td>Medium carbon</td><td>0.25 - 0.60%</td><td>Balance of strength and toughness</td><td>Gears, shafts, crankshafts, couplings</td></tr>
+<tr><td>High carbon</td><td>0.60 - 1.00%</td><td>Hard, wear resistant, low ductility</td><td>Cutting tools, springs, dies</td></tr>
+<tr><td>Alloy steel</td><td>as above + Cr/Ni/Mo/V/W</td><td>Elevated strength, hardness, corrosion resistance</td><td>Ball bearings, gears, high-temperature parts</td></tr>
+</tbody>
+</table>
+
+<p>Write these as a <strong>table, not prose</strong>. Four rows with four columns is roughly a
+third of the time a seven-mark question costs you, and an examiner reads a table in ten seconds
+where a paragraph takes a minute.</p>
+
+<h2>The four cast irons</h2>
+<p>The whole family turns on one question: <strong>what form does the carbon take?</strong> If it
+is combined with iron as cementite (Fe<sub>3</sub>C) the iron is white and extremely brittle; if it
+separates out as free graphite, the iron becomes grey, softer and far less brittle.</p>
+
+<pre class="ascii-diagram" role="img" aria-label="How carbon form decides cast iron type: cementite gives white iron, graphite flakes give grey, spheroids give ductile">
+                 CARBON IN A CAST IRON
+                          |
+                          |
+      combined with iron              separates as free
+      as cementite Fe3C               graphite
+              |                               |
+              v                               v
++--------------------------+    +------------------------+
+| WHITE CAST IRON          |    | GREY CAST IRON         |
+| carbon as Fe3C           |    | carbon as graphite     |
+| very hard, very brittle, |    | FLAKES - act as stress |
+| white fracture           |    | concentrators          |
+|                          |    | good damping, easy     |
+|                          |    | to machine             |
++--------------------------+    +------------------------+
+              |                               |
+              | heat-treat to                | magnesium inoculation
+              | break the cementite          | rounds the flakes
+              v                               v
++---------------------+    +--------------------------+
+| MALLEABLE CAST IRON |    | ductile (NODULAR)        |
+| graphite as         |    | graphite as SPHEROIDS    |
+| irregular rosettes  |    | ductile + still castable |
+| small castings      |    |                          |
++---------------------+    +--------------------------+
+</pre>
+
+<table>
+<thead><tr><th>Cast iron</th><th>Carbon</th><th>Distinguishing feature</th><th>Application</th></tr></thead>
+<tbody>
+<tr><td>White</td><td>1.8 - 3.0%</td><td>No free graphite; carbon as Fe<sub>3</sub>C; very hard, brittle, white fracture</td><td>Crushers, dies, wear liners</td></tr>
+<tr><td>Grey</td><td>2.5 - 4.0%</td><td>Graphite as flakes; grey fracture; excellent damping, easy to machine</td><td>Machine beds, flywheels, engine blocks, pipes</td></tr>
+<tr><td>Ductile (nodular)</td><td>3.0 - 4.0%</td><td>Graphite as spheroids; keeps shock resistance while staying castable</td><td>Crankshafts, pressure pipes, heavy gears</td></tr>
+<tr><td>Malleable</td><td>2.5 - 3.0%</td><td>Graphite as irregular rosettes; white iron made ductile by heat treatment</td><td>Small castings, pipe fittings, connecting rods</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>The distinction examiners actually test.</strong> White versus grey
+is <em>not</em> a colour difference and <em>not</em> a carbon-percentage difference &mdash; both can
+sit near 3%. It is free graphite present or absent. A cast iron with flakes is grey; one with the
+carbon tied up as Fe<sub>3</sub>C is white. Saying &ldquo;white cast iron contains more
+carbon&rdquo; loses the mark.</div>
+
+<h2>Numericals in great depth</h2>
+
+<p>This topic is mostly recall, but three things about it do get calculated, and all three are
+composition arithmetic on a mass basis. Learn the identifier table, learn the format, and these
+stop being hard.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>m</code></td><td>total mass of the alloy given</td><td>kg</td></tr>
+<tr><td><code>p</code></td><td>percentage of that element, by mass</td><td>%</td></tr>
+<tr><td><code>m_e = m &times; p / 100</code></td><td>mass of one element in the alloy</td><td>kg</td></tr>
+<tr><td><code>p_Fe = 100 &minus; (p_C + p_Si + &hellip;)</code></td><td>iron percentage when the balance is iron</td><td>%</td></tr>
+<tr><td><code>x / (m + x) = p / 100</code></td><td>mass of carbon to <em>add</em> to a known iron mass</td><td>kg</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; use this for every composition numeral</span>
+<pre><code>Given:  mass and the analysis (percentages by mass)
+Find:   the quantity actually asked for
+Formula:m_e = m x p / 100
+Solve:  substitute, one step, write the unit
+Check:  add the parts back to the total, or divide back to get p</code></pre>
+</div>
+
+<h3>Solved A &mdash; identify the material and recover the iron mass</h3>
+<p><em>A batch of cast iron weighs 250 kg and analyses 3.2% carbon and 2.5% silicon, the balance
+being iron. (i) Confirm whether it is a steel or a cast iron. (ii) Find the mass of iron in the
+batch. (iii) Name the type and one application.</em></p>
+<p><strong>Given:</strong> m = 250 kg, p<sub>C</sub> = 3.2%, p<sub>Si</sub> = 2.5%.
+<strong>Find:</strong> iron mass. <strong>Formula:</strong> m<sub>e</sub> = m &times; p / 100.
+<strong>Solve:</strong></p>
+<pre><code>p_Fe = 100 - (3.2 + 2.5) = 94.3%
+m_Fe = 250 x 94.3 / 100 = 235.75 kg
+m_C  = 250 x  3.2 / 100 =   8.00 kg
+m_Si = 250 x  2.5 / 100 =   6.25 kg</code></pre>
+<p><strong>Answer:</strong> 3.2% carbon is above the 2% line, so it is a <strong>cast
+iron</strong>, not a steel. Iron mass = <strong>235.75 kg</strong>. With 2.5% silicon acting as a
+graphitiser it is a <strong>grey cast iron</strong>, used for machine tool beds and engine blocks.</p>
+<p><strong>Check:</strong> add the three masses back &mdash; 235.75 + 8.00 + 6.25 = 250.00 kg, exactly
+the batch weight. Then divide back: 8.00 / 250 &times; 100 = 3.2%, the stated carbon. Two
+independent returns to the given data, so the arithmetic is sound rather than merely plausible.</p>
+
+<h3>Solved B &mdash; mass of carbon in a heat of steel</h3>
+<p><em>A heat of 500 kg of steel contains 0.35% carbon. Find the mass of carbon and the mass of
+iron, and identify the steel.</em></p>
+<p><strong>Given:</strong> m = 500 kg, p<sub>C</sub> = 0.35%. <strong>Find:</strong> m<sub>C</sub>,
+m<sub>Fe</sub>. <strong>Formula:</strong> m<sub>e</sub> = m &times; p / 100.
+<strong>Solve:</strong></p>
+<pre><code>m_C  = 500 x 0.35 / 100 = 1.75 kg
+m_Fe = 500 - 1.75       = 498.25 kg   (or 500 x 99.65 / 100)</code></pre>
+<p><strong>Answer:</strong> carbon = <strong>1.75 kg</strong>, iron = <strong>498.25 kg</strong>.
+0.35% falls in the 0.25&ndash;0.60% band, so this is a <strong>medium carbon steel</strong>, used for
+gears, shafts and crankshafts.</p>
+<p><strong>Check:</strong> 1.75 + 498.25 = 500.00 kg, and 1.75 / 500 &times; 100 = 0.35% &mdash; the
+input value returns. Independently, note that the carbon mass is a suspiciously small fraction,
+1.75 / 500 &asymp; 0.0035, and 0.0035 &times; 100 = 0.35%, which is the definition of percent. The
+scale is right.</p>
+
+<h3>Solved C &mdash; carbon to add, where the denominator changes</h3>
+<p><em>How much carbon must be added to 200 kg of pure iron to produce a steel containing 0.6%
+carbon?</em></p>
+<p>This one is the classic trap: the percentage is taken over the <em>final</em> mass, not the
+initial one.</p>
+<p><strong>Given:</strong> m<sub>Fe</sub> = 200 kg, target p<sub>C</sub> = 0.6%.
+<strong>Find:</strong> x, the carbon to add. <strong>Formula:</strong> x / (m<sub>Fe</sub> + x) =
+p / 100. <strong>Solve:</strong></p>
+<pre><code>x / (200 + x) = 0.006
+x = 0.006 (200 + x) = 1.2 + 0.006 x
+x (1 - 0.006) = 1.2
+x = 1.2 / 0.994 = 1.2072 kg</code></pre>
+<p><strong>Answer:</strong> add <strong>1.21 kg</strong> of carbon; the resulting steel weighs
+201.21 kg.</p>
+<p><strong>Check:</strong> substitute back &mdash; 1.2072 / 201.2072 &times; 100 = 0.600%, exactly the
+target. Second, independent check by ratio: in a 0.6% steel the carbon-to-iron ratio is
+0.6 : 99.4, so 200 kg of iron needs 200 &times; 0.6 / 99.4 = 1.2072 kg of carbon. Two routes, same
+answer to four figures. The naive &ldquo;1.2 kg&rdquo; would give 1.2 / 201.2 = 0.5964%, which is why
+the algebra matters.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>The denominator moves.</strong> For &ldquo;carbon to add&rdquo; the percentage is over
+the <em>final</em> mass. Answering 0.6% &times; 200 = 1.2 kg gives 0.5964%, not 0.6%.</li>
+<li><strong>2.0% is a ceiling, not a midpoint.</strong> Steel is 0.03&ndash;2.0% carbon; a steel at
+1.9% is still a steel. Writing &ldquo;steel contains 2% carbon&rdquo; without the word maximum
+reads as a single point value.</li>
+<li><strong>Percent by mass, always.</strong> Carbon content in steel is mass percent. Never
+attempt a volume or mole fraction on a cast-iron analysis.</li>
+<li><strong>Do not classify white versus grey by colour or by carbon level.</strong> The test is
+free graphite present or absent. Both types sit near 3% carbon.</li>
+<li><strong>Silicon and manganese are not decoration.</strong> In real cast iron, silicon is a
+graphitiser and manganese a stabiliser; if the question gives you Si, it usually wants the
+grey-versus-white reasoning, not just a subtraction.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;Carbon steels and cast irons are the same
+iron&ndash;carbon alloy system; only the carbon content separates them, at 2.0%.&rdquo;</li>
+<li><strong>Significance line</strong> &mdash; &ldquo;Carbon strengthens iron by forming
+cementite and pearlite, so hardness and tensile strength rise with carbon while ductility and
+weldability fall.&rdquo;</li>
+<li><strong>Method line</strong> &mdash; &ldquo;Every composition figure is taken as
+<em>mass percent</em>, so the mass of one element is the total mass multiplied by its percentage
+over 100.&rdquo;</li>
+<li><strong>Limitation line</strong> &mdash; &ldquo;These bands are engineering
+classifications; a real steel also contains manganese, silicon, phosphorus and sulphur, and it is
+these residuals, not carbon alone, that fix the weldability limit.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence the family divides at
+<strong>2.0% carbon</strong>, and every row above is an application chosen to exploit the property
+that carbon has taken away.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Statement first</strong> &mdash; one line defining both families before either table
+appears.</li>
+<li><strong>Table before prose</strong> &mdash; the examiner scans a four-row table in ten seconds
+and a four-paragraph essay in a minute.</li>
+<li><strong>Underline the keyword</strong> &mdash; steel, cast iron, carbon, free graphite,
+application.</li>
+<li><strong>Every application needs its reason</strong> &mdash; &ldquo;gears, because medium carbon
+balances strength and toughness&rdquo; scores the mark a bare list does not.</li>
+<li><strong>Attempt order</strong> &mdash; this question first on the paper; it is pure recall and
+banks 7 marks in 12 minutes.</li>
+<li><strong>Never leave a blank</strong> &mdash; write the definition and one row per type, then
+close. Even partial answers clear 3 of 7.</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="C" data-explain="Steel spans 0.03-2.0% carbon and cast iron 2.0-6.67%; the dividing line is 2.0% carbon. The 4.3% figure is the eutectic composition from the iron-carbon diagram (topic 03), not the steel boundary.">
+<p><strong>Q1. The carbon content boundary between a steel and a cast iron is:</strong></p>
+<button data-key="A">0.35%</button>
+<button data-key="B">0.77%</button>
+<button data-key="C">2.0%</button>
+<button data-key="D">4.3%</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="The distinction is carbon form, not carbon amount or colour: white cast iron has its carbon tied up as cementite Fe3C with no free graphite, while grey cast iron has graphite flakes. Both can sit near 3% carbon.">
+<p><strong>Q2. White and grey cast iron are distinguished by:</strong></p>
+<button data-key="A">Whether free graphite is present in the structure</button>
+<button data-key="B">The colour of the freshly broken surface</button>
+<button data-key="C">The carbon percentage, white being higher</button>
+<button data-key="D">The presence of silicon in the alloy</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="Malleable cast iron is made by heat-treating white cast iron, breaking up the cementite so the carbon appears as irregular rosettes. That is what converts a brittle material into a ductile one; ductile (nodular) iron instead gets its spheroids from magnesium inoculation.">
+<p><strong>Q3. Malleable cast iron is produced by:</strong></p>
+<button data-key="A">Adding magnesium during pouring</button>
+<button data-key="B">Heat-treating white cast iron</button>
+<button data-key="C">Rapid cooling the molten iron</button>
+<button data-key="D">Alloying with nickel</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="Raising carbon increases hardness and tensile strength but decreases ductility and weldability, because carbon forms brittle cementite and pearlite instead of soft ferrite. That trade is why each band has a different application.">
+<p><strong>Q4. As carbon content rises in a steel, ductility and hardness change as:</strong></p>
+<button data-key="A">Both increase</button>
+<button data-key="B">Both decrease</button>
+<button data-key="C">Ductility increases, hardness decreases</button>
+<button data-key="D">Ductility decreases, hardness increases</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="200 kg of iron carrying 0.6% carbon by mass means x/(200+x) = 0.006, giving x = 1.2/0.994 = 1.2072 kg. Answering 1.2 kg puts the composition at 1.2/201.2 = 0.5964%, not the 0.6% asked for.">
+<p><strong>Q5. How much carbon must be added to 200 kg of pure iron to give a 0.6% carbon steel?</strong></p>
+<button data-key="A">1.20 kg</button>
+<button data-key="B">0.60 kg</button>
+<button data-key="C">1.21 kg</button>
+<button data-key="D">2.00 kg</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Dec-2020 Q1a (7 marks).</strong> &ldquo;What is steel? Discuss some of the
+different types of steel with their applications.&rdquo; &rarr; Definition with the 2% ceiling,
+then the four-row carbon table: low, medium, high, alloy &mdash; each with range, property and
+application. Close with the carbon trade-off line.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What is cast iron? Explain its types with
+applications.&rdquo; &rarr; The 2.0&ndash;6.67% definition, then the graphite-form diagram, then
+the four-row table. <em>Full model answers in the Questionnaire tab.</em></li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between steel and cast
+iron.&rdquo; &rarr; Four contrasts: carbon range, formability (weldable vs not), brittleness,
+and typical cost of shaping.</li>
+<li><strong>One-line recall.</strong> &ldquo;Why is cast iron not weldable?&rdquo; &rarr; High
+carbon makes it brittle; welding requires plastic flow without cracking, which a brittle metal
+cannot give.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="5">
+<li><strong>3 minutes, no notes.</strong> Reproduce the four-carbon-band table from memory.
+Check the ranges are exact: 0.03&ndash;0.25, 0.25&ndash;0.60, 0.60&ndash;1.0.</li>
+<li><strong>4 minutes.</strong> Reproduce the four cast-iron types with their carbon ranges and
+one application each. Check that white and grey are separated by graphite form, not by colour.</li>
+<li><strong>6 minutes.</strong> Solved C again, on paper, from memory. Check the denominator is
+201.2 kg, not 200 kg &mdash; that is the whole question.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 1 Topic 02</p>
+<h1>Cast Iron and Carbon Steels &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>A carbon steel is an iron-carbon alloy with 0.03-2.0% carbon; a cast
+iron is the same system from 2.0% up to 6.67% carbon. Carbon raises
+hardness and strength and destroys ductility and weldability, so
+each carbon band has its own application.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Name the system      -&gt; iron + carbon (silicon, manganese as residuals)
+2. Place the carbon      -&gt; below 2.0%  = STEEL
+                            above 2.0%  = CAST IRON (max 6.67%)
+3. Inside cast iron, ask  -&gt; carbon as cementite Fe3C  = WHITE (hard, brittle)
+                             carbon as free graphite   = GREY (flakes)
+                             spheroids after Mg        = DUCTILE / nodular
+                             rosettes after heat treat = MALLEABLE
+4. Inside steel, ladder  -&gt; 0.03-0.25 low, 0.25-0.60 medium, 0.60-1.0 high,
+                            0.77% = eutectoid, &gt;0.77% = hypereutectoid</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Value</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td>Steel range</td><td>0.03 - 2.0% C</td><td>Defines the carbon-steel family</td></tr>
+<tr><td>Cast iron range</td><td>2.0 - 6.67% C</td><td>White, grey, ductile, malleable inside it</td></tr>
+<tr><td>Low carbon (mild)</td><td>0.03 - 0.25% C</td><td>Ductile, weldable &mdash; sheet and wire</td></tr>
+<tr><td>Medium carbon</td><td>0.25 - 0.60% C</td><td>Balance of strength and toughness &mdash; gears</td></tr>
+<tr><td>High carbon</td><td>0.60 - 1.00% C</td><td>Hard and wear resistant &mdash; tools, springs</td></tr>
+<tr><td>Eutectoid carbon</td><td>0.77% C at 727&deg;C</td><td>Hypo- vs hypereutectoid; pearlite boundary</td></tr>
+<tr><td>Eutectic carbon</td><td>4.3% C at 1147&deg;C</td><td>Ledeburite; the hardest cast iron</td></tr>
+<tr><td>White cast iron</td><td>1.8 - 3.0% C</td><td>Carbon as Fe<sub>3</sub>C &mdash; dies, crushers</td></tr>
+<tr><td>Grey cast iron</td><td>2.5 - 4.0% C</td><td>Graphite flakes &mdash; beds, blocks, flywheels</td></tr>
+<tr><td>Ductile / nodular</td><td>3.0 - 4.0% C</td><td>Graphite spheroids &mdash; pipes, crankshafts</td></tr>
+<tr><td>Malleable</td><td>2.5 - 3.0% C</td><td>Graphite rosettes &mdash; small castings, fittings</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Carbon steel</strong> &mdash; an iron-carbon alloy containing 0.03% to 2.0% carbon,
+with no other significant alloying addition.</li>
+<li><strong>Cast iron</strong> &mdash; an iron-carbon alloy containing more than 2.0% carbon, up
+to 6.67%, so brittle that it must be used in the cast form.</li>
+<li><strong>Cementite</strong> &mdash; the intermetallic compound Fe<sub>3</sub>C; hard and
+brittle, and the reason white cast iron is unmachinable by ordinary means.</li>
+<li><strong>Graphite</strong> &mdash; free carbon in cast iron; as flakes it gives grey iron,
+as spheroids ductile iron, as rosettes malleable iron.</li>
+<li><strong>Alloy steel</strong> &mdash; a steel with added Cr, Ni, Mo, V or W to raise strength,
+hardness, wear resistance or corrosion resistance beyond what carbon alone can give.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can state both definitions with their exact carbon ranges</li>
+<li>[ ] Can reproduce the four-carbon-band table with exact ranges</li>
+<li>[ ] Can name four cast irons and separate them by carbon <em>form</em></li>
+<li>[ ] Can say why cast iron is not weldable, in one sentence with a reason</li>
+<li>[ ] Can give one application with its reason for each of the four steels</li>
+<li>[ ] Can solve &ldquo;carbon to add&rdquo; with the denominator on the final mass</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Three composition arithmetic moves cover the whole topic.</strong>
+Mass of one element = total mass &times; its percent / 100. Iron percent = 100 minus every
+stated percent. Carbon to add: solve x / (m + x) = p / 100, then check by dividing x back by
+(m + x). Always finish with the parts summing to the total.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 1 Topic 02 &middot; from 10 PYQ sessions (Dec-2023 &rarr; Jun-2025)</p>
+<h1>Cast Iron and Carbon Steels &mdash; questionnaire</h1>
+<div class="q-meta">Q1/Q3 slot &middot; recurring pattern &middot; "what is steel / types of cast iron" &rarr; two tables plus the graphite-form diagram, never prose blobs</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>What is steel? Discuss the different types of steel with their applications.</h3>
+<p>Dec-2020 Q1a, verbatim. Definition with the 2% ceiling first, then a four-row table &mdash; low, medium, high carbon, alloy steel &mdash; each row carrying carbon range, governing property, one application. Close on the carbon trade-off line, which is the sentence that makes the table make sense.</p>
+<div class="q-foot"><b>write</b> &mdash; definition with the 2% ceiling (1) &rarr; three carbon bands with exact ranges, property and application (4) &rarr; alloy steel row with its purpose (1) &rarr; boxed trade-off close (1).</div>
+<div class="q-foot"><b>check</b> &mdash; writing "2% carbon" without "maximum" reads as a point value; ranges given as "low / medium / high" adjectives instead of percentages lose the table marks; an alloy steel row with no named element loses its mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>What is cast iron? Explain its types with their applications.</h3>
+<p>The 2.0&ndash;6.67% definition, then the graphite-form diagram &mdash; that diagram is what turns four disconnected names into one idea &mdash; then a four-row table. Every row names the carbon form and one application.</p>
+<div class="q-foot"><b>write</b> &mdash; definition with range (1) &rarr; graphite-form diagram (1) &rarr; four types named (1) &rarr; carbon form and application per type (2).</div>
+<div class="q-foot"><b>check</b> &mdash; separating white from grey by colour rather than by carbon form is the standard wrong answer and costs both those marks; omitting malleable or ductile leaves a visible gap in the list.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Differentiate between steel and cast iron, and explain why cast iron cannot be welded.</h3>
+<p>A four-row contrast table &mdash; carbon range, formability, brittleness, shaping cost &mdash; then the welding explanation as a separate paragraph. Keep the two jobs apart: the table contrasts, the paragraph explains one mechanism.</p>
+<div class="q-foot"><b>write</b> &mdash; four-row contrast table (3) &rarr; weldability explanation with the plastic-flow reason (2).</div>
+<div class="q-foot"><b>check</b> &mdash; repeating the table row inside the explanation wastes the paragraph; the key phrase is that welding needs plastic deformation without cracking, not merely that cast iron is "hard".</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One precise sentence giving the carbon range that defines the family.</li>
+    <li><strong>Visual:</strong> Draw the carbon ladder or the graphite-form diagram before writing prose.</li>
+    <li><strong>Reason:</strong> One table row per type &mdash; range, property, application &mdash; each with a because-clause.</li>
+    <li><strong>Close:</strong> Box the boundary figure and add one significance line about the property carbon took away.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "A carbon steel is an iron-carbon alloy containing 0.03% to 2.0% carbon; above 2.0% the same system becomes a cast iron, which extends to 6.67% carbon."</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; carbon ladder &rarr; steel table &rarr; graphite-form diagram &rarr; cast-iron table &rarr; boxed 2% boundary &rarr; trade-off line.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Statement first</strong> &mdash; the carbon range, one line, before either table</li>
+    <li><strong>Diagram or table before prose</strong> &mdash; examiner scans visuals first</li>
+    <li><strong>Underline keywords</strong> &mdash; mild, medium carbon, nodular, malleable, graphite</li>
+    <li><strong>Box every final answer</strong> &mdash; 2.0% and 6.67% both get boxed</li>
+    <li><strong>Attempt order:</strong> this question first &mdash; pure recall, banks marks fastest</li>
+    <li><strong>Never leave blank</strong> &mdash; definition plus one row per type clears 3 of 7</li>
+    <li><strong>Every application carries its reason</strong> &mdash; "gears, because it balances strength and toughness"</li>
+    <li><strong>Close every answer:</strong> "hence proved" / boxed boundary / one trade-off line</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>What is steel? Discuss the different types of steel with their applications.</h3>
+<p class="answer-lead">Define steel with its carbon ceiling, then walk the carbon ladder one row at a time. Each row needs a range, a governing property and one application.</p>
+<pre class="ascii-diagram" role="img" aria-label="Carbon content ladder from mild steel to alloy steel with property and use under each band">
+0.03%        0.25%        0.60%        1.0%         2.0%
+  |            |            |            |            |
+  v            v            v            v            v
++---------+ +---------+ +---------+ +----------+ +---------+
+|  LOW C  | | MEDIUM  | | HIGH C  | | HIGHEST | | ALLOY  |
+| 0.03-   | | 0.25-   | | 0.60-   | | 0.90-    | | Cr Ni   |
+|  0.25%  | |  0.60%  | |  1.00%  | |  1.00%   | | Mo V W  |
++---------+ +---------+ +---------+ +----------+ +---------+
+ ductile    balance of    hard,       very hard,   strength /
+ weldable    strength &     wear       springy      corrosion
+ sheet,      toughness      resistant  dies,        resistance
+ wire        gears, shafts  tools       punches      bearings
+</pre>
+<table>
+<tr><th>Type</th><th>Carbon</th><th>Governing property</th><th>Application</th></tr>
+<tr><td>Low carbon (mild)</td><td>0.03 - 0.25%</td><td>Soft, ductile, easily welded</td><td>Sheet metal, wire, rolled structural sections</td></tr>
+<tr><td>Medium carbon</td><td>0.25 - 0.60%</td><td>Balance of strength and toughness</td><td>Gears, shafts, crankshafts, couplings</td></tr>
+<tr><td>High carbon</td><td>0.60 - 1.00%</td><td>Hard, wear resistant, low ductility</td><td>Cutting tools, springs, dies</td></tr>
+<tr><td>Alloy steel</td><td>plus Cr / Ni / Mo / V / W</td><td>Strength, hardness, wear or corrosion resistance beyond carbon alone</td><td>Ball bearings, high-speed gears, high-temperature parts</td></tr>
+</table>
+<p class="answer-close"><strong>Exam close:</strong> "Increasing carbon raises hardness and tensile strength but reduces ductility and weldability, so each band has an application chosen to exploit what carbon has taken away."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>What is cast iron? Explain its types with their applications.</h3>
+<p class="answer-lead">Define cast iron by its carbon range, then draw the graphite-form diagram. That diagram is the whole answer &mdash; once carbon form is visible, the four types are just four outcomes of it.</p>
+<pre class="ascii-diagram" role="img" aria-label="How carbon form decides cast iron type, from cementite to graphite flakes, spheroids and rosettes">
+                 CARBON IN A CAST IRON
+                          |
+                          |
+      combined with iron              separates as free
+      as cementite Fe3C               graphite
+              |                               |
+              v                               v
+     +---------------------+    +---------------------------+
+     | WHITE CAST IRON     |    | GREY CAST IRON            |
+     | carbon as Fe3C      |    | carbon as graphite        |
+     | very hard           |    | FLAKES - act as stress    |
+     | very brittle        |    | concentrators             |
+     | white fracture      |    | good damping, easy to     |
+     |                     |    | machine                   |
+     +---------------------+    +---------------------------+
+              |                               |
+              | heat-treat to                | magnesium inoculation
+              | break the cementite          | rounds the flakes
+              v                               v
+     +---------------------+    +---------------------------+
+     | MALLEABLE CAST IRON |    | ductile (NODULAR)          |
+     | graphite as         |    | graphite as SPHEROIDS     |
+     | irregular rosettes  |    | ductile + still castable  |
+     | small castings      |    |                           |
+     +---------------------+    +---------------------------+
+</pre>
+<table>
+<tr><th>Type</th><th>Carbon</th><th>Distinguishing feature</th><th>Application</th></tr>
+<tr><td>White</td><td>1.8 - 3.0%</td><td>Carbon combined as Fe<sub>3</sub>C; no free graphite; white fracture, extremely hard and brittle</td><td>Crushers, dies, wear liners</td></tr>
+<tr><td>Grey</td><td>2.5 - 4.0%</td><td>Graphite as flakes; grey fracture; excellent damping and machinability</td><td>Machine tool beds, flywheels, engine blocks, pipes</td></tr>
+<tr><td>Ductile (nodular)</td><td>3.0 - 4.0%</td><td>Graphite as spheroids; shock resistant while still castable</td><td>Crankshafts, pressure pipes, heavy gears</td></tr>
+<tr><td>Malleable</td><td>2.5 - 3.0%</td><td>Graphite as irregular rosettes; white iron made ductile by heat treatment</td><td>Small castings, pipe fittings, connecting rods</td></tr>
+</table>
+<p class="answer-close"><strong>Exam close:</strong> "The type of cast iron is decided by the form the carbon takes, not by its percentage: as cementite the iron is white and brittle, as free graphite it becomes grey and machinable."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Differentiate between steel and cast iron, and explain why cast iron cannot be welded.</h3>
+<p class="answer-lead">Give the contrast as a table first &mdash; four rows is the whole difference. Then write the weldability explanation as its own paragraph with its own mechanism.</p>
+<pre class="ascii-diagram" role="img" aria-label="Four-row contrast between steel and cast iron across carbon range, formability, brittleness and shaping cost">
+                 STEEL                       CAST IRON
+          +------------------+       +------------------+
+          | C: 0.03 - 2.0%   |       | C: 2.0 - 6.67%   |
+          +------------------+       +------------------+
+          | ductile          |       | brittle          |
+          | can be forged    |       | cannot be forged |
+          +------------------+       +------------------+
+          | weldable         |       | NOT weldable     |
+          | rolled or forged |       | cast only        |
+          +------------------+       +------------------+
+          | cheaper per kg   |       | cheaper to cast  |
+          |                  |       | a complex shape  |
+          +------------------+       +------------------+
+                     \                        /
+                      \                      /
+                       v                    v
+              +------------------------+-------------+
+              | ONE CAUSE: CARBON      |
+              | above 2% the structure |
+              | is brittle graphite /  |
+              | cementite, so the     |
+              | metal cannot flow     |
+              +------------------------+-------------+
+</pre>
+<table>
+<tr><th>Property</th><th>Steel</th><th>Cast iron</th></tr>
+<tr><td>Carbon content</td><td>0.03 - 2.0%</td><td>2.0 - 6.67%</td></tr>
+<tr><td>Ductility</td><td>High; can be forged and rolled</td><td>Low; brittle, cast only</td></tr>
+<tr><td>Weldability</td><td>Good</td><td>Not weldable in practice</td></tr>
+<tr><td>Shaping cost</td><td>Rolling and forging, cheap in long runs</td><td>Casting, cheapest for complex shapes</td></tr>
+</table>
+<p>Cast iron cannot be welded because its <strong>high carbon content makes it brittle</strong>.
+Welding and forging both require the metal to deform plastically without cracking; a brittle metal
+cracks before it flows, so the heated zone fractures instead of fusing.</p>
+<p class="answer-close"><strong>Exam close:</strong> "The same brittleness that makes cast iron an excellent damping material makes it unweldable &mdash; one property, two opposite consequences."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203 Unit 1, "Composition of Cast iron and
+Carbon steels". Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; the same hub carries per-unit OneDrive and
+Dropbox downloads for cross-checking the carbon bands.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, Q1a is this question. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions.</li>
+<li><strong>Reference book</strong> (official BT-203 list) &mdash; C. M. Agrawal,
+<em>Basic Mechanical Engineering</em>, Wiley &mdash; primary text for Unit 1, chapters on iron
+and steel.</li>
+</ul>
+<p class="source-note">Links last checked 28 September 2026. The official scheme fixes the
+syllabus scope; the notes hubs and paper archive support revision and question practice. No paper
+session is attributed beyond the December 2020 archive named above.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

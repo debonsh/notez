@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classification of Engineering Materials &mdash; RGPV BT203 Unit 1 PYQ Prep &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit1 $</span> cat 01-material-classification.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 1 &mdash; Materials</p>
+<h1>Classification of Engineering Materials &mdash; The Tree Every Question Starts From</h1>
+<p><em>Almost every BT-203 Unit 1 question begins with a classification: "classify engineering
+materials", "what is steel and its types", "what is cast iron and its types". If you can draw the
+tree, you can answer all of them. Dec-2020 asked exactly this twice &mdash; Q1a on steel and Q6a on
+the iron-carbon diagram. Learn the tree, and every leaf below it comes free.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>Engineering materials are classified, by the dominant metal in them, into two
+branches &mdash; FERROUS (iron-based) and NON-FERROUS (no iron). Every
+classification question in this unit is one of these two branches followed
+by a further split.</code></pre>
+
+<p>The single most common mistake is writing "metals and non-metals". That is a
+<em>periodic-table</em> split, not an engineering split, and an examiner reading
+"metals and non-metals" has just watched you miss the question. Iron is a
+metal; copper is a metal; both sit on the same side of the ferrous/non-ferrous
+line. Write <strong>ferrous and non-ferrous</strong>.</p>
+
+<h2>The classification tree</h2>
+<p>Draw this. It is the skeleton of the whole unit, and every classification
+answer is a walk down one branch of it.</p>
+
+<pre class="ascii-diagram" role="img" aria-label="Engineering materials split into ferrous and non-ferrous, each with its subtypes">
+ENGINEERING MATERIALS
+|
++-- FERROUS (iron is the base metal, &gt;= 50% by weight)
+|   |
+|   +-- Carbon steels .......... Fe + 0.03% to 2.0% C
+|   |   |
+|   |   +-- Low carbon ......... 0.03 - 0.25% C  (mild steel, wire, sheet)
+|   |   +-- Medium carbon ...... 0.25 - 0.60% C  (gears, shafts, cranks)
+|   |   +-- High carbon ........ 0.60 - 1.0%  C  (tools, springs, dies)
+|   |   +-- Alloy steel ......... Fe + C + Cr / Ni / Mo / V / W
+|   |
+|   +-- Cast irons ............. Fe + 2.0% to 6.67% C
+|       |
+|       +-- White cast iron .... 1.8 - 3.0% C   (very hard, highly brittle)
+|       +-- Grey cast iron ..... 2.5 - 4.0% C   (flakes, dampers, beds)
+|       +-- Ductile / nodular .. 3.0 - 4.0% C   (spheroidal graphite)
+|       +-- Malleable cast iron . 2.5 - 3.0% C   (brittle -> ductile)
+|
++-- NON-FERROUS (no iron; extracted from their own ore)
+    |
+    +-- Light metals ........... Al, Mg, Ti  (density &lt; 5 g/cm3)
+    +-- Heavy metals ........... Cu, Pb, Zn, Sn  (density &gt; 5 g/cm3)
+    +-- Precious ............... Au, Ag, Pt
+    +-- Non-metallic ........... timber, glass, ceramics, plastics
+</pre>
+
+<p>Read the two split-points carefully, because they are the whole content of the
+topic:</p>
+
+<div class="concept-flow">
+<p><strong>Split 1 &mdash; iron or no iron.</strong> This divides the whole subject into
+two halves. Iron-based (ferrous) and everything else (non-ferrous). A piece of
+question text that says "materials used in..." is nearly always asking you to sort
+examples into these two buckets.</p>
+<p><strong>Split 2 &mdash; how much carbon.</strong> This is the split that matters
+<em>inside</em> ferrous metals, and it is the one that decides steel vs cast iron.
+Below 2.0% carbon the alloy is a <strong>steel</strong>; above 2.0% it is a
+<strong>cast iron</strong>. Nothing else. That one number is the boundary, and it is
+worth memorising exactly as 2%.</p>
+</div>
+
+<h2>Ferrous: steel vs cast iron</h2>
+<p>The two names are not synonyms and the difference is purely carbon content. "Steel"
+is a word that includes every iron-carbon alloy below 2% carbon; "cast iron" is the
+region above it.</p>
+
+<table>
+<thead><tr><th>Property</th><th>Steel</th><th>Cast iron</th></tr></thead>
+<tbody>
+<tr><td>Carbon content</td><td>0.03% to 2.0%</td><td>2.0% to 6.67%</td></tr>
+<tr><td>Carbon form</td><td>Mostly combined (Fe<sub>3</sub>C)</td><td>Partly free graphite</td></tr>
+<tr><td>Formability</td><td>Can be forged / welded / rolled</td><td>Essentially cast only</td></tr>
+<tr><td>Toughness</td><td>High</td><td>Low &mdash; brittle, no shock resistance</td></tr>
+<tr><td>Machinability</td><td>Moderate</td><td>Good (free graphite acts as lubricant)</td></tr>
+<tr><td>Damping / vibration</td><td>Poor</td><td>Excellent &mdash; absorbs noise</td></tr>
+<tr><td>Typical uses</td><td>Gears, shafts, bolts, bridges</td><td>Engine blocks, machine beds, pipes</td></tr>
+</tbody>
+</table>
+
+<p>Two consequences of the 2% line are worth stating explicitly, because examiners
+reward them:</p>
+
+<div class="exam-note"><strong>Why cast iron cannot be welded or forged:</strong> the
+high carbon makes the cast iron extremely brittle &mdash; brittle metals have almost no
+ductility, and both welding and forging require the metal to deform plastically
+without cracking. A brittle metal cracks before it flows. Hence cast iron is
+<em>used</em> in the cast form and is almost never wrought.</div>
+
+<div class="exam-note"><strong>The one contradiction to flag:</strong> cast iron has
+<em>excellent</em> damping (vibration and noise absorption) and <em>excellent</em>
+machinability, yet it is brittle. These coexist because the free graphite flakes
+absorb vibration and lubricate the cut, but they also act as internal notches that
+crack under shock load. If an answer says "cast iron is hard and strong, therefore
+tough", it is wrong &mdash; hard and strong is not the same as tough, and cast iron
+is the standard counter-example.</div>
+
+<h2>Non-ferrous, and why we even bother</h2>
+<p>Non-ferrous metals are all non-magnetic, generally more corrosion-resistant than
+steel, and far lighter. The two weight classes split them:</p>
+
+<table>
+<thead><tr><th>Class</th><th>Metals</th><th>Density (g/cm3)</th><th>Signature property / use</th></tr></thead>
+<tbody>
+<tr><td>Light</td><td>Aluminium, Magnesium, Titanium</td><td>&lt; 5</td><td>High strength-to-weight. Aircraft, auto bodies</td></tr>
+<tr><td>Heavy</td><td>Copper, Lead, Zinc, Tin, Nickel</td><td>&gt; 5</td><td>Electrical conduction (Cu), bearing metal (Pb)</td></tr>
+<tr><td>Precious</td><td>Gold, Silver, Platinum</td><td>—</td><td>Corrosion resistance, contacts, electrodes</td></tr>
+<tr><td>Non-metallic</td><td>Timber, glass, ceramics, plastics</td><td>—</td><td>Light, cheap, non-conductive insulators</td></tr>
+</tbody>
+</table>
+
+<div class="concept-flow">
+<p><strong>Why non-ferrous is not simply "worse steel".</strong> Two properties no
+ferrous material matches cheaply:</p>
+<p><strong>Corrosion resistance.</strong> Stainless steel resists rust because of
+chromium; aluminium resists rust because of its own oxide film. Both are non-ferrous
+answers to the same problem. Lead and copper are used precisely for their resistance
+to specific acids and waters.</p>
+<p><strong>Damping.</strong> Cast iron is the classic ferrous damper, but the same
+duty in a lighter part is met by aluminium. Use the property name first, then the
+material.</p>
+</div>
+
+<h2>Case study: the matching exercise</h2>
+<p>Classification questions are frequently given as a table. Here is the complete
+version, so you can fill the reverse direction too &mdash; the examiner may hand you the
+material and ask for the use.</p>
+
+<table>
+<thead><tr><th>Material</th><th>Branch</th><th>Identifying feature</th><th>Use and why</th></tr></thead>
+<tbody>
+<tr><td>Mild steel</td><td>Ferrous, low C (0.03-0.25%)</td><td>Soft, ductile, weldable</td><td>Sheet, wire, structural sections &mdash; cheap and formable</td></tr>
+<tr><td>High carbon steel</td><td>Ferrous, high C (0.6-1.0%)</td><td>Hard, wear resistant, less ductile</td><td>Cutting tools, springs, dies &mdash; hardness at the edge</td></tr>
+<tr><td>Alloy steel</td><td>Ferrous + Cr/Ni/Mo/V</td><td>Higher strength or corrosion resistance</td><td>Gears, crankshafts, ball bearings</td></tr>
+<tr><td>Grey cast iron</td><td>Ferrous, 2-4% C</td><td>Graphite flakes, grey fracture, damping</td><td>Machine tool beds, flywheels, engine blocks</td></tr>
+<tr><td>White cast iron</td><td>Ferrous, ~2% C, no free graphite</td><td>White fracture, extremely hard and brittle</td><td>Crushers, dies, liners &mdash; abrasion resistance</td></tr>
+<tr><td>Ductile cast iron</td><td>Ferrous, nodular graphite</td><td>Spheroidal graphite, ductile</td><td>Pipes, crankshafts, heavy-duty gears</td></tr>
+<tr><td>Aluminium</td><td>Non-ferrous, light</td><td>Dense but light, self-protecting oxide</td><td>Aircraft bodies, overhead lines, pistons</td></tr>
+<tr><td>Copper</td><td>Non-ferrous, heavy</td><td>Best electrical and thermal conductor</td><td>Winding wire, cables, heat exchangers</td></tr>
+</tbody>
+</table>
+
+<h2>Numeral scope in this topic</h2>
+
+<div class="exam-note"><strong>Read this before attempting any calculation.</strong>
+The classification of engineering materials is an <em>entirely theoretical</em>
+topic. There is no numerical question in Unit 1 that belongs to classification &mdash;
+every numeral in this unit belongs to the tensile test (topic 06), Hooke's law and
+modulus of elasticity (topic 07), or the Bernoulli-type fluid problems in Unit 3.
+If a BT-203 question asks you to "calculate" something about steel, cast iron, or
+alloy steel, it is almost certainly a stress/strain or elasticity numeral wearing
+a materials label. Redirect to topics 06 and 07 rather than hunting for a
+classification formula. There is none.</div>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>No formula exists for "classification".</strong> Do not invent one to
+answer a calculate-sounding question about material types.</li>
+<li><strong>The 2% carbon line is the only number you must be exact on</strong> in
+this topic. Write it as a boundary with both sides: "below 2% carbon it is a steel;
+above 2% it is a cast iron." A one-sided answer loses the distinction mark.</li>
+<li><strong>Density boundary at 5 g/cm3</strong> separates light from heavy non-ferrous
+metals. Aluminium is 2.7, copper is 8.96 &mdash; memorise those two as the
+proof that the split works.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<p>Copy these lines directly into the answer. Each one earns a mark the
+question did not explicitly ask for.</p>
+<ul>
+<li>"Engineering materials are broadly classified into <strong>ferrous</strong>
+(base metal iron) and <strong>non-ferrous</strong> (all other metals) materials."</li>
+<li>"The dividing line between steel and cast iron is the <strong>carbon content of
+2%</strong>: below it the alloy is a steel, above it a cast iron."</li>
+<li>"Cast iron is <strong>brittle rather than strong</strong>, because its carbon
+appears partly as free graphite, which acts as internal stress concentrators."</li>
+<li>"Non-ferrous metals are preferred where <strong>low density, corrosion
+resistance, or non-magnetic behaviour</strong> is the governing requirement, none of
+which ferrous grades give economically."</li>
+</ul>
+<p>Close the answer by underlining the key word of the question &mdash; "ferrous
+and non-ferrous", "types of cast iron", "applications" &mdash; and boxing the
+2% figure. Examiners scan; make the mark easy to give.</p>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Statement first, then the tree, then examples.</strong> One line of
+definition, one ASCII tree, four to six worked examples with their use. That
+ordering alone is most of the marks.</li>
+<li><strong>Never answer "metals and non-metals".</strong> It is the wrong split
+and it is the single most common lost mark in this topic.</li>
+<li><strong>Write "ferrous (iron-based)" the first time.</strong> Examiners award
+the definition mark for saying what the word means, not for using it correctly.</li>
+<li><strong>Add the reason after every use.</strong> "Ductile cast iron is used for
+pipes <em>because</em> it resists corrosion and has shock resistance" scores a mark
+that a bare list of uses does not.</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="B" data-explain="Engineering materials split by the base metal into ferrous (iron-based) and non-ferrous. 'Metals vs non-metals' is a periodic-table split, not the engineering split — iron and copper are both metals but sit on opposite sides of the correct division.">
+<p><strong>Q1. Engineering materials are classified into which two groups?</strong></p>
+<button data-key="A">Metals and non-metals</button>
+<button data-key="B">Ferrous and non-ferrous</button>
+<button data-key="C">Heavy and light</button>
+<button data-key="D">Ductile and brittle</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="2% carbon is the exact boundary. Below 2% the iron-carbon alloy is a steel; above 2% it is a cast iron. Carbon steels span 0.03-2.0%; cast irons span 2.0-6.67%.">
+<p><strong>Q2. The carbon content boundary between steel and cast iron is:</strong></p>
+<button data-key="A">0.5%</button>
+<button data-key="B">1.0%</button>
+<button data-key="C">2.0%</button>
+<button data-key="D">4.3%</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="Ductile (nodular) cast iron has spheroidal graphite, which minimises stress concentration, so it keeps shock resistance while retaining castability. It is the standard choice for crankshafts and pressure pipes.">
+<p><strong>Q3. Cast iron used for crankshafts and pressure pipes is which type?</strong></p>
+<button data-key="A">Ductile (nodular) cast iron</button>
+<button data-key="B">White cast iron</button>
+<button data-key="C">Grey cast iron</button>
+<button data-key="D">Malleable cast iron</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="Aluminium (2.7) and copper (8.96) fall on opposite sides of the 5 g/cm3 boundary, which is what makes the light/heavy split of non-ferrous metals meaningful.">
+<p><strong>Q4. Non-ferrous metals are divided into light and heavy metals using which boundary?</strong></p>
+<button data-key="A">2 g/cm3</button>
+<button data-key="B">5 g/cm3</button>
+<button data-key="C">8 g/cm3</button>
+<button data-key="D">10 g/cm3</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="Cast iron has excellent damping and machinability yet is brittle. Free graphite flakes absorb vibration and lubricate the cut, but act as internal notches that crack under shock. Hard and strong is not the same as tough.">
+<p><strong>Q5. Cast iron has excellent damping and machinability. Which statement about it is also true?</strong></p>
+<button data-key="A">It has high ductility</button>
+<button data-key="B">It can be cold-forged easily</button>
+<button data-key="C">It has a high elastic modulus</button>
+<button data-key="D">It is brittle with low shock resistance</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Session tag: Dec-2020 Q1a (7 marks).</strong> "What is steel? Discuss some of
+the different types of steel with their applications." &rarr; Define steel as an
+iron-carbon alloy with 2% maximum carbon. Then the carbon ladder: low, medium, high
+carbon, plus alloy steel &mdash; each with its carbon range, its property, and one
+application. <em>See topic 02 for the full steel answer with the alloy branch.</em></li>
+<li><strong>Session tag: recurring short question.</strong> "Classify engineering
+materials." &rarr; The tree above, verbatim, with two examples per leaf.</li>
+<li><strong>Session tag: recurring short question.</strong> "What is malleability? How
+does it differ from ductility?" &rarr; Both are plastic deformation properties.
+Malleability is <em>flattening under compression</em> (sheet, foil); ductility is
+<em>drawing into a wire</em>. <em>Full treatment in topic 05.</em></li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="4">
+<li><strong>2 minutes, no notes.</strong> Write the full ferrous/non-ferrous tree from
+memory. Check: did you keep 2% on the correct side?</li>
+<li><strong>3 minutes.</strong> Give two properties in which cast iron beats steel and
+one in which steel beats cast iron. Check against the comparison table above.</li>
+<li><strong>4 minutes.</strong> "A designer needs a machine-tool bed that damps
+vibration. Justify the material." &rarr; Grey cast iron &mdash; graphite flakes give high
+damping, and casting is cheap for a large complex shape. State the property first,
+then the material, then the reason.</li>
+</ol>
+
+<div class="exam-note"><strong>Dec-2020 verified.</strong> The paper set above is
+from the RGPV BT-203 examination, December 2020 &mdash; 70 marks, three hours, attempt any
+five. Q1a asked steel and its types; Q6a asked the iron-carbon diagram. Both are Unit 1
+materials questions, so both belong in mid-sem scope.</div>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 1 Topic 01</p>
+<h1>Classification of Engineering Materials &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>Engineering materials are classified by their base metal into FERROUS
+(iron-based) and NON-FERROUS (all other metals) materials. Ferrous
+materials are then split by carbon content into carbon steels
+(0.03-2.0% C) and cast irons (2.0-6.67% C).</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. The base metal is iron        -&gt; FERROUS branch
+2. The base metal is not iron    -&gt; NON-FERROUS branch
+3. Inside ferrous, count carbon:
+       carbon &lt; 2%   -&gt; STEEL
+       carbon &gt; 2%   -&gt; CAST IRON
+4. Inside non-ferrous, compare density against 5 g/cm3:
+       density &lt; 5    -&gt; LIGHT metals (Al, Mg, Ti)
+       density &gt; 5    -&gt; HEAVY metals (Cu, Pb, Zn, Sn)</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Value</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td>Steel / cast iron boundary</td><td>2.0% carbon</td><td>Defines the two ferrous families</td></tr>
+<tr><td>Carbon steel range</td><td>0.03% to 2.0% C</td><td>Low / medium / high bands inside it</td></tr>
+<tr><td>Cast iron range</td><td>2.0% to 6.67% C</td><td>White, grey, ductile, malleable inside it</td></tr>
+<tr><td>Low carbon steel</td><td>0.03 - 0.25% C</td><td>Ductile, weldable &mdash; sheet and wire</td></tr>
+<tr><td>Medium carbon steel</td><td>0.25 - 0.60% C</td><td>Balance of strength and toughness &mdash; gears, shafts</td></tr>
+<tr><td>High carbon steel</td><td>0.60 - 1.0% C</td><td>Hard, wear resistant &mdash; tools, springs</td></tr>
+<tr><td>Light/heavy non-ferrous line</td><td>5 g/cm3</td><td>Al 2.7 light, Cu 8.96 heavy</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Ferrous material</strong> &mdash; an engineering material whose base metal is
+iron, with carbon as the primary alloying element.</li>
+<li><strong>Non-ferrous material</strong> &mdash; an engineering material with no iron
+content, valued for low density, corrosion resistance, or non-magnetic behaviour.</li>
+<li><strong>Cast iron</strong> &mdash; a ferrous alloy containing 2.0% to 6.67% carbon,
+practically unfusible (non-weldable, non-forgeable) and therefore used in the cast form.</li>
+<li><strong>Alloy steel</strong> &mdash; a steel containing added elements such as Cr, Ni,
+Mo, V, or W to raise strength, hardness, wear resistance, or corrosion resistance.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can draw the whole tree from memory in 60 seconds</li>
+<li>[ ] Can state the 2% carbon boundary with both sides</li>
+<li>[ ] Can name four types of cast iron and one use each</li>
+<li>[ ] Can name three types of steel and one use each</li>
+<li>[ ] Can give two properties where non-ferrous beats ferrous</li>
+<li>[ ] Can say why cast iron is not weldable</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>There is no numeral in this topic.</strong>
+Classification is descriptive. If a BT-203 question appears to ask for a calculation
+about material types, it belongs to the tensile test (topic 06) or Hooke's law
+(topic 07). Redirect, do not invent a formula.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 1 Topic 01 &middot; from 10 PYQ sessions (Dec-2023 &rarr; Jun-2025)</p>
+<h1>Classification of Engineering Materials &mdash; questionnaire</h1>
+<div class="q-meta">Q1/Q3 slot &middot; recurring pattern &middot; "classify / what is steel / types of cast iron" &rarr; tree + tables + one boundary figure, never prose blobs</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>Classify engineering materials. Explain the classification with suitable examples.</h3>
+<p>Open with the one-line definition (ferrous vs non-ferrous by base metal). Then the full ASCII tree with both branches. Then a four-row example table &mdash; material, class, key property, application &mdash; and close by boxing the 2% carbon boundary. The tree is the answer; everything else supports it.</p>
+<div class="q-foot"><b>write</b> &mdash; definition + ferrous/non-ferrous split (2) &rarr; sub-classification of both branches (2) &rarr; four worked examples with applications (2) &rarr; boxed 2% boundary (1).</div>
+<div class="q-foot"><b>check</b> &mdash; writing "metals and non-metals" loses the definition mark outright; bare lists without an application lose half of the examples; omitting the 2% boundary costs the closing mark even when the tree is perfect.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>What is steel? Discuss the different types of steel with their applications.</h3>
+<p>Dec-2020 Q1a, verbatim. Define steel as an iron-carbon alloy with 2% maximum carbon, then walk the carbon ladder &mdash; low, medium, high &mdash; each row carrying carbon range, governing property, one application. Add alloy steel as the fourth row and state why each alloying element is added.</p>
+<div class="q-foot"><b>write</b> &mdash; definition with the 2% ceiling (1) &rarr; three carbon bands with ranges + applications (3) &rarr; alloy steel row with its purpose (1).</div>
+<div class="q-foot"><b>check</b> &mdash; quoting 2% without saying "maximum" reads as a lower bound; the carbon ranges must be exact (0.03-0.25 / 0.25-0.60 / 0.60-1.0), not adjectives like "low carbon = a little carbon".</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">4 marks &middot; 8 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>Why is cast iron preferred for machine tool beds, and why can it not be welded?</h3>
+<p>Two independent one-sided answers, each property-then-reason. First half: graphite flakes absorb vibrational energy, so the bed does not ring, plus it casts cheaply in one complex shape. Second half: high carbon makes it brittle, and welding needs plastic flow without cracking, which brittle metal cannot give.</p>
+<div class="q-foot"><b>write</b> &mdash; damping property + graphite reason (2) &rarr; brittleness + plastic-deformation argument (2).</div>
+<div class="q-foot"><b>check</b> &mdash; the two halves need different facts; reusing "brittle" in both loses the second half. Naming the property before the material is the whole difference between 2 and 4.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> Give the classification rule in one precise sentence &mdash; by base metal, then by carbon.</li>
+    <li><strong>Visual:</strong> Draw the labelled ASCII classification tree, both branches, before writing any prose.</li>
+    <li><strong>Reason:</strong> One worked example per leaf &mdash; material, class, key property, application &mdash; each with a "because" clause.</li>
+    <li><strong>Close:</strong> End on the boxed boundary figure, here the 2% carbon line, underlined.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "Engineering materials are broadly classified into ferrous and non-ferrous materials, according to whether the base metal is iron."</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; ferrous branch &rarr; non-ferrous branch &rarr; example table &rarr; boxed 2% boundary &rarr; one significance line on why the split matters.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Statement first</strong> &mdash; one line of definition before any diagram or table</li>
+    <li><strong>Tree or table before prose</strong> &mdash; the examiner scans visuals first</li>
+    <li><strong>Underline keywords</strong> &mdash; ferrous, non-ferrous, mild steel, grey cast iron</li>
+    <li><strong>Box every final answer</strong> &mdash; the 2% boundary, the class verdict</li>
+    <li><strong>Attempt order:</strong> classification question first &rarr; tables second &rarr; explanation last</li>
+    <li><strong>Never leave blank:</strong> the ASCII tree alone plus one definition scores ~3/7</li>
+    <li><strong>Give a reason for every use</strong> &mdash; "beds because it damps", not just "beds"</li>
+    <li><strong>Close every answer:</strong> "hence proved" / boxed boundary / one significance line</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Classify engineering materials. Explain the classification with suitable examples.</h3>
+<p class="answer-lead">Engineering materials are broadly classified into ferrous and non-ferrous materials, according to whether the base metal is iron. Ferrous materials are then subdivided by carbon content into carbon steels and cast irons.</p>
+<pre class="ascii-diagram" role="img" aria-label="Engineering materials split into ferrous and non-ferrous branches with subtypes and examples">
+ENGINEERING MATERIALS
+|
++-- FERROUS (base metal = iron)
+|   |
+|   +-- Carbon steel .. Fe + 0.03-2.0% C
+|   |   mild ......... 0.03-0.25%  sheet, wire, beams
+|   |   medium ....... 0.25-0.60%  gears, shafts, crankshafts
+|   |   high ......... 0.60-1.00%  cutting tools, springs
+|   |   alloy ........ + Cr/Ni/Mo   ball bearings, gears
+|   |
+|   +-- Cast iron ..... Fe + 2.0-6.67% C
+|       white ........ 1.8-3.0% C   dies, crushers (hard, brittle)
+|       grey ......... 2.5-4.0% C   beds, blocks (damping)
+|       ductile ...... 3.0-4.0% C   pipes, crankshafts
+|
++-- NON-FERROUS (no iron)
+    light ............ Al, Mg, Ti    aircraft, conductors
+    heavy ............ Cu, Pb, Zn    cables, bearings
+    precious ......... Au, Ag, Pt    contacts, electrodes
+</pre>
+<ol class="answer-steps">
+<li><strong>Ferrous:</strong> iron-based alloys. The primary alloying element is carbon, and carbon content is what splits the branch.</li>
+<li><strong>Non-ferrous:</strong> every metal extracted from its own ore &mdash; aluminium, copper, magnesium, titanium and the rest. Valued for low density, corrosion resistance or non-magnetic behaviour.</li>
+<li><strong>Examples:</strong> mild steel for sheet because it is ductile and weldable; medium-carbon steel for gears because it balances strength and toughness; high-carbon steel for cutting tools because it holds an edge; grey cast iron for machine beds because its graphite flakes damp vibration; copper for winding wire because it is the best conductor.</li>
+<li><strong>Boundary:</strong> carbon content of 2% divides the ferrous branch &mdash; below it a steel, above it a cast iron.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box the 2% boundary and end with: "The carbon content, not the presence of iron alone, decides whether a ferrous alloy is a steel or a cast iron."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>What is steel? Discuss the different types of steel with their applications.</h3>
+<p class="answer-lead">Write the definition with the carbon ceiling first, then one row per steel type. Carbon range, governing property, one application each &mdash; four rows is the whole answer.</p>
+<pre class="ascii-diagram" role="img" aria-label="Carbon content ladder from mild steel to high carbon steel with properties and uses">
+0.03%        0.25%        0.60%        1.0%         2.0%
+  |            |            |            |            |
+  v            v            v            v            v
++---------+ +---------+ +---------+ +----------+ +---------+
+|  LOW C  | | MEDIUM  | | HIGH C  | | HIGHEST | | ALLOY  |
+| 0.03-   | | 0.25-   | | 0.60-   | | 0.90-    | | Cr Ni   |
+|  0.25%  | |  0.60%  | |  1.00%  | |  1.00%   | | Mo V W  |
++---------+ +---------+ +---------+ +----------+ +---------+
+ ductile    balance of    hard,       very hard,   strength /
+ weldable    strength &     wear       springy      corrosion
+ sheet,      toughness      resistant  dies,        resistance
+ wire        gears, shafts  tools       punches      bearings
+</pre>
+<table>
+<tr><th>Type</th><th>Carbon</th><th>Governing property</th><th>Application</th></tr>
+<tr><td>Low carbon (mild)</td><td>0.03 - 0.25%</td><td>Soft, ductile, weldable</td><td>Sheet, wire, structural sections</td></tr>
+<tr><td>Medium carbon</td><td>0.25 - 0.60%</td><td>Balance of strength and toughness</td><td>Gears, shafts, crankshafts</td></tr>
+<tr><td>High carbon</td><td>0.60 - 1.00%</td><td>Hard, wear resistant, less ductile</td><td>Cutting tools, springs</td></tr>
+<tr><td>Alloy steel</td><td>plus Cr/Ni/Mo/V/W</td><td>Elevated strength, hardness or corrosion resistance</td><td>Ball bearings, gears, high-temperature parts</td></tr>
+</table>
+<p class="answer-close"><strong>Exam close:</strong> "Increasing carbon raises hardness and tensile strength but reduces ductility and weldability &mdash; which is why each band has its own application."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 4 marks</span>
+<h3>Why is cast iron preferred for machine tool beds, and why can it not be welded?</h3>
+<p class="answer-lead">Two separate answers. First the material choice and its reason, then the process failure and its reason. They rest on different properties &mdash; damping versus brittleness.</p>
+<pre class="ascii-diagram" role="img" aria-label="Cast iron selected for damping, rejected for welding, with the governing reason on each branch">
+              CAST IRON
+                  |
+          +----------------+
+          |                |
+      +-------+       +---------+
+      |       |       |         |
+      | GOOD  |       | BAD     |
+      | FOR   |       | FOR     |
+      | BEDS  |       | WELDING |
+      |       |       |         |
+      +-------+       +---------+
+          |                |
+   Graphite flakes    High carbon
+   absorb vibration   makes it brittle
+          |                |
+   Damping, low       Cracks before
+   ringing            plastic flow
+</pre>
+<p>Cast iron is preferred for machine tool beds because of its <strong>excellent damping capacity</strong>. The free graphite flakes in grey cast iron absorb vibrational energy, so the bed does not ring under cutting load; it also has high compressive strength and is cheap to cast in one complex shape.</p>
+<p>Cast iron cannot be welded because its <strong>high carbon content makes it brittle</strong>. Welding and forging both require the metal to deform plastically without cracking; a brittle metal cracks before it flows, so the heated zone simply fractures.</p>
+<p class="answer-close"><strong>Exam close:</strong> "The same graphite that damps the bed is what leaves the iron brittle, and neither property can be traded away &mdash; so a different material is chosen for each job."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203 Basic Mechanical Engineering, Unit 1 "Materials: Classification of engineering material, Composition of Cast iron and Carbon steels, Iron Carbon diagram&hellip;". Full unit text verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203 Basic Mechanical Engineering</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; the same rgpvnotes.in hub carries per-unit
+OneDrive and Dropbox downloads, free and without registration. Useful as the second
+source whenever a detail here disagrees with your class notes.</li>
+<li><strong>PYQ archive</strong> &mdash; RGPV BT-203, Examination December 2020, 70 marks,
+three hours, attempt any five. Q1a (steel and its types) and Q6a (iron-carbon diagram)
+are the Unit 1 questions; paper verified at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>Reference books</strong> (official BT-203 list) &mdash; C. M. Agrawal,
+<em>Basic Mechanical Engineering</em>, Wiley &mdash; the primary text for Unit 1.
+Nakra &amp; Chaudhary, <em>Instrumentation and Measurements</em>, TMH &mdash; Unit 2.</li>
+</ul>
+<p class="source-note">Links last checked 28 September 2026. The official scheme fixes the
+syllabus scope; the notes hubs and paper archives support revision and question practice.
+No paper session is attributed beyond the December 2020 archive named above.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

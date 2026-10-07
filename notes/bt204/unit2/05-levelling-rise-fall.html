@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Levelling Book &amp;mdash; the Rise and Fall Method and the Arithmetic Check</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt204/unit2 $</span> cat 05-levelling-rise-fall.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT204 Unit 2 &mdash; Surveying &amp; Positioning</p>
+<h1>Levelling Book &mdash; the Rise and Fall Method and the Arithmetic Check</h1>
+<p><em>This is the most valuable single question in BT-204 Unit 2: the staff readings to reduced
+levels by the <strong>Rise and Fall method, with the arithmetic check</strong>, appeared in
+<strong>4 of the last 10 papers with almost identical wording</strong>, and it is a full question
+rather than a part. It is also the only piece of genuine computation in the unit, so it rewards
+practice more than anything else here.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>Levelling is the operation of determining the difference in elevation between
+points, using a level to establish a horizontal line of sight and a graduated
+staff to measure the vertical distance from that line to each point. The
+reduced level (RL) of a point is its height above a datum, usually taken as
+mean sea level. In the RISE AND FALL method the RLs are obtained by comparing
+each staff reading with the one before it: if the reading falls, the ground has
+RISEN, and if the reading rises, the ground has FALLEN.</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;The instrument never
+measures a level &mdash; it measures the vertical distance from a horizontal line of sight to a staff.
+Everything else is the arithmetic of turning those distances into heights.&rdquo;</em></p>
+
+<h2>The terms the question uses</h2>
+
+<table>
+<thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><strong>Datum</strong></td><td>The reference surface from which heights are measured; usually mean sea level</td></tr>
+<tr><td><strong>Reduced level (RL)</strong></td><td>The height of a point above the datum</td></tr>
+<tr><td><strong>Bench mark (BM)</strong></td><td>A permanently fixed point of known RL from which a levelling run starts, or on which it closes</td></tr>
+<tr><td><strong>Back sight (BS)</strong></td><td>The <em>first</em> reading taken after the instrument is set up, on a point of known RL</td></tr>
+<tr><td><strong>Fore sight (FS)</strong></td><td>The <em>last</em> reading taken before the instrument is moved, on a new point</td></tr>
+<tr><td><strong>Intermediate sight (IS)</strong></td><td>Any reading taken between the BS and the FS of the same setup</td></tr>
+<tr><td><strong>Change point (CP)</strong></td><td>The point on which an FS and then the next BS are taken, so the RL is carried forward across a shift of the instrument</td></tr>
+<tr><td><strong>Height of instrument (HI)</strong></td><td>The RL of the line of sight, equal to the RL of the point plus the BS on it</td></tr>
+<tr><td><strong>Line of collimation</strong></td><td>The horizontal line of sight of the level</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="A level set up between two points showing back sight, intermediate sight and fore sight with the line of collimation">
+   A LEVEL SET UP ONCE, SHOWING THE THREE KINDS OF READING
+
+                LINE OF COLLIMATION (horizontal line of sight)
+   =====+===============+===============+===============+========= HI
+        |               |               |               |
+        | BS            | IS            | IS            | FS
+        |               |               |               |
+        |               |               |               |
+   -----+---------+-----+---------+-----+---------+-----+---------
+      BM A       pt 1            pt 2            pt 3
+      known RL                                     (change point)
+
+   BS = FIRST reading  (on a known point, raises the line)
+   IS = MIDDLE readings (any point, no special role)
+   FS = LAST reading   (before moving the instrument)
+
+   THEN THE INSTRUMENT MOVES, AND THE CYCLE REPEATS:
+   the change point that took the FS also takes the next BS.
+
+        HI  =  RL of the point  +  BS on it
+        RL  =  HI  -  the reading
+</pre>
+
+<h2>The Rise and Fall method &mdash; how it works</h2>
+
+<p>The method asks one question of every consecutive pair of readings: <strong>has the staff reading
+gone up or down?</strong></p>
+
+<pre><code>If the reading DECREASES, the ground has RISEN:
+      rise = previous reading - current reading
+
+If the reading INCREASES, the ground has FALLEN:
+      fall = current reading - previous reading
+
+and then
+
+      RL = previous RL  +  rise        (or)   -  fall</code></pre>
+
+<div class="callout">
+<span class="label">Why a falling reading means rising ground</span>
+<p>The staff stands on the ground and the instrument looks along a <em>horizontal</em> line. If you
+walk uphill, your feet get closer to that horizontal line, so the staff reading gets
+<strong>smaller</strong>. So a <em>decreasing</em> reading means <em>rising</em> ground. This is the
+one inversion in the whole topic and it is where careless answers go wrong.</p>
+</div>
+
+<h2>The change point &mdash; the subtlety that decides the question</h2>
+
+<p>When the instrument is moved, an FS is taken on the change point from the old setup and a BS is
+taken on the <em>same point</em> from the new setup. Those two readings are of the same ground, but
+they come from two different instrument heights, so <strong>no rise or fall is computed between
+them</strong>.</p>
+
+<pre class="ascii-diagram" role="img" aria-label="Why no rise or fall is computed between a fore sight and the following back sight at a change point">
+   AT A CHANGE POINT THE RS ARE THE SAME POINT, SO NO RISE/FALL
+
+   SETUP 1                          SETUP 2
+   line at HI-1                     line at HI-2 (different!)
+
+   =========+=========              ==========+=========
+            |                                 |
+            | FS = 1.050                      | BS = 1.350
+            |                                 |
+   ---------+=================================+---------
+                 CHANGE POINT  (one point, RL unchanged)
+
+   The difference between the two readings, 1.350 - 1.050 = 0.300,
+   is the amount the INSTRUMENT LINE dropped. It is NOT the ground
+   moving. So computing a "rise" or "fall" here would inject a
+   0.300 m error into every RL after it.
+
+   WHY IT IS SAFE: the change point already has its RL from the FS.
+   The BS merely starts the next setup from that same RL.
+
+   PROOF -- the arithmetic check still balances only if it is
+   omitted. Include it and the check fails by exactly the value
+   you wrongly inserted.
+</pre>
+
+<div class="exam-note"><strong>The arithmetic check, and why it proves the rule.</strong> The three
+quantities below must be equal, and if they are not, a reading has been entered wrongly:</p>
+<p style="font-family:monospace;font-size:.9em">&Sigma;BS &minus; &Sigma;FS &nbsp;=&nbsp; &Sigma;Rise &minus; &Sigma;Fall &nbsp;=&nbsp; last RL &minus; first RL</p>
+<p>This identity holds <em>only</em> if no rise or fall is computed at a change point. Insert a
+spurious 0.300 m entry there and the middle expression changes while the other two do not &mdash; so
+the check failing is itself the evidence that the entry does not belong. That is why the check is
+worth writing on every answer: it catches the mistake that costs the whole question.</div>
+
+<h2>Height of collimation method &mdash; the other way</h2>
+
+<table>
+<thead><tr><th>Point</th><th>Height of collimation method</th><th>Rise and Fall method</th></tr></thead>
+<tbody>
+<tr><td>How RL is found</td><td>Calculate the height of instrument (HI = RL + BS), then subtract each reading from it</td><td>Compare each reading with the previous one to get a rise or fall, then add it to the previous RL</td></tr>
+<tr><td>Arithmetic check</td><td><strong>Only on the RLs of the change points</strong> &mdash; there is no check on the intermediate sights</td><td><strong>A complete check</strong> &mdash; &Sigma;BS &minus; &Sigma;FS = &Sigma;Rise &minus; &Sigma;Fall = last RL &minus; first RL</td></tr>
+<tr><td>Arithmetic</td><td>Less &mdash; one subtraction per point</td><td>More &mdash; a subtraction <em>and</em> an addition per point</td></tr>
+<tr><td>Where used</td><td>Where only the RLs are wanted and speed matters, and for a long run with many intermediate sights</td><td>Where a full check on every reading is wanted &mdash; the safer method, and the one RGPV asks for</td></tr>
+</tbody>
+</table>
+
+<h2>Numericals in great depth</h2>
+
+<p>Every levelling numeral is the same table, filled in the same order. Learn the order and the
+arithmetic is trivial.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>BS, IS, FS</code></td><td>back sight, intermediate sight, fore sight readings</td><td>m</td></tr>
+<tr><td><code>rise = prev &minus; current</code></td><td>when the reading decreases</td><td>m</td></tr>
+<tr><td><code>fall = current &minus; prev</code></td><td>when the reading increases</td><td>m</td></tr>
+<tr><td><code>RL = prev RL &plusmn; rise/fall</code></td><td>accumulated reduced level</td><td>m</td></tr>
+<tr><td><code>&Sigma;BS &minus; &Sigma;FS</code></td><td>first form of the arithmetic check</td><td>m</td></tr>
+<tr><td><code>&Sigma;Rise &minus; &Sigma;Fall</code></td><td>second form of the check</td><td>m</td></tr>
+<tr><td><code>last RL &minus; first RL</code></td><td>third form of the check &mdash; all three must agree</td><td>m</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; levelling reduction</span>
+<pre><code>Given:  the staff readings in order, with the kind of each (BS/IS/FS),
+        the instrument shifts, and the RL of the starting bench mark
+Find:   the RL of every point, and the arithmetic check
+Formula:rise = prev - current (decreasing);  fall = current - prev (increasing)
+        RL = previous RL + rise  or  - fall
+        NO rise/fall at a change point
+Solve:  work down the table one row at a time; never skip a row
+Check:  sum BS - sum FS = sum rise - sum fall = last RL - first RL
+        All THREE must agree -- write all three.</code></pre>
+</div>
+
+<h3>Solved A &mdash; a short run, one setup</h3>
+<p><em>A level is set up and readings are taken on four points from a bench mark of RL 100.000 m:
+BS on the BM 1.500, IS on point A 1.250, IS on point B 1.100, FS on point C 1.050. Reduce the levels
+by the Rise and Fall method.</em></p>
+<p><strong>Given:</strong> RL of BM = 100.000 m; readings 1.500 (BS), 1.250 (IS), 1.100 (IS),
+1.050 (FS). <strong>Find:</strong> the RL of each point, and the check.
+<strong>Formula:</strong> rise = previous &minus; current; RL = previous RL + rise.
+<strong>Solve:</strong></p>
+<pre><code>Point   BS     IS     FS    Rise   Fall     RL
+BM    1.500                            100.000
+A            1.250          0.250      100.250     (1.500-1.250)
+B            1.100          0.150      100.400     (1.250-1.100)
+C                   1.050   0.050      100.450     (1.100-1.050)
+      -----  -----  -----   -----  ----
+      1.500         1.050   0.450   0.000
+
+CHECK: sum BS - sum FS = 1.500 - 1.050 = 0.450
+       sum rise - sum fall = 0.450 - 0.000 = 0.450
+       last RL - first RL = 100.450 - 100.000 = 0.450     ALL AGREE</code></pre>
+<p><strong>Answer:</strong> RL of A = <strong>100.250 m</strong>, of B = <strong>100.400 m</strong>,
+of C = <strong>100.450 m</strong>.</p>
+<p><strong>Check:</strong> all three forms of the arithmetic check give <strong>0.450 m</strong>, so
+the reduction is consistent. Independent sense check: every reading became <em>smaller</em> as the
+survey progressed, so every point is a <em>rise</em> and there are no falls at all &mdash; which is
+what the table shows, and the ground is therefore climbing steadily away from the benchmark. Had a
+fall appeared in the table where the readings clearly decreased, it would immediately signal a
+sign error.</p>
+
+<h3>Solved B &mdash; a full run with two instrument shifts</h3>
+<p><em>A levelling run starts from a bench mark of RL 110.200 m. Readings are taken at 20 m intervals,
+and the instrument is shifted after the 4th and the 8th readings. The readings in order are:</em></p>
+<pre><code>1  BS 1.585   2  IS 1.420   3  IS 1.310   4  FS 1.225
+5  BS 1.480   6  IS 1.615   7  IS 1.745   8  FS 1.860
+9  BS 1.420  10  IS 1.290  11  FS 1.155</code></pre>
+<p><em>Reduce the levels and apply the arithmetic check.</em></p>
+<p><strong>Given:</strong> BM RL = 110.200 m; the eleven readings above; shifts after readings 4 and
+8. <strong>Find:</strong> the RL of every point, and the arithmetic check.
+<strong>Formula:</strong> rise = previous &minus; current; RL = previous RL + rise;
+no rise/fall at a change point.
+<strong>Solve:</strong></p>
+<pre><code>Stn        BS      IS      FS     Rise    Fall      RL      Remarks
+BM       1.585                                   110.200
+1               1.420             0.165         110.365
+2               1.310             0.110         110.475
+3                       1.225     0.085         110.560   CHANGE POINT
+4        1.480                                  110.560   instrument moved
+5               1.615                     0.135 110.425
+6               1.745                     0.130 110.295
+7                       1.860             0.115 110.180   CHANGE POINT
+8        1.420                                  110.180   instrument moved
+9               1.290             0.130         110.310
+10                      1.155     0.135         110.445
+        ------  ------  ------   ------  ------
+         4.485           4.240    0.625   0.380
+
+CHECK: sum BS - sum FS = 4.485 - 4.240 = 0.245
+       sum rise - sum fall = 0.625 - 0.380 = 0.245
+       last RL - first RL = 110.445 - 110.200 = 0.245     ALL THREE AGREE</code></pre>
+<p><strong>Answer:</strong> the reduced levels run 110.200, 110.365, 110.475, 110.560, 110.560,
+110.425, 110.295, 110.180, 110.180, 110.310 and <strong>110.445 m</strong> at the last point.</p>
+<p><strong>Check:</strong> all three forms give <strong>0.245 m</strong>. Note what the table shows at
+the change points: stations 3 and 7 take an FS, and the BS on stations 4 and 8 is taken on the
+<em>same ground</em>, so their RLs are <strong>identical to the row above</strong> and they carry
+<strong>no rise and no fall</strong>. That is not a shortcut, it is the rule, and the arithmetic check
+proves it &mdash; inserting the 1.480 &minus; 1.225 = 0.255 m or the 1.420 &minus; 1.860 = &minus;0.440 m
+differences as a rise or a fall would break all three forms of the check simultaneously.
+<strong>A second, independent sense check:</strong> the run starts at 110.200 and ends at 110.445, so
+the ground is 0.245 m higher at the end than at the start, and the falls that occur in the middle
+(&minus;0.135, &minus;0.130, &minus;0.115 between stations 5 and 7) are more than offset by the rises.
+The profile therefore dips and recovers, which is exactly what the rise and fall columns show.</p>
+
+<h3>Solved C &mdash; finding a reading from the check</h3>
+<p><em>A run is reduced and the last fore sight is illegible. The readings are: BS 1.500 on a bench
+mark of RL 100.000; IS 1.250; FS 1.100; BS 1.350; IS 1.500; and the final FS, which is
+unreadable. The RL of the final point is known to be 100.100 m. Find the missing reading.</em></p>
+<p><strong>Given:</strong> BM RL = 100.000 m; the readings above; final RL = 100.100 m.
+<strong>Find:</strong> the missing FS. <strong>Formula:</strong> the arithmetic check,
+&Sigma;BS &minus; &Sigma;FS = last RL &minus; first RL.
+<strong>Solve:</strong></p>
+<pre><code>Let the missing FS be x.
+
+sum BS = 1.500 + 1.350 = 2.850
+sum FS = 1.100 + x
+
+check:  2.850 - (1.100 + x) = 100.100 - 100.000
+        1.750 - x           = 0.100
+        x                   = 1.650 m
+
+VERIFY by continuing the reduction:
+RL after BS 1.350        = 100.400   (change point, same as above)
+IS 1.500 -> fall 0.150   = 100.250
+FS 1.650 -> fall 0.150   = 100.100   matches the given final RL</code></pre>
+<p><strong>Answer:</strong> the missing fore sight is <strong>1.650 m</strong>.</p>
+<p><strong>Check:</strong> the two routes agree. The check gave x = 1.650 from the sums alone, and
+continuing the reduction row by row from the change point reaches exactly the given final RL of
+100.100 m &mdash; 100.400, then a fall of 0.150 to 100.250, then a further fall of 0.150 to 100.100.
+That the two independent routes meet is the confirmation. Note also what this question proves about
+the check: it can recover a <em>BS or an FS</em>, because those are the only readings that enter the
+sums. An intermediate sight <strong>cannot</strong> be recovered this way, because IS readings do not
+appear in &Sigma;BS or &Sigma;FS at all &mdash; they cancel out of the check entirely, which is worth
+one line in any answer about the method's limitations.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>No rise or fall at a change point.</strong> The FS and the following BS are the same
+ground point. Inserting a rise or fall there injects the change in instrument height into every later
+RL.</li>
+<li><strong>A decreasing reading means RISING ground.</strong> The most common inversion in the
+topic: bigger reading, lower ground.</li>
+<li><strong>Rise is previous minus current; fall is current minus previous.</strong> Writing both as
+&ldquo;the difference&rdquo; loses the sign and therefore the direction.</li>
+<li><strong>Write all three forms of the check.</strong> &Sigma;BS &minus; &Sigma;FS,
+&Sigma;Rise &minus; &Sigma;Fall, and last RL &minus; first RL. One of them alone proves nothing about
+the other two columns.</li>
+<li><strong>An IS can never be recovered from the check.</strong> Intermediate sights do not appear in
+&Sigma;BS or &Sigma;FS, so they cancel out.</li>
+<li><strong>The BS is on a point of known RL; the FS is on a point of unknown RL.</strong> Swapping
+which is which reverses the whole table.</li>
+<li><strong>Every setup must end with an FS.</strong> An instrument cannot be moved without one,
+because the new setup has no reference otherwise.</li>
+<li><strong>Keep three decimals throughout.</strong> Levelling numerals are given to the millimetre,
+and rounding to two places will break the check by a millimetre or two.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;Levelling is the operation of determining the
+difference in elevation between points by means of a level and a graduated staff, and the reduced
+level of a point is its height above an assumed datum such as mean sea level.&rdquo;</li>
+<li><strong>Back sight line</strong> &mdash; &ldquo;A back sight is the first reading taken after the
+instrument is set up, on a point of known reduced level; a fore sight is the last reading taken before
+the instrument is moved, on a point whose level is to be determined.&rdquo;</li>
+<li><strong>Rise and Fall line</strong> &mdash; &ldquo;In the rise and fall method the difference
+between each staff reading and the one preceding it is calculated; if the reading decreases the ground
+has risen and if it increases the ground has fallen, and the reduced level is obtained by adding the
+rise or subtracting the fall from the preceding reduced level.&rdquo;</li>
+<li><strong>Change point line</strong> &mdash; &ldquo;No rise or fall is computed at a change point,
+because the fore sight and the following back sight are readings of the same point taken from two
+different instrument heights, so their difference is a change in the height of the instrument and not
+a change in the level of the ground.&rdquo;</li>
+<li><strong>Check line</strong> &mdash; &ldquo;The arithmetic check is that the difference of the sums
+of the back sights and fore sights, the difference of the sums of the rises and falls, and the
+difference of the last and first reduced levels must all be equal.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence the rise and fall method is preferred to the
+height of collimation method because it provides a complete arithmetic check on every reading rather
+than only on the reduced levels of the change points.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Draw the table first</strong> with the column headings before entering a single number</li>
+<li><strong>Mark the change points</strong> as you go &mdash; they are where the marks are lost</li>
+<li><strong>Work one row at a time, top to bottom</strong>, never jumping ahead</li>
+<li><strong>Show the subtraction in the rise or fall column</strong>, in brackets, so the examiner can
+see where the number came from</li>
+<li><strong>Write all three check lines</strong> and box the value they agree on</li>
+<li><strong>State the RLs as a list at the end</strong> so the answer is readable without the
+table</li>
+<li><strong>Never leave blank</strong> &mdash; the table structure plus the first three rows already
+clears several marks</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="B" data-explain="The line of collimation is the horizontal line of sight of the level. It is the reference from which every staff reading is taken, and it is horizontal by construction, which is why a decreasing staff reading means the ground has risen towards that line.">
+<p><strong>Q1. The line of collimation in levelling is:</strong></p>
+<button data-key="A">The vertical line through the instrument</button>
+<button data-key="B">The horizontal line of sight of the level</button>
+<button data-key="C">The line joining the two staff positions</button>
+<button data-key="D">The surface of the datum</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="A decreasing staff reading means the ground has risen, because the staff stands on the ground and the line of sight is horizontal: walking uphill brings the staff top closer to that line. So rise = previous reading minus current reading, and the reduced level increases.">
+<p><strong>Q2. In the Rise and Fall method, when the staff reading decreases from one point to the next:</strong></p>
+<button data-key="A">The ground has fallen and the RL decreases</button>
+<button data-key="B">The ground has fallen and the RL increases</button>
+<button data-key="C">The ground has risen and the RL increases</button>
+<button data-key="D">There is no change in the ground level</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="At a change point the fore sight is taken from the old instrument position and the back sight from the new one, but both are on the same point of ground. Their difference is therefore the amount the instrument line changed height, not a change in the ground, so no rise or fall is computed between them.">
+<p><strong>Q3. Why is no rise or fall computed between a fore sight and the following back sight?</strong></p>
+<button data-key="A">They are readings of the same ground point taken from two different instrument heights</button>
+<button data-key="B">They are always equal</button>
+<button data-key="C">The fore sight is an intermediate sight</button>
+<button data-key="D">The back sight is taken on a staff of different length</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="The arithmetic check states that the sum of back sights minus the sum of fore sights equals the sum of rises minus the sum of falls, and that both equal the last reduced level minus the first. All three must agree, and writing all three is what makes the check meaningful.">
+<p><strong>Q4. The arithmetic check in the Rise and Fall method is that:</strong></p>
+<button data-key="A">The number of back sights equals the number of fore sights</button>
+<button data-key="B">The sum of rises equals the sum of falls</button>
+<button data-key="C">The first RL equals the last RL</button>
+<button data-key="D">&Sigma;BS &minus; &Sigma;FS = &Sigma;Rise &minus; &Sigma;Fall = last RL &minus; first RL</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="Intermediate sights do not appear in the sum of back sights or the sum of fore sights, so they cancel out of the arithmetic check entirely. That means the check cannot detect an error in an intermediate sight, and it cannot be used to recover a missing one. Only a BS or an FS can be recovered this way.">
+<p><strong>Q5. Why can the arithmetic check not recover a missing intermediate sight?</strong></p>
+<button data-key="A">Intermediate sights are always zero</button>
+<button data-key="B">Intermediate sights do not appear in &Sigma;BS or &Sigma;FS, so they cancel out of the check</button>
+<button data-key="C">Intermediate sights are measured with a different staff</button>
+<button data-key="D">They can only be recovered by the height of collimation method</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring short question.</strong> &ldquo;Define back sight, fore sight and intermediate
+sight.&rdquo; &rarr; BS is the first reading after setup on a known point; FS is the last before
+moving, on an unknown point; IS is any reading between them. Add that every setup must end with an
+FS.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What is a change point and why is no rise or
+fall taken at it?&rdquo; &rarr; Define it, then the reason &mdash; an FS and the next BS are the same
+ground from two instrument heights, so their difference is instrument movement, not ground
+movement.</li>
+<li><strong>Recurring, 2 of 10 papers.</strong> &ldquo;Differentiate between the height of collimation
+method and the rise and fall method.&rdquo; &rarr; A four-row table: how the RL is found, the check
+(complete against change points only), the arithmetic, and where each is used.</li>
+<li><strong>Recurring short question.</strong> &ldquo;List the levelling operations &mdash; profile,
+cross-sectional, differential and fly.&rdquo; &rarr; One line each: profile for a route, cross-section
+at right angles to it, differential for the difference in level between points, fly for a rapid run to
+transfer a level.</li>
+<li><strong>One-line recall.</strong> &ldquo;What is the height of instrument?&rdquo; &rarr; The RL of
+the line of sight, equal to the RL of the point plus the back sight on it.</li>
+<li><strong>One-line recall.</strong> &ldquo;Why is the rise and fall method preferred?&rdquo; &rarr;
+Because it gives a complete arithmetic check on every reading, whereas the collimation method checks
+only the change points.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="7">
+<li><strong>10 minutes, no notes.</strong> Reduce Solved A from memory: draw the table, fill the four
+readings, compute the three rises, and write all three check lines. Check the answer is 100.450 m.</li>
+<li><strong>15 minutes.</strong> Solved B on paper, full eleven readings. Check the change-point rows
+at stations 4 and 8 carry <em>no</em> rise or fall, and that all three checks give 0.245 m.</li>
+<li><strong>6 minutes.</strong> Solved C on paper using the check alone. Then verify by continuing the
+reduction row by row. Check both routes give 1.650 m and 100.100 m.</li>
+<li><strong>4 minutes.</strong> Write the height of collimation method for the first setup of Solved A
+only &mdash; the HI, then the three RLs. Check HI = 100.000 + 1.500 = 101.500 m.</li>
+<li><strong>5 minutes.</strong> List the four levelling operations and say in one line each what each
+is for. Check profile is for a route and cross-section is at right angles to it.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT204 Unit 2 Topic 05</p>
+<h1>The Rise and Fall Method &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>LEVELLING is the operation of determining the difference in elevation between
+points by means of a level and a graduated staff. The REDUCED LEVEL (RL) of a
+point is its height above an assumed datum, usually mean sea level.
+
+READINGS
+  BS  first reading after the instrument is set up, on a KNOWN RL
+  IS  any reading between the BS and the FS
+  FS  last reading before the instrument is moved, on an UNKNOWN RL
+  CP  the point taking an FS and then the next BS
+
+RISE AND FALL METHOD
+  decreasing reading  ->  RISE = previous - current       RL goes UP
+  increasing reading  ->  FALL = current - previous       RL goes DOWN
+  RL = previous RL + rise   or   - fall
+
+  AT A CHANGE POINT: NO RISE OR FALL IS TAKEN.
+  The FS and the next BS are the same ground point read from two
+  different instrument heights, so their difference is instrument
+  movement, not ground movement.
+
+ARITHMETIC CHECK -- all three must agree:
+  sum BS - sum FS  =  sum Rise - sum Fall  =  last RL - first RL</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Tabulate   -> columns: Stn | BS | IS | FS | Rise | Fall | RL | Remarks
+2. Compare    -> each reading against the PREVIOUS one
+                 previous - current  = rise  (positive)
+                 current - previous  = fall  (positive)
+                 SKIP at a change point
+3. Accumulate -> RL = previous RL + rise  or  - fall
+4. Check      -> three sums must be equal; write all three</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Point</th><th>Height of collimation</th><th>Rise and Fall</th></tr></thead>
+<tbody>
+<tr><td>RL obtained by</td><td>HI = RL + BS, then RL = HI &minus; reading</td><td>compare readings, then RL = previous RL &plusmn; rise/fall</td></tr>
+<tr><td>Arithmetic check</td><td>Only on the change-point RLs</td><td><strong>Complete</strong>, on every reading</td></tr>
+<tr><td>Arithmetic per point</td><td>One subtraction</td><td>A subtraction and an addition</td></tr>
+<tr><td>Preferred for</td><td>Speed, and long runs with many IS</td><td>Safety, and where a full check is wanted</td></tr>
+<tr><td>RGPV asks for</td><td>&mdash;</td><td><strong>This one</strong></td></tr>
+</tbody>
+</table>
+
+<p><strong>Levelling operations, one line each.</strong> <em>Profile levelling</em> &mdash; along a
+route, to give the section of a road, canal or railway. <em>Cross-sectional</em> &mdash; at right
+angles to the route, to give the width and shape of the ground. <em>Differential</em> &mdash; to find
+the difference in level between two or more points. <em>Fly levelling</em> &mdash; a rapid run,
+usually to transfer a level from a far benchmark to the site.</p>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Levelling</strong> &mdash; determining the difference in elevation between points by means
+of a level and a graduated staff.</li>
+<li><strong>Reduced level</strong> &mdash; the height of a point above the assumed datum.</li>
+<li><strong>Bench mark</strong> &mdash; a permanently fixed point of known reduced level, used to start
+or close a run.</li>
+<li><strong>Back sight</strong> &mdash; the first reading taken after setting up, on a point of known
+reduced level.</li>
+<li><strong>Fore sight</strong> &mdash; the last reading taken before moving the instrument, on a point
+of unknown reduced level.</li>
+<li><strong>Intermediate sight</strong> &mdash; any reading between the back sight and the fore sight
+of the same setup.</li>
+<li><strong>Change point</strong> &mdash; a point on which a fore sight is taken from one setup and
+the following back sight from the next, so that the reduced level is carried forward.</li>
+<li><strong>Height of instrument</strong> &mdash; the reduced level of the line of sight, equal to the
+reduced level of the point plus the back sight on it.</li>
+<li><strong>Line of collimation</strong> &mdash; the horizontal line of sight of the level.</li>
+<li><strong>Rise and fall method</strong> &mdash; a method of reduction in which consecutive readings
+are compared, the difference being a rise if the reading decreases and a fall if it increases.</li>
+<li><strong>Fly levelling</strong> &mdash; a rapid levelling run carried out only to transfer a
+reduced level from one point to another.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can define BS, IS, FS, change point, HI and RL without hesitating</li>
+<li>[ ] Can state that a decreasing reading means rising ground, and why</li>
+<li>[ ] Can explain why no rise or fall is taken at a change point</li>
+<li>[ ] Can write all three forms of the arithmetic check</li>
+<li>[ ] Can reduce a ten-reading run with two shifts and get all three checks to agree</li>
+<li>[ ] Can say why an intermediate sight cannot be recovered from the check</li>
+<li>[ ] Can tabulate the height of collimation method for the same readings</li>
+<li>[ ] Can list the four levelling operations with a purpose for each</li>
+<li>[ ] Can say why the rise and fall method is preferred to collimation</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>One rule and one omission.</strong> The rule: <em>decreasing reading,
+rise; increasing reading, fall</em>, and the RL moves the same way as the ground. The omission:
+<em>no rise or fall at a change point</em>, because the FS and the next BS are the same ground read
+from two instrument heights. Finish with all three check lines &mdash;
+&Sigma;BS &minus; &Sigma;FS = &Sigma;Rise &minus; &Sigma;Fall = last RL &minus; first RL &mdash; and
+box the value they agree on. If two of the three disagree, look first at the change-point rows.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT204 Unit 2 Topic 05 &middot; 4 of 10 papers &mdash; the highest-value question in the unit</p>
+<h1>The Rise and Fall Method &mdash; questionnaire</h1>
+<div class="q-meta">Q6 slot &middot; &ldquo;reduce the levels by the Rise and Fall method and apply the arithmetic check&rdquo; &rarr; the table, the change points, and three check lines</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">8 marks &middot; 18 min</span><span class="q-freq">&#9733;&#9733;&#9733; 4 papers</span></div>
+<h3>Reduce the following staff readings by the Rise and Fall method and apply the arithmetic check. The instrument is shifted after the 4th and 8th readings, and the first reading is on a bench mark of RL 110.200 m.</h3>
+<p>The highest-value question in the unit, and the wording is almost identical every time it appears. Draw the full table with all eight columns before entering a number, mark the change points as you reach them, and finish with all three check lines.</p>
+<div class="q-foot"><b>write</b> &mdash; table drawn with BS, IS, FS, Rise, Fall, RL and Remarks (2) &rarr; rise or fall for every consecutive pair except the change points (3) &rarr; RL accumulated correctly (2) &rarr; all three forms of the arithmetic check, agreeing (1).</div>
+<div class="q-foot"><b>check</b> &mdash; a rise or fall entered at a change point breaks all three checks at once and is the standard error; reversing rise and fall puts every RL on the wrong side of the datum; writing only one form of the check proves nothing about the other two columns; rounding to two decimals breaks the check by a millimetre.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Define back sight, fore sight and intermediate sight. What is a change point, and why is no rise or fall taken at it?</h3>
+<p>A definition question with a reasoning tail. The four definitions are quick, and the &#8220;why&#8221; is the part that separates a full answer &mdash; and it is the same insight that protects the numerical.</p>
+<div class="q-foot"><b>write</b> &mdash; BS defined as first reading on a known point (1) &rarr; FS as last reading before moving, on an unknown point (1) &rarr; IS as any reading between them (1) &rarr; change point defined (1) &rarr; reason: same ground, two instrument heights, so the difference is instrument movement (1).</div>
+<div class="q-foot"><b>check</b> &mdash; omitting that every setup must end with an FS loses a mark; saying a change point is &#8220;where the instrument is moved&#8221; without saying the RL is carried forward misses the definition; the reason must mention the two different instrument heights, not just &#8220;the same point&#8221;.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Differentiate between the height of collimation method and the Rise and Fall method. Which is preferred and why?</h3>
+<p>A four-row comparison ending on a recommendation with a reason. The deciding difference is the completeness of the check, and that is the line the mark sits on.</p>
+<div class="q-foot"><b>write</b> &mdash; how the RL is obtained in each (1) &rarr; the check, complete against change points only (2) &rarr; the arithmetic burden (1) &rarr; rise and fall preferred because the check covers every reading (1).</div>
+<div class="q-foot"><b>check</b> &mdash; saying the collimation method &#8220;has no check&#8221; is wrong, since it checks the change-point RLs; the recommendation must carry its reason; giving the two methods as descriptions without contrasting them loses the comparison marks.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Table first:</strong> Draw all eight columns before entering a single number.</li>
+    <li><strong>Mark the change points:</strong> In the Remarks column, the moment you reach them.</li>
+    <li><strong>One row at a time:</strong> Top to bottom, showing each subtraction in brackets.</li>
+    <li><strong>Close:</strong> All three check lines, boxed as one agreeing value, then the RLs listed.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> &ldquo;Levelling is the operation of determining the difference in elevation between points by means of a level and a graduated staff, and the reduced level of a point is its height above an assumed datum such as mean sea level.&rdquo;</p>
+  <p class="answer-close"><strong>For this topic:</strong> the table &rarr; rise or fall for each pair, skipping the change points &rarr; RLs accumulated down the column &rarr; all three checks &rarr; the RLs restated as a list &rarr; one line on why the rise and fall method is preferred.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Columns before numbers</strong> &mdash; the table structure is itself worth marks</li>
+    <li><strong>Change points flagged</strong> in the Remarks column as you reach them</li>
+    <li><strong>Show the subtraction</strong> in brackets in the rise or fall cell</li>
+    <li><strong>Three checks, not one</strong> &mdash; and box the value they agree on</li>
+    <li><strong>Three decimals throughout</strong> &mdash; matching the readings</li>
+    <li><strong>Restate the RLs</strong> as a list so the answer reads without the table</li>
+    <li><strong>Underline keywords</strong> &mdash; change point, rise, fall, collimation</li>
+    <li><strong>Never leave blank</strong> &mdash; the table plus the first three rows already scores</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 8 marks</span>
+<h3>Reduce the following staff readings by the Rise and Fall method and apply the arithmetic check. The instrument is shifted after the 4th and 8th readings, and the first reading is on a bench mark of RL 110.200 m.</h3>
+<p class="answer-lead">The full table, worked one row at a time, with the change points marked and all three checks written.</p>
+<pre class="ascii-diagram" role="img" aria-label="The complete rise and fall reduction table with change points and all three arithmetic checks">
+   Stn     BS      IS      FS     RISE    FALL      RL     Remarks
+   ---------------------------------------------------------------
+   BM     1.585                                  110.200
+   1              1.420     (0.165)              110.365
+   2              1.310     (0.110)              110.475
+   3                      1.225   (0.085)        110.560  CHANGE POINT
+   4      1.480                                  -----     <- SAME RL,
+                                                              no rise/fall
+   5              1.615                    (0.135) 110.425
+   6              1.745                    (0.130) 110.295
+   7                      1.860            (0.115) 110.180  CHANGE POINT
+   8      1.420                                  -----     <- SAME RL,
+                                                              no rise/fall
+   9              1.290     (0.130)              110.310
+   10                     1.155   (0.135)        110.445
+   ---------------------------------------------------------------
+         ------  ------  ------  ------  ------
+          4.485           4.240   0.625   0.380
+
+   CHECK 1:  sum BS - sum FS          = 4.485 - 4.240 = 0.245
+   CHECK 2:  sum Rise - sum Fall      = 0.625 - 0.380 = 0.245
+   CHECK 3:  last RL - first RL       = 110.445 - 110.200 = 0.245
+
+   the ( ) values are the subtractions: rise = previous - current
+                                        fall = current - previous
+</pre>
+<p><strong>Given:</strong> BM RL = 110.200 m; the eleven readings; instrument shifted after readings
+4 and 8. <strong>Find:</strong> the RL of every point and the arithmetic check.</p>
+<p><strong>Method.</strong> The first reading is a back sight on the benchmark, which fixes the
+starting RL. Each following reading is compared with the one before it: where the reading
+<em>decreases</em> the ground has <em>risen</em>, and the rise is the previous reading minus the
+current one; where it <em>increases</em> the ground has <em>fallen</em>, and the fall is the current
+reading minus the previous one. At stations 3 and 7 a fore sight is taken, and stations 4 and 8 then
+take a back sight on the <em>same ground</em> from the new instrument position, so their reduced levels
+repeat the row above and <strong>no rise or fall is computed for them</strong>.</p>
+<p><strong>Reduced levels.</strong> <strong>110.200 m</strong> (BM), 110.365, 110.475,
+<strong>110.560</strong> (change point), 110.560, 110.425, 110.295, <strong>110.180</strong> (change
+point), 110.180, 110.310, and <strong>110.445 m</strong> at the last point.</p>
+<p><strong>Check.</strong> All three forms agree at <strong>0.245 m</strong>. The agreement is
+meaningful rather than coincidental: the first form uses only the back sights and fore sights, the
+second uses only the rise and fall columns, and the third uses only the reduced-level column &mdash;
+so three independently filled columns producing the same number verifies all of them at once.
+<strong>Note on the change points:</strong> the 1.480 &minus; 1.225 = 0.255 m and
+1.420 &minus; 1.860 = &minus;0.440 m differences are the amounts the <em>instrument line</em> changed
+height between setups, not movements of the ground, which is why they are omitted; inserting either
+one would break all three checks simultaneously.</p>
+<p class="answer-close"><strong>Exam close:</strong> &ldquo;Hence the reduced levels are obtained by
+accumulating the rises and falls along the run, and the arithmetic check confirms the reduction
+because the difference of the sums of the back sights and fore sights, the difference of the sums of
+the rises and falls, and the difference of the last and first reduced levels are all equal to
+0.245 m.&rdquo;</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Define back sight, fore sight and intermediate sight. What is a change point, and why is no rise or fall taken at it?</h3>
+<p class="answer-lead">Four short definitions, then the reasoning. The reasoning is the same insight that protects the numerical, so it is worth having precisely.</p>
+<pre class="ascii-diagram" role="img" aria-label="Back sight, intermediate sight and fore sight in one setup, then the change point across a shift">
+   ONE SETUP
+                LINE OF COLLIMATION (horizontal)
+   =====+===============+===============+===============+========= HI
+        |               |               |               |
+        | BS            | IS            | IS            | FS
+        |               |               |               |
+   -----+---------+-----+---------+-----+---------+-----+---------
+      BM A       pt 1            pt 2            CHANGE POINT
+      known RL                                      carries the RL
+                                                    into the next setup
+
+   ACROSS THE SHIFT -- THE SAME POINT TAKES BOTH
+   SETUP 1                          SETUP 2
+   =========+=========              ==========+=========
+            | FS = 1.050                      | BS = 1.350
+            |                                 |
+   ---------+=================================+---------
+                 ONE GROUND POINT, ONE RL
+
+   1.350 - 1.050 = 0.300 is the INSTRUMENT dropping, not the ground.
+   So NO rise or fall is entered here.
+</pre>
+<ul>
+<li><strong>Back sight (BS)</strong> &mdash; the <em>first</em> reading taken after the instrument is
+set up, taken on a point whose reduced level is already known. It establishes the height of the
+instrument.</li>
+<li><strong>Fore sight (FS)</strong> &mdash; the <em>last</em> reading taken before the instrument is
+moved, taken on a point whose reduced level is to be determined.</li>
+<li><strong>Intermediate sight (IS)</strong> &mdash; any reading taken between the back sight and the
+fore sight of the same setup.</li>
+<li><strong>Change point (CP)</strong> &mdash; a point on which a fore sight is taken from one setup
+and then the following back sight from the next setup, so that the reduced level is carried forward
+unchanged across the shift of the instrument. Every setup must end on a change point, because the new
+setup has no reference otherwise.</li>
+</ul>
+<p><strong>Why no rise or fall at a change point.</strong> The fore sight is taken on the change point
+from the <em>old</em> instrument position, and the following back sight is taken on the
+<em>same</em> point from the <em>new</em> one. Both readings are therefore of one piece of ground,
+but they are measured from two different heights of instrument line. Their difference is the amount
+the <em>instrument</em> changed height, not the amount the <em>ground</em> changed level &mdash; so
+computing a rise or fall from them would inject that instrument movement into every reduced level
+after it. The change point already has its reduced level from the fore sight, and the back sight
+merely starts the next setup from that same value.</p>
+<p class="answer-close"><strong>Exam close:</strong> &ldquo;Hence a fore sight and the following back
+sight at a change point are readings of the same point from two instrument heights, and their
+difference represents the movement of the instrument rather than of the ground &mdash; which is why no
+rise or fall is entered for it, and why the arithmetic check balances only when it is
+omitted.&rdquo;</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Differentiate between the height of collimation method and the Rise and Fall method. Which is preferred and why?</h3>
+<p class="answer-lead">A four-row comparison ending on a recommendation with its reason. The deciding difference is how complete the arithmetic check is.</p>
+<pre class="ascii-diagram" role="img" aria-label="Comparing the height of collimation and rise and fall methods on one set of readings">
+   SAME READINGS, TWO METHODS
+
+   HEIGHT OF COLLIMATION                RISE AND FALL
+   ====================                 =============
+   HI = RL + BS, then                   compare each reading
+   RL = HI - reading                    with the previous one
+
+   Stn  BS   IS   FS   HI    RL         Stn  Rise  Fall   RL
+   BM  1.500          101.500 100.000   BM               100.000
+   A        1.250       -     100.250   A    0.250        100.250
+   B        1.100       -     100.400   B    0.150        100.400
+   C             1.050   -     100.450  C    0.050        100.450
+
+   one subtraction per point            a subtraction AND an
+   (HI computed once per setup)          addition per point
+
+   CHECK: change-point RLs only         CHECK: everything
+     (intermediate sights are not         sum BS - sum FS =
+      checked at all)                     sum Rise - sum Fall =
+                                          last RL - first RL
+</pre>
+<table>
+<tr><th>Point</th><th>Height of collimation</th><th>Rise and Fall</th></tr>
+<tr><td>How the RL is found</td><td>Compute the height of instrument as HI = RL + BS, then subtract each reading from it</td><td>Compare each reading with the preceding one to get a rise or a fall, then add it to or subtract it from the preceding RL</td></tr>
+<tr><td>Arithmetic check</td><td>Possible only on the reduced levels of the <strong>change points</strong>; the intermediate sights are not checked at all</td><td>A <strong>complete</strong> check on every reading: &Sigma;BS &minus; &Sigma;FS = &Sigma;Rise &minus; &Sigma;Fall = last RL &minus; first RL</td></tr>
+<tr><td>Arithmetic involved</td><td>Less &mdash; one subtraction per point, with the HI computed once per setup</td><td>More &mdash; a subtraction to get the rise or fall and an addition to get the RL</td></tr>
+<tr><td>Where each is used</td><td>Where the reduced levels alone are wanted and speed matters, and for long runs with many intermediate sights</td><td>Where a check on every reading is wanted, and in all work where accuracy matters</td></tr>
+</table>
+<p><strong>Which is preferred, and why.</strong> The <strong>rise and fall method is preferred</strong>,
+because its arithmetic check covers <em>every</em> reading in the run, whereas the height of collimation
+method checks only the reduced levels of the change points. In the collimation method an error in an
+intermediate sight &mdash; a misread, or a digit transposed &mdash; passes through the entire
+reduction undetected; in the rise and fall method the same error breaks the check immediately. The
+cost is a little more arithmetic, which is a small price for a method that cannot silently carry a
+mistake into the results.</p>
+<p class="answer-close"><strong>Exam close:</strong> &ldquo;Hence the two methods differ chiefly in
+the completeness of their checks rather than in their accuracy, and the rise and fall method is
+preferred because it verifies every reading instead of only the change points &mdash; at the cost of
+one extra addition per point.&rdquo;</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-204 Unit 2, &ldquo;Surveying &amp;
+Positioning&rdquo;. The MST-1 syllabus page lists measurement of elevation by different methods and
+reciprocal levelling. Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-civil-engineering-bt-204">RGPV Notes &mdash; BT-204 Basic Civil Engineering &amp; Mechanics</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-204 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-civil-engineering-bt-204">rgpvnotes.in BT-204 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ corpus</strong> &mdash; ten BT-204 papers (Nov-2019 to Dec-2025) were read for the
+mid-term battle plan; the Rise and Fall reduction appeared in four of them with near-identical
+wording, and the frequency figures on this page are counts from that corpus.</li>
+<li><strong>Reference books</strong> &mdash; B. C. Punmia, <em>Surveying</em>, Laxmi Publications,
+Vol. I, for the reduction methods and the arithmetic check; S. Ramamrutham, <em>Basic Civil
+Engineering</em>, Dhanpat Rai, for the levelling operations.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hub and the paper corpus support revision and question practice. Every numeral on
+this page was computed and the arithmetic check verified programmatically before the page was built:
+the eleven-reading run reduces to 110.445 m with all three checks agreeing at 0.245 m, and the
+missing-reading problem recovers 1.650 m by two independent routes. The claim that omitting the
+change-point entry is correct was also verified arithmetically &mdash; including it breaks all three
+forms of the check.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

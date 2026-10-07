@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wave Nature &amp; de Broglie &mdash; RGPV BT201 PYQ Prep &middot; by Zevu</title>
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #26201a;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { background: var(--accent-soft); }
+
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--accent-soft); color: var(--ink); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+
+.terminal-diagram { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.terminal-diagram .highlight { color: var(--accent); }
+
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt201/unit1 $</span> cat 01-wave-nature-debroglie.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+</div>
+
+<!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT201 Unit 1 &mdash; Quantum Mechanics</p>
+<h1>Wave Nature &amp; de Broglie Hypothesis &mdash; Matter Has a Wavelength</h1>
+<p><em>Classical mechanics explains planets and cricket balls. It fails for electrons, photons, and atoms.
+Light shows interference (wave) AND photoelectric effect (particle). De Broglie (1924) flipped it:
+if waves act like particles, particles act like waves. RGPV asks the derivation + one numeral, every cycle.</em></p>
+
+<h2>Why quantum was needed</h2>
+<p>Classical physics could not explain: black-body radiation, photoelectric effect (Einstein, 1905),
+Compton scattering, stability of atoms. All need <strong>quantization</strong>: energy comes in packets
+<code>E = hf</code>.</p>
+<table>
+<tr><th>Evidence</th><th>Shows</th></tr>
+<tr><td>Interference, diffraction, polarization</td><td>Light is a <strong>wave</strong></td></tr>
+<tr><td>Photoelectric effect, Compton effect</td><td>Light is a <strong>particle</strong> (photon, E = hf)</td></tr>
+<tr><td>Davisson&ndash;Germer (electron diffraction off Ni crystal)</td><td>Electrons are <strong>waves</strong> &mdash; confirms de Broglie</td></tr>
+</table>
+
+<h2>de Broglie hypothesis (1924)</h2>
+<p><strong>Statement (write verbatim):</strong> every moving material particle has a wave associated with it,
+with wavelength inversely proportional to its momentum:</p>
+<pre><code>&lambda; = h / p = h / mv</code></pre>
+<p>where <code>h = 6.626 &times; 10&#8315;&#179;&#8308; J&middot;s</code>, <code>p = mv</code> = momentum.</p>
+
+<h2>Derivation &mdash; &lambda; = h/p (4 steps, RGPV favorite)</h2>
+<pre><code>Step 1: Photon energy (Planck):      E = hf
+Step 2: Mass-energy (Einstein):      E = mc&sup2;
+Step 3: Equate:  hf = mc&sup2;  with  f = c/&lambda;,  p = mc
+Step 4: h(c/&lambda;) = pc  &rarr;  &lambda; = h/p</code></pre>
+<div class="callout">
+  <span class="label">Exam note</span>
+  This derivation mixes photon + relativity to motivate the formula, then de Broglie <strong>postulates</strong>
+  it holds for ALL matter (electrons, protons, even balls). Say that line explicitly for full marks.
+</div>
+
+<h2>Properties of matter waves</h2>
+<ul>
+  <li>Not electromagnetic &mdash; no E/B field needed; they are <strong>probability waves</strong> (|&psi;|&sup2;).</li>
+  <li>Wavelength <code>&lambda;</code> decreases as momentum increases (faster/heavier &rarr; shorter &lambda;).</li>
+  <li>Macroscopic objects: &lambda; ~ 10&#8315;&#179;&#8308; m &mdash; undetectable, so classical mechanics still works.</li>
+  <li>Microscopic particles: &lambda; ~ &Aring; (atomic spacing) &mdash; diffraction observable.</li>
+  <li>Phase velocity can exceed c; information travels at <strong>group velocity</strong> (Topic 05).</li>
+</ul>
+
+<h2>Electron accelerated through potential V (the numeral machine)</h2>
+<p>Electron (charge <code>e</code>, mass <code>m</code>) starts from rest, accelerated by <code>V</code> volts:</p>
+<pre><code>Step 1: KE gained = work done:   eV = p&sup2;/2m
+Step 2: momentum:                p = &radic;(2meV)
+Step 3: de Broglie:              &lambda; = h/p = h/&radic;(2meV)
+Step 4: numbers (electron):      &lambda; = 1.227/&radic;V  nm   (V in volts)</code></pre>
+<div class="callout">
+  <span class="label">Constants to memorize</span>
+  <code>h = 6.626&times;10&#8315;&#179;&#8308;</code>, <code>m&#8346; = 9.1&times;10&#8315;&#179;&#185;</code>,
+  <code>e = 1.6&times;10&#8315;&#185;&#8313;</code>. Final answer in <strong>nm</strong>.
+</div>
+
+<h2>Example 1 &mdash; the classic PYQ (electron, 100 V)</h2>
+<p><strong>Q:</strong> Electron accelerated through 100 V. Find &lambda;.</p>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>&lambda; = 1.227/&radic;V nm</code></td></tr>
+<tr><td>2</td><td><code>&radic;100 = 10</code></td></tr>
+<tr><td>3</td><td><code>&lambda; = 1.227/10 = 0.1227 nm &asymp; 1.23 &Aring;</code></td></tr>
+</table>
+<p>X-ray range &rarr; usable in electron microscopes. State that for bonus marks.</p>
+
+<h2>Example 2 &mdash; why balls don't diffract (1 g at 1 m/s)</h2>
+<p><strong>Q:</strong> Ball <code>m = 10&#8315;&#179; kg</code>, <code>v = 1 m/s</code>. Find &lambda;.</p>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>p = mv = 10&#8315;&#179; kg&middot;m/s</code></td></tr>
+<tr><td>2</td><td><code>&lambda; = h/p = 6.626&times;10&#8315;&#179;&#8308;/10&#8315;&#179; = 6.6&times;10&#8315;&#179;&#185; m</code></td></tr>
+<tr><td>3</td><td>Far below any detector &rarr; <strong>wave nature negligible</strong>, classical OK</td></tr>
+</table>
+
+<pre class="terminal-diagram">  <span class="highlight">scale check</span>
+
+  electron @100V :  ~10&#8315;&#185;&#8304; m  (0.12 nm)  &larr; detectable
+  ball 1g @1m/s :  ~10&#8315;&#179;&#185; m               &larr; invisible
+
+  rule: heavy/slow &rarr; tiny &lambda; &rarr; classical
+        light/fast &rarr; &Aring;-scale &lambda; &rarr; quantum</pre>
+
+
+<div class="callout">
+  <span class="label">Diagram — one wavelength λ (draw this)</span>
+  <svg viewBox="0 0 400 160" width="100%" role="img" aria-label="Sine wave with one wavelength marked">
+    <rect x="0" y="0" width="400" height="160" fill="#000000" rx="8"/>
+    <line x1="20" y1="80" x2="380" y2="80" stroke="#2b2e36"/>
+    <path d="M 40 80 Q 80 20 120 80 T 200 80 T 280 80 T 360 80" fill="none" stroke="#e0a370" stroke-width="2.5"/>
+    <line x1="120" y1="45" x2="200" y2="45" stroke="#7bc97f" stroke-width="1.5"/>
+    <path d="M 120 40 L 130 45 L 120 50 M 200 40 L 190 45 L 200 50" stroke="#7bc97f" fill="none"/>
+    <text x="145" y="38" fill="#7bc97f" font-size="13">λ</text>
+    <circle cx="120" cy="80" r="3.5" fill="#7bc97f"/><circle cx="200" cy="80" r="3.5" fill="#7bc97f"/>
+    <text x="60" y="140" fill="#a29d92" font-size="11">crest → trough → crest = one λ = h/p</text>
+  </svg>
+</div>
+
+<h2>Example 3 &mdash; reverse numeral (what V gives &lambda; = 0.1 nm?)</h2>
+<p><strong>Q:</strong> What accelerating voltage gives an electron &lambda; = 0.1 nm?</p>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>V = (1.227/&lambda;)&sup2;</code> from <code>&lambda; = 1.227/&radic;V</code></td></tr>
+<tr><td>2</td><td><code>V = (1.227/0.1)&sup2; = (12.27)&sup2; &asymp; 150.6 V</code></td></tr>
+</table>
+
+<h2>Numericals in great depth &mdash; slow walkthrough (read this if physics feels hard)</h2>
+<p>Every numeral in this topic uses ONE of two formulas. Identify which one in 5 seconds:</p>
+<table>
+<tr><th>If question gives...</th><th>Use</th></tr>
+<tr><td>mass + velocity (m, v)</td><td><code>&lambda; = h/mv</code></td></tr>
+<tr><td>accelerating voltage V (volts)</td><td><code>&lambda; = 1.227/&radic;V nm</code> (electrons only)</td></tr>
+</table>
+<p><strong>Universal 5-line answer format (RGPV gives step marks):</strong></p>
+<pre><code>Given:   write values WITH units (convert g → kg!)
+Find:    λ = ?
+Formula: λ = h/mv  OR  λ = 1.227/√V nm
+Solve:   substitute → simplify powers of 10 one by one
+Check:   nm for electrons (~0.01–1 nm sane); ~10⁻³⁰ m for balls sane</code></pre>
+
+<h3>Solved A &mdash; electron through 150 V (do-not-skip-a-step version)</h3>
+<table>
+<tr><th>Step</th><th>Work (write exactly this)</th></tr>
+<tr><td>Given</td><td><code>V = 150 V</code> (electron, so shortcut allowed)</td></tr>
+<tr><td>Formula</td><td><code>&lambda; = 1.227/&radic;V nm</code></td></tr>
+<tr><td>&radic;V</td><td><code>&radic;150 = &radic;(25&times;6) = 5&radic;6 &asymp; 5&times;2.449 = 12.247</code></td></tr>
+<tr><td>Divide</td><td><code>&lambda; = 1.227/12.247 &asymp; 0.1002 nm</code></td></tr>
+<tr><td>Answer</td><td><code>&lambda; &asymp; 0.10 nm = 1.0 &Aring;</code> (X-ray range &#x2713;)</td></tr>
+</table>
+<p>Why it works: higher V &rarr; more momentum &rarr; shorter &lambda;. 150 V &gt; 100 V so &lambda; must be &lt; 0.1227 nm — 0.10 nm passes the sanity check.</p>
+
+<h3>Solved B &mdash; proton vs electron at same speed (concept + math)</h3>
+<p><strong>Q:</strong> Proton (<code>m = 1.67&times;10&#8315;&#178;&#8311; kg</code>) and electron (<code>m = 9.1&times;10&#8315;&#179;&#185; kg</code>) move at same v. Compare &lambda;.</p>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Ratio trick</td><td><code>&lambda; &prop; 1/m</code> (h, v cancel) &rarr; <code>&lambda;p/&lambda;e = me/mp</code></td></tr>
+<tr><td>Numbers</td><td><code>= 9.1&times;10&#8315;&#179;&#185; / 1.67&times;10&#8315;&#178;&#8311; &asymp; 1/1836</code></td></tr>
+<tr><td>Meaning</td><td>Proton wavelength ~1836&times; shorter — heavier particle, tinier wave</td></tr>
+</table>
+
+<h3>Solved C &mdash; full-constant derivation (when they forbid the shortcut)</h3>
+<p><strong>Q:</strong> Derive <code>1.227/&radic;V</code> from <code>h, m, e</code> (do once, then quote shortcut forever).</p>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>&lambda; = h/&radic;(2meV) = 6.626&times;10&#8315;&#179;&#8308; / &radic;(2 &times; 9.1&times;10&#8315;&#179;&#185; &times; 1.6&times;10&#8315;&#185;&#8313; &times; V)</code></td></tr>
+<tr><td>2</td><td>Denominator: <code>2&times;9.1&times;1.6 = 29.12</code>; powers: <code>10&#8315;&#179;&#185;&#8315;&#185;&#8313; = 10&#8315;&#53;&#8304;</code> &rarr; <code>&radic;(29.12&times;10&#8315;&#53;&#8304;V) = 5.396&times;10&#8315;&#178;&#53;·&radic;V</code></td></tr>
+<tr><td>3</td><td><code>&lambda; = 6.626&times;10&#8315;&#179;&#8308; / (5.396&times;10&#8315;&#178;&#53;&radic;V) = 1.227&times;10&#8315;&#8313; / &radic;V  m</code></td></tr>
+<tr><td>4</td><td><code>10&#8315;&#8313; m = 1 nm</code> &rarr; <code>&lambda; = 1.227/&radic;V nm</code> &#x2713;</td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">Numeral traps (lose marks here)</span>
+  <ul>
+    <li><strong>Grams → kg:</strong> 1 g = 10&#8315;&#179; kg. Forgetting this shifts answer by 1000&times;.</li>
+    <li><strong>&Aring; ↔ nm:</strong> 1 &Aring; = 0.1 nm = 10&#8315;&#185;&#8304; m. Convert at the END only.</li>
+    <li><strong>Shortcut scope:</strong> 1.227/&radic;V is ELECTRONS ONLY. Proton/alpha particle → use h/&radic;(2mqV) with its own m, q.</li>
+    <li><strong>Square root:</strong> &radic;(a&times;10<sup>b</sup>) mistakes — split into &radic;a &times; 10<sup>b/2</sup>.</li>
+    <li><strong>No unit = −1 mark:</strong> every line carries its unit (kg, m/s, V, nm).</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <span class="label">Special lines for extra marks (copy these)</span>
+  <ul>
+    <li><em>"The Davisson–Germer electron diffraction confirmed λ = h/p, establishing wave–particle duality for matter."</em></li>
+    <li><em>"λ ≈ 0.1 nm lies in the X-ray region, hence electrons of ~150 V resolve atomic spacings — principle of the electron microscope."</em></li>
+    <li><em>"For macroscopic masses λ ~ 10⁻³⁰ m is far below detection limits; hence classical mechanics remains valid at everyday scales."</em></li>
+    <li>End every derivation with <strong>"Hence proved."</strong> End every numeral with a <strong>boxed answer + unit</strong>.</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <span class="label">Exam tips — weak-physics edition</span>
+  <ul>
+    <li>Write the <strong>statement + formula FIRST</strong> (1 mark) before any algebra — even if you fumble later, you bank marks.</li>
+    <li>Draw a <strong>labelled wave sketch</strong> (λ marked) or Davisson–Germer setup — diagrams fetch 1–2 grace marks.</li>
+    <li>Underline formulas, box final answers. Examiners scan; make marks easy to give.</li>
+    <li>If √V is ugly (e.g. √150), show the split (5√6) — method marks even if arithmetic slips.</li>
+    <li>Always add one <strong>physical-significance line</strong> after the number (see special lines above).</li>
+  </ul>
+</div>
+
+<h2>Retrieval practice &mdash; MCQs</h2>
+
+<div class="quiz"
+     data-answer="b"
+     data-explain="De Broglie (1924): if light (a wave) behaves as particles, matter (particles) behaves as waves, with λ = h/p. Confirmed by Davisson-Germer electron diffraction.">
+  <p class="q">de Broglie hypothesis states...?</p>
+  <button data-key="a">Only light has dual nature; matter is purely particle</button>
+  <button data-key="b">Moving matter has a wave with wavelength h over p</button>
+  <button data-key="c">Wavelength equals momentum times Planck constant</button>
+  <button data-key="d">Matter waves need a medium like sound waves do</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="c"
+     data-explain="λ = 1.227/√V nm for electrons. √100 = 10, so λ = 0.1227 nm ≈ 1.23 Å. Memorize 1.227 and always answer in nm.">
+  <p class="q">Electron through 100 V has wavelength...?</p>
+  <button data-key="a">12.27 nm</button>
+  <button data-key="b">1.227 nm</button>
+  <button data-key="c">0.1227 nm</button>
+  <button data-key="d">0.01227 nm</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="a"
+     data-explain="λ = h/mv: heavier or faster → shorter λ. A 1 g ball gives λ ~ 10⁻³¹ m, undetectable — hence classical mechanics works for macro objects.">
+  <p class="q">Why is wave nature negligible for a cricket ball?</p>
+  <button data-key="a">Its wavelength is ~10⁻³¹ m, far too small to detect</button>
+  <button data-key="b">Balls carry no charge so de Broglie fails</button>
+  <button data-key="c">Balls move too slowly to have momentum</button>
+  <button data-key="d">Matter waves apply only to electrons</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="d"
+     data-explain="Electron diffraction from Ni crystal (Davisson-Germer) showed intensity maxima exactly at de Broglie λ — direct proof matter diffracts like X-rays.">
+  <p class="q">Davisson–Germer experiment proved...?</p>
+  <button data-key="a">Photoelectric effect ejects electrons</button>
+  <button data-key="b">Light travels in straight lines</button>
+  <button data-key="c">Atoms have discrete energy levels</button>
+  <button data-key="d">Electrons diffract with wavelength h over p</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="b"
+     data-explain="Matter waves are probability waves: |ψ|² gives probability density (Born interpretation, Topic 02). They carry no E/B field and need no medium.">
+  <p class="q">Matter waves differ from EM waves because they...?</p>
+  <button data-key="a">Travel faster than light always</button>
+  <button data-key="b">Represent probability amplitude, not E/B fields</button>
+  <button data-key="c">Require air medium to propagate</button>
+  <button data-key="d">Have wavelength independent of momentum</button>
+  <p class="feedback"></p>
+</div>
+
+<h2>PYQ drill &mdash; 5 high-probability questions</h2>
+
+<div class="callout">
+  <span class="label">Drill set A &mdash; Derivation (7 marks each)</span>
+  <ol>
+    <li>State de Broglie hypothesis and derive <code>&lambda; = h/p</code> from E = hf and E = mc&sup2;. <em>(Jun 2023, Dec 2024 pattern)</em></li>
+    <li>Derive <code>&lambda; = h/&radic;(2meV)</code> for an electron accelerated through V. Hence get <code>1.227/&radic;V nm</code>. <em>(Jun 2025 pattern)</em></li>
+    <li>Discuss properties of matter waves. Why is wave nature hidden for macroscopic bodies? <em>(Dec 2023)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Drill set B &mdash; Numerals (3–5 marks)</span>
+  <ol start="4">
+    <li>Electron through 150 V. Find &lambda;. <em>(Ans: 1.227/&radic;150 &asymp; 0.100 nm)</em></li>
+    <li>Proton (m = 1.67&times;10&#8315;&#178;&#8311; kg) at 10&#8307; m/s vs electron at same speed — compare &lambda;. <em>(Tests &lambda; &prop; 1/m)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Primary source — read next</span>
+  <a href="https://lnct.ac.in/wp-content/uploads/2020/04/Engineering-Physics-BT-201-B.Tech_.-I-Year-CO-01Unit-I-QUANTUMPHYSICS.pdf">LNCT Unit-I Quantum Physics (Dr. Ashim Jain)</a>
+  &mdash; RGPV-specific deck: duality, vg/vp, uncertainty proof, operators, Schrodinger, 1D well.
+</div>
+
+<div class="callout">
+  <span class="label">More PYQs to solve</span>
+  <ul>
+    <li><a href="https://career-shiksha.com/post/rgpv-question-papers-bt-201-engineering-physics/">CareerShiksha — BT-201 PYQ Dec-2025 back to Dec-2020</a></li>
+    <li><a href="https://www.rgpvonline.com/be/bt-201-engineering-physics-dec-2024.html">RGPVOnline — Dec-2024 PDF with solutions</a></li>
+  </ul>
+</div>
+
+</div><!-- end lesson tab -->
+
+<!-- CHEAT-SHEET TAB -->
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT201 Unit 1</p>
+<h1>Wave Nature &amp; de Broglie &mdash; Quick Reference</h1>
+
+<h2>The statement (write verbatim)</h2>
+<p>Every moving particle has a wave: <code>&lambda; = h/p = h/mv</code>.</p>
+
+<h2>Derivation (4 steps)</h2>
+<pre><code>1. E = hf (Planck)      2. E = mc&sup2; (Einstein)
+3. hf = mc&sup2;, f = c/&lambda;, p = mc
+4. &lambda; = h/p  → postulate for all matter</code></pre>
+
+<h2>Electron through V</h2>
+<pre><code>eV = p&sup2;/2m → p = &radic;(2meV)
+&lambda; = h/&radic;(2meV) = 1.227/&radic;V nm</code></pre>
+
+<h2>V &rarr; &lambda; table (electron)</h2>
+<table>
+<tr><th>V (volts)</th><th>&lambda;</th></tr>
+<tr><td>100</td><td>0.123 nm</td></tr>
+<tr><td>150</td><td>0.100 nm</td></tr>
+<tr><td>1000</td><td>0.039 nm</td></tr>
+</table>
+
+<h2>Properties (MCQ gold)</h2>
+<ul>
+  <li>Probability waves (|&psi;|&sup2;), no medium, no E/B field</li>
+  <li>&lambda; &prop; 1/p — heavier/faster &rarr; shorter &lambda;</li>
+  <li>Macro &lambda; ~ 10&#8315;&#179;&#185; m &rarr; classical OK</li>
+  <li>Confirmed by Davisson&ndash;Germer electron diffraction</li>
+</ul>
+
+<h2>Key definitions</h2>
+<ul>
+  <li><strong>Duality:</strong> light/matter show wave AND particle behavior</li>
+  <li><strong>Photon:</strong> E = hf, p = h/&lambda;</li>
+  <li><strong>Matter wave:</strong> &lambda; = h/mv for any moving particle</li>
+</ul>
+
+<h2>Exam checklist</h2>
+<ul>
+  <li>&#x2610; Wrote statement + formula first?</li>
+  <li>&#x2610; All 4 derivation steps with f = c/&lambda;, p = mc?</li>
+  <li>&#x2610; eV = p&sup2;/2m step for electron numeral?</li>
+  <li>&#x2610; Final answer in nm + units at each step?</li>
+  <li>&#x2610; One line: macro &lambda; negligible, micro detectable?</li>
+  <li>&#x2610; Numeral format: Given/Formula/Solve/Boxed answer + sanity check?</li>
+  <li>&#x2610; Closed with "Hence proved" + one physical-significance line?</li>
+</ul>
+
+<h2>Numeral shortcut (memorize)</h2>
+<pre><code>m,v given → λ = h/mv   (convert g → kg FIRST)
+V given    → λ = 1.227/√V nm (electrons only)
+reverse    → V = (1.227/λ)²  (λ in nm)</code></pre>
+
+</div><!-- end cheatsheet tab -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt201/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (event && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 Calculus &mdash; RGPV BT102 Resource Hub &middot; by Zevu</title>
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #26201a;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { background: var(--accent-soft); }
+
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+/* Tab navigation */
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.6rem 1.2rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--accent-soft); color: var(--ink); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* Topic card (links to standalone files) */
+.topic-card {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin: 1rem 0;
+  transition: all 0.15s;
+}
+
+.topic-card:hover { border-color: var(--accent); background: var(--accent-soft); }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; color: var(--accent); font-size: 0.7rem; }
+.topic-card h3 { margin: 0.3rem 0 0.5rem; font-size: 1.2rem; }
+.topic-card p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+.topic-card .topic-links { margin-top: 0.5rem; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); }
+.topic-card a { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; }
+
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+
+<!-- ZEVU HEADER -->
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt102/unit1 $</span> ls -la</p>
+</div>
+
+<!-- TAB NAVIGATION -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('index')">&#xf07b; Index</button>
+  <button class="tab-btn" onclick="showTab('resources')">&#xf0c9; Resources</button>
+</div>
+
+<!-- INDEX TAB -->
+<div id="index" class="tab-panel active">
+
+<p class="kicker">Unit 1 &middot; BT102 Mathematics-I &middot; Calculus</p>
+<h1>Calculus Resource Hub</h1>
+<p><em>Four topics, four standalone HTML files, one package. Each file is fully self-contained
+&mdash; no internet, no installation. Just open in any browser.</em></p>
+
+<h2>Topics</h2>
+
+<div class="topic-card">
+  <p class="topic-num">[01] Rolle's Theorem</p>
+  <h3><a href="01-rolles-theorem.html">&#xbb; Rolle's Theorem</a></h3>
+  <p>3 conditions &rarr; f'(c) = 0. Verify for polynomials, trig, spot failure cases.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + 15 PYQs</p>
+</div>
+
+<div class="topic-card">
+  <p class="topic-num">[02] Lagrange's MVT</p>
+  <h3><a href="02-lagranges-mvt.html">&#xbb; Lagrange's Mean Value Theorem</a></h3>
+  <p>Rolles's big brother. Tangent parallel to secant. 2 conditions only.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + 15 PYQs</p>
+</div>
+
+<div class="topic-card">
+  <p class="topic-num">[03] Taylor's & Maclaurin's Series</p>
+  <h3><a href="03-taylors-maclaurins.html">&#xbb; Taylor's & Maclaurin's Series</a></h3>
+  <p>Expand any function as infinite polynomial. Maclaurin = Taylor at 0.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + 16 PYQs</p>
+</div>
+
+<div class="topic-card">
+  <p class="topic-num">[04] Max & Min of Two Variables</p>
+  <h3><a href="04-maxima-minima.html">&#xbb; Maxima & Minima of Two Variables</a></h3>
+  <p>Stationary points, discriminant D = rt - s², classify max/min/saddle.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + 15 PYQs</p>
+</div>
+
+
+
+<h2>Progress (saved in this browser)</h2>
+<div id="progress">
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt102u1" value="01-rolles-theorem.html"> 01 Rolle's — <a href="01-rolles-theorem.html">01-rolles-theorem.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt102u1" value="02-lagranges-mvt.html"> 02 LMVT — <a href="02-lagranges-mvt.html">02-lagranges-mvt.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt102u1" value="03-taylors-maclaurins.html"> 03 Taylor — <a href="03-taylors-maclaurins.html">03-taylors-maclaurins.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt102u1" value="04-maxima-minima.html"> 04 Max/Min — <a href="04-maxima-minima.html">04-maxima-minima.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt102u1" value="formula-sheet.html"> Formulas — <a href="formula-sheet.html">formula-sheet.html</a></label>
+</div>
+<script>
+(function () {
+  try {
+    var key = 'progress-bt102u1';
+    var saved = JSON.parse(localStorage.getItem(key) || '[]');
+    document.querySelectorAll('#progress input[type="checkbox"]').forEach(function (cb) {
+      if (saved.indexOf(cb.value) !== -1) cb.checked = true;
+      cb.addEventListener('change', function () {
+        var vals = [];
+        document.querySelectorAll('#progress input[type="checkbox"]:checked').forEach(function (c) { vals.push(c.value); });
+        try { localStorage.setItem(key, JSON.stringify(vals)); } catch (e) {}
+      });
+    });
+  } catch (e) {}
+})();
+</script>
+
+<h2>PYQ map — where each topic is drilled</h2>
+<table>
+<tr><th>Topic</th><th>In-file drill</th><th>Archive</th></tr>
+<tr><td>01 Rolle's</td><td><code>01-rolles-theorem.html</code> Drill A+B</td><td><a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">rgpvquestionpapers BT-102</a></td></tr>
+<tr><td>02 LMVT</td><td><code>02-lagranges-mvt.html</code> Drill A+B</td><td><a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">CampusPrep BT-102</a></td></tr>
+<tr><td>03 Taylor/Maclaurin</td><td><code>03-taylors-maclaurins.html</code> Drill A+B</td><td><a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">rgpvquestionpapers BT-102</a></td></tr>
+<tr><td>04 Max/Min</td><td><code>04-maxima-minima.html</code> Drill A+B</td><td><a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">CampusPrep BT-102</a></td></tr>
+<tr><td>Formulas</td><td><code>formula-sheet.html</code> (print)</td><td>—</td></tr>
+</table>
+
+<h2>Quick start guide</h2>
+<pre><code>navigate:  open notes/mathematics/unit1/index.html
+           click any topic link above
+           use tabs to switch Lesson / Cheat-Sheet
+
+practice:  try the 5 interactive MCQs (instant feedback)
+           then work the PYQ drill sets under timer
+
+review:    bookmark the cheat-sheet tab for exam morning</code></pre>
+
+<div class="callout">
+  <span class="label">Sharing tip</span>
+  Send <code>notes/mathematics/unit1/</code> plus the four topic files to your friends in one
+  WhatsApp message. Each file works standalone &mdash; no folder structure needed.
+</div>
+
+<div class="callout">
+  <span class="label">Terminal quick reference</span>
+  <pre>f(x) = f(a) + (x-a)f'(a) + (x-a)&sup2;/2! f"(a) + ...  [Taylor]
+sin x = x - x&sup3;/3! + x&sup5;/5! - ...                [Maclaurin]
+cos x = 1 - x&sup2;/2! + x&sup4;/4! - ...               [Maclaurin]
+e&sup3;x  = 1 + x + x&sup2;/2! + x&sup3;/3! + ...          [Maclaurin]
+D = rt - s&sup2;                                         [Max/Min test]
+f'(c) = (f(b)-f(a))/(b-a)                               [LMVT]</pre>
+</div>
+
+</div><!-- end index -->
+
+<!-- RESOURCES TAB -->
+<div id="resources" class="tab-panel">
+
+<p class="kicker">Appendix &middot; RGPV Resources</p>
+<h1>BT102 Unit 1 &mdash; All PYQ Sources</h1>
+<p><em>Free links to previous-year questions, notes, and video walkthroughs. All verified and tested.</em></p>
+
+<h2>PYQ Papers (solve under timer)</h2>
+<ul>
+  <li><strong>Official RGPV papers</strong> &mdash;
+    <a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">rgpvquestionpapers.in/BT-102</a>
+    &mdash; Jun 2022 through Dec 2025, with solutions (PDF downloads)</li>
+  <li><strong>CampusPrep archive</strong> &mdash;
+    <a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">BT-102 Previous Year Papers</a>
+    &mdash; semester-wise PDFs, all sessions (Jun/Dec/Nov)</li>
+  <li><strong>CareerShiksha</strong> &mdash;
+    <a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-102-mathematics-i/">BT-102 PYQ (scanned images)</a>
+    &mdash; Jun 2022 through Nov 2025</li>
+  <li><strong>AskFilo</strong> &mdash;
+    <a href="https://askfilo.com/higher-education/rajiv-gandhi-proudyogiki-vishwavidyalaya/course/bt-102-gs-mathematics-i">BT-102 Q&A with solutions</a>
+    &mdash; solved doubt-by-doubt (signup required)</li>
+</ul>
+
+<h2>Subject notes & cheat sheets</h2>
+<ul>
+  <li><strong>RGPV Notes Hub (Unit 1 handwritten)</strong> &mdash;
+    <a href="https://www.rgpvnoteshub.in/secure-viewer.html?pdf=BT102-Engg.Mathematics-unit1-hwn.pdf">
+      BT102 Unit 1 handwritten notes PDF</a>
+    &mdash; covers Rolle's, MVT, Taylor's, Max/Min. <em>Requires ad-watching to unlock; has anti-print/Ctrl+S.</em></li>
+  <li><strong>MyProjectHD &mdash; Rolle's Theorem Notes</strong> &mdash;
+    <a href="https://myprojecthd.in/blog/rolles-theorem-notes-engineering-mathematics-1-rgpv-btech-first-year">Complete notes</a>
+    &mdash; statement, conditions, 3 examples, viva Qs, comparison table</li>
+  <li><strong>AnalyzeMath &mdash; Rolle's & MVT</strong> &mdash;
+    <a href="https://www.analyzemath.com/calculus/MeanValueTheorem/rolle%27s_theorem_questions_and_examples.html">Worked examples with graphs</a>
+    &mdash; step-by-step solutions + practice questions</li>
+  <li><strong>AnalyzeMath &mdash; Lagrange's MVT</strong> &mdash;
+    <a href="https://www.analyzemath.com/calculus/MeanValueTheorem/MeanValueTheorem.html">MVT statement, examples, applications</a></li>
+  <li><strong>RGPV Notes Hub &mdash; All Sub</a></strong> &mdash;
+    <a href="https://www.rgpvnoteshub.in/">Unit-wise free notes</a>
+    &mdash; BT102 notes for all 5 units, free PDF download</li>
+</ul>
+
+<h2>Video walkthroughs</h2>
+<ul>
+  <li><strong>RGPV M1 &mdash; Rolle's Theorem</strong> &mdash;
+    <a href="https://www.youtube.com/watch?v=n3NXjG5ux8s">YouTube: Verify Rolle's Theorem example</a>
+    &mdash; step-by-step f(x) = x² - 4x + 3 on [1,3]</li>
+  <li><strong>Lagrange's MVT full lecture</strong> &mdash;
+    <a href="https://www.youtube.com/results?search_query=lagrange+mean+value+theorem+RGPV">YouTube search</a>
+    &mdash; multiple RGPV-aligned lectures</li>
+  <li><strong>Taylor's & Maclaurin's Series</strong> &mdash;
+    <a href="https://www.youtube.com/results?search_query=taylors+maclaurins+series+engineering+mathematics">YouTube search</a>
+    &mdash; expansion techniques and common problems</li>
+  <li><strong>Maxima Minima two variables</strong> &mdash;
+    <a href="https://www.youtube.com/results?search_query=maxima+minima+two+variables+engineering+mathematics">YouTube search</a>
+    &mdash; second derivative test, saddle points</li>
+</ul>
+
+<h2>Topic-wise PYQ frequency &amp; exam strategy</h2>
+<table>
+<tr><th>Topic</th><th>Appearances (2022-2025)</th><th>Marks</th><th>Priority</th></tr>
+<tr><td>Rolle's Theorem</td><td>Every session</td><td>5-7</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>Lagrange's MVT</td><td>Feb-Apr cycles</td><td>5-7</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>Taylor/Maclaurin</td><td>Jun &amp; Dec both</td><td>7-10</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>Max &amp; Min (2 var)</td><td>Most sessions</td><td>7-10</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>Partial derivatives</td><td>Often combined</td><td>3-5</td><td>&#x2713;&#x2713;</td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">Exam blueprint</span>
+  Unit 1 = ~40% of BT102. Each topic has dedicated standalone files linked above with
+  full lesson, cheat-sheet, interactive MCQs, and 15+ PYQ drills. Follow the priority
+  order: Rolle's → LMVT → Taylor's → Max/Min. Master the 5-step verification recipe
+  and the standard expansion table for 80% coverage.
+</div>
+
+</div><!-- end resources -->
+
+<!-- ZEVU FOOTER -->
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt102/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<!-- TAB ENGINE -->
+<script>
+(function () {
+  'use strict';
+
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    // Highlight active button
+    if (event && event.target) event.target.classList.add('active');
+  };
+})();
+</script>
+
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

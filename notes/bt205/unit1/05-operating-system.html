@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operating System &mdash; RGPV BT205 &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit1 $ cat 05-operating-system.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT205 Unit 1 &mdash; OS (highest weightage)</p>
+<h1>Operating System: Definition, Functions, Types &amp; Management</h1>
+<p><em>Asked almost recurring (Dec-2020 Q2a pattern: "various functions of OS"). Master definition + 6 functions + 5 types + file/process/memory — that alone is 7 marks.</em></p>
+<h2>Definition (write verbatim — 2 versions, pick one)</h2>
+<pre><code>An Operating System is system software that acts as an interface
+between user/applications and hardware, and manages hardware +
+software resources for efficient, convenient use.</code></pre>
+<p>Short form: <code>OS = interface + resource manager + extended machine</code>. Kernel = core part resident in memory; shell = outer command layer. First software at boot, last at shutdown.</p>
+<h2>Functions — 6, each with one mechanism (the 7-marker body)</h2>
+<table>
+<tr><th>#</th><th>Function</th><th>What OS actually does</th></tr>
+<tr><td>1</td><td>Process management</td><td>Create/schedule/terminate; sync + communicate; PCB per process</td></tr>
+<tr><td>2</td><td>Memory management</td><td>Allocate/deallocate, track used/free, reduce fragmentation, protect processes</td></tr>
+<tr><td>3</td><td>File management</td><td>Create/delete/copy, directories, permissions, backup, FAT/NTFS</td></tr>
+<tr><td>4</td><td>Device / I/O management</td><td>Drivers, spooling, buffering — CPU need not wait for slow printer. E.g. 3 users hit Print: jobs queue in the spool folder, printer eats them one by one, nobody's CPU waits</td></tr>
+<tr><td>5</td><td>Security + protection</td><td>User accounts, passwords, access rights, antivirus hooks</td></tr>
+<tr><td>6</td><td>User interface + job control</td><td>CLI/GUI, program execution, error handling, accounting</td></tr>
+</table>
+<div class="callout">
+<span class="label">Diagram — OS in the middle (draw this)</span>
+<pre class="ascii-diagram" role="img" aria-label="Applications call the operating system and receive returns; the operating system sends driver commands to hardware and receives interrupts">+------------------+                    +------------------+                  +------------------+
+| USERS / APPS     |-- system calls --->| OPERATING SYSTEM |-- drivers: OS->HW| HARDWARE: CPU/RAM|
+|                  |                    | interface +      |                  | / DISK / DEVICES |
+|                  |<--- returns to app | resource manager  |<-- HW interrupts |                  |
+|                  |                    | + virtual machine|                  |                    |
+|                  |                    | kernel: processes|                  |                    |
+|                  |                    | memory, files,   |                  |                    |
+|                  |                    | devices, security|                  |                    |
++------------------+                    +------------------+                  +------------------+</pre>
+</div>
+<h2>Types — 5, evolution order (write as timeline)</h2>
+<table>
+<tr><th>Type</th><th>Idea</th><th>Limitation it fixes / example</th></tr>
+<tr><td>1. Serial / sequential</td><td>One job at a time, FIFO via program counter</td><td>Simplest; CPU idle during I/O — e.g. early systems</td></tr>
+<tr><td>2. Batch</td><td>Similar jobs batched on cards, run one by one</td><td>No per-job input mid-run; prep waste — payroll batches</td></tr>
+<tr><td>3. Multiprogramming</td><td>Many jobs in memory; CPU switches when one waits for I/O</td><td>Kills idle time — the big leap; needs memory protection</td></tr>
+<tr><td>4. Time-sharing / multitasking</td><td>CPU slices shared among users (ms quanta)</td><td>Interactive; each feels sole user — Unix, Windows</td></tr>
+<tr><td>5. Real-time (hard/soft)</td><td>Response within fixed deadline</td><td>Reservation, ICU, missiles, robots; hard = must meet, soft = best effort</td></tr>
+</table>
+<p>Also name with one example each if space remains: distributed (Google search across servers), network (office login server), mobile (Android), embedded (washing-machine controller).</p>
+<h2>File management in depth</h2>
+<pre><code>File system = how OS stores, organizes, protects files on disk.
+File = named bytes; Directory/folder = container; Path = route to file.
+FAT / NTFS / ext4 = competing filing schemes (NTFS modern Windows).</code></pre>
+<table>
+<tr><th>OS does</th><th>Example</th></tr>
+<tr><td>Create/delete/copy/move, open/read/write</td><td><code>mkdir, cp, rm</code> (Linux) / Explorer (Windows)</td></tr>
+<tr><td>Directories + hierarchy</td><td><code>/home/zevu/notes/</code> tree</td></tr>
+<tr><td>Permissions + protection</td><td><code>chmod 755 notes.txt</code> = rwxr-xr-x: you read/write/run, others only read — classmates can't delete your file</td></tr>
+<tr><td>Backup, error detection</td><td>Restore points, journaling file systems</td></tr>
+</table>
+<h2>Process management in depth</h2>
+<pre><code>Program = passive file on disk. Process = program in execution.
+PCB (Process Control Block) = process's brain: PID, state,
+priority, registers, memory limits, open files.</code></pre>
+<p>OS jobs: schedule on CPUs, create/delete/suspend/resume, sync (locks/semaphores), communicate (pipes/messages). States: new → ready → running → waiting → terminated.</p>
+<p><strong>Worked example — two processes, one CPU:</strong> you type in Word (process P1, PID 101) while a print job runs (P2, PID 102). CPU runs P1; P2 needs the slow printer, so OS marks it WAITING, saves its registers into its PCB, and gives CPU to P1. Printer finishes → interrupt → P2 back to READY. Without the PCB's saved registers, P2 could never resume mid-page. Same program twice (two Word windows) = two processes, two PIDs, two PCBs.</p>
+<h2>Memory management in depth</h2>
+<pre><code>OS part-resides in RAM; rest split among processes.
+Goals: use every byte, no process reads another's, no permanent holes.</code></pre>
+<table>
+<tr><th>Job</th><th>Meaning</th></tr>
+<tr><td>Allocate / deallocate</td><td>Give on start, take back on end</td></tr>
+<tr><td>Track + protect</td><td>Table of free/used; fence processes apart</td></tr>
+<tr><td>Fight fragmentation</td><td>Compact/swap/page so holes don't waste RAM</td></tr>
+<tr><td>Virtual memory</td><td>Disk pretends to be RAM (swap) — "logical &gt; physical". E.g. 8 GB RAM + Photoshop needing 12 GB: idle Chrome tabs move to disk-swap, Photoshop runs; slower, but it runs instead of crashing</td></tr>
+</table>
+<div class="exam-note"><strong>Fast distinctions:</strong> program = passive file on disk; process = active execution with a PCB. FAT is an older file system, while NTFS adds journaling and permissions. Hard real-time must meet a deadline; soft real-time prefers to meet it.</div>
+<div class="exam-note"><strong>Process state check:</strong> READY means eligible for the CPU, RUNNING means currently executing, WAITING means blocked on I/O or another event, and TERMINATED means the PCB and memory are released. The scheduler moves a process among these states.</div>
+<h2>Solved examples in great depth</h2>
+<pre><code>Given:   scenario keywords  Find: type / manager / mechanism
+Rule:    fixed deadline = real-time; idle-CPU fix = multiprog; interactive = time-share
+Solve:   name + why + eliminate  Check: example matches</code></pre>
+<h3>Solved A — "Explain the various functions of OS" (Dec-2020 Q2a, 7 marks)</h3>
+<table>
+<tr><th>Step</th><th>Work (exam skeleton)</th></tr>
+<tr><td>Open (1 mark)</td><td><code>Definition + OS = interface + resource manager + kernel line</code></td></tr>
+<tr><td>Body (5 marks)</td><td><code>6 functions table, 1 mechanism each (PCB, allocation, FAT/NTFS, spooling, passwords, CLI/GUI)</code></td></tr>
+<tr><td>Close (1 mark)</td><td><code>"Hence OS is mastermind: first at boot, last at shutdown; without it hardware is dead."</code></td></tr>
+</table>
+<h3>Solved B — railway reservation at festival rush. Which OS type + why?</h3>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Given</td><td><code>Thousands of agents, reply must come in seconds, fixed window</code></td></tr>
+<tr><td>Rule</td><td><code>Fixed-time response = real-time (online reservation classic)</code></td></tr>
+<tr><td>Eliminate</td><td><code>Not batch (no waiting for pile); not serial (too slow); multiprog alone lacks deadline guarantee</code></td></tr>
+<tr><td>Answer</td><td><code>Real-time / online transaction OS — bounded response per query</code></td></tr>
+</table>
+<h3>Solved C — virus deletes class notes; OS file management saves you. How?</h3>
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>Permissions</td><td><code>Read-only + user accounts stop others' writes</code></td></tr>
+<tr><td>Backup/restore</td><td><code>Shadow copies / backup recover deleted files</code></td></tr>
+<tr><td>Journaling</td><td><code>NTFS/ext4 journal replays interrupted writes after crash</code></td></tr>
+<tr><td>Answer</td><td><code>Protection + backup + journaling = file manager's triple shield</code></td></tr>
+</table>
+<div class="callout"><span class="label">Numeral traps (concept traps)</span>
+<ul>
+<li><strong>Program ≠ process:</strong> file on disk vs execution + PCB in RAM. Swapping = zero.</li>
+<li><strong>Batch ≠ multiprogramming:</strong> batch = similar jobs piled, still idle; multiprog = overlap CPU with I/O wait.</li>
+<li><strong>Hard vs soft real-time:</strong> missile/ICU = hard (miss = disaster); video stream = soft (miss = glitch).</li>
+<li><strong>FAT vs NTFS:</strong> permissions + journaling = NTFS. Writing "FAT has permissions" is wrong.</li>
+</ul></div>
+<div class="callout"><span class="label">Special lines for extra marks</span>
+<ul>
+<li><em>"The OS is an extended machine: it hides hardware ugliness behind system calls like open, read and write."</em></li>
+<li><em>"A process is a program in execution; its PCB is its brain — PID, state, priority, registers and limits."</em></li>
+<li><em>"Memory management pursues efficient utilization with integrity: allocate, track, protect, defragment."</em></li>
+<li>Close with: <strong>"Hence the OS is the mastermind — first at boot, last at shutdown."</strong></li>
+</ul></div>
+<div class="callout"><span class="label">Exam tips</span>
+<ul>
+<li>Functions answer: <strong>definition (1) + 6 rows (5) + mastermind close (1)</strong> = 7.</li>
+<li>Types answer: write as <strong>evolution story 1→5</strong> with one limitation fixed per step.</li>
+<li>Management trio: dedicate <strong>one mini-table each</strong> to file / process / memory.</li>
+<li>Underline: <strong>PCB, kernel, spooling, fragmentation, NTFS, deadline</strong>.</li>
+</ul></div>
+<h2>Retrieval practice &mdash; MCQs</h2>
+<div class="quiz" data-answer="b" data-explain="OS = interface between user/apps and hardware + resource manager (CPU, memory, files, devices). Kernel is its resident core."><p class="q">An operating system is...?</p><button data-key="a">A word processor for letters</button><button data-key="b">Interface + resource manager between users and hardware</button><button data-key="c">A printer device</button><button data-key="d">A high-level language</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="c" data-explain="PCB holds PID, state, priority, CPU registers, memory limits, open files — everything needed to pause/resume the process."><p class="q">PCB contains...?</p><button data-key="a">Only printer drivers</button><button data-key="b">Only file names</button><button data-key="c">PID, state, priority, registers, memory limits</button><button data-key="d">Only passwords</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="a" data-explain="Multiprogramming keeps many jobs in memory and switches CPU to another when one waits for I/O — kills idle time. Batch still idles."><p class="q">Multiprogramming beats batch because it...?</p><button data-key="a">Overlaps CPU with I/O wait across jobs</button><button data-key="b">Runs only one job ever</button><button data-key="c">Removes memory protection</button><button data-key="d">Needs no OS</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="d" data-explain="Real-time = response within fixed deadline. Railway/ICU/missiles = hard; streaming = soft. Time-sharing = fair slices for interactivity."><p class="q">Railway reservation needs which OS...?</p><button data-key="a">Serial only</button><button data-key="b">Batch only</button><button data-key="c">No OS</button><button data-key="d">Real-time (bounded response)</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="Program = passive disk file; process = active execution with PCB in RAM. Same program launched twice = two processes."><p class="q">Program vs process...?</p><button data-key="a">Same thing, different spelling</button><button data-key="b">Passive file vs execution + PCB in RAM</button><button data-key="c">Process lives only on disk</button><button data-key="d">Program needs no file</button><p class="feedback"></p></div>
+<h2>PYQ drill</h2>
+<div class="callout"><span class="label">Drill set A &mdash; Theory (7 marks)</span>
+<ol>
+<li>Define OS. Explain its various functions in brief. <em>(Dec-2020 Q2a — recurring question)</em></li>
+<li>Explain types of operating systems: serial, batch, multiprogramming, time-sharing, real-time. <em>(Jun-2023, Dec-2024 pattern)</em></li>
+<li>Explain file, process and memory management with one mechanism each. <em>(Jun-2024 pattern)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Drill set B &mdash; Shorts</span>
+<ol start="4">
+<li>Program vs process; hard vs soft real-time; FAT vs NTFS — one line each. <em>(Viva + 3-marker)</em></li>
+<li>What is kernel vs shell? What is spooling? <em>(2-mark shorts)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Primary source — read next</span>
+<a href="https://www.scribd.com/document/905427083/47901b8754284066a5d381d0ee8effd2-BT205-BCE-Notes-Unit-I-II-1-1">Dept. ESH BT205 Unit-I notes (Scribd)</a> &mdash; OS file/process/memory pages.
+</div>
+<div class="callout"><span class="label">More PYQs to solve</span>
+<ul>
+<li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha — BT-205 PYQ archive</a></li>
+<li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-dec-2023.html">RGPVOnline — Dec-2023 PDF</a></li>
+</ul></div>
+</div>
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT205 Unit 1</p>
+<h1>OS — Quick Reference</h1>
+<h2>The statement</h2>
+<p><code>OS = interface + resource manager + extended machine (kernel inside)</code>.</p>
+<h2>6 functions</h2>
+<pre><code>process (PCB) · memory (alloc/track) · files (FAT/NTFS)
+devices (spool) · security (accounts) · UI (CLI/GUI)</code></pre>
+<h2>5 types (evolution)</h2>
+<pre><code>serial → batch → multiprog (kill idle) → time-share (slices) → real-time (deadline)</code></pre>
+<h2>Management trio</h2>
+<table><tr><th>M</th><th>Core</th></tr><tr><td>file</td><td>dirs, perms, backup, NTFS</td></tr><tr><td>process</td><td>PCB, schedule, states</td></tr><tr><td>memory</td><td>alloc, protect, de-fragment</td></tr></table>
+<h2>Key definitions</h2>
+<ul><li><strong>Kernel vs shell:</strong> resident core vs command outer layer</li><li><strong>Program vs process:</strong> passive file vs execution+PCB</li><li><strong>Spooling:</strong> queue slow I/O so CPU never waits</li></ul>
+<h2>Exam checklist</h2>
+<ul><li>&#x2610; Definition + kernel line first?</li><li>&#x2610; 6 functions with mechanisms?</li><li>&#x2610; 5 types as evolution + examples?</li><li>&#x2610; Trio mini-tables (file/proc/mem)?</li><li>&#x2610; Mastermind closing line?</li></ul>
+<h2>Type shortcut</h2>
+<pre><code>one job FIFO → serial · pile of similar → batch
+idle-CPU fix → multiprog · interactive slices → time-share
+fixed deadline → real-time (hard=missile, soft=video)</code></pre>
+</div>
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT205 Unit 1 &middot; from 10 PYQ sessions + Dec-2020 paper</p>
+<h1>Operating System — questionnaire</h1>
+<div class="q-meta">highest-weightage topic · Q2a "functions of OS" is a recurring question · attempt this long FIRST</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks · 15 min</span><span class="q-freq">★★★ do first</span></div>
+<h3>Define OS + explain its functions</h3>
+<p>Definition (interface + resource manager) + kernel-vs-shell line. 6-function table with one mechanism each: process (PCB, scheduling), memory (allocate, track, defragment), files (FAT/NTFS, permissions, backup), devices (drivers, spooling), security (accounts, passwords), UI (CLI/GUI). Close: first at boot, last at shutdown — the mastermind.</p>
+<div class="q-foot"><b>write</b> — definition + kernel (1) → 6 rows with mechanisms (5) → close (1). Mechanism per row splits 4/7 from 7/7.</div>
+<div class="q-foot"><b>check</b> — underline PCB, spooling, fragmentation, NTFS, kernel; OS-in-the-middle diagram ≈ 2 grace marks; definition + diagram alone ≈ 3/7.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">7 marks · 15 min</span><span class="q-freq">★★★ recurring</span></div>
+<h3>Types of operating systems</h3>
+<p>Evolution story, not a list: serial (FIFO, idle CPU) → batch (piled similar jobs, prep waste) → multiprogramming (overlaps I/O wait, kills idle) → time-sharing (ms slices, interactive) → real-time (fixed deadline; hard = missile/ICU, soft = video). One limitation fixed per step + one example each.</p>
+<div class="q-foot"><b>write</b> — timeline table, 5 rows (5) → hard-vs-soft line (1) → examples (1).</div>
+<div class="q-foot"><b>check</b> — batch-vs-multiprogramming row is the most-ticked; railway reservation = real-time example.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks · 10 min</span><span class="q-freq">★★ frequent</span></div>
+<h3>File / process / memory management</h3>
+<p>Three mini-tables. Files: create/copy/dirs + permissions (chmod) + backup + NTFS/ext4 journaling. Process: program-vs-process + PCB contents + states (ready → run → wait → end). Memory: allocate/deallocate + track/protect + defragment + virtual memory (disk as RAM).</p>
+<div class="q-foot"><b>write</b> — one mini-table per manager (3) → program-vs-process line (1) → close (1).</div>
+<div class="q-foot"><b>check</b> — best-first attempt; write around PCB / kernel / deadline if unsure; box verdicts.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> Define the OS as an interface and resource manager.</li>
+    <li><strong>Visual:</strong> Draw the OS between users/applications and hardware.</li>
+    <li><strong>Reason:</strong> Use a six-row function table and name the mechanism for every row.</li>
+    <li><strong>Close:</strong> Compare types as an evolution, then end with the precise role of the OS.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> “An operating system is system software that provides an interface between users and applications and hardware while managing resources efficiently.”</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition → OS layer → six functions with mechanisms → management tables → one closing significance line.</p>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer · 7 marks</span>
+<h3>Define OS + explain its functions</h3>
+<p class="answer-lead">An operating system is system software that interfaces users and applications with hardware while managing resources efficiently.</p>
+<pre class="ascii-diagram" role="img" aria-label="Applications call the operating system and receive returns; the operating system sends driver commands to hardware and receives hardware interrupts">+------------------+                    +------------------+                  +------------------+
+| USERS / APPS     |-- system calls --->| OPERATING SYSTEM |-- drivers: OS->HW| HARDWARE: CPU/RAM|
+|                  |                    | interface +      |                  | / DISK / DEVICES |
+|                  |<--- returns to app | resource manager  |<-- HW interrupts |                  |
+|                  |                    | + virtual machine|                  |                  |
+|                  |                    | kernel: process, |                  |                  |
+|                  |                    | memory, file,    |                  |                  |
+|                  |                    | device; security |                  |                  |
+|                  |                    | protect/CLI/GUI  |                  |                  |
++------------------+                    +------------------+                  +------------------+</pre>
+<ol class="answer-steps">
+<li><strong>Process management:</strong> create, schedule, synchronise, communicate, and terminate processes using a PCB.</li>
+<li><strong>Memory management:</strong> allocate, track, protect, deallocate, and reduce fragmentation.</li>
+<li><strong>File management:</strong> organise directories, permissions, backup, and filesystems such as NTFS/ext4.</li>
+<li><strong>Device management:</strong> use drivers, buffering, and spooling so the CPU need not wait for slow I/O.</li>
+<li><strong>Security and interface:</strong> accounts, passwords, access rights, CLI/GUI, and job control.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> “The OS is the mastermind of the machine—first at boot, last at shutdown.”</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer · 7 marks</span>
+<h3>Types of operating systems</h3>
+<p class="answer-lead">Tell the evolution as a story: each type removes a limitation of the previous one.</p>
+<pre class="ascii-diagram" role="img" aria-label="Evolution of operating system types">+-------------+ +-------------+ +-------------+ +-------------+ +-------------+
+|  SERIAL     |>|  BATCH      |>| MULTIPROG   |>| TIME-SHARE  |>| REAL-TIME   |
+|  one job    | |  job pile   | | many in RAM | | ms quanta   | |  deadline   |
+|  CPU idles  | |  prep waste | |  CPU + I/O  | | interactive | | hard / soft |
++-------------+ +-------------+ +-------------+ +-------------+ +-------------+
+TIME-SHARE = time-sharing</pre>
+<ol class="answer-steps">
+<li>Serial processes one job at a time; the CPU can remain idle during slow I/O.</li>
+<li>Batch groups similar jobs, reducing manual setup but still not solving CPU idle time.</li>
+<li>Multiprogramming keeps several jobs in memory and switches when one waits for I/O.</li>
+<li>Time-sharing gives each user short CPU quanta; real-time guarantees response by a deadline.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> hard real-time must meet the deadline; soft real-time makes the best effort. Use one current example for each.</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer · 5 marks</span>
+<h3>File / process / memory management</h3>
+<p class="answer-lead">Use three short tables, each with the object, job, and one mechanism.</p>
+<pre class="ascii-diagram" role="img" aria-label="File access flow; process transitions including time-slice preemption from running to ready; memory allocation, relocation, protection, and optional compaction or paging">FILE FUNCTION
+file request -> path/directory lookup -> permission check
+                                          | \
+                                          |  +-- allowed -> disk read/write + FS metadata
+                                          v
+                                          access error (denied)
+
+PROCESS FUNCTION
+NEW ---> READY ---> RUNNING ---> TERMINATED
+           ^           |
+           |           |
+           +<----------+
+           | time-slice preemption
+           |           |
+           |           +---> WAITING (I/O event)
+           |                       |
+           +<---- event/completion +
+
+MEMORY FUNCTION
+request -> allocate/track used/free -> relocate -> protect -> run -> deallocate
+
+optional if fragmented -> compact, then relocate updated addresses
+optional if paging enabled -> page in/out <-> disk-backed swap</pre>
+<ol class="answer-steps">
+<li>File management names, stores, protects, and retrieves files; directories and permissions organise access.</li>
+<li>Process management treats a program in execution as a process; the PCB stores PID, state, priority, registers, and limits.</li>
+<li>Memory management allocates RAM, protects processes, reduces fragmentation, and provides virtual memory when needed.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> explicitly write “program = passive file, process = active execution + PCB.”</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT205 scheme</a> — syllabus scope and course structure.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">RGPV Notes BT205 hub</a> — aligned Unit 1 and Unit 2 notes.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT205 PYQ archive</a> — previous-year question index.</li>
+    <li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">RGPVOnline BT205 paper archive</a> — downloadable paper and solution page.</li>
+  </ul>
+  <p class="source-note">Checked 25 September 2026. The official scheme sets scope; the notes and paper archive support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt205/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

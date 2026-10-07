@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Errors in Measurement &amp;mdash; Systematic, Random, and How Each Is Killed</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit2 $</span> cat 01-measurement-concepts-errors.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 2 &mdash; Measurement &amp; Production</p>
+<h1>Errors in Measurement &mdash; Systematic, Random, and How Each Is Killed</h1>
+<p><em>Every measurement is wrong. The only question is <strong>how</strong> it is wrong, because that
+decides whether averaging fixes it or makes it worse. RGPV asks &ldquo;What is error? Types of errors
+in measurement&rdquo; as a part-question more than almost anything else in this unit, and it is the
+one topic where the whole answer is a definition plus a two-way classification. Learn the two
+classes and their elimination methods and this question is finished.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>Measurement error is the difference between the measured value and the true
+value of the quantity being measured. It is classified as systematic
+(constant bias, removed only by calibration or correction) and random
+(unpredictable scatter, reduced only by averaging repeated readings); a
+third class, gross error, comes from blunders and is removed by care.</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;The class of error
+decides its cure &mdash; averaging destroys a random error and does nothing whatever to a systematic
+one.&rdquo;</em></p>
+
+<h2>True, apparent and standard value</h2>
+
+<table>
+<thead><tr><th>Term</th><th>Meaning</th><th>Reachable?</th></tr></thead>
+<tbody>
+<tr><td><strong>True value</strong></strong></td><td>The exact value of the quantity &mdash; unknowable in practice</td><td>No, never measured, only approached</td></tr>
+<tr><td><strong>Apparent value</strong></strong></td><td>The value indicated by the instrument, which is what you actually read</td><td>Yes, it is the reading</td></tr>
+<tr><td><strong>Standard value</strong></strong></td><td>The value agreed between a national standard and a national prototype, used as the reference</td><td>Yes, through calibration chains</td></tr>
+</tbody>
+</table>
+
+<p>Since the true value is unreachable, <strong>error is always defined against a substitute for
+it</strong> &mdash; usually the standard value or the mean of many readings. That is why the choice of
+reference is not pedantry: it decides the number you write.</p>
+
+<h2>The three ways of expressing an error</h2>
+
+<table>
+<thead><tr><th>Form</th><th>Formula</th><th>Use it when</th></tr></thead>
+<tbody>
+<tr><td><strong>Absolute error</strong></strong></td><td>e = measured value &minus; true value</td><td>Reporting the error itself</td></tr>
+<tr><td><strong>Relative error</strong></strong></td><td>e<sub>r</sub> = absolute error / true value</td><td>Comparing errors of different quantities &mdash; it is dimensionless, so it is the only form that can be compared</td></tr>
+<tr><td><strong>Percentage error</strong></strong></td><td>e<sub>%</sub> = (absolute error / true value) &times; 100</td><td>Every exam answer. This is the form RGPV expects by default</td></tr>
+</tbody>
+</table>
+
+<h2>The two classes of error &mdash; this is the whole question</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="Error classified into systematic and random, each with its behaviour and its cure">
+MEASUREMENT ERROR  =  measured value - true value
+|
++-- SYSTEMATIC  (a constant bias)
+|     |   same sign and nearly the same size on every reading
+|     |
+|     +-- cause: faulty calibration, zero error, wrong method,
+|     |          environmental or observer bias
+|     +-- cure : CALIBRATE, apply a known correction, zero the
+|                instrument, or change the method
+|     |
+|     +-- averaging does NOT help at all
+|
++-- RANDOM  (an unpredictable scatter)
+      |   sign and size change at random from reading to reading
+      |
+      +-- cause: random fluctuation in the process and surroundings
+      +-- cure : AVERAGE repeated readings, use a finer least
+                 count, or control the environment
+      |
+      +-- averaging DOES help
+
+  gross error = a blunder (misreading, wrong zero) -> removed by care
+</pre>
+
+<table>
+<thead><tr><th>Property</th><th>Systematic error</th><th>Random error</th></tr></thead>
+<tbody>
+<tr><td>Nature</td><td>Constant bias &mdash; always the same sign, nearly the same size</td><td>Unpredictable scatter &mdash; sign and size change at random</td></tr>
+<tr><td>Cause</td><td>Faulty calibration, zero error, wrong method, environmental bias, observer bias</td><td>Random fluctuations in the measuring process and the environment</td></tr>
+<tr><td>Effect of averaging</td><td><strong>Not reduced</strong> &mdash; the bias survives every reading</td><td><strong>Reduced</strong> by a factor of 1/sqrt(n)</td></tr>
+<tr><td>Elimination</td><td>Calibration, applying a correction, zeroing the instrument, changing the method</td><td>Averaging many readings, taking a smaller least count, damping the environment</td></tr>
+<tr><td>Time dependence</td><td>Constant over repeated short measurements</td><td>Varies randomly with each reading</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">The distinction that carries the mark</span>
+<p>Write both of these sentences and the classification is complete: <em>&ldquo;A systematic error is a
+constant bias that cannot be removed by averaging; it is removed only by calibration or by applying
+a known correction. A random error is an unpredictable scatter that is reduced only by averaging
+repeated readings.&rdquo;</em></p>
+<p>The reason it is the mark is that most candidates can name the two types but only half can state
+<strong>why averaging does not cure a systematic error</strong>. Add that clause.</p>
+</div>
+
+<h2>Gross errors and instrumental errors</h2>
+
+<p>RGPV's own wider treatment names a third practical class alongside the two above.</p>
+
+<ul>
+<li><strong>Gross error</strong> &mdash; a blunder, not a bias: misreading a scale, a wrong zero, a
+transcription slip, the observer reading the wrong end of the instrument. The value is wildly out
+of line. It is removed by <em>care</em>, and it is detected by repeating the measurement &mdash; the
+outlier is obvious.</li>
+<li><strong>Instrumental error</strong> &mdash; error built into the instrument itself: a worn
+vernier, a zero error, a miscalibrated micrometer. It is systematic, because the instrument is
+consistently wrong in one direction. Hence the closing move: <strong>correct the instrument, or
+apply a correction from calibration.</strong></li>
+<li><strong>Environmental error</strong> &mdash; temperature, humidity, magnetic or electric fields
+affecting the reading. Also systematic, and removed by controlling the environment.</li>
+</ul>
+
+<h2>Accuracy, precision, sensitivity</h2>
+
+<p>Three words RGPV uses interchangeably in the question paper and which are not the same.</p>
+
+<table>
+<thead><tr><th>Term</th><th>What it measures</th><th>Wants the instrument to be</th></tr></thead>
+<tbody>
+<tr><td><strong>Accuracy</strong></strong></td><td>Closeness of the reading to the <em>true</em> value</td><td>Right</td></tr>
+<tr><td><strong>Precision</strong></strong></td><td>Closeness of repeated readings <em>to each other</em></td><td>Repeatable</td></tr>
+<tr><td><strong>Sensitivity</strong></strong></td><td>Response per unit change in input &mdash; the smallest change the instrument detects</td><td>Responsive</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Four target patterns showing accurate and precise combinations, and the effect of random versus systematic error">
+  ACCURATE AND PRECISE        PRECISE BUT NOT ACCURATE
+  (ideal instrument)          (systematic error present)
+
+        +--+--+                     . . . . . . .
+        |  |  |                     .  .  +--+  .  .
+        |  X  |                     . . . |  X  . . .
+        |  |  |                     .  .  |  |  .  .
+        +--+--+                     . . . +--+ . . .
+   tight at the true value      tight, but displaced by bias
+
+        ACCURATE BUT              NEITHER ACCURATE
+        NOT PRECISE               NOR PRECISE
+        (random error)
+
+        +--+--+                     +--+--+
+        |  X  |                     | X X |
+        |     |                     |   X |
+        |  X  |                     |X    |
+        +--+--+                     +--+--+
+
+   AVERAGE THE READINGS          CALIBRATE OR CORRECT
+   -> scatter shrinks to X        -> the whole group moves to X
+</pre>
+
+<div class="exam-note"><strong>Precision is not accuracy.</strong> A badly calibrated micrometer
+can be perfectly precise &mdash; every reading 0.02 mm too high &mdash; and still be systematically
+wrong. That is the cleanest illustration of the whole page: <strong>a cluster of tight readings
+proves precision, and only comparison against a standard proves accuracy.</strong> If one sentence
+is needed to separate the two words, this is it.</div>
+
+<h2>Numericals in great depth</h2>
+
+<p>Errors-in-measurement numerals are short arithmetic. There is no hard formula to memorise, only
+the three forms from the table above and the discipline of writing the units.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>V<sub>m</sub></code></td><td>measured (apparent) value</td><td>same as the quantity</td></tr>
+<tr><td><code>V<sub>t</sub></code></td><td>true or standard value used as reference</td><td>same as the quantity</td></tr>
+<tr><td><code>e = V<sub>m</sub> - V<sub>t</sub></code></td><td>absolute error</td><td>same as the quantity</td></tr>
+<tr><td><code>e<sub>r</sub> = e / V<sub>t</sub></code></td><td>relative error</td><td>dimensionless</td></tr>
+<tr><td><code>e<sub>%</sub> = (e / V<sub>t</sub>) x 100</code></td><td>percentage error</td><td>%</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; error numerals</span>
+<pre><code>Given:  measured value and true (or standard) value, with units
+Find:   absolute, relative or percentage error as asked
+Formula:e = Vm - Vt          e% = (e / Vt) x 100
+Solve:  substitute, keep the sign of e, write the unit on every line
+Check:  recompute with the sign of e reversed and confirm e% changes sign</code></pre>
+</div>
+
+<h3>Solved A &mdash; percentage error of a single reading</h3>
+<p><em>A measured length is 25.36 mm and the true length is 25.34 mm. Find the absolute and
+percentage error.</em></p>
+<p><strong>Given:</strong> V<sub>m</sub> = 25.36 mm, V<sub>t</sub> = 25.34 mm.
+<strong>Find:</strong> absolute and percentage error. <strong>Formula:</strong> e = V<sub>m</sub>
+&minus; V<sub>t</sub>; e<sub>%</sub> = (e / V<sub>t</sub>) &times; 100.
+<strong>Solve:</strong></p>
+<pre><code>e   = 25.36 - 25.34 = +0.02 mm
+e%  = (0.02 / 25.34) x 100 = 0.0789%</code></pre>
+<p><strong>Answer:</strong> absolute error <strong>+0.02 mm</strong>, percentage error
+<strong>0.079%</strong> (about 0.08%).</p>
+<p><strong>Check:</strong> the sign of e is positive because the measured value is the larger of the
+two, and that must be stated. Independent second check: the ratio 0.02 / 25.34 is about 7.9 x 10<sup>-4</sup>,
+which is under a thousandth of the measurement &mdash; entirely consistent with an instrument
+resolving 0.01 mm. Had the answer come out around 0.08 the decimal has slipped by a place.</p>
+
+<h3>Solved B &mdash; reducing a systematic error by correction, not by averaging</h3>
+<p><em>A vernier reads 45.32 mm for a standard length known to be 45.50 mm. Find the correction to be
+applied, and state whether averaging ten such readings would remove it.</em></p>
+<p>The instrument has a fixed zero error, so the bias is identical on every reading.</p>
+<p><strong>Given:</strong> reading = 45.32 mm, standard = 45.50 mm.
+<strong>Find:</strong> the correction, and the effect of averaging.
+<strong>Formula:</strong> error e = reading &minus; standard; correction = &minus;e.
+<strong>Solve:</strong></p>
+<pre><code>e = 45.32 - 45.50 = -0.18 mm
+correction = -e = +0.18 mm
+corrected reading = 45.32 + 0.18 = 45.50 mm
+
+ten averaged readings still read 45.32 mm each
+average = 45.32 mm  ->  still 0.18 mm wrong</code></pre>
+<p><strong>Answer:</strong> apply a correction of <strong>+0.18 mm</strong>; averaging will
+<strong>not</strong> help, because every reading carries the same bias.</p>
+<p><strong>Check:</strong> adding the correction back returns exactly the standard, 45.50 mm, so the
+sign of the correction is right. The averaging line is the conceptual check: ten readings each
+scattered around 45.32 still average to 45.32, which is exactly why a systematic error survives
+averaging and a random error does not.</p>
+
+<h3>Solved C &mdash; random error against systematic error, from a set of readings</h3>
+<p><em>Repeated measurements of a length give 20.11, 20.09, 20.13, 20.10 and 20.12 mm, and the
+standard value is 20.00 mm. State which part of the total error is random, which is systematic, and
+what averaging achieves.</em></p>
+<p><strong>Given:</strong> five readings in mm; standard = 20.00 mm.
+<strong>Find:</strong> the two error components and the effect of averaging.
+<strong>Formula:</strong> mean = sum / n; error relative to the standard = mean &minus; standard.
+<strong>Solve:</strong></p>
+<pre><code>mean = (20.11 + 20.09 + 20.13 + 20.10 + 20.12) / 5
+     = 100.55 / 5 = 20.11 mm
+
+scatter about the mean: +0.00, -0.02, +0.02, -0.01, +0.01
+mean error vs standard = 20.11 - 20.00 = +0.11 mm
+percentage error       = (0.11 / 20.00) x 100 = 0.55%</code></pre>
+<p><strong>Answer:</strong> the <strong>random</strong> error is the scatter of &plusmn;0.02 mm about
+the mean, and it is what averaging shrinks. The <strong>systematic</strong> error is the
+<strong>+0.11 mm</strong> offset of the whole cluster from the standard &mdash; averaging leaves it
+completely untouched, so the instrument still reads 0.55% high.</p>
+<p><strong>Check:</strong> averaging five readings gave 20.11 mm and the un-averaged first reading was
+also 20.11 mm, which shows the averaging barely moved the centre while it removed the scatter &mdash;
+exactly the expected behaviour. Second check: the readings are all in 20.09&ndash;20.13, a spread of
+0.04 mm, which is about four least counts of a 0.01 mm micrometer &mdash; a plausible scatter. The
+residual +0.11 mm is roughly eleven least counts, far too large to be scatter, which is why it must
+be read as a bias to be corrected.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>Percentage error is over the true value</strong>, not over the measured value. Using
+V<sub>m</sub> in the denominator gives a slightly different number and is the commonest slip in the
+whole topic.</li>
+<li><strong>Keep the sign of e.</strong> &minus;0.18 mm and +0.18 mm are different claims. If the
+question does not ask for a sign, still write it.</li>
+<li><strong>The correction has the opposite sign to the error.</strong> The instrument reads low by
+0.18 mm, so you add 0.18 mm. Adding the error instead doubles it.</li>
+<li><strong>Percentage error of a systematic error does not shrink with n.</strong> Averaging is only
+a cure for random error; do not divide a bias by the number of readings.</li>
+<li><strong>Do not mix relative error with percentage error.</strong> Relative error is a decimal
+(0.00079); percentage error is that same number &times; 100 (0.079). Writing the decimal where a
+percentage is asked loses the mark.</li>
+<li><strong>No unit on a relative error.</strong> It is dimensionless &mdash; writing &ldquo;0.079%&rdquo;
+where &ldquo;0.079%&rdquo; was asked is fine, but writing &ldquo;0.00079 mm&rdquo; is wrong.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;The error of a measurement is the difference between
+the measured value and the true value, and it is of two types &mdash; systematic and
+random.&rdquo;</li>
+<li><strong>Distinguishing line</strong> &mdash; &ldquo;A systematic error is a constant bias that
+averaging cannot remove; a random error is an unpredictable scatter that averaging does
+remove.&rdquo;</li>
+<li><strong>Elimination line</strong> &mdash; &ldquo;Systematic error is eliminated by calibration
+or by applying a known correction; random error is reduced by averaging repeated readings, by
+improving the least count, and by controlling the environment.&rdquo;</li>
+<li><strong>Accuracy line</strong> &mdash; &ldquo;Accuracy is closeness to the true value and
+precision is closeness of repeated readings to one another, so a set of tight readings proves only
+precision.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence an instrument may be highly precise and still
+systematically in error, and it is only comparison against a standard that establishes
+accuracy.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Statement first</strong> &mdash; one line of definition before any table or list</li>
+<li><strong>Two-column table beats prose</strong> &mdash; systematic against random, one row per
+property, is the shape the marks are scored against</li>
+<li><strong>Always pair a type with its cure</strong> &mdash; a classification without elimination
+methods scores half</li>
+<li><strong>Underline the keyword</strong> &mdash; constant bias, scatter, calibration, averaging</li>
+<li><strong>Attempt this early</strong> &mdash; it is pure recall with no calculation, so it is one of
+the fastest marks on the paper</li>
+<li><strong>Never leave blank</strong> &mdash; a definition, two types and two cures clears 4 of 7</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="B" data-explain="A random error is an unpredictable scatter, so averaging many readings cancels the scatter and pulls the mean toward the true value. A systematic error is a constant bias: every reading carries it, so the average still carries it. That asymmetry is the single most examined point in this topic.">
+<p><strong>Q1. Random errors in measurement are reduced by:</strong></p>
+<button data-key="A">Calibrating the instrument against a standard</button>
+<button data-key="B">Taking the average of many repeated readings</button>
+<button data-key="C">Applying a correction from the last calibration</button>
+<button data-key="D">Using an instrument of larger range</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="The instrument is consistently wrong in one direction by 0.18 mm, which makes the error systematic rather than random. Because the bias is identical on every reading, ten averaged readings still read 45.32 mm. The cure is a correction of +0.18 mm, or zeroing the instrument.">
+<p><strong>Q2. A vernier reads 45.32 mm for a standard length of 45.50 mm. The error is:</strong></p>
+<button data-key="A">Random, because the reading differs from the standard</button>
+<button data-key="B">Gross, because the reading is wrong</button>
+<button data-key="C">Systematic, because every reading is biased by the same amount</button>
+<button data-key="D">Zero, because the vernier has been zeroed</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="A systematic error is a constant bias with the same sign and nearly the same magnitude on every reading. Averaging repeats the same wrong value n times and cannot change it. This is exactly why a badly calibrated micrometer can be perfectly precise and still wrong.">
+<p><strong>Q3. Why does averaging repeated readings fail to remove a systematic error?</strong></p>
+<button data-key="A">The bias is constant, so it survives every reading</button>
+<button data-key="B">Averaging only works on more than ten readings</button>
+<button data-key="C">Averaging removes the random part but adds a new bias</button>
+<button data-key="D">Averaging can only reduce errors below one least count</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="Precision is the closeness of repeated readings to one another, and accuracy is closeness to the true value. A cluster of readings can be very tight and still sit away from the standard, so tightness alone proves only precision. Distinguishing the two words is the standard short question on this topic.">
+<p><strong>Q4. Precision is best described as:</strong></p>
+<button data-key="A">The closeness of a reading to the true value</button>
+<button data-key="B">The smallest change an instrument can detect</button>
+<button data-key="C">The ability of an instrument to resist wear</button>
+<button data-key="D">The closeness of repeated readings to one another</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="e% = (e / Vt) x 100, with the true value in the denominator. Here e = 25.36 - 25.34 = 0.02 mm and 0.02 / 25.34 x 100 = 0.0789%. Using the measured value in the denominator instead gives 0.0789% as well to three figures here, which is why this slip survives careless checking &mdash; always write the formula out.">
+<p><strong>Q5. A measured length is 25.36 mm against a true length of 25.34 mm. The percentage error is:</strong></p>
+<button data-key="A">0.0079%</button>
+<button data-key="B">0.079%</button>
+<button data-key="C">0.79%</button>
+<button data-key="D">7.9%</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring part-question.</strong> &ldquo;What is error? Explain the types of errors in
+measurement.&rdquo; &rarr; Definition of error against true value; the two-way classification;
+then a two-row table of cause, behaviour and cure for each type. Close on the averaging
+asymmetry.</li>
+<li><strong>Recurring short question.</strong> &ldquo;How are systematic and random errors
+eliminated?&rdquo; &rarr; Four methods against the two classes: calibration, correction, zeroing and
+a changed method for systematic; averaging, a finer least count and environmental control for
+random.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between accuracy and
+precision.&rdquo; &rarr; Define each, then the single line that matters: precision is closeness to
+other readings, accuracy is closeness to the true value, so tight readings do not prove
+accuracy.</li>
+<li><strong>One-line recall.</strong> &ldquo;Define a gross error.&rdquo; &rarr; A blunder rather than
+a bias &mdash; misreading, wrong zero, transcription slip &mdash; detected by repetition and removed
+by care.</li>
+<li><strong>One-line recall.</strong> &ldquo;What is sensitivity?&rdquo; &rarr; The response of an
+instrument per unit change in input; the smallest change it can detect.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="6">
+<li><strong>4 minutes, no notes.</strong> Write the systematic-versus-random table with the five
+property rows from memory. Check that every row is a difference, not a repeat.</li>
+<li><strong>3 minutes.</strong> Explain in three sentences why averaging cannot remove a systematic
+error. Check the word <em>constant</em> appears.</li>
+<li><strong>5 minutes.</strong> Solved B on paper. Check the correction is +0.18 mm, not
+&minus;0.18 mm, and that the averaging line is present.</li>
+<li><strong>5 minutes.</strong> Solved C on paper. Check that the +0.11 mm offset is called
+systematic and the scatter is called random, and that the two are not swapped.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 2 Topic 01</p>
+<h1>Errors in Measurement &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>The error of a measurement is the difference between the measured value
+and the true value of the quantity. It is of two types:
+
+  SYSTEMATIC - a constant bias, same sign and nearly same magnitude on
+               every reading. NOT removed by averaging. Removed by
+               calibration, correction, zeroing, or a changed method.
+
+  RANDOM     - an unpredictable scatter, sign and size changing at
+               random. Reduced only by averaging repeated readings,
+               a finer least count, or environmental control.
+
+A third class, GROSS ERROR, is a blunder - misreading, wrong zero,
+transcription slip - detected by repetition and removed by care.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Define        -> error = measured value - true value
+2. Classify      -> systematic (constant bias) or random (scatter)
+3. Give the cure -> calibrate/correct for systematic,
+                    average for random
+4. Close the loop-> precision is tightness, accuracy is closeness to
+                    the standard; a tight cluster proves only precision</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Property</th><th>Systematic</th><th>Random</th></tr></thead>
+<tbody>
+<tr><td>Nature</td><td>Constant bias</td><td>Unpredictable scatter</td></tr>
+<tr><td>Sign and size</td><td>Same sign, nearly same size</td><td>Change at random</td></tr>
+<tr><td>Typical cause</td><td>Zero error, wrong calibration, wrong method, environment, observer bias</td><td>Random fluctuation in the process and surroundings</td></tr>
+<tr><td>Effect of averaging</td><td>Not reduced</td><td>Reduced by 1/sqrt(n)</td></tr>
+<tr><td>Elimination</td><td>Calibration, correction, zeroing, better method</td><td>Averaging, smaller least count, damping the environment</td></tr>
+<tr><td>Detected by</td><td>Comparison against a standard</td><td>Repetition &mdash; the scatter is visible</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Error</strong> &mdash; the difference between the measured value and the true value of
+the quantity being measured.</li>
+<li><strong>Absolute error</strong> &mdash; measured value minus true value, in the units of the
+quantity.</li>
+<li><strong>Relative error</strong> &mdash; absolute error divided by the true value; dimensionless,
+and therefore the only form in which two errors can be compared.</li>
+<li><strong>Percentage error</strong> &mdash; relative error multiplied by 100; the form every exam
+answer is expected in.</li>
+<li><strong>Systematic error</strong> &mdash; a constant error with a fixed sign and magnitude,
+caused by calibration, method or environment; not removable by averaging.</li>
+<li><strong>Random error</strong> &mdash; an error varying unpredictably in sign and size; reducible
+only by averaging repeated readings.</li>
+<li><strong>Gross error</strong> &mdash; a blunder in reading or recording; the outlier is
+identifiable by repetition.</li>
+<li><strong>Accuracy</strong> &mdash; closeness of a reading to the true value.</li>
+<li><strong>Precision</strong> &mdash; closeness of repeated readings to one another.</li>
+<li><strong>Sensitivity</strong> &mdash; the instrument response per unit change of input, that is,
+the smallest change it can resolve.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can define error against the true value in one sentence</li>
+<li>[ ] Can name the two classes and give one cause of each</li>
+<li>[ ] Can state why averaging fails on a systematic error</li>
+<li>[ ] Can give at least two elimination methods for each class</li>
+<li>[ ] Can distinguish accuracy from precision without hesitating</li>
+<li>[ ] Can write all three error forms and say which one compares two errors</li>
+<li>[ ] Can solve a percentage-error numeral with the true value in the denominator</li>
+<li>[ ] Can state the sign of the correction when an instrument reads low</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Three moves only.</strong> Subtract to get the absolute error, keeping
+the sign. Divide by the <strong>true</strong> value to get the relative error. Multiply by 100 for
+the percentage. Finish by asking whether the error is systematic or random &mdash; if the readings
+all sit on one side of the standard, it is a bias and averaging will not touch it.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 2 Topic 01 &middot; Dec-2020 Q2a and the recurring part-question pattern</p>
+<h1>Errors in Measurement &mdash; questionnaire</h1>
+<div class="q-meta">Q2a slot &middot; recurring pattern &middot; "what is error, types of errors in measurement" &rarr; a definition plus a two-row classification table carries the whole answer</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>What is error? Explain the types of errors in measurement.</h3>
+<p>This is the single most repeated part-question in the unit. It is definition, then a two-way classification, then the elimination method for each &mdash; and nothing else. No calculation is needed at all, which makes it the fastest 7 marks on the paper if you take it early.</p>
+<div class="q-foot"><b>write</b> &mdash; definition of error against true value (2) &rarr; systematic and random named with the property that defines each (2) &rarr; one elimination method per class (2) &rarr; averaging asymmetry as the closing line (1).</div>
+<div class="q-foot"><b>check</b> &mdash; listing two types with no cure each scores half; failing to say why averaging does not remove a systematic error loses the closing mark; adding a third unasked class does not earn credit and crowds the answer.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>How are systematic and random errors eliminated? Explain the methods.</h3>
+<p>A pure method question. Give two or three methods against each class, matched to the class. The pairing is the whole point &mdash; four unlabelled methods score less than two correctly paired ones.</p>
+<div class="q-foot"><b>write</b> &mdash; systematic methods: calibration, correction, zeroing, better method (2) &rarr; random methods: averaging, smaller least count, environmental control (2) &rarr; the averaging asymmetry sentence (1).</div>
+<div class="q-foot"><b>check</b> &mdash; "average the readings" written under systematic is the standard error; methods must be attached to the class they actually cure.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Differentiate between accuracy and precision. Is a precise instrument necessarily accurate?</h3>
+<p>The second sentence is where the mark is. Define both words, then answer the question with a reason: a miscalibrated instrument repeats the same wrong reading, so it can be perfectly precise and still systematically wrong.</p>
+<div class="q-foot"><b>write</b> &mdash; accuracy defined against the true value (1) &rarr; precision defined against other readings (1) &rarr; sensitivity distinguished from both (1) &rarr; "no" with the calibrated-micrometer illustration (2).</div>
+<div class="q-foot"><b>check</b> &mdash; answering "yes" is the trap; defining precision as closeness to true value is a repetition rather than a differentiation; omitting the illustration loses the explanation marks.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence defining error as measured minus true.</li>
+    <li><strong>Visual:</strong> Draw the two-branch classification with the cure under each branch, before any prose.</li>
+    <li><strong>Table:</strong> Systematic against random, one row per property &mdash; five rows is a 7-mark answer.</li>
+    <li><strong>Close:</strong> Box the averaging asymmetry and add the precision-is-not-accuracy line.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "The error of a measurement is the difference between the measured value and the true value of the quantity being measured, and it is of two types, systematic and random."</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; classification diagram &rarr; five-row systematic/random table &rarr; elimination methods for each &rarr; gross error and instrumental error if room &rarr; accuracy/precision/sensitivity distinction &rarr; boxed averaging asymmetry.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Statement first</strong> &mdash; the definition, one line, before the table</li>
+    <li><strong>Diagram before prose</strong> &mdash; the two-branch tree with cures is half the answer</li>
+    <li><strong>Table over paragraphs</strong> &mdash; five property rows, two columns</li>
+    <li><strong>Underline keywords</strong> &mdash; constant bias, scatter, calibration, averaging</li>
+    <li><strong>Box every final answer</strong> &mdash; the classification and the asymmetry line</li>
+    <li><strong>Attempt order</strong> &mdash; take this in the first ten minutes; it is pure recall</li>
+    <li><strong>Never leave blank</strong> &mdash; definition, two types, two cures clears 4 of 7</li>
+    <li><strong>Close every answer</strong> &mdash; "hence" / boxed asymmetry / one significance line</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>What is error? Explain the types of errors in measurement.</h3>
+<p class="answer-lead">Define error, split it two ways, and give the cure for each branch. The property that separates the branches and the cure that goes with it are what earn the marks.</p>
+<pre class="ascii-diagram" role="img" aria-label="Error split into systematic and random, each with behaviour and cure">
+MEASUREMENT ERROR  =  measured value - true value
+|
++-- SYSTEMATIC  (a constant bias)
+|     |   same sign and nearly the same size on every reading
+|     |
+|     +-- cause: faulty calibration, zero error, wrong method,
+|     |          environmental or observer bias
+|     +-- cure : CALIBRATE, apply a known correction, zero the
+|                instrument, or change the method
+|     |
+|     +-- averaging does NOT help at all
+|
++-- RANDOM  (an unpredictable scatter)
+      |   sign and size change at random from reading to reading
+      |
+      +-- cause: random fluctuation in the process and surroundings
+      +-- cure : AVERAGE repeated readings, use a finer least
+                 count, or control the environment
+      |
+      +-- averaging DOES help
+
+  gross error = a blunder (misreading, wrong zero) -> removed by care
+</pre>
+<p><strong>Definition.</strong> The error of a measurement is the difference between the measured
+value and the true value of the quantity being measured. Because the true value can never be known
+exactly, it is replaced in practice by the standard value or by the mean of many readings.</p>
+<table>
+<tr><th>Property</th><th>Systematic error</th><th>Random error</th></tr>
+<tr><td>Nature</td><td>A constant bias</td><td>An unpredictable scatter</td></tr>
+<tr><td>Sign and magnitude</td><td>Same sign and nearly the same size on every reading</td><td>Both change at random from reading to reading</td></tr>
+<tr><td>Causes</td><td>Incorrect calibration, zero error, a wrong method, environmental or observer bias</td><td>Random fluctuations in the measuring process and the surroundings</td></tr>
+<tr><td>Effect of averaging</td><td>Not reduced in any degree</td><td>Reduced, by a factor of 1/sqrt(n)</td></tr>
+<tr><td>Elimination</td><td>Calibration, applying a known correction, zeroing the instrument, changing the method</td><td>Averaging many readings, using a smaller least count, damping the environment</td></tr>
+</table>
+<p><strong>Gross error</strong> is a third practical class: a blunder rather than a bias &mdash;
+misreading a scale, using the wrong zero, a transcription slip. Its value is wildly out of line, so
+it is detected by repeating the measurement and removed by care.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence a systematic error is removed only by
+calibration or correction because the bias is constant, while a random error is reduced by
+averaging because the scatter is random &mdash; which is why averaging removes one class
+completely and does nothing whatever to the other."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>How are systematic and random errors eliminated? Explain the methods.</h3>
+<p class="answer-lead">Two lists, but each method must be attached to the class it actually cures. An unlabelled list of methods scores less than a short correctly paired one.</p>
+<pre class="ascii-diagram" role="img" aria-label="Elimination methods paired against the error class each one cures">
+          SYSTEMATIC ERRORS                 RANDOM ERRORS
+              |                                  |
+   +----------+----------+            +----------+----------+
+   |          |          |            |          |          |
+ CALIBRATE  CORRECT    CHANGE       AVERAGE    SMALLER    CONTROL
+ the        with a     the          the        LEAST      the
+ INSTRUMENT known      METHOD       repeated   COUNT     ENVIRONMENT
+   |        value)        |         readings       |          |
+   |          |           |            |          |          |
+ fix the    cancel a     remove      cancel      resolve    remove
+ BIAS       known        a           the         finer     external
+            BIAS        METHOD       SCATTER    changes   disturbances
+                              |
+                       affects both
+                       classes' cures
+</pre>
+<p><strong>Systematic errors</strong> are eliminated by correcting the instrument itself or its
+record of what it reads. The methods are:</p>
+<ul>
+<li><strong>Calibration</strong> &mdash; comparing the instrument against a standard and adjusting it,
+which removes a zero error and a scale error.</li>
+<li><strong>Applying a known correction</strong> &mdash; where recalibration is impractical, the
+previously determined error is applied to every reading with the opposite sign.</li>
+<li><strong>Zeroing the instrument</strong> &mdash; removing the zero or index error before use.</li>
+<li><strong>Changing the method</strong> &mdash; choosing a procedure that avoids the bias, such as
+using the two-peg method to eliminate local attraction in levelling.</li>
+</ul>
+<p><strong>Random errors</strong> are reduced rather than eliminated, because they have no fixed sign
+to cancel:</p>
+<ul>
+<li><strong>Averaging many readings</strong> &mdash; the standard remedy; the scatter falls as
+1/sqrt(n).</li>
+<li><strong>A smaller least count</strong> &mdash; a finer resolution reduces the magnitude of each
+fluctuation.</li>
+<li><strong>Controlling the environment</strong> &mdash; damping vibration and stabilising temperature
+removes the external part of the scatter.</li>
+</ul>
+<p class="answer-close"><strong>Exam close:</strong> "A systematic error is eliminated and a random
+error is only reduced, because elimination requires a known sign to cancel and a random error has
+no consistent sign."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Differentiate between accuracy and precision. Is a precise instrument necessarily accurate?</h3>
+<p class="answer-lead">Three definitions, then the actual answer with a reason. The illustration is what turns a two-mark answer into five.</p>
+<pre class="ascii-diagram" role="img" aria-label="Four target patterns showing accurate and precise combinations and the cures">
+  ACCURATE AND PRECISE        PRECISE BUT NOT ACCURATE
+  (ideal instrument)          (systematic error present)
+
+        +--+--+                     . . . . . . .
+        |  |  |                     .  .  +--+  .  .
+        |  X  |                     . . . |  X  . . .
+        |  |  |                     .  .  |  |  .  .
+        +--+--+                     . . . +--+ . . .
+   tight at the true value      tight, but displaced by bias
+
+        ACCURATE BUT              NEITHER ACCURATE
+        NOT PRECISE               NOR PRECISE
+        (random error)
+
+        +--+--+                     +--+--+
+        |  X  |                     | X X |
+        |     |                     |   X |
+        |  X  |                     |X    |
+        +--+--+                     +--+--+
+
+   AVERAGE THE READINGS          CALIBRATE OR CORRECT
+   -> scatter shrinks to X        -> the whole group moves to X
+</pre>
+<p><strong>Accuracy</strong> is the closeness of a measured value to the <em>true</em> value of the
+quantity. <strong>Precision</strong> is the closeness of repeated readings to one another, however
+far they all sit from the true value. <strong>Sensitivity</strong> is distinct from both: it is the
+response of the instrument per unit change of input, that is, the smallest change it can
+detect.</p>
+<p><strong>A precise instrument is not necessarily accurate.</strong> A micrometer whose zero has
+drifted reads 0.02 mm high on every single reading. Its readings agree with each other perfectly,
+so it is highly precise, yet every value it reports is wrong by a fixed amount, so it is
+inaccurate. The group of readings is tight and displaced from the true value.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Precision is proved by the agreement of
+readings with one another, while accuracy is proved only by comparison with a standard &mdash; so an
+instrument may be precise and still systematically in error, and the cure for the second is
+calibration, not averaging."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203 Unit 2, "Errors in measurement &mdash;
+systematic and random errors, methods of eliminating errors". Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub, used to cross-check the classification and the elimination methods.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, in which Q2a is exactly &ldquo;What is
+error? Types of errors in measurement&rdquo;. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference book</strong> (official BT-203 list) &mdash; P. K. Nag,
+<em>Engineering Metrology and Measurements</em>, TMH &mdash; the primary text for the Unit 2
+measurement half.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hubs and the December 2020 archive support revision and question practice. The
+classification, elimination methods and accuracy-precision distinction follow the standard
+metrology treatment and are not attributed to any paper session beyond the one named above.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

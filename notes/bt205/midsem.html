@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BT205 Mid-Sem Battle Plan &mdash; Mon 12 Oct 2026 &middot; by Zevu</title>
+<style>
+:root{color-scheme:dark;--ink:#e6e3dc;--ink-soft:#a29d92;--paper:#14161b;--accent:#e0a370;
+--accent-soft:#1b1e25;--rule:#2b2e36;--code-bg:#1b1e25;--code-ink:#dcd7cd;
+--good:#7bc97f;--good-bg:#17251a;--bad:#ef6b68;--bad-bg:#2a1718;--warn:#d8b25a}
+*{box-sizing:border-box}html{font-size:17px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,serif;line-height:1.62}
+main{max-width:52rem;margin:0 auto;padding:2.5rem 1.25rem 6rem}
+h1,h2,h3{font-weight:normal;line-height:1.22}
+h1{font-size:2rem;margin:0 0 .5rem}
+h2{font-size:1.4rem;margin:2.6rem 0 .7rem;border-bottom:1px solid var(--rule);padding-bottom:.3rem}
+h3{font-size:1.08rem;margin:1.7rem 0 .5rem}
+p{margin:.85rem 0}
+a{color:var(--accent);text-underline-offset:3px}
+code{font-family:ui-monospace,monospace;font-size:.85em;background:var(--code-bg);
+padding:.1em .32em;border-radius:4px;color:var(--code-ink)}
+pre{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;
+padding:.9rem 1.1rem;overflow-x:auto;font-family:ui-monospace,monospace}
+blockquote{margin:1.2rem 0;padding:.5rem 1.1rem;border-left:3px solid var(--accent);
+background:var(--code-bg);color:var(--ink-soft)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;margin:1.1rem 0}
+th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.08em;
+text-transform:uppercase;color:var(--ink-soft)}
+tbody tr:hover td{background:rgba(224,163,112,.05)}
+.kicker{font-family:ui-monospace,monospace;font-size:.72rem;letter-spacing:.14em;
+text-transform:uppercase;color:var(--ink-soft);margin-bottom:1rem}
+.zevu-header{margin-bottom:1.4rem;padding-bottom:.5rem;border-bottom:1px solid var(--rule)}
+.zevu-header .prompt{font-family:ui-monospace,monospace;font-size:.82rem;color:var(--ink-soft)}
+.zevu-header .user,.zevu-footer .prompt{color:var(--accent)}
+.zevu-footer{margin-top:3rem;padding-top:.7rem;border-top:1px solid var(--rule);
+font-family:ui-monospace,monospace;font-size:.66rem;color:var(--ink-soft);opacity:.75}
+.callout{background:var(--code-bg);border:1px solid var(--rule);border-left:3px solid var(--accent);
+border-radius:8px;padding:.9rem 1.1rem;margin:1.2rem 0;font-size:.93rem}
+.callout .label{display:block;font-family:ui-monospace,monospace;font-size:.68rem;
+letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.35rem}
+.callout.warn{border-left-color:var(--warn)}
+.callout.good{border-left-color:var(--good)}
+.ascii-diagram{margin:1rem 0;padding:1rem 1.1rem;overflow-x:auto;background:#101217;
+border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:6px;
+font-family:ui-monospace,monospace;font-size:.7rem;line-height:1.38;white-space:pre}
+.tab-bar{display:flex;gap:.4rem;flex-wrap:wrap;margin:1.4rem 0 1.6rem;
+border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.tab-btn{background:none;border:1px solid var(--rule);color:var(--ink-soft);
+padding:.4rem .85rem;border-radius:6px;cursor:pointer;font-size:.86rem;font-family:ui-monospace,monospace}
+.tab-btn:hover{border-color:var(--accent);color:var(--ink)}
+.tab-btn.active{border-color:var(--accent);color:var(--accent)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.dim{color:var(--ink-soft)}.good-t{color:var(--good)}.bad-t{color:var(--bad)}
+.bar{background:var(--accent);height:.55rem;border-radius:2px;display:block;min-width:2px}
+.barwrap{background:var(--rule);border-radius:2px;width:100%;min-width:90px;overflow:hidden}
+.factgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:.6rem;margin:1.2rem 0}
+.fact{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;padding:.6rem .75rem}
+.fact dt{font-family:ui-monospace,monospace;font-size:.63rem;letter-spacing:.1em;
+text-transform:uppercase;color:var(--ink-soft);margin:0 0 .2rem}
+.fact dd{margin:0;font-size:1.02rem;color:var(--accent)}
+.mcq{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;padding:.85rem 1rem;margin:.9rem 0}
+.mcq .q{font-weight:600;margin-bottom:.55rem}
+.mcq .meta{font-family:ui-monospace,monospace;font-size:.66rem;color:var(--ink-soft);margin-bottom:.5rem}
+.mcq button{display:block;width:100%;text-align:left;background:none;color:var(--ink);
+border:1px solid var(--rule);border-radius:6px;padding:.42rem .6rem;margin-top:.3rem;
+cursor:pointer;font-size:.9rem;font-family:inherit}
+.mcq button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.mcq button:disabled{cursor:default;opacity:.75}
+.mcq button.correct{border-color:var(--good);color:var(--good);background:var(--good-bg)}
+.mcq button.wrong{border-color:var(--bad);color:var(--bad);background:var(--bad-bg)}
+.mcq .fb{margin-top:.6rem;font-size:.86rem;display:none;border-top:1px solid var(--rule);padding-top:.55rem}
+.mcq .fb.show{display:block}
+.mcq .fb b{color:var(--accent)}
+.scorebox{background:var(--code-bg);border:2px solid var(--accent);border-radius:8px;padding:1rem 1.15rem;margin:1.2rem 0}
+.scorebox .big{font-size:2.2rem;color:var(--accent);font-family:ui-monospace,monospace;line-height:1}
+.timerbox{background:var(--code-bg);border:1px solid var(--rule);border-left:3px solid var(--accent);
+border-radius:8px;padding:.9rem 1.1rem;margin:1.2rem 0;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.timerbox .clock{font-family:ui-monospace,monospace;font-size:2rem;color:var(--accent);line-height:1}
+.timerbox button{background:none;border:1px solid var(--rule);color:var(--ink-soft);padding:.35rem .7rem;
+border-radius:6px;cursor:pointer;font-family:ui-monospace,monospace;font-size:.78rem}
+.timerbox button:hover{border-color:var(--accent);color:var(--accent)}
+details{margin:.8rem 0;border:1px solid var(--rule);border-radius:8px;padding:.5rem .8rem;background:var(--code-bg)}
+summary{cursor:pointer;font-weight:600;font-size:.93rem;color:var(--ink)}
+summary:hover{color:var(--accent)}
+details .inner{margin-top:.7rem;padding-top:.7rem;border-top:1px solid var(--rule);font-size:.92rem}
+.qa{display:inline-block;font-family:ui-monospace,monospace;font-size:.68rem;
+border:1px solid var(--rule);border-radius:4px;padding:.05rem .35rem;color:var(--ink-soft)}
+.qa.a{color:var(--good);border-color:var(--good)}.qa.b{color:var(--warn);border-color:var(--warn)}
+.srcgap{font-size:.9rem;color:var(--ink-soft)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media print{:root{color-scheme:light;--ink:#1a1a1a;--ink-soft:#555;--paper:#fff;--rule:#ddd;
+--code-bg:#f5f5f5;--code-ink:#222;--accent:#a05c1e;--good:#1a6b1f;--bad:#a11}
+body{background:#fff}main{padding:0;max-width:100%}
+.tab-panel{display:block!important}
+.zevu-footer,.timerbox button{display:none}
+table tr:hover td{background:transparent}
+details{border-color:#ccc;background:#fafafa}details .inner{display:block}.mcq .fb{display:block}}
+@media (max-width:640px){html{font-size:15px}main{padding:1.5rem .9rem 3rem}table{font-size:.8rem}}
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header">
+<p class="prompt"><span class="user">zevu</span>:~/learn/bt205 $ cat midsem.md</p>
+</div>
+<p class="kicker">BT205 &middot; Mid-Sem &middot; Mon 12 Oct 2026 &middot; Units 1+2 only</p>
+<h1>BT205 Mid-Sem &mdash; Predicted Paper &amp; Battle Plan</h1>
+<p><em>Units 1 and 2 only &mdash; Fundamentals &amp; Operating Systems, and Algorithms &amp; C++. The good news buried in this page: Unit 2 is the most under-examined unit in the whole of BT-205 across ten papers, and it is also the thinnest syllabus in the subject. A handful of pages covers it completely. Unit 1 is the opposite &mdash; the single most-examined unit, and almost every question in it is a near-repeat of something RGPV has already printed.</em></p>
+<dl class="factgrid"><div class="fact"><dt>Date</dt><dd>Mon 12 Oct 2026</dd></div><div class="fact"><dt>Time</dt><dd>3:00 &ndash; 4:30 PM</dd></div><div class="fact"><dt>Shift</dt><dd>II</dd></div><div class="fact"><dt>Same day</dt><dd>BT-204 at 12:00</dd></div><div class="fact"><dt>Mid-sem marks</dt><dd>10 <span class='dim'>(likely)</span></dd></div><div class="fact"><dt>In scope</dt><dd>Units 1 + 2</dd></div></dl>
+
+<div class="tab-bar">
+<button class="tab-btn active" onclick="showTab('paper')">Paper</button>
+<button class="tab-btn" onclick="showTab('bank')">Bank &amp; analysis</button>
+<button class="tab-btn" onclick="showTab('test')">Self-test</button>
+<button class="tab-btn" onclick="showTab('mock')">Timed mock</button>
+<button class="tab-btn" onclick="showTab('plan')">Plan</button>
+</div>
+
+<div id="paper" class="tab-panel active">
+<p class="kicker">Section 1 &middot; What will actually be on the paper</p>
+<h1>Format, and the assumption that keeps getting made</h1>
+
+<div class="callout warn">
+<span class="label">Read this before you plan the paper</span>
+<p><strong>Every RGPV first-year end-sem paper says the same three things:</strong>
+<em>&ldquo;Attempt any five questions. All questions carry equal marks. In case of any
+doubt the English version is final.&rdquo;</em> It prints 8 questions for 70 marks, so
+each is <strong>14 marks</strong>, normally <strong>(a) 7 + (b) 7</strong>. There is no
+Section A / Section B and no compulsory-versus-choice split.</p>
+<p>Several exam-prep pages claim RGPV papers run as &ldquo;Section A: 5 &times; 2 marks,
+Section B: 2 &times; 5 marks&rdquo;. <strong>That format is not in any RGPV paper.</strong>
+It was checked against 10 real scans across seven sessions (Nov-2019 to Dec-2025).</p>
+</div>
+
+<div class="callout">
+<span class="label">What is actually known about the mid-sem itself</span>
+<p>Confirmed from the official RGPV ordinance and the July 2018 scheme: the
+<b>whole semester mid-sem bucket is 20 marks</b> per theory subject (70 end-sem
++ 20 mid-sem + 10 internal = 100), and RGPV requires <b>at least two mid-term tests</b>.
+So MST-1 is most likely <b>10 marks</b>.</p>
+<p>Two things nobody can confirm, because RGPV publishes no mid-sem papers and the
+Board of Studies sets the detail locally: whether MST-1 is 10 or 20 marks, and the
+paper's duration and section layout.</p>
+<p>One real data point survives: an ITM Gwalior <em>BT-204 Mid Term 1</em> paper
+circulates online and its instruction line reads <b>&ldquo;Attempt all
+questions.&rdquo;</b> No choice at all &mdash; a small question count, all compulsory,
+equal marks, which is the end-sem pattern scaled down.</p>
+</div>
+
+<h2>How to plan for a paper nobody has seen</h2>
+<p>Do not memorise a layout. Memorise the <em>topics</em> &mdash; they transfer between
+any layout. Then when the paper lands, read the marks against each question and spend
+your time proportionally. The predicted paper below is written in the end-sem format
+because that is the house style RGPV reuses.</p>
+
+<p class="kicker">Section 2 &middot; Predicted paper</p>
+<h1>BT205 &mdash; Units 1+2 only, predicted</h1>
+<blockquote>RGPV end-sem house format (8 printed, attempt any 5, 14 each, 7+7). The Jun-2023 and Jun-2025 papers print those marks explicitly, so this is not a guess for BT-205 &amp;mdash; it is read off the paper. If your MST is 10 marks it is the same topic set in a shorter wrapper.</blockquote>
+<div class="callout"><span class="label">Q1 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> Classify computers on the basis of size and functionality, comparing supercomputers, mainframes and embedded systems.</p><p><b>(b)</b> Explain different computer memories &mdash; RAM, ROM, Cache, Register, Hard disk &mdash; in detail.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> The two most-asked items in BT-205, 7 appearances each. Jun-2025 Q1 was almost exactly this. <b>Prep:</b> <a href="unit1/01-computer-definition-classification.html">unit1/01-computer-definition-classification.html</a></p></div>
+<div class="callout"><span class="label">Q2 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> Explain the organisation of a computer with a labelled block diagram: CPU, memory and I/O.</p><p><b>(b)</b> What is an operating system? Write down its functions and its types.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> CPU organisation in 3 papers, OS definition in 3. Dec-2025 replaced the Office question with file/process/memory management. <b>Prep:</b> <a href="unit1/02-cpu-registers-bus-instruction.html">unit1/02-cpu-registers-bus-instruction.html</a></p></div>
+<div class="callout"><span class="label">Q3 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> What is an algorithm? Why is it needed? Describe its benefits. Write an algorithm to find the largest of three numbers.</p><p><b>(b)</b> Draw a flowchart for a simple algorithm and state the limitations of flowcharts.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Algorithm in 5 papers, flowcharts in 3. Jun-2025 Q2b and Dec-2024 Q3 were both this pair. <b>Prep:</b> <a href="unit2/01-algorithms-complexity-flowchart.html">unit2/01-algorithms-complexity-flowchart.html</a></p></div>
+<div class="callout"><span class="label">Q4 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> Explain data types, tokens, variables and operators in C++, distinguishing primitive from derived data types.</p><p><b>(b)</b> Explain the various control structures in C++ with syntax and examples.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Data types in 3 papers, control structures in 2. Both sit squarely in your mid-sem scope. <b>Prep:</b> <a href="unit2/03-cpp-tokens-datatypes.html">unit2/03-cpp-tokens-datatypes.html</a></p></div>
+<div class="callout"><span class="label">Q5 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> What is an array? Explain 1-D and multi-dimensional arrays with syntax and an example program.</p><p><b>(b)</b> Write a C++ function to exchange two variables, explaining why reference passing is required.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Arrays in 4 papers, C++ programs in 6. The swap function is the most reliable program question in the subject. <b>Prep:</b> <a href="unit2/06-arrays-functions.html">unit2/06-arrays-functions.html</a></p></div>
+<div class="callout"><span class="label">Q6 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> Differentiate application software from system software, giving examples of each.</p><p><b>(b)</b> Explain the applications of computers in health care and remote sensing / e-business.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> App vs system software in 3 papers, applications in 4. Both classic Unit 1 recall stems. <b>Prep:</b> <a href="unit1/04-software-and-applications.html">unit1/04-software-and-applications.html</a></p></div>
+<div class="callout"><span class="label">Q7 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> Explain operator precedence and associativity with the level ladder and one example each.</p><p><b>(b)</b> Evaluate the expression 10 + 3 * 2 % 4 &minus; 1 and explain each step.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> A guaranteed-numeral question in the thinnest unit. No paper in the corpus asked precedence by name, which makes it the most likely un-asked item. <b>Prep:</b> <a href="unit2/04-operators-expressions-io.html">unit2/04-operators-expressions-io.html</a></p></div>
+<div class="callout"><span class="label">Q8 &middot; any &middot; 14 (7 x 2) marks</span><p><b>(a)</b> Short note 1: generations of computers.</p><p><b>(b)</b> Short note 2: memory and storage systems / I/O devices.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Every paper ends with a unit-flexible short-notes question, options spanning 2-4 units, pick any two. Both of these sit in Unit 1. <b>Prep:</b> <a href="unit1/03-memory-storage-io.html">unit1/03-memory-storage-io.html</a></p></div>
+<h2>Where the marks go</h2>
+<table><thead><tr><th>Paper slot</th><th>Unit</th><th>Expected topic</th><th>Confidence</th></tr></thead><tbody><tr><td><b>Q1</b></td><td>U1</td><td>Classification + memory types</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q2</b></td><td>U1</td><td>CPU organisation + OS</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q3</b></td><td>U2</td><td>Algorithm + flowchart</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q4</b></td><td>U2</td><td>Data types + control structures</td><td style="color:var(--warn)"><b>B</b></td></tr><tr><td><b>Q5</b></td><td>U2</td><td>Arrays + swap function</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q6</b></td><td>U1</td><td>Software types + applications</td><td style="color:var(--warn)"><b>B</b></td></tr><tr><td><b>Q7</b></td><td>U2</td><td>Precedence + tracing</td><td style="color:var(--warn)"><b>B</b></td></tr><tr><td><b>Q8</b></td><td>any</td><td>Short notes, unit-flexible</td><td style="color:var(--bad)"><b>C</b></td></tr></tbody></table>
+<div class="callout good">
+<span class="label">The single highest-value fact on this page</span>
+<p>Unit 1 (Fundamentals &amp; OS) is <b>29.4%</b> of every real BT-205 paper, and its two most-asked items &mdash; <b>classification of computers</b> and <b>the memory types RAM/ROM/Cache/Register/HDD</b> &mdash; each appeared in <b>7 of 10 papers</b>. Memorise those two and you have banked a large fraction of Unit 1 before opening a single note.</p>
+</div>
+</div>
+
+<div id="bank" class="tab-panel">
+<p class="kicker">Section 3 &middot; Evidence</p>
+<h1>What the last seven sessions (Nov-2019 to Dec-2025) of real papers actually ask</h1>
+<p>Ten RGPV BT-205 papers (Nov-2019, Jun-2020, Nov-2022, Jun-2022, Jun-2023, Dec-2023, Jun-2024, Dec-2024, Jun-2025, Dec-2025) were read and every sub-question mapped to a unit &mdash; <b>143 graded sub-questions</b>. Note the structural break: from Jun-2023 onward the papers print explicit <b>7 / 7</b> marks per (a)/(b) part and 14 for the short-notes question.</p>
+<h2>Unit weight &mdash; measured, not assumed</h2>
+<p>Syllabus share per unit is 20% because there are five units. What follows is where
+the marks <em>actually went</em> in 10 papers.</p>
+<table><thead><tr><th>Unit</th><th>Share of marks asked</th><th>%</th><th>Items</th><th>Read</th></tr></thead><tbody><tr><td><b>U1</b> Fundamentals &amp; OS</td><td class="barwrap"><span class="bar" style="width:100%"></span></td><td class="good-t"><b>29.4%</b></td><td>42</td><td class="dim">in scope &amp;mdash; the single biggest block anywhere</td></tr><tr><td><b>U2</b> Algorithms &amp; C++</td><td class="barwrap"><span class="bar" style="width:50%"></span></td><td class="bad-t"><b>14.7%</b></td><td>21</td><td class="dim">in scope, and the thinnest unit &amp;mdash; cheapest full marks</td></tr><tr><td><b>U3</b> OOP &amp; Data Structures</td><td class="barwrap"><span class="bar" style="width:81%"></span></td><td class=""><b>23.8%</b></td><td>34</td><td class="dim">end-sem only</td></tr><tr><td><b>U4</b> Networking &amp; Security</td><td class="barwrap"><span class="bar" style="width:60%"></span></td><td class=""><b>17.5%</b></td><td>25</td><td class="dim">end-sem only</td></tr><tr><td><b>U5</b> DBMS &amp; Cloud</td><td class="barwrap"><span class="bar" style="width:50%"></span></td><td class="bad-t"><b>14.7%</b></td><td>21</td><td class="dim">end-sem only</td></tr></tbody></table>
+<h2>The repeat list &mdash; this is the exam</h2>
+<p>RGPV re-uses question stems verbatim across years. A stem appearing in six sittings
+has a far higher chance of appearing in the seventh than any new question does.</p>
+<table><thead><tr><th>#</th><th>Question stem, recurring across sessions</th><th>Times</th><th>Unit</th><th>Sessions</th></tr></thead><tbody><tr><td>1</td><td>Classification of computers / by size and functionality</td><td><span class="qa a">7x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">May-19, Nov-19, Jun-20, Nov-22, Jun-23, Dec-24, Jun-25, Dec-25</td></tr><tr><td>2</td><td>Memory types &amp;mdash; RAM, ROM, Cache, Register, Hard disk</td><td><span class="qa a">7x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Jun-23, Dec-23, Dec-24, Dec-25</td></tr><tr><td>3</td><td>Inheritance &amp;mdash; types</td><td><span class="qa a">6x</span></td><td>U3</td><td class="dim" style="font-size:.82rem">May-19, Nov-19, Jun-20, Jun-22, Dec-23, Jun-24, Jun-25</td></tr><tr><td>4</td><td>Constructors &amp;amp; destructors, with a program</td><td><span class="qa a">6x</span></td><td>U3</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Dec-24, Jun-25, Dec-25</td></tr><tr><td>5</td><td>C++ programs &amp;mdash; array / function / swap / stack / binary-to-decimal</td><td><span class="qa a">6x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Nov-19, Nov-22, Jun-22, Jun-24, Jun-25, Dec-25</td></tr><tr><td>6</td><td>Cloud computing &amp;mdash; what, types, relation to Internet</td><td><span class="qa a">6x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Nov-22, Jun-23, Dec-24, Jun-25</td></tr><tr><td>7</td><td>What is an algorithm &amp;mdash; need, importance, benefits; write one</td><td><span class="qa a">5x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Nov-22, Jun-23, Dec-24, Jun-25, Dec-25</td></tr><tr><td>8</td><td>OSI model &amp;mdash; functions of each layer with diagram</td><td><span class="qa a">5x</span></td><td>U4</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Dec-24, Dec-25</td></tr><tr><td>9</td><td>Differentiate ISO-OSI vs TCP/IP</td><td><span class="qa a">5x</span></td><td>U4</td><td class="dim" style="font-size:.82rem">Nov-22, Jun-23, Dec-23, Jun-25</td></tr><tr><td>10</td><td>TCP/IP model &amp;mdash; draw and explain</td><td><span class="qa a">5x</span></td><td>U4</td><td class="dim" style="font-size:.82rem">May-19, Jun-22, Jun-23, Dec-24</td></tr><tr><td>11</td><td>Friend function with example</td><td><span class="qa a">5x</span></td><td>U3</td><td class="dim" style="font-size:.82rem">May-19, Jun-20, Jun-22, Dec-23, Jun-25</td></tr><tr><td>12</td><td>OOP &amp;mdash; principles / characteristics</td><td><span class="qa a">5x</span></td><td>U3</td><td class="dim" style="font-size:.82rem">Jun-22, Jun-23, Jun-24, Dec-23, Dec-25</td></tr><tr><td>13</td><td>Cloud infrastructure</td><td><span class="qa a">5x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">Nov-22, Jun-23, Dec-23, Jun-25, Dec-24</td></tr><tr><td>14</td><td>Arrays &amp;mdash; types, 1-D vs multi-D, with a program</td><td><span class="qa b">4x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Nov-19, Nov-22, Jun-24, Dec-25</td></tr><tr><td>15</td><td>DDL &amp;amp; DML with examples</td><td><span class="qa b">4x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">May-19, Jun-20, Nov-22, Jun-24</td></tr><tr><td>16</td><td>Data independence</td><td><span class="qa b">4x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-23, Dec-24, Dec-25</td></tr><tr><td>17</td><td>DoS &amp;amp; logic bombs</td><td><span class="qa b">4x</span></td><td>U4</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-22, Jun-23, Jun-24</td></tr><tr><td>18</td><td>Malware &amp;mdash; viruses, worms, trojans, spyware</td><td><span class="qa b">4x</span></td><td>U4</td><td class="dim" style="font-size:.82rem">Nov-22, Dec-23, Jun-24, Jun-25</td></tr><tr><td>19</td><td>Service delivery models &amp;mdash; IaaS, PaaS, SaaS</td><td><span class="qa b">4x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">Jun-20, Jun-22, Dec-24, Jun-25</td></tr><tr><td>20</td><td>DBMS architecture / advantages over file system</td><td><span class="qa b">4x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">Jun-22, Nov-19, Dec-24, Dec-25</td></tr><tr><td>21</td><td>Procedure-oriented vs object-oriented programming</td><td><span class="qa b">4x</span></td><td>U3</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-23, Dec-23, Dec-25</td></tr><tr><td>22</td><td>Application software vs system software</td><td><span class="qa b">3x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Dec-23, Dec-24, Dec-25</td></tr><tr><td>23</td><td>CPU organisation, registers, bus, block diagram</td><td><span class="qa b">3x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-24, Dec-25</td></tr><tr><td>24</td><td>OS &amp;mdash; definition, functions, types</td><td><span class="qa b">3x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Dec-23</td></tr><tr><td>25</td><td>Data types, tokens, variables, operators</td><td><span class="qa b">3x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Jun-23, Dec-23, Dec-25</td></tr><tr><td>26</td><td>Flowcharts &amp;mdash; draw one; limitations</td><td><span class="qa b">3x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Dec-24, Dec-25, Nov-22</td></tr><tr><td>27</td><td>Applications of computer in a field (health, remote sensing, e-business)</td><td><span class="qa b">4x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Jun-23</td></tr></tbody></table>
+<h2>Marks-wise shortlist &mdash; memorise these on the train</h2>
+<table><thead><tr><th>#</th><th>Question they ask</th><th>Answer in one line</th><th>Add this to earn the last mark</th></tr></thead><tbody><tr><td>1</td><td>Computer classification</td><td><b>By size: micro, mini, mainframe, super. By function: analog, digital, hybrid. By purpose: general, special</b></td><td class="dim" style="font-size:.85rem">Add: embedded and workstation sit between micro and mainframe by size &mdash; a three-row table beats a list</td></tr><tr><td>2</td><td>Memory types</td><td><b>Register (CPU, fastest) &rarr; Cache (SRAM) &rarr; Primary (RAM volatile, ROM non-volatile) &rarr; Secondary (HDD, SSD, optical)</b></td><td class="dim" style="font-size:.85rem">State volatility for each: only ROM and secondary memory survive power loss. That column is the extra mark</td></tr><tr><td>3</td><td>Cache</td><td><b>Small, fast SRAM between CPU and main memory, exploits temporal and spatial locality</b></td><td class="dim" style="font-size:.85rem">Asymmetry is the mark &mdash; read-heavy, write-rare, so fast to read and slow to write</td></tr><tr><td>4</td><td>OS functions</td><td><b>Process (PCB, scheduling), memory (allocate/track), file (FAT/NTFS), device (spooling), security, user interface</b></td><td class="dim" style="font-size:.85rem">Give the mechanism with each &mdash; 'files: FAT or NTFS' scores, a bare list of six words does not</td></tr><tr><td>5</td><td>1 KB / 1 MB</td><td><b>1 KB = 2^10 = 1024 B; 1 MB = 2^20 = 1,048,576 B</b></td><td class="dim" style="font-size:.85rem">Note 1024 not 1000 &mdash; examiners put the decimal answer in the distractors</td></tr><tr><td>6</td><td>n address lines</td><td><b>2^n memory locations; 16 lines = 2^16 = 64 KB</b></td><td class="dim" style="font-size:.85rem">Say 'locations', not 'bits' &mdash; each location holds one word</td></tr><tr><td>7</td><td>Algorithm vs flowchart</td><td><b>Algorithm is the step-by-step logic in words; flowchart is its pictorial representation</b></td><td class="dim" style="font-size:.85rem">Name the actual flowchart limitation: it does not show the data, and complex logic needs sub-flowcharts</td></tr><tr><td>8</td><td>Five C++ tokens</td><td><b>Keywords, identifiers, constants, operators, separators</b></td><td class="dim" style="font-size:.85rem">Note they are the 5 &mdash; the examiner asks for exactly five and grades the list</td></tr><tr><td>9</td><td>int division 7/2</td><td><b>3, because both are int and integer division truncates</b></td><td class="dim" style="font-size:.85rem">7.0/2 gives 3.5 &mdash; the cast is the whole point of the question</td></tr><tr><td>10</td><td>Swap needs &amp;</td><td><b>Pass by reference, otherwise you swap copies and the caller sees nothing</b></td><td class="dim" style="font-size:.85rem">State the signature: void swap(int &amp;a, int &amp;b) &mdash; then trace before/after values</td></tr><tr><td>11</td><td>1-D vs 2-D array</td><td><b>1-D is a single row of elements; 2-D is a grid accessed by two subscripts</b></td><td class="dim" style="font-size:.85rem">State the declaration for each, e.g. int a[5]; against int b[3][4]</td></tr><tr><td>12</td><td>Loop that runs at least once</td><td><b>do-while, because the condition is tested after the body</b></td><td class="dim" style="font-size:.85rem">while tests first, for counts &mdash; knowing the three is the whole short question</td></tr><tr><td>13</td><td>POP vs OOP</td><td><b>POP: functions, data separate, top-down. OOP: objects, data+methods bound, bottom-up, inheritance</b></td><td class="dim" style="font-size:.85rem">A four-row comparison table scores four marks; the same four facts in prose often scores two</td></tr></tbody></table>
+<h2>Two facts to be careful about</h2>
+<div class="callout warn">
+<span class="label">Traps in the data</span>
+<ul>
+<li><strong>The short-notes question is unit-flexible.</strong> In almost every paper the
+final question offers three to five options drawn from two to four units and you pick
+any two. It is excluded from the unit counts, which means the real distribution varies
+more than the table shows &mdash; and that you can never be examined on an unpopular unit
+through it.</li>
+<li><strong>Older papers are not a good proxy.</strong> BT-205's Nov-2019 and Jun-2020 papers are CBGS-era and are not a good proxy for the current pattern. Jun-2020 scored <b>zero</b> for Unit 2, and the Nov-2019 paper asked about MS Office, which the Dec-2025 paper dropped entirely in favour of OS file/process/memory management. Treat the trend as downward: <b>do not over-invest in MS Office</b>. The GS papers from Jun-2023 onward are the representative pattern, and from Jun-2023 they print explicit 7/7 marks.</li>
+</ul>
+</div>
+</div>
+
+<div id="test" class="tab-panel">
+<p class="kicker">Section 4 &middot; Self-test</p>
+<h1>18-question short-answer bank</h1>
+<p>Every question here comes from a stem that has appeared in a real RGPV paper, with
+the frequency it has appeared. Click an option to see whether you had it. The score
+lands at the bottom, and the gaps link to the file that closes them.</p>
+<div class="scorebox">
+<p class="big" id="score-live">0 / 0 answered, 0 correct</p>
+<div class="barwrap" style="height:.55rem;margin:.7rem 0"><span class="bar" id="meter-fill" style="width:0%"></span></div>
+<p class="dim" style="font-size:.88rem">Work top to bottom without scrolling back up after
+each answer. The point is to find the gap while the question is still fresh.</p>
+</div>
+<div class="mcq" data-answer="B" data-topic="Classification of computers" data-file="unit1/01-computer-definition-classification.html"><p class="meta">01 &middot; U1 &amp;middot; 7 of 10 papers &middot; &times;7 in past papers</p><p class="q">Computers are classified by size into:</p><button data-key="A">Analog, digital, hybrid</button><button data-key="B">Micro, mini, mainframe, super</button><button data-key="C">System, application, utility</button><button data-key="D">Primary, secondary, cache</button><p class="fb" data-text="Size gives micro/mini/mainframe/super. Analog-digital-hybrid is classification by &lt;em&gt;function&lt;/em&gt;, and system/application/utility is by &lt;em&gt;purpose&lt;/em&gt;. Saying which basis you are using is the mark that is usually dropped."></p></div>
+<div class="mcq" data-answer="C" data-topic="Memory types" data-file="unit1/03-memory-storage-io.html"><p class="meta">02 &middot; U1 &amp;middot; 7 of 10 papers &middot; &times;7 in past papers</p><p class="q">Which of these is a volatile memory?</p><button data-key="A">ROM</button><button data-key="B">Hard disk</button><button data-key="C">RAM</button><button data-key="D">SSD</button><p class="fb" data-text="RAM loses its contents on power failure, so it is volatile. ROM and all secondary memory are non-volatile. Stating volatility for each type is worth an extra mark over a bare list."></p></div>
+<div class="mcq" data-answer="C" data-topic="Cache" data-file="unit1/03-memory-storage-io.html"><p class="meta">03 &middot; U1 &amp;middot; inside the memory question &middot; &times;7 in past papers</p><p class="q">Cache memory is built from:</p><button data-key="A">Magnetic disks</button><button data-key="B">DRAM</button><button data-key="C">SRAM</button><button data-key="D">Flash ROM</button><p class="fb" data-text="Cache is SRAM because it must be fast; main memory is DRAM because it must be dense and cheap. The trade is exactly speed against capacity, and naming the cell type is what distinguishes a full answer."></p></div>
+<div class="mcq" data-answer="C" data-topic="Memory addressing" data-file="unit1/03-memory-storage-io.html"><p class="meta">04 &middot; U1 &amp;middot; classic short &middot; &times;4 in past papers</p><p class="q">A computer with n address lines can address:</p><button data-key="A">n memory locations</button><button data-key="B">2n locations</button><button data-key="C">2^n locations</button><button data-key="D">n^2 locations</button><p class="fb" data-text="Each address line carries one bit, so n lines give 2^n locations. 16 lines therefore address 2^16 = 65,536 = 64 KB. Say 'locations', not 'bits'."></p></div>
+<div class="mcq" data-answer="B" data-topic="Memory units" data-file="unit1/03-memory-storage-io.html"><p class="meta">05 &middot; U1 &amp;middot; guaranteed short &middot; &times;4 in past papers</p><p class="q">1 KB equals:</p><button data-key="A">1000 bytes</button><button data-key="B">1024 bytes</button><button data-key="C">512 bytes</button><button data-key="D">2048 bytes</button><p class="fb" data-text="1 KB = 2^10 = 1024 bytes. The decimal 1000 is the standard distractor, and choosing it is the commonest single-mark loss in this topic."></p></div>
+<div class="mcq" data-answer="A" data-topic="Cache" data-file="unit1/03-memory-storage-io.html"><p class="meta">06 &middot; U1 &amp;middot; the extra mark &middot; &times;4 in past papers</p><p class="q">Cache memory works on the principle of:</p><button data-key="A">Spatial and temporal locality</button><button data-key="B">FIFO replacement</button><button data-key="C">Read-only storage</button><button data-key="D">Direct memory access</button><p class="fb" data-text="Cache is fast because recent and nearby data are very likely to be needed again &amp;mdash; temporal and spatial locality. The asymmetry (read-heavy, write-rare) is the observation that earns the significance mark."></p></div>
+<div class="mcq" data-answer="B" data-topic="OS functions" data-file="unit1/05-operating-system.html"><p class="meta">07 &middot; U1 &amp;middot; 3 papers &middot; &times;3 in past papers</p><p class="q">An operating system primarily manages:</p><button data-key="A">Only the CPU clock speed</button><button data-key="B">Processes, memory, files and devices</button><button data-key="C">Only the hard disk</button><button data-key="D">Only user accounts</button><p class="fb" data-text="The four pillars are process management (PCB, scheduling), memory management, file management (FAT/NTFS) and device management (spooling). Give the mechanism with each &amp;mdash; 'files: FAT or NTFS' scores, a bare list of six words does not."></p></div>
+<div class="mcq" data-answer="B" data-topic="Software types" data-file="unit1/04-software-and-applications.html"><p class="meta">08 &middot; U1 &amp;middot; 3 papers &middot; &times;3 in past papers</p><p class="q">System software differs from application software because it:</p><button data-key="A">Is used for specific user tasks</button><button data-key="B">Manages and provides a platform for the hardware</button><button data-key="C">Is always paid for</button><button data-key="D">Runs only on servers</button><p class="fb" data-text="System software manages hardware and provides services &amp;mdash; OS, drivers, utilities. Application software performs a user task for the user. Examples on both sides are the mark; the definition alone is only half."></p></div>
+<div class="mcq" data-answer="A" data-topic="Algorithm vs flowchart" data-file="unit2/01-algorithms-complexity-flowchart.html"><p class="meta">09 &middot; U2 &amp;middot; 3 papers &middot; &times;3 in past papers</p><p class="q">An algorithm differs from a flowchart because:</p><button data-key="A">A flowchart is pictorial, an algorithm is the written logic</button><button data-key="B">They are the same thing</button><button data-key="C">A flowchart is written in C++</button><button data-key="D">An algorithm is always longer</button><p class="fb" data-text="The algorithm is the step sequence in words; the flowchart renders it as symbols. A genuine limitation to quote: a flowchart does not show the data, and complex logic has to be split into sub-flowcharts and connectors."></p></div>
+<div class="mcq" data-answer="A" data-topic="C++ tokens" data-file="unit2/03-cpp-tokens-datatypes.html"><p class="meta">10 &middot; U2 &amp;middot; 3 papers &middot; &times;3 in past papers</p><p class="q">The five tokens of a C++ program are:</p><button data-key="A">Keywords, identifiers, constants, operators, separators</button><button data-key="B">Main, cout, endl, using, namespace</button><button data-key="C">int, float, char, void, bool</button><button data-key="D">Header, body, return, loop, condition</button><p class="fb" data-text="The five token classes are exactly those. Option B is the C++ preamble, option C is the subset of data types, option D is program structure. The question asks for five and grades the list, so all five must be present."></p></div>
+<div class="mcq" data-answer="B" data-topic="Operators" data-file="unit2/04-operators-expressions-io.html"><p class="meta">11 &middot; U2 &amp;middot; guaranteed numeral &middot; &times;3 in past papers</p><p class="q">In C++, the value of 7/2 where both are int is:</p><button data-key="A">3.5</button><button data-key="B">3</button><button data-key="C">4</button><button data-key="D">3.0</button><p class="fb" data-text="Integer division truncates toward zero, so 7/2 is 3. 7.0/2 or 7/2.0 gives 3.5. This one-character cast is a reliable mark and it appears as a distractor in most operator questions."></p></div>
+<div class="mcq" data-answer="B" data-topic="Functions" data-file="unit2/06-arrays-functions.html"><p class="meta">12 &middot; U2 &amp;middot; 6 papers, programs &middot; &times;6 in past papers</p><p class="q">To exchange two variables in a C++ function, the arguments must be passed:</p><button data-key="A">By value</button><button data-key="B">By reference, using &amp;amp;</button><button data-key="C">As constants</button><button data-key="D">As pointers only</button><p class="fb" data-text="By value the function swaps local copies and the caller sees no change, so the signature must be void swap(int &amp;amp;a, int &amp;amp;b). Trace the before and after values and box them &amp;mdash; the trace is a mark of its own."></p></div>
+<div class="mcq" data-answer="C" data-topic="Arrays" data-file="unit2/06-arrays-functions.html"><p class="meta">13 &middot; U2 &amp;middot; 4 papers &middot; &times;4 in past papers</p><p class="q">The valid index range of a C array declared int a[5]; is:</p><button data-key="A">1 to 5</button><button data-key="B">0 to 5</button><button data-key="C">0 to 4</button><button data-key="D">0 to 3</button><p class="fb" data-text="C arrays are zero-indexed, so a[5] holds elements a[0] through a[4]. Writing a[5] is a compile error, and the loop condition must be i &amp;lt; 5. That off-by-one is the standard trap in this topic."></p></div>
+<div class="mcq" data-answer="C" data-topic="Control structures" data-file="unit2/05-control-structures.html"><p class="meta">14 &middot; U2 &amp;middot; 2 papers &middot; &times;2 in past papers</p><p class="q">A loop whose body executes at least once is:</p><button data-key="A">for</button><button data-key="B">while</button><button data-key="C">do-while</button><button data-key="D">foreach</button><p class="fb" data-text="do-while tests the condition after the body, so the body always runs once. for and while test first. Knowing all three, and that a semicolon after while kills the loop, covers the whole short question."></p></div>
+<div class="mcq" data-answer="B" data-topic="Precedence" data-file="unit2/04-operators-expressions-io.html"><p class="meta">15 &middot; U2 &amp;middot; most reliable numeral &middot; &times;2 in past papers</p><p class="q">In 10 + 3 * 2 % 4 &amp;minus; 1, the operations are evaluated in the order:</p><button data-key="A">Left to right, all equal</button><button data-key="B">Parentheses, then * and %, then + and &amp;minus;</button><button data-key="C">+ and &amp;minus; first, then * and %</button><button data-key="D">Right to left, all equal</button><p class="fb" data-text="Precedence before associativity: * and % bind tighter than + and &amp;minus;, so 3*2=6, 6%4=2, then 10+2&amp;minus;1=11. Never work left to right without checking the ladder first &amp;mdash; that is where the marks go."></p></div>
+<div class="mcq" data-answer="A" data-topic="POP vs OOP" data-file="unit2/02-languages-paradigms-oop.html"><p class="meta">16 &middot; U2 &amp;middot; classic short &middot; &times;3 in past papers</p><p class="q">Procedure-oriented programming differs from object-oriented programming mainly in that it:</p><button data-key="A">Separates data from the functions that process it</button><button data-key="B">Binds data and methods together in objects</button><button data-key="C">Cannot be compiled</button><button data-key="D">Has no functions</button><p class="fb" data-text="POP keeps data and functions separate and works top-down; OOP binds data and methods into objects and works bottom-up with inheritance. A four-row comparison table scores four marks where the same facts in prose often score two."></p></div>
+<div class="mcq" data-answer="B" data-topic="CPU organisation" data-file="unit1/02-cpu-registers-bus-instruction.html"><p class="meta">17 &middot; U1 &amp;middot; 3 papers &middot; &times;3 in past papers</p><p class="q">The ALUs in a CPU are connected by:</p><button data-key="A">The system bus</button><button data-key="B">The data bus</button><button data-key="C">The address bus only</button><button data-key="D">The control bus only</button><p class="fb" data-text="The data bus carries operands between the CPU and memory; the address bus carries addresses; the control bus carries control signals. Naming all three buses and what each carries is the mark in this question."></p></div>
+<div class="mcq" data-answer="B" data-topic="Complexity" data-file="unit2/01-algorithms-complexity-flowchart.html"><p class="meta">18 &middot; U2 &amp;middot; thin unit, cheap mark &middot; &times;1 in past papers</p><p class="q">Time complexity of an algorithm is measured in terms of:</p><button data-key="A">The number of bytes of memory used</button><button data-key="B">The number of basic operations, as a function of input size</button><button data-key="C">The number of lines of code</button><button data-key="D">The compilation time</button><p class="fb" data-text="Time complexity is the growth rate of basic operations with input size (O(1), O(n), O(n2), O(log n), O(2n)). Space complexity is memory. This is the easiest mark in the whole of Unit 2."></p></div>
+<div id="score-final"></div>
+</div>
+
+<div id="mock" class="tab-panel">
+<p class="kicker">Section 5 &middot; Timed mock</p>
+<h1>90-minute closed-book run</h1>
+<p>Set the timer, then close every other tab. Answer on paper. The point of the mock is
+not the score &mdash; it is finding out whether you can write full answers and still have
+ten minutes to check.</p>
+<div class="timerbox">
+<span class="clock" id="clock" data-minutes="90">90:00</span>
+<button id="tstart">start</button>
+<button id="treset" disabled>reset</button>
+<span class="dim" style="font-size:.85rem">90 minutes &mdash; matches your
+12:00&ndash;1:30 slot at 50 minutes/question if the paper is 8 printed.</span>
+</div>
+<div class="callout">
+<span class="label">The mock, as you will actually face it</span>
+<p>Attempt <b>any five</b> of the eight. All questions equal marks. <b>(a) 7 + (b) 7.</b></p>
+</div>
+<ol>
+<li><b>2 min</b> read the whole paper once. Rank the eight questions
+easiest-to-hardest. Do not start writing yet.</li>
+<li><b>5 min</b> per (a) part, <b>9 min</b> per (b) part. Fourteen marks in fourteen
+minutes is the real per-question budget, and it is why questions get abandoned.</li>
+<li><b>Definition first, always.</b> One line before any diagram. A guaranteed mark for
+fifteen seconds.</li>
+<li><b>Diagram or table before prose.</b> Examiners scan visuals. A labelled diagram is
+half the answer and it is the part you cannot write badly.</li>
+<li><b>Underline the command word</b> (define, explain, differentiate, classify, derive,
+list) and <b>box the final answer</b>.</li>
+<li><b>Never leave a question blank.</b> A definition plus a labelled diagram is about
+40% of any question, and it is free.</li>
+<li><b>Reserve the last 10 minutes</b> to add the closing significance line to every
+answer. That line is where the last mark per question lives.</li>
+</ol>
+<h2>Mark it honestly</h2>
+<p>Mark your own paper against the marking structure in each topic file's Questionnaire.
+If you scored under 12/20 on a question, you did not learn it &mdash; read the file, then
+re-run the mock in three days.</p>
+</div>
+
+<div id="plan" class="tab-panel">
+<p class="kicker">Section 6 &middot; Plan</p>
+<h1>Mon 12 Oct 2026 &mdash; how to get there</h1>
+<pre><code>BT-205 is on Mon 12 Oct, 3:00-4:30 PM. You have Fri 9th (BT-203),
+Sat 10th and Sun 11th to prepare for it, plus the 12th afternoon
+before the exam. The 12th morning belongs to BT-204.
+
+  SAT 10 OCT  LEARN  (your clearest day, do the heavy unit first)
+    AM  Unit 1 01 classification  +  03 memory/storage/IO
+        -&gt; these are the 7-of-10 items. Memorise, do not just read.
+    PM  Unit 1 02 CPU/registers/bus  +  05 operating system
+
+  SAT 10 OCT EVE
+    Unit 1 04 software types + applications   (short, 45 min, then stop)
+    Then the 13-item shortlist, read aloud. One pass.
+
+  SUN 11 OCT  UNIT 2, AND UNIT 2 IS SMALL  (this is the good news)
+    AM  Unit 2 01 algorithm + flowchart, 02 paradigms, 03 tokens/types
+    PM  Unit 2 04 operators, 05 control structures, 06 arrays/functions
+    EVE  Self-test tab. 18 questions. Fix every topic it flags.
+
+  MON 12 OCT
+    AM   BT-204 revision ONLY. Do not open BT-205 notes in the morning.
+    2:30 PM  20 min: shortlist 1-13, aloud
+    2:40 PM  write the swap function + the algorithm for largest-of-3
+    2:50 PM  reach the hall early with a ruler and two pens</code></pre>
+<div class="callout good">
+<span class="label">Your whole week, so nothing collides</span>
+<b>Mon 12 Oct &mdash; BT-204 at 12:00&ndash;1:30 PM (Shift I), BT-205 at 3:00&ndash;4:30 PM (Shift II).</b> Ninety minutes apart with a ninety-minute gap in between. Do not plan to revise BT-204 during that gap &mdash; you will spend it eating. Morning is BT-204, afternoon is BT-205.<br><br><b>Tue 13 Oct &mdash; BT-201 then BT-102, same shift pattern.</b> Your heaviest day; expect to be revising BT-102 during the BT-201 gap.<br><br>Because BT-205 shares a day with BT-204, cap BT-205 revision at the 12 Oct afternoon sheet. Do not open a new BT-205 topic on the morning of the 12th &mdash; the morning belongs to BT-204.
+</div>
+<h2>Hall tactics that actually move the score</h2>
+<ul>
+<li><strong>Read the command word and obey it.</strong> &ldquo;Differentiate&rdquo; wants
+a table with four rows. &ldquo;Explain&rdquo; wants prose plus a diagram. All-prose for a
+differentiate question is the most common way to lose a full mark.</li>
+<li><strong>Answer the asked question, not the topic.</strong> If it asks for
+<em>applications</em>, the mark is in the application, not the definition.</li>
+<li><strong>Two-column tables beat paragraphs.</strong> A comparison scored on four pairs
+is four marks; the same four facts in prose often scores two.</li>
+<li><strong>Know more than the count they ask for.</strong> RGPV asks for &ldquo;any
+four&rdquo; or &ldquo;any two&rdquo;. Choose the ones you can define.</li>
+<li><strong>Write the units and the formula even when you cannot finish.</strong> A
+correctly written formula with a substituted value earns method marks that a blank line
+does not.</li>
+<li><strong>Leave a mark of space between questions.</strong> Examiners mark sequentially;
+a cramped boundary invites marks to migrate to the wrong answer.</li>
+</ul>
+</div>
+
+<div class="callout" style="margin-top:3rem">
+<span class="label">Method, sources and confidence</span>
+<p><strong>How this page was built.</strong> Ten real RGPV BT-205 papers were downloaded from rgpvonline.com and read, and every sub-question mapped to a syllabus unit. 143 graded sub-questions in total. Unit weights and the repeat list are counts from that corpus.</p>
+<p><strong>Papers read:</strong> 10 sessions, Nov-2019 through Dec-2025, all OCR-derived from scans, plus a May-2019 CBGS paper used only for the repeat list. Jun-2023 and Jun-2025 carry printed mark allocations (7/7, short-notes 14).</p>
+<p><strong>Syllabus source:</strong> <a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-computer-engineering-bt-205">RGPV Notes &amp;mdash; BT-205 Basic Computer Engineering (full unit text)</a>
+&mdash; full unit text for all five units, cross-checked against the RGPV AICTE
+flexible-curricula scheme of July 2018.</p>
+<p><strong>Marks-format source:</strong> RGPV Ordinance 04(A) for B.E. (CBGS)
+&sect;5.3&ndash;5.5 and the New Scheme of Examination W.E.F. July 2018, both from
+rgpv.ac.in.</p>
+<p class="srcgap"><strong>What is confirmed vs inferred on this page.</strong> The
+20-mark mid-sem bucket, the 70/20/10 split, the &ldquo;attempt any five, equal marks&rdquo;
+end-sem format, and the 14-marks-per-question split all come from official RGPV
+documents or real scanned papers. The paper <em>pattern</em> for the mid-sem, the exact
+MST-1 mark value, and the duration are <strong>inferred</strong> &mdash; RGPV publishes no
+mid-sem papers and defers the detail to each Board of Studies. Treat the predicted
+questions as high-probability, not certain.</p>
+<p class="srcgap"><em>Notes checked 28 September 2026. The paper list was read directly
+from the scans; the unit assignment of each question is my own mapping from the syllabus,
+and a few borderline items are judgement calls I have flagged where they matter.</em></p>
+</div>
+
+<div class="zevu-footer">
+<p class="prompt">zevu:~/learn/bt205 $ <span style="color:var(--ink-soft)">
+# shared via zevu &middot; built with ART (zevu psa) &middot; <a href="unit1/index.html">unit1/index.html</a></span></p>
+</div>
+</main>
+<script>
+(function(){
+'use strict';
+window.showTab=function(name){
+  var p=document.querySelectorAll('.tab-panel'),b=document.querySelectorAll('.tab-btn');
+  for(var i=0;i<p.length;i++)p[i].classList.remove('active');
+  for(var j=0;j<b.length;j++)b[j].classList.remove('active');
+  var el=document.getElementById(name);
+  if(el)el.classList.add('active');
+  if(typeof event!=='undefined'&&event&&event.target)event.target.classList.add('active');
+};
+document.addEventListener('DOMContentLoaded',function(){
+  var boxes=[].slice.call(document.querySelectorAll('.mcq'));
+  var total=boxes.length,done=0,right=0,missed=[];
+  boxes.forEach(function(box){
+    var btns=[].slice.call(box.querySelectorAll('button'));
+    var ans=box.getAttribute('data-answer');
+    var fb=box.querySelector('.fb');
+    btns.forEach(function(btn){
+      btn.addEventListener('click',function(){
+        if(box.getAttribute('data-done'))return;
+        box.setAttribute('data-done','1');
+        var mine=btn.getAttribute('data-key');
+        var ok=mine===ans;
+        btns.forEach(function(b){b.disabled=true;});
+        btn.classList.add(ok?'correct':'wrong');
+        if(!ok){
+          btns.forEach(function(b){if(b.getAttribute('data-key')===ans)b.classList.add('correct');});
+          var t=box.getAttribute('data-topic');
+          if(t)missed.push({topic:t,file:box.getAttribute('data-file')||''});
+        }
+        if(fb){fb.classList.add('show');
+          fb.innerHTML='<b>'+(ok?'Correct.':'Not quite.')+'</b> '+(fb.getAttribute('data-text')||'');}
+        done++; if(ok)right++;
+        var d=document.getElementById('score-live');
+        if(d)d.textContent=right+' / '+done+' answered, '+right+' correct';
+        var pEl=document.getElementById('meter-fill');
+        if(pEl)pEl.style.width=Math.round(done/total*100)+'%';
+        if(done===total)finish();
+      });
+    });
+  });
+  function finish(){
+    var pct=Math.round(right/total*100);
+    var out=document.getElementById('score-final');
+    if(!out)return;
+    var band=pct>=85?'Exam-ready on this list. Go to the timed mock next.'
+      :pct>=65?'Solid. The gaps below are your marks; read those files before the mock.'
+      :pct>=40?'Half the bank is missing. Do not attempt a mock yet - read the missed files first.'
+      :'This bank is unfamiliar. Start with the top 5 repeat items, then come back.';
+    var uniq={};
+    missed.forEach(function(m){if(!uniq[m.topic])uniq[m.topic]=m;});
+    var keys=Object.keys(uniq);
+    var h='<div class="scorebox"><div class="big">'+right+' / '+total+' &nbsp;('+pct+'%)</div><p>'+band+'</p>';
+    if(keys.length){
+      h+='<p class="dim" style="font-size:.9rem">Revisit these '+keys.length+' topic'+(keys.length>1?'s':'')+':</p><ul>';
+      keys.forEach(function(k){
+        var f=uniq[k].file||'',link='';
+        if(f.charAt(0)==='!'){link=' <span class="dim">(note not built yet)</span>';}
+        else if(f){link=' &mdash; <a href="'+f+'">open the file</a>';}
+        h+='<li>'+k+link+'</li>';
+      });
+      h+='</ul>';
+    }else{
+      h+='<p class="good-t">Full marks. Nothing in the must-memorise bank was missed.</p>';
+    }
+    h+='<p class="dim" style="font-size:.85rem">This scores the short-answer bank only. '
+      +'It does not test your diagrams, your formulas, or your timing.</p></div>';
+    out.innerHTML=h;
+  }
+  var disp=document.getElementById('clock');
+  if(disp){
+    var mins=parseInt(disp.getAttribute('data-minutes'),10)||90,left=mins*60,tick=null;
+    function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+    function run(){disp.textContent=fmt(left);left--;
+      if(left<0){left=0;clearInterval(tick);disp.textContent='00:00';
+        disp.style.color='var(--bad)';}}
+    document.getElementById('tstart').addEventListener('click',function(){
+      if(tick)return;tick=setInterval(run,1000);run();
+      this.textContent='running';this.disabled=true;
+      document.getElementById('treset').disabled=false;});
+    document.getElementById('treset').addEventListener('click',function(){
+      clearInterval(tick);tick=null;left=mins*60;disp.textContent=fmt(left);disp.style.color='';
+      var s=document.getElementById('tstart');s.textContent='start';s.disabled=false;});
+  }
+});
+})();
+</script>
+
+<script src="../../assets/nav.js"></script>
+<script src="../../assets/site.js" defer></script>
+</body>
+</html>

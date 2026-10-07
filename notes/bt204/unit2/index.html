@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Materials &mdash; RGPV BT203 Unit 1 PYQ Prep &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit1 $</span> ls -la</p>
+</div><div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('index')">Index</button>
+  <button class="tab-btn" onclick="showTab('resources')">Resources</button>
+</div>
+<div id="index" class="tab-panel active">
+<p class="kicker">Unit 2 &middot; BT204 Basic Civil Engineering &amp; Mechanics &middot; Surveying &amp; Positioning</p>
+<h1>Surveying &amp; Positioning Hub</h1>
+<p><em><strong>Topics 01 and 05 are done; 02&ndash;04 are queued.</strong> This unit has no note tree at all as
+of 3 October &mdash; it is being built from nothing. The order below is by corpus frequency, and the
+two 4-of-10 items are the ones to reach first: <strong>reciprocal levelling</strong> and the
+<strong>Rise and Fall levelling numerical</strong>.</em></p>
+<blockquote><strong>MST-1 syllabus page (in Zevu's hand):</strong> "Introduction to surveying,
+instrument levels, theodolite, plane table and related devices, electronic &amp; surveying
+instruments; measurement of distance &mdash; conventional and EDM methods; measurement of directions
+and angles by different methods; measurement of elevation by different methods and reciprocal
+levelling."</blockquote>
+
+<div class="callout">
+<span class="label">Midsem rule &mdash; Mon 12 Oct 2026, 12:00&ndash;1:30 PM (Shift I)</span>
+<p>Mid-sem covers <strong>Units 1 and 2 only</strong>. For BT-204 the surviving ITM Gwalior MST-1
+paper says <strong>&ldquo;Attempt all questions&rdquo;</strong> &mdash; there is no choice, so
+coverage beats selection.</p>
+<p><strong>One numerical carries more marks than anything else in this unit:</strong> the staff
+readings to reduced levels by the <strong>Rise and Fall method, with the arithmetic check</strong>,
+which appeared in <strong>4 of 10 papers with almost identical wording</strong>. Practise that one
+until it is automatic and it is a full question.</p>
+</div>
+
+<h2>Topics &mdash; mid-sem priority order</h2>
+<div class="topic-card">
+  <p class="topic-num">[01] Surveying fundamentals</p>
+  <h3><a href="01-surveying-fundamentals.html">&#xbb; Surveying Fundamentals: Principles, Chain Surveying, Corrections and EDM</a></h3>
+  <p>Definition and the two principles with reasons; classification on three bases; base line, check
+  line, tie line, offset and ranging; the three chain corrections with their sign rules; and EDM with
+  its advantages over chaining.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[02] Levelling and reciprocal levelling</p>
+  <h3>&#xbb; Levelling and Reciprocal Levelling</h3>
+  <p>Definitions and the instruments; curvature, refraction and collimation errors and why they
+  cancel when the instrument is midway; <strong>reciprocal levelling</strong> and the two-set-up
+  method across a river or obstacle; local attraction and how it is detected.</p>
+  <p class="topic-links">queued &mdash; <strong>reciprocal levelling 4 of 10 papers</strong></p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[03] Theodolite and total station</p>
+  <h3>&#xbb; Theodolite and Total Station</h3>
+  <p>The components of a theodolite with a labelled sketch and the purpose of each; temporary and
+  permanent adjustments; the measurement of horizontal and vertical angles; the total station as the
+  modern integration of theodolite and EDM.</p>
+  <p class="topic-links">queued &mdash; theodolite components 3 of 10 papers</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[04] Chaining, errors and traversing</p>
+  <h3>&#xbb; Errors in Chain Surveying and Traversing</h3>
+  <p>Cumulative against compensating errors; errors in chaining and their sources; the included-angle
+  and direct-angle methods of traversing, fore sight and back sight, and the
+  <strong>(2n &minus; 4) right-angle check</strong> on the included angles of a closed traverse.</p>
+  <p class="topic-links">queued &mdash; traversing 3 of 10 papers</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[05] Levelling &mdash; the Rise and Fall numerical</p>
+  <h3><a href="05-levelling-rise-fall.html">&#xbb; Levelling Book: the Rise and Fall Method and the Arithmetic Check</a></h3>
+  <p>The levelling book and the two reduction methods; rise and fall computed by comparing consecutive
+  staff readings; reduced levels accumulated; the <strong>arithmetic check</strong>; and the
+  comparison with the height of collimation method.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+
+<h2>PYQ map &mdash; from the 10-paper corpus</h2>
+<table>
+<thead><tr><th>Appearances</th><th>Question</th><th>Unit</th><th>Topic file</th><th>Drill</th></tr></thead>
+<tbody>
+<tr><td>4 papers</td><td>Reciprocal levelling &mdash; what it is and when it is used</td><td>2</td><td class="dim">02 &mdash; queued</td><td>Theory</td></tr>
+<tr><td>4 papers</td><td>Staff readings &rarr; RLs by the Rise and Fall method, with arithmetic check</td><td>2</td><td><a href="05-levelling-rise-fall.html">unit2/05</a></td><td><strong>Full numerical</strong></td></tr>
+<tr><td>3 papers</td><td>Theodolite &mdash; its components</td><td>2</td><td class="dim">03 &mdash; queued</td><td>Theory + sketch</td></tr>
+<tr><td>2 papers</td><td>Levelling operations &mdash; profile, cross-sectional, differential, fly</td><td>2</td><td class="dim">02 &mdash; queued</td><td>Theory</td></tr>
+<tr><td>2 papers</td><td>Surveying and EDM</td><td>2</td><td><a href="01-surveying-fundamentals.html">unit2/01</a></td><td>Theory</td></tr>
+<tr><td>3 papers</td><td>Local attraction, fore sight and back sight</td><td>2</td><td class="dim">02 / 04 &mdash; queued</td><td>Theory</td></tr>
+<tr><td>3 papers</td><td>Area by the ordinate rules &mdash; mid, average, trapezoidal, Simpson's</td><td>3</td><td class="dim">not in mid-sem</td><td>&mdash;</td></tr>
+</tbody>
+</table>
+<p class="q-meta">Figures are counts from the ten BT-204 papers read for the battle plan. The
+ordinate rules (3 papers) are Unit 3 and are worth nothing on 12 October.</p>
+
+<h2>Progress</h2>
+<ul class="progress-list">
+<li><label><input type="checkbox" data-progress="bt204-u2-01"> 01 Surveying fundamentals</label></li>
+<li><label><input type="checkbox" data-progress="bt204-u2-02"> 02 Levelling and reciprocal levelling</label></li>
+<li><label><input type="checkbox" data-progress="bt204-u2-03"> 03 Theodolite and total station</label></li>
+<li><label><input type="checkbox" data-progress="bt204-u2-04"> 04 Chaining errors and traversing</label></li>
+<li><label><input type="checkbox" data-progress="bt204-u2-05"> 05 The Rise and Fall numerical</label></li>
+</ul>
+<p><em>Progress is stored in this browser only (localStorage, key
+<code>bt204-u2</code>). Tick a topic when you finish it.</em></p>
+
+</div><!-- INDEX TAB -->
+
+<div id="resources" class="tab-panel">
+<p class="kicker">Resources &middot; BT204 Unit 2</p>
+<h1>Verified Sources</h1>
+<p><em>Links below were last fetched and checked on 28 September 2026. A link that is present but
+unverified would be a lie, so unverified links are not listed.</em></p>
+
+<h2>Official syllabus</h2>
+<ul>
+<li><strong>RGPV BT-204 syllabus (full unit text)</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-civil-engineering-bt-204">rgpvnotes.in &mdash; Basic Civil Engineering &amp; Mechanics (BT-204)</a>.
+Unit 2 text, plus the reference book list and the suggested experiments.</li>
+</ul>
+
+<h2>Subject notes</h2>
+<ul>
+<li><strong>Unit-wise BT-204 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same rgpvnotes.in hub. Free, no registration.</li>
+</ul>
+
+<h2>PYQ papers</h2>
+<ul>
+<li><strong>BT-204 question paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-civil-engineering-bt-204">rgpvnotes.in question papers</a>
+for multiple sessions of the same paper.</li>
+<li><strong>Ten-paper corpus</strong> &mdash; Nov-2019 through Dec-2025, read for the battle plan.
+Every frequency figure on this hub is a count from those papers.</li>
+</ul>
+
+<h2>Reference books</h2>
+<ol>
+<li>B. C. Punmia, <em>Surveying</em>, Laxmi Publications &mdash; the primary text for Unit 2.
+<em>Start here.</em></li>
+<li>S. Ramamrutham, <em>Basic Civil Engineering</em>, Dhanpat Rai &mdash; a compact single-volume
+alternative.</li>
+<li>B. C. Punmia, <em>Building Construction</em>, Laxmi &mdash; Unit 1.</li>
+<li>S. K. Duggal, <em>Building Materials</em>, New Age International &mdash; Unit 1 properties and
+tests.</li>
+</ol>
+
+<h2>Viva + lab</h2>
+<p>Unit 2 maps onto the surveying half of the BT-204 practical paper. Expect:</p>
+<ul>
+<li>Name the two principles of surveying and say why each exists.</li>
+<li>Distinguish a check line from a tie line.</li>
+<li>State the slope correction formula and its sign.</li>
+<li>Explain reciprocal levelling and say when it is used rather than ordinary levelling.</li>
+<li>Name the components of a theodolite, and the purpose of the vertical circle.</li>
+<li>Reduce a short set of staff readings by the Rise and Fall method and give the arithmetic
+check.</li>
+<li>Distinguish the height of collimation method from the Rise and Fall method.</li>
+</ul>
+
+<div class="callout">
+<span class="label">Blueprint &mdash; how Unit 2 splits</span>
+<p>Unit 2 took <strong>19.1% of the marks asked across ten papers</strong>, against 25.7% for Unit 1.
+But it is where the <strong>numericals</strong> live: the Rise and Fall levelling book appeared in 4 of
+the 10 papers with near-identical wording, and it is a full 8-mark question.</p>
+<p>So the shape of this unit is: <strong>short recall questions on the instruments, plus one
+calculation</strong> &mdash; the levelling reduction. Learn the reduction thoroughly and the rest of the
+unit is definitions.</p>
+</div>
+
+</div><!-- RESOURCES TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt204/unit2 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'bt204-u2';
+  var boxes = document.querySelectorAll('input[data-progress]');
+  function load() {
+    var done = [];
+    try { done = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { done = []; }
+    for (var i = 0; i < boxes.length; i++) {
+      boxes[i].checked = done.indexOf(boxes[i].getAttribute('data-progress')) !== -1;
+    }
+  }
+  function save() {
+    var done = [];
+    for (var i = 0; i < boxes.length; i++) {
+      if (boxes[i].checked) done.push(boxes[i].getAttribute('data-progress'));
+    }
+    try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {}
+  }
+  for (var i = 0; i < boxes.length; i++) {
+    boxes[i].addEventListener('change', save);
+  }
+  load();
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+})();
+</script>
+</main>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

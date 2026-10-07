@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sine Bar and Combination Set &amp;mdash; Setting an Angle from a Length</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit2 $</span> cat 04-sine-bar-combination.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 2 &mdash; Measurement &amp; Production</p>
+<h1>Sine Bar and Combination Set &mdash; Setting an Angle from a Length</h1>
+<p><em>A sine bar does something no protractor can: it converts an <strong>angle into a length</strong>,
+and a length can be built to microns with slip gauges. That is why it is the standard way of
+measuring a taper and setting a workpiece for grinding. RGPV asks it in 4 of 11 papers, usually as
+&ldquo;construction, use, and how a taper is measured&rdquo; &mdash; and the whole topic is one
+formula, so the marks are in drawing it correctly.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>A sine bar is a hardened steel bar carrying two equal rollers of known
+centre distance L, one at each end, mounted on the underside. Placing the
+bar on a surface plate with one roller resting on a slip-gauge stack of
+height h tilts it through the angle given by
+
+        sin(theta) = h / L
+
+so a required angle is SET by building h = L sin(theta) from slip gauges,
+and an unknown angle is MEASURED by reading h and computing
+theta = sin^-1 (h / L).</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;The sine bar carries
+no graduations at all &mdash; it is only a triangle. All of its accuracy comes from the slip gauge
+stack h and the centre distance L, which is why its limit is a one-line statement about those two
+lengths.</em>&rdquo;</p>
+
+<h2>Construction and principle</h2>
+
+<table>
+<thead><tr><th>Part</th><th>Job</th></tr></thead>
+<tbody>
+<tr><td><strong>Bar (body)</strong></td><td>A hardened, ground and lapped steel bar, rectangular in section, with its top and bottom faces finished flat and parallel</td></tr>
+<tr><td><strong>Two rollers / cylinders</strong></td><td>Equal in diameter, hardened and lapped, set in the underside near the two ends. Together they define the two stations the triangle is built on</td></tr>
+<tr><td><strong>Centre distance L</strong></td><td>The distance between the roller centres; it is the hypotenuse of the triangle and it is known exactly &mdash; 100, 200, 250 or 300 mm in standard bars</td></tr>
+<tr><td><strong>Slip gauge stack h</strong></td><td>The stack built under one roller; it is the opposite side of the triangle</td></tr>
+<tr><td><strong>Surface plate</strong></td><td>The reference flat on which the other roller rests; it is the base of the triangle</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Sine bar tilted by a slip gauge stack under one roller, forming a right triangle with hypotenuse the centre distance">
+                       BAR (top face, the work sits here)
+       +---------------------------------------------------+
+       |                                                   |
+       |   O                                            O  |   <- rollers,
+       |   |                                            |  |      equal dia
+       +---|--------------------------------------------|---+
+           |                                            |
+           |                                            +--------+
+           |                                                     |
+           |                                                     |  slip gauge
+           |                                                     |  stack, height h
+           |                                                     |
+   ========+=====================================================+========
+                        SURFACE PLATE (base, flat)
+
+   The triangle:  L  = centre distance between the rollers   (hypotenuse)
+                  h  = height of the slip gauge stack       (opposite side)
+                  th = angle of tilt                        (the angle)
+
+                   sin(th) = h / L
+
+   Note the L is measured BETWEEN THE ROLLER CENTRES, not between
+   the ends of the bar. Under 100 mm and over 100 mm are not it.
+</pre>
+
+<div class="callout">
+<span class="label">Where the accuracy comes from</span>
+<p>The sine bar itself contributes almost no error, because the two things that matter are known
+precisely: <strong>L</strong> is lapped to a known centre distance and <strong>h</strong> is built
+from slip gauges accurate to a fraction of a micron. The two real limits are:</p>
+<ul>
+<li><strong>L must be known exactly.</strong> Since sin &theta; = h/L, an error in L propagates
+straight into the angle. This is why a sine bar is only as good as its certified centre
+distance.</li>
+<li><strong>Small angles are the weak case.</strong> Near &theta; the sine curve is flat, so a change
+in h produces very little change in the angle; at large angles the same h error produces much more.
+For this reason <strong>sine bars are not recommended for angles above about 45&deg;</strong>, where
+the sensitivity of the sin function to the height error grows.</li>
+</ul>
+</div>
+
+<h2>Uses</h2>
+
+<ol>
+<li><strong>To set a workpiece at a required angle</strong> for machining or inspection &mdash; build
+h = L sin &theta; from slip gauges, place the bar, and the top face is at &theta;.</li>
+<li><strong>To measure an unknown angle or taper</strong> &mdash; tilt the bar until its top face
+lies flush with the taper surface, measure the height h under the high roller, and compute
+&theta; = sin<sup>&minus;1</sup>(h / L).</li>
+<li><strong>To measure the included angle of a taper</strong> &mdash; the same operation gives
+<em>half</em> the included angle, which must then be doubled.</li>
+<li><strong>To set centres for grinding</strong> &mdash; a sine bar or sine centre holds the work at
+the exact half-angle so the wheel cuts the correct taper.</li>
+</ol>
+
+<div class="exam-note"><strong>The half-angle trap.</strong> When a sine bar is used on a taper, the
+angle it gives is the <strong>half-angle</strong> &mdash; the inclination of one side. The
+<strong>included angle</strong> is twice that. So a taper whose sine gives 11.54&deg; has an included
+angle of 23.07&deg;. Forgetting to double is a standard lost mark, and it is worth one explicit line
+in every taper answer.</div>
+
+<h2>Combination set</h2>
+
+<p>The name is used for two quite different things, and it is worth separating them because a
+question can ask for either.</p>
+
+<table>
+<thead><tr><th>Meaning</th><th>What it is</th><th>Where it appears</th></tr></thead>
+<tbody>
+<tr><td><strong>Slip gauge combination set</strong></td><td>The 81-piece set of gauge blocks from which any length from 1 to 1000 mm is built by stacking, normally three gauges at a time</td><td>Feeding the sine bar; any precise length setting</td></tr>
+<tr><td><strong>Combination square set</strong></td><td>A combination of a steel rule with a square head, a protractor head and a centre head, used for layout and for checking angles and centres</td><td>Workshop layout and marking out</td></tr>
+</tbody>
+</table>
+
+<p>In the context of the sine bar, the first meaning is the one that matters: the <strong>slip gauge
+combination set</strong> is what supplies h. Recall from topic 02 that a length is built by
+decomposing it by decimal place and stacking the blocks, with the differential gauge making up the
+final small residual.</p>
+
+<h2>Numericals in great depth</h2>
+
+<p>Everything here is the one relation rearranged. There are three unknowns and therefore three
+question types: find h from an angle, find the angle from h, and find the angle of a taper.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>L</code></td><td>centre distance between the two rollers &mdash; the hypotenuse</td><td>mm</td></tr>
+<tr><td><code>h</code></td><td>height of the slip gauge stack &mdash; the opposite side</td><td>mm</td></tr>
+<tr><td><code>&theta;</code></td><td>angle of tilt of the bar &mdash; the half-angle on a taper</td><td>degrees</td></tr>
+<tr><td><code>sin &theta; = h / L</code></td><td>the fundamental relation</td><td>&mdash;</td></tr>
+<tr><td><code>h = L sin &theta;</code></td><td>to set a required angle</td><td>mm</td></tr>
+<tr><td><code>&theta; = sin<sup>&minus;1</sup>(h / L)</code></td><td>to measure an unknown angle</td><td>degrees</td></tr>
+<tr><td><code>&theta;<sub>included</sub> = 2 &theta;</code></td><td>included angle of a taper &mdash; twice the bar angle</td><td>degrees</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; sine bar numerals</span>
+<pre><code>Given:  the two known of L, h and theta, with L in mm
+Find:   the third, or the included angle of a taper
+Formula:sin(theta) = h / L, rearranged as needed
+Solve:  substitute in mm, take the inverse sine in DEGREES,
+        and double it if the question asks for an included angle
+Check:  substitute the answer back &mdash; L sin(theta) must return h</code></pre>
+</div>
+
+<h3>Solved A &mdash; setting a required angle</h3>
+<p><em>A sine bar has a roller centre distance of 200 mm. What height of slip gauge stack is required
+to set it at an angle of 30&deg;?</em></p>
+<p><strong>Given:</strong> L = 200 mm, &theta; = 30&deg;.
+<strong>Find:</strong> h. <strong>Formula:</strong> h = L sin &theta;.
+<strong>Solve:</strong></p>
+<pre><code>h = 200 x sin 30 deg
+  = 200 x 0.5
+  = 100.00 mm</code></pre>
+<p><strong>Answer:</strong> a slip gauge stack of <strong>100.00 mm</strong> is required under the
+high roller.</p>
+<p><strong>Check:</strong> substituting back, sin<sup>&minus;1</sup>(100/200) = sin<sup>&minus;1</sup>(0.5)
+= 30&deg;, exactly the required angle. Independent second check on the arithmetic: 30&deg; is one of
+the standard angles whose sine is exactly 0.5, so the answer must be exactly half of L &mdash; and
+100.00 is half of 200. If the answer had come out 173.2 mm, the working would have used cos 30&deg;
+instead of sin 30&deg;, which is the commonest error in this topic and the reason the substitution
+check is worth doing.</p>
+
+<h3>Solved B &mdash; measuring an unknown angle</h3>
+<p><em>The same 200 mm sine bar is set up on a component, and the slip gauge stack under the high
+roller measures 70.71 mm. Find the angle of the component.</em></p>
+<p><strong>Given:</strong> L = 200 mm, h = 70.71 mm.
+<strong>Find:</strong> &theta;. <strong>Formula:</strong> &theta; = sin<sup>&minus;1</sup>(h / L).
+<strong>Solve:</strong></p>
+<pre><code>sin(theta) = 70.71 / 200
+           = 0.35355
+theta      = sin^-1 (0.35355)
+           = 20.70 deg</code></pre>
+<p><strong>Answer:</strong> the angle of the component is <strong>20.70&deg;</strong>.</p>
+<p><strong>Check:</strong> substituting back, 200 &times; sin 20.70&deg; = 200 &times; 0.35355 = 70.71 mm,
+returning the measured height exactly. Independently, a useful sanity anchor: the same bar at
+20&deg; would give 200 &times; 0.34202 = 68.40 mm and at 21&deg; would give 200 &times; 0.35837 =
+71.67 mm, so a height of 70.71 mm must fall between 20&deg; and 21&deg; &mdash; and 20.70&deg; does.
+Bracketing the answer between two known angles is a fast way to catch a wrong inverse-sine entry.</p>
+
+<h3>Solved C &mdash; the included angle of a taper</h3>
+<p><em>A taper is measured with a sine bar of centre distance 150 mm. With the bar set against one
+side of the taper, the slip gauge stack under the high roller measures 30.00 mm. Find the half-angle
+and the included angle of the taper.</em></p>
+<p>The bar measures the inclination of <em>one face</em>, which is the half-angle. The included angle
+is twice that.</p>
+<p><strong>Given:</strong> L = 150 mm, h = 30.00 mm.
+<strong>Find:</strong> half-angle and included angle.
+<strong>Formula:</strong> &theta; = sin<sup>&minus;1</sup>(h / L); &theta;<sub>included</sub> = 2&theta;.
+<strong>Solve:</strong></p>
+<pre><code>sin(theta) = 30.00 / 150
+           = 0.20000
+theta      = sin^-1 (0.20000)
+           = 11.54 deg          <- HALF angle
+
+included   = 2 x 11.54
+           = 23.07 deg</code></pre>
+<p><strong>Answer:</strong> half-angle <strong>11.54&deg;</strong>, included angle
+<strong>23.07&deg;</strong>.</p>
+<p><strong>Check:</strong> substituting back, 150 &times; sin 11.54&deg; = 150 &times; 0.20000 =
+30.00 mm, returning the measured height. Second check on the doubling: the included angle must be
+larger than the half-angle and less than twice 45&deg;, and 23.07&deg; satisfies both. Third check by
+bracketing: sin 11&deg; = 0.19081 and sin 12&deg; = 0.20791, so a sine of 0.20000 lies between
+11&deg; and 12&deg;, and 11.54&deg; does. If the working had stopped at 11.54&deg; and called that the
+included angle, the answer would be wrong by a factor of two &mdash; the single most common lost mark
+on a taper question.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>L is the distance between the roller centres</strong>, not the length of the bar and not
+the distance between the ends. Under-by-100 or over-by-100 readings come from measuring the wrong
+span.</li>
+<li><strong>Sine, not cosine.</strong> h is the <em>opposite</em> side, so
+sin &theta; = h/L. The cos form belongs to the adjacent side and is the standard wrong answer.</li>
+<li><strong>Double it for a taper.</strong> The bar gives the half-angle; the included angle is
+twice that.</li>
+<li><strong>Work in degrees.</strong> A calculator left in radian mode returns 0.52 instead of
+30&deg;. State the unit on every angle.</li>
+<li><strong>h is built from slip gauges, so it must be buildable.</strong> A required 100.00 mm stack
+is valid; a required 100.0001 mm stack is beyond what a standard set resolves.</li>
+<li><strong>Sine bars are limited to about 45&deg;.</strong> Above that the sine function is too
+sensitive to the h error, so an answer of 70&deg; from a sine bar is physically suspicious.</li>
+<li><strong>Do not confuse the two combination sets.</strong> The slip gauge set builds h; the
+combination square set is layout equipment.</li>
+<li><strong>Keep full precision in h.</strong> 70.71 mm is four significant figures; rounding it to
+71 changes the angle by about 0.1&deg;.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;A sine bar is a precision instrument used for
+setting and measuring angles, consisting of a hardened steel bar with two equal rollers of known
+centre distance fixed on its underside.&rdquo;</li>
+<li><strong>Principle line</strong> &mdash; &ldquo;The bar works on the sine principle, so that
+sin &theta; = h / L, where h is the height of the slip gauge stack under the high roller and L is the
+distance between the roller centres.&rdquo;</li>
+<li><strong>Setting line</strong> &mdash; &ldquo;To set a given angle the slip gauge stack is built
+to height L sin &theta; and placed under one roller, which tilts the top face to that angle.&rdquo;</li>
+<li><strong>Measuring line</strong> &mdash; &ldquo;To measure an unknown angle the bar is tilted
+until its top face is flush with the surface, the height is measured, and the angle is obtained as
+sin<sup>&minus;1</sup>(h / L).&rdquo;</li>
+<li><strong>Limitation line</strong> &mdash; &ldquo;The accuracy of the sine bar depends on the
+accuracy of the centre distance L and of the slip gauge stack h, and it is not recommended for angles
+greater than about 45&deg;.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence the sine bar converts an angle into a length,
+and since a length can be built from slip gauges to a fraction of a micron, the angle can be set and
+measured to a corresponding accuracy.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Sketch first</strong> &mdash; draw the bar, both rollers, the surface plate and the slip
+gauge stack, and label L, h and &theta; on the figure</li>
+<li><strong>Mark the triangle on the sketch</strong> &mdash; showing which side is the hypotenuse is
+half the answer to the principle</li>
+<li><strong>State sin &theta; = h/L explicitly</strong> before any substitution</li>
+<li><strong>Give the limitation</strong> &mdash; the 45&deg; limit and the dependence on L are what
+separate a full answer from a formula</li>
+<li><strong>Name the use you are describing</strong> &mdash; setting an angle, measuring a taper, or
+setting centres for grinding</li>
+<li><strong>Box the answer with its unit</strong> &mdash; mm for a height, degrees for an angle</li>
+<li><strong>Never leave blank</strong> &mdash; a labelled sketch plus the formula clears 4 of 7</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="B" data-explain="The sine bar's triangle has the roller centre distance as its hypotenuse and the slip gauge stack as the side opposite the angle, so the relation is sin theta = h/L. Using the cosine would put the stack on the adjacent side, which is the standard wrong answer on this topic.">
+<p><strong>Q1. The fundamental relation of a sine bar is:</strong></p>
+<button data-key="A">cos &theta; = h / L</button>
+<button data-key="B">sin &theta; = h / L</button>
+<button data-key="C">tan &theta; = h / L</button>
+<button data-key="D">sin &theta; = L / h</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="h = L sin(theta) = 200 x sin 30 = 200 x 0.5 = 100.00 mm. A 30 degree angle has sine exactly 0.5, so the stack must be exactly half the centre distance. An answer of 173.2 mm would mean the cosine was used instead of the sine.">
+<p><strong>Q2. A sine bar of roller centre distance 200 mm is to be set at 30&deg;. The slip gauge stack required is:</strong></p>
+<button data-key="A">86.60 mm</button>
+<button data-key="B">173.20 mm</button>
+<button data-key="C">100.00 mm</button>
+<button data-key="D">200.00 mm</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="When a sine bar is set against one face of a taper it measures the inclination of that face, which is the half-angle. The included angle of the taper is twice this, so forgetting to double is a standard lost mark. Here sin gives 11.54 degrees as the half-angle and 23.07 degrees as the included angle.">
+<p><strong>Q3. When a sine bar is used to measure a taper, the angle obtained is:</strong></p>
+<button data-key="A">The half-angle, and the included angle is twice it</button>
+<button data-key="B">The included angle directly</button>
+<button data-key="C">The complement of the taper angle</button>
+<button data-key="D">Independent of the centre distance</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="The accuracy of the sine bar rests on the centre distance L being known exactly, because sin theta = h/L propagates any error in L straight into the angle. The bar itself carries no graduations, so it contributes nothing to the reading; the accuracy comes from L and from the slip gauge stack.">
+<p><strong>Q4. The accuracy of a sine bar depends chiefly on:</strong></p>
+<button data-key="A">The length of the bar</button>
+<button data-key="B">The diameter of the rollers</button>
+<button data-key="C">The graduations on the bar</button>
+<button data-key="D">The exactness of the roller centre distance L and of the slip gauge stack h</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="Above roughly 45 degrees the sine function changes slowly, so a given error in the height h produces a much larger error in the angle. This loss of sensitivity is why sine bars are not recommended beyond about 45 degrees, and stating the limit is a common extra-mark line.">
+<p><strong>Q5. Sine bars are not recommended for angles greater than about 45&deg; because:</strong></p>
+<button data-key="A">The bar would slip off the surface plate</button>
+<button data-key="B">The sensitivity of the sine function to the height error grows, so accuracy falls</button>
+<button data-key="C">The rollers would no longer be parallel</button>
+<button data-key="D">Slip gauges cannot be stacked that high</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring, 4 of 11 papers.</strong> &ldquo;Explain the construction and working of a sine
+bar. How is it used to measure a taper?&rdquo; &rarr; Labelled sketch with L, h and &theta; marked;
+the relation sin &theta; = h/L; the setting and measuring uses; the half-angle doubling rule for a
+taper.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What are the uses of a sine bar?&rdquo; &rarr;
+Setting a workpiece at an angle, measuring an unknown angle, measuring a taper, and setting centres
+for grinding.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What are the limitations of a sine
+bar?&rdquo; &rarr; Dependence on the exact centre distance L, dependence on the slip gauge stack h,
+and the loss of sensitivity beyond about 45&deg;.</li>
+<li><strong>Short question.</strong> &ldquo;What is a combination set and what is it used
+for?&rdquo; &rarr; Distinguish the slip gauge combination set used to build a length from the
+combination square set used for layout; give the 81-piece set and the three-gauge rule.</li>
+<li><strong>One-line recall.</strong> &ldquo;What is the sine bar really measuring?&rdquo; &rarr; An
+angle converted into a length, which is what makes the slip gauge stack the source of its
+accuracy.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="6">
+<li><strong>10 minutes, no notes.</strong> Draw the sine bar set-up from memory, label L, h and
+&theta;, and mark which side is the hypotenuse. Check that h is opposite the angle, not adjacent.</li>
+<li><strong>5 minutes.</strong> Solved A on paper. Check the stack is exactly half of L, because
+sin 30&deg; is exactly 0.5.</li>
+<li><strong>5 minutes.</strong> Solved B on paper. Check the angle is bracketed by 20&deg; and
+21&deg; from the anchor values 68.40 mm and 71.67 mm.</li>
+<li><strong>5 minutes.</strong> Solved C on paper. Check the included angle is 23.07&deg; and not
+11.54&deg; &mdash; the doubling is the whole point of the question.</li>
+<li><strong>4 minutes.</strong> List four uses and three limitations of the sine bar. Check the
+45&deg; sensitivity limit is among the limitations.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 2 Topic 04</p>
+<h1>Sine Bar and Combination Set &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>A sine bar is a precision instrument for setting and measuring angles,
+consisting of a hardened steel bar with two equal rollers of known centre
+distance L fixed on its underside. It works on the sine principle:
+
+        sin(theta) = h / L
+
+where h is the height of the slip gauge stack placed under the high roller.
+
+SET an angle   :  build h = L sin(theta) from slip gauges
+MEASURE an angle: read h, then theta = sin^-1 (h / L)
+
+For a TAPER, the angle obtained is the HALF-ANGLE; the included angle is
+TWICE it.
+
+The accuracy depends on L and h, not on the bar. Not recommended above
+about 45 degrees, where the sine function loses sensitivity.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Geometry    -> the bar, the surface plate and the stack form a right
+                  triangle; L is the hypotenuse, h the opposite side
+2. Relation    -> sin(theta) = opposite / hypotenuse = h / L
+3. Rearranged  -> h = L sin(theta)      (to SET an angle)
+                  theta = sin^-1(h/L)   (to MEASURE an angle)
+4. Taper       -> theta is the HALF angle; included angle = 2 x theta</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Symbol</th><th>Formula</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td>Centre distance between rollers</td><td>L</td><td>known, certified &mdash; 100, 200, 250, 300 mm</td><td>mm</td></tr>
+<tr><td>Slip gauge stack height</td><td>h</td><td>h = L sin &theta;</td><td>mm</td></tr>
+<tr><td>Angle of tilt</td><td>&theta;</td><td>&theta; = sin<sup>&minus;1</sup>(h / L)</td><td>degrees</td></tr>
+<tr><td>Included angle of a taper</td><td>2&theta;</td><td>2 &times; sin<sup>&minus;1</sup>(h / L)</td><td>degrees</td></tr>
+<tr><td>Standard value at 30&deg;</td><td>&mdash;</td><td>h = 0.500 L</td><td>mm</td></tr>
+<tr><td>Standard value at 45&deg;</td><td>&mdash;</td><td>h = 0.707 L</td><td>mm</td></tr>
+<tr><td>Recommended limit</td><td>&mdash;</td><td>about 45&deg;</td><td>&mdash;</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Sine bar</strong> &mdash; a hardened steel bar with two equal rollers of known centre
+distance on its underside, used to set and measure angles on the sine principle.</li>
+<li><strong>Centre distance L</strong> &mdash; the distance between the centres of the two rollers; the
+hypotenuse of the triangle and the quantity the instrument's accuracy depends on.</li>
+<li><strong>Slip gauge stack h</strong> &mdash; the height built from slip gauges under the high
+roller to tilt the bar to a required angle.</li>
+<li><strong>Sine principle</strong> &mdash; the relation sin &theta; = h / L, which converts an angle
+into a length.</li>
+<li><strong>Half-angle</strong> &mdash; the angle of inclination of one face of a taper, which is what
+a sine bar measures when set against it.</li>
+<li><strong>Included angle</strong> &mdash; the total angle between the two faces of a taper, equal to
+twice the half-angle.</li>
+<li><strong>Slip gauge combination set</strong> &mdash; the 81-piece set of gauge blocks from which any
+length from 1 to 1000 mm is built by stacking, normally three gauges at a time.</li>
+<li><strong>Combination square set</strong> &mdash; a steel rule with square, protractor and centre
+heads, used for layout and for checking angles, a different instrument from the above.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can sketch the set-up and mark L, h and &theta;, showing which side is the hypotenuse</li>
+<li>[ ] Can state sin &theta; = h/L and both of its rearrangements</li>
+<li>[ ] Can say what L is measured between &mdash; the roller centres</li>
+<li>[ ] Can describe setting an angle and measuring an angle as distinct operations</li>
+<li>[ ] Can state the half-angle doubling rule for a taper</li>
+<li>[ ] Can name four uses of a sine bar</li>
+<li>[ ] Can name three limitations, including the 45&deg; sensitivity limit</li>
+<li>[ ] Can distinguish the slip gauge combination set from the combination square set</li>
+<li>[ ] Can solve for h, for &theta;, and for the included angle of a taper</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>One relation, three rearrangements.</strong> sin &theta; = h/L. To set
+an angle: h = L sin &theta;. To measure an angle: &theta; = sin<sup>&minus;1</sup>(h/L). For a taper:
+double the result. Anchor values worth carrying &mdash; sin 30&deg; = 0.5 so h is half of L, and
+sin 45&deg; = 0.707 so h is 0.707 of L. Always finish by substituting the answer back so that
+L sin &theta; returns h, and check the angle lies in the bracket the neighbouring angles give.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 2 Topic 04 &middot; 4 of 11 papers</p>
+<h1>Sine Bar and Combination Set &mdash; questionnaire</h1>
+<div class="q-meta">Q5 slot &middot; recurring pattern &middot; "construction and working of a sine bar" &rarr; a labelled set-up sketch plus sin theta = h/L carries the answer</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; 4 papers</span></div>
+<h3>Explain the construction and working of a sine bar. How is it used to measure a taper?</h3>
+<p>The standard form. It wants the labelled set-up, the sine relation, the two distinct uses, and then the taper method with the half-angle rule. The sketch is worth more than any paragraph because the whole topic is geometry.</p>
+<div class="q-foot"><b>write</b> &mdash; labelled sketch: bar, two equal rollers, surface plate, slip gauge stack, with L, h and &theta; marked (3) &rarr; principle sin &theta; = h/L with L named as the roller centre distance (2) &rarr; taper method: set the bar against one face, read h, compute sin<sup>&minus;1</sup>, double for the included angle (2).</div>
+<div class="q-foot"><b>check</b> &mdash; using cos instead of sin is the standard error and it costs the principle marks; omitting the doubling rule loses the taper mark; a sketch with the hypotenuse marked as the bar length rather than the centre distance misstates L; failing to name the surface plate leaves the triangle undefined.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>What are the uses and limitations of a sine bar?</h3>
+<p>Two lists, and the limitations carry the second half of the marks. The 45&deg; limit is the one candidates forget, and it is the one that shows you know why the instrument behaves as it does.</p>
+<div class="q-foot"><b>write</b> &mdash; setting a workpiece at a required angle (1) &rarr; measuring an unknown angle or taper (1) &rarr; setting centres for grinding (1) &rarr; limitation: accuracy depends on L and on the slip gauge stack (1) &rarr; limitation: not recommended above about 45&deg; because the sine function loses sensitivity (1).</div>
+<div class="q-foot"><b>check</b> &mdash; giving uses only and padding the limitations with "it is expensive" loses the marks; the 45&deg; limit must come with its reason; omitting the dependence on L misses the other real limitation.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>A sine bar of centre distance 200 mm reads a slip gauge stack of 70.71 mm. Find the angle. What stack would be needed to set it at 30&deg;?</h3>
+<p>A two-part numerical going both ways through the same relation. The first part uses the inverse sine, the second the forward sine, and the marks are per step.</p>
+<div class="q-foot"><b>write</b> &mdash; stated given values (1) &rarr; sin &theta; = 70.71/200 = 0.35355 (1) &rarr; &theta; = 20.70&deg; (1) &rarr; second part h = 200 sin 30&deg; = 100.00 mm (1) &rarr; check by substituting back (1).</div>
+<div class="q-foot"><b>check</b> &mdash; a calculator in radian mode gives 0.35 instead of 20.70&deg; and loses the angle mark; the second part must be exactly half of L because sin 30&deg; is exactly 0.5, so any other value signals a cosine error; the unit must be stated on both answers.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence defining the sine bar and naming its two rollers.</li>
+    <li><strong>Visual:</strong> Draw the set-up with L, h and &theta; marked and the triangle visible.</li>
+    <li><strong>Relation:</strong> Write sin &theta; = h/L, then both rearrangements.</li>
+    <li><strong>Close:</strong> Name the taper doubling rule and the 45&deg; limitation.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "A sine bar is a precision instrument used for setting and measuring angles, consisting of a hardened steel bar with two equal rollers of known centre distance fixed on its underside."</p>
+  <p class="answer-close"><strong>For this topic:</strong> labelled set-up sketch with the triangle marked &rarr; sine relation and both rearrangements &rarr; setting use &rarr; measuring use &rarr; taper method with the doubling rule &rarr; uses and limitations including the 45&deg; limit &rarr; boxed answers with units.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Sketch first</strong> &mdash; the topic is geometry, so the figure carries the answer</li>
+    <li><strong>Mark the triangle</strong> &mdash; show L as the hypotenuse and h as the opposite side</li>
+    <li><strong>Label L as the centre distance</strong>, spelled out, not left to the sketch</li>
+    <li><strong>State the formula before substituting</strong></li>
+    <li><strong>Underline keywords</strong> &mdash; sine principle, centre distance, half-angle, included angle</li>
+    <li><strong>Give the unit</strong> &mdash; mm for h, degrees for &theta;</li>
+    <li><strong>Box the answer</strong> and add the limitation line</li>
+    <li><strong>Never leave blank</strong> &mdash; sketch plus formula clears 4 of 7</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Explain the construction and working of a sine bar. How is it used to measure a taper?</h3>
+<p class="answer-lead">The set-up sketch with the triangle marked is the answer to the construction half; the sine relation and the doubling rule are the answer to the working half.</p>
+<pre class="ascii-diagram" role="img" aria-label="Sine bar tilted by a slip gauge stack under one roller, forming a right triangle with hypotenuse the centre distance">
+                       BAR (top face, the work sits here)
+       +---------------------------------------------------+
+       |                                                   |
+       |   O                                            O  |   <- rollers,
+       |   |                                            |  |      equal dia
+       +---|--------------------------------------------|---+
+           |                                            |
+           |                                            +--------+
+           |                                                     |
+           |                                                     |  slip gauge
+           |                                                     |  stack, height h
+           |                                                     |
+   ========+=====================================================+========
+                        SURFACE PLATE (base, flat)
+
+   The triangle:  L  = centre distance between the rollers   (hypotenuse)
+                  h  = height of the slip gauge stack       (opposite side)
+                  th = angle of tilt                        (the angle)
+
+                   sin(th) = h / L
+
+   Note the L is measured BETWEEN THE ROLLER CENTRES, not between
+   the ends of the bar. Under 100 mm and over 100 mm are not it.
+</pre>
+<p><strong>Construction.</strong> A sine bar consists of a <strong>hardened steel bar</strong>
+rectangular in section, whose top and bottom faces are ground and lapped flat and parallel. Two
+<strong>equal rollers</strong>, ground and lapped to the same diameter, are fixed on the underside
+near the two ends. The distance between the centres of these rollers is the
+<strong>centre distance L</strong>, and it is known exactly &mdash; standard bars have centre
+distances of 100, 200, 250 or 300 mm. The bar carries no graduations whatever.</p>
+<p><strong>Principle and working.</strong> The bar rests on a <strong>surface plate</strong> at one
+roller and on a stack of <strong>slip gauges</strong> at the other. The bar, the plate and the stack
+therefore form a right-angled triangle in which the centre distance L is the hypotenuse, the stack
+height h is the side opposite the angle of tilt, and the angle &theta; is the inclination of the bar.
+Hence</p>
+<pre><code>sin(theta) = h / L
+
+  to SET an angle    :  h = L sin(theta)
+  to MEASURE an angle:  theta = sin^-1 (h / L)</code></pre>
+<p>Because a length can be built from slip gauges to a fraction of a micron, an angle can be set to a
+correspondingly fine accuracy &mdash; which is the whole reason the instrument exists.</p>
+<p><strong>Measuring a taper.</strong> The bar is set with its top face in contact with one face of
+the taper, and the height h under the high roller is measured. The angle obtained from
+&theta; = sin<sup>&minus;1</sup>(h / L) is the inclination of that one face, that is the
+<strong>half-angle</strong> of the taper. The <strong>included angle</strong> of the taper is
+<strong>twice</strong> this value. For example, a stack of 30.00 mm under a 150 mm bar gives
+sin &theta; = 0.2000, so &theta; = 11.54&deg; and the included angle is 23.07&deg;.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the sine bar converts an angle into a
+length, and since the slip gauge stack can be built to a fraction of a micron the angle can be set and
+measured to a corresponding accuracy &mdash; the bar itself contributing nothing, since it carries no
+graduations and its accuracy rests entirely on the centre distance L."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>What are the uses and limitations of a sine bar?</h3>
+<p class="answer-lead">Four uses, three limitations, and every limitation carries its reason. The 45 degree sensitivity limit is the one that separates a complete answer.</p>
+<pre class="ascii-diagram" role="img" aria-label="Uses and limitations of a sine bar, with the sine curve showing why accuracy falls above 45 degrees">
+   USES                              LIMITATIONS
+   ----                              -----------
+   set a workpiece                   accuracy depends on L
+   at a required angle               (a certified centre distance)
+        |                                    |
+   measure an unknown                accuracy depends on the
+   angle or taper                    slip gauge stack h
+        |                                    |
+   measure the included              sin curve flattens above
+   angle of a taper                  45 deg -> less sensitive
+        |                                    |
+   set centres for grinding          small angles are the
+   (sine centres)                    easy case, large ones
+                                     are not
+
+        THE SINE CURVE - why 45 degrees is the limit
+
+   sin(th) |
+    1.00 -|                                 ....--*  <- flat here:
+          |                          ...--''          large change in h
+    0.71 -|              ....--*''                    for little change
+          |      ...--''   ^                         in angle
+    0.50 -|  ..--*        |
+          | *           45 deg
+          *  ^
+          |  small angles: steep part of the curve,
+          |  so h reads very sensitively
+    0.00 -+-----------------------------------------> th
+         0     30     45     60     90
+</pre>
+<p><strong>Uses.</strong></p>
+<ul>
+<li><strong>To set a workpiece at a required angle</strong> for machining or inspection: the stack is
+built to h = L sin &theta; and placed under the high roller, which tilts the top face to that
+angle.</li>
+<li><strong>To measure an unknown angle or taper</strong>: the bar is tilted until its top face is
+flush with the surface, h is measured, and &theta; = sin<sup>&minus;1</sup>(h/L).</li>
+<li><strong>To measure the included angle of a taper</strong>: the same operation gives the
+half-angle, which is doubled.</li>
+<li><strong>To set centres for grinding</strong>: a sine bar or sine centre holds the work at the
+exact half-angle so that the grinding wheel cuts the correct taper.</li>
+</ul>
+<p><strong>Limitations.</strong></p>
+<ul>
+<li><strong>It depends on L.</strong> Since sin &theta; = h/L, any error in the centre distance
+propagates directly into the angle, so the bar is only as good as its certified centre distance.</li>
+<li><strong>It depends on h.</strong> The slip gauge stack must itself be built to the required
+accuracy; the instrument's precision is bounded by the gauge blocks.</li>
+<li><strong>It is not recommended above about 45&deg;.</strong> As the angle grows, the sine function
+flattens, so a given error in h produces a progressively larger error in the angle. Below 45&deg; the
+curve is steep and the height reads very sensitively; above it the sensitivity is lost.</li>
+</ul>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the sine bar is accurate because it
+converts an angle into a length rather than reading the angle directly, and its limits are the
+accuracies of the centre distance and the stack together with the loss of sensitivity beyond about
+45 degrees."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>A sine bar of centre distance 200 mm reads a slip gauge stack of 70.71 mm. Find the angle. What stack would be needed to set it at 30&deg;?</h3>
+<p class="answer-lead">Both directions through the same relation. Part one takes the inverse sine; part two takes the forward sine. Marks are per step, so write the formula before substituting.</p>
+<pre class="ascii-diagram" role="img" aria-label="Both directions through the sine relation, setting and measuring an angle">
+   MEASURE:  h known, theta wanted        SET:  theta known, h wanted
+
+        L = 200 mm                            L = 200 mm
+        h = 70.71 mm                          theta = 30 deg
+             \                                     \
+              \                                     \
+        sin(th) = h / L                       h = L sin(th)
+               = 70.71 / 200                     = 200 x sin 30
+               = 0.35355                          = 200 x 0.5
+                                                 = 100.00 mm
+        th = sin^-1 (0.35355)
+           = 20.70 deg
+
+   Bracket check: 20 deg -> 68.40 mm     Anchor: sin 30 = 0.5 exactly,
+                  21 deg -> 71.67 mm             so h is half of L
+                  70.71 lies between     -> 100.00 is half of 200
+                  -> answer is between
+                     20 and 21 deg
+</pre>
+<p><strong>Part one.</strong> <strong>Given:</strong> L = 200 mm, h = 70.71 mm.
+<strong>Find:</strong> &theta;. <strong>Formula:</strong>
+&theta; = sin<sup>&minus;1</sup>(h/L). <strong>Solve:</strong></p>
+<pre><code>sin(theta) = 70.71 / 200 = 0.35355
+theta      = sin^-1 (0.35355) = 20.70 deg</code></pre>
+<p><strong>Part two.</strong> <strong>Given:</strong> L = 200 mm, &theta; = 30&deg;.
+<strong>Find:</strong> h. <strong>Formula:</strong> h = L sin &theta;. <strong>Solve:</strong></p>
+<pre><code>h = 200 x sin 30 deg
+  = 200 x 0.5
+  = 100.00 mm</code></pre>
+<p><strong>Answer:</strong> the component angle is <strong>20.70&deg;</strong>; to set the bar at
+30&deg; a slip gauge stack of <strong>100.00 mm</strong> is required.</p>
+<p><strong>Check:</strong> both parts substitute back. For part one, 200 &times; sin 20.70&deg; =
+200 &times; 0.35355 = 70.71 mm, recovering the measured height. For part two,
+sin<sup>&minus;1</sup>(100/200) = 30&deg;, recovering the required angle. Bracket check on part one:
+the same bar gives 200 &times; sin 20&deg; = 68.40 mm and 200 &times; sin 21&deg; = 71.67 mm, so a
+height of 70.71 mm must correspond to an angle between 20&deg; and 21&deg; &mdash; and 20.70&deg;
+does. Note also that 30&deg; is a standard angle whose sine is exactly 0.5, so part two must give
+exactly half of L; a result other than 100.00 mm would indicate that the cosine had been used.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the same relation is used in both
+directions &mdash; forward to set a required angle by building a height, and inverse to measure an
+unknown angle from a measured height &mdash; and the angle is always a value of
+sin<sup>&minus;1</sup>(h/L) expressed in degrees."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203. The official Unit 2 text names only
+errors, dynamometer and welding; the MST-1 syllabus page adds the metrology block, and the Dec-2020
+paper examined micrometer, vernier, dial gauge, slip gauge, sine bar, lathe and drilling. Verified
+against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, for the sine bar question this page
+drills. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference books</strong> (official BT-203 list) &mdash; P. K. Nag,
+<em>Engineering Metrology and Measurements</em>, TMH, and B. C. Punmia,
+<em>Engineering Metrology</em>, for the sine bar and combination set treatment.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hubs and the December 2020 archive support revision and question practice. All
+numerical values on this page were computed rather than quoted: sin 30&deg; = 0.500 and sin
+45&deg; = 0.707 are exact to three places, and the angles 20.70&deg; and 11.54&deg; were obtained from
+their sine ratios rather than taken from a table.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

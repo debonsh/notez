@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taylor's & Maclaurin's Series &mdash; RGPV BT102 PYQ Prep &middot; by Zevu</title>
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #26201a;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+
+body {
+  margin: 0; padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', serif;
+  line-height: 1.65;
+}
+
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { background: var(--accent-soft); }
+
+.kicker {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-soft); margin-bottom: 1.2rem;
+}
+
+code {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace;
+  font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em;
+  border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual;
+}
+
+pre {
+  background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5;
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+}
+pre code { background: none; padding: 0; }
+
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule);
+  border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem;
+}
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--accent-soft); color: var(--ink); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; }
+.quiz button {
+  display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem;
+  font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink);
+}
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem;
+}
+
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+
+.terminal-diagram {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg);
+  border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px;
+  padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre;
+}
+.terminal-diagram .highlight { color: var(--accent); }
+.terminal-diagram .axis { color: var(--good); }
+
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85;
+}
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+
+@media print {
+  :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; }
+  body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; }
+}
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt102/unit1 $</span> cat taylors-maclaurins.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+</div>
+
+<!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT102 Unit 1 &mdash; Calculus</p>
+<h1>Taylor's & Maclaurin's Series &mdash; Expand Any Function Into a Polynomial</h1>
+<p><em>You've mastered Rolle's and Lagrange's MVT. Now it's time to approximate ANY function as an
+infinite polynomial. Taylor's series is one of the most powerful tools in calculus &mdash; and a
+guaranteed 7-mark question in RGPV BT102. Maclaurin's is just Taylor's centered at zero. Let's
+crack it.</em></p>
+
+<h2>Taylor's Theorem (the statement)</h2>
+<p>If <code>f(x)</code> is differentiable <code>n</code> times in <code>[a, a+h]</code>,
+then its Taylor series expansion about <code>x = a</code> is:</p>
+
+<pre><code>f(x) = f(a) + (x-a)f'(a) + (x-a)!/2! f"((a) + ... + (x-a)"/n! f(")(a) + R<sub>n</sub>(x)</code></pre>
+
+<p>Where <code>R<sub>n</sub>(x)</code> is the remainder (error) term:</p>
+<pre><code>R<sub>n</sub>(x) = (x-a)<sup>(n+1)</sup> / (n+1)! &middot; f<sup>(n+1)</sup>(&xi;)  for some &xi; between a and x</code></pre>
+
+<div class="callout">
+  <span class="label">The one-second intuition</span>
+  Taylor's series approximates any smooth function near a point using just that point's
+  derivatives. The more terms you add, the closer the polynomial hugs the actual function.
+  It's like saying: "I can rebuild this curve if I know its slope, curvature, rate of change
+  of curvature... all at one point."
+</div>
+
+<h2>Maclaurin's Series (special case: a = 0)</h2>
+<p>When <code>a = 0</code>, Taylor's becomes Maclaurin's &mdash; the most common form in exams:</p>
+
+<pre><code>f(x) = f(0) + x f'(0) + x&sup2;/2! f"(0) + x&sup3;/3! f"'(0) + ...</code></pre>
+
+<h2>Must-know Maclaurin expansions (memorize these)</h2>
+<table>
+<tr><th>Function</th><th>Maclaurin Series</th><th>Convergence</th></tr>
+<tr><td><code>e<sup>x</sup></code></td><td><code>1 + x + x&sup2;/2! + x&sup3;/3! + ...</code></td><td>All x</td></tr>
+<tr><td><code>sin x</code></td><td><code>x - x&sup3;/3! + x&sup5;/5! - x&sup7;/7! + ...</code></td><td>All x</td></tr>
+<tr><td><code>cos x</code></td><td><code>1 - x&sup2;/2! + x&sup4;/4! - x&sup6;/6! + ...</code></td><td>All x</td></tr>
+<tr><td><code>ln(1+x)</code></td><td><code>x - x&sup2;/2 + x&sup3;/3 - x&sup4;/4 + ...</code></td><td>&minus;1 &lt; x &le; 1</td></tr>
+<tr><td><code>(1+x)<sup>n</sup></code></td><td><code>1 + nx + n(n-1)x&sup2;/2! + ...</code></td><td>|x| &lt; 1</td></tr>
+<tr><td><code>tan x</code></td><td><code>x + x&sup3;/3 + 2x&sup5;/15 + ...</code></td><td>|x| &lt; &pi;/2</td></tr>
+</table>
+
+
+<div class="callout">
+  <span class="label">Diagram — approximations pile up (draw for viva)</span>
+  <svg viewBox="0 0 400 180" width="100%" role="img" aria-label="Function with tangent and parabola approximations">
+    <rect x="0" y="0" width="400" height="180" fill="#000000" rx="8"/>
+    <path d="M 40 160 Q 200 150 360 20" fill="none" stroke="#e0a370" stroke-width="2.5"/>
+    <line x1="120" y1="158" x2="280" y2="110" stroke="#7bc97f" stroke-width="1.5"/>
+    <path d="M 120 158 Q 200 150 280 110" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="6 3"/>
+    <circle cx="200" cy="140" r="4" fill="#e0a370"/>
+    <text x="192" y="160" fill="#a29d92" font-size="12">a</text>
+    <text x="290" y="140" fill="#7bc97f" font-size="11">1st order</text>
+    <text x="290" y="100" fill="#8b5cf6" font-size="11">2nd order</text>
+  </svg>
+</div>
+
+<h2>Example 1 &mdash; Expand e<sup>x</sup> up to x&sup3; (Maclaurin)</h2>
+<p><strong>Q:</strong> Expand <code>f(x) = e<sup>x</sup></code> as Maclaurin's series up to <code>x&sup3;</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>f(x) = e<sup>x</sup></code>, <code>f(0) = 1</code></td></tr>
+<tr><td>2</td><td><code>f'(x) = e<sup>x</sup></code>, <code>f'(0) = 1</code></td></tr>
+<tr><td>3</td><td><code>f"(x) = e<sup>x</sup></code>, <code>f"(0) = 1</code></td></tr>
+<tr><td>4</td><td><code>f"'(x) = e<sup>x</sup></code>, <code>f"'(0) = 1</code></td></tr>
+<tr><td>5</td><td><code>e<sup>x</sup> = 1 + x + x&sup2;/2! + x&sup3;/3! + ...</code></td></tr>
+</table>
+
+<pre class="terminal-diagram">  <span class="highlight">Maclaurin expansion of e<sup>x</sup></sup></span>
+
+  Terms:  1  +  x  +  x&sup2;/2  +  x&sup3;/6  +  x&sup4;/24  +  ...
+          &uarr;     &uarr;      &uarr;       &uarr;
+        f(0)    f'(0)x  f"(0)x&sup2;/2  f"'(0)x&sup3;/6
+
+  At x=1: e &asymp; 1 + 1 + 0.5 + 0.1667 + 0.0417 = <span class="highlight">2.7083...</span>
+  (actual e = 2.71828...)
+
+  Error decreases as you add more terms &rarr; <span class="ok">convergence</span></pre>
+
+<h2>Example 2 &mdash; Taylor's series (sin x about &pi;/6)</h2>
+<p><strong>Q:</strong> Expand <code>f(x) = sin x</code> in powers of <code>(x - &pi;/6)</code> up to 3 terms.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>a = &pi;/6</code>, <code>f(&pi;/6) = sin(&pi;/6) = 1/2</code></td></tr>
+<tr><td>2</td><td><code>f'(x) = cos x</code>, <code>f'(&pi;/6) = &radic;3/2</code></td></tr>
+<tr><td>3</td><td><code>f"(x) = -sin x</code>, <code>f"(&pi;/6) = -1/2</code></td></tr>
+<tr><td>4</td><td><code>sin x &asymp; 1/2 + (&radic;3/2)(x-&pi;/6) - (1/4)(x-&pi;/6)&sup2; + ...</code></td></tr>
+</table>
+
+<h2>Example 3 &mdash; Maclaurin for ln(1+x)</h2>
+<p><strong>Q:</strong> Find Maclaurin's series for <code>f(x) = ln(1+x)</code>.</p>
+
+<table>
+<tr><th>n</th><th>f<sup>(n)</sup>(x)</th><th>f<sup>(n)</sup>(0)</th></tr>
+<tr><td>0</td><td><code>ln(1+x)</code></td><td>0</td></tr>
+<tr><td>1</td><td><code>1/(1+x)</code></td><td>1</td></tr>
+<tr><td>2</td><td><code>-1/(1+x)&sup2;</code></td><td>&minus;1</td></tr>
+<tr><td>3</td><td><code>2/(1+x)&sup3;</code></td><td>2</td></tr>
+<tr><td>4</td><td><code>-6/(1+x)&sup4;</code></td><td>&minus;6</td></tr>
+</table>
+
+<p><strong>Result:</strong> <code>ln(1+x) = x - x&sup2;/2 + x&sup3;/3 - x&sup4;/4 + ...</code></p>
+
+<div class="callout">
+  <span class="label">Exam tip &mdash; what RGPV asks</span>
+  Most common: "Expand e<sup>x</sup>/sin x/cos x up to x&sup3; or x&sup4; using Maclaurin's."
+  Less common but tested: Taylor's series about a non-zero point (like &pi;/6 or 1).
+  Always ask: "How many terms?" = up to which power of x. x&sup3; means you need f"'(0).
+</div>
+
+<h2>Retrieval practice &mdash; MCQs</h2>
+
+<div class="quiz"
+     data-answer="c"
+     data-explain="Maclaurin's series is the special case of Taylor's series centered at a = 0. So Maclaurin is to Taylor what Rolle's is to LMVT &mdash; a special case when the center point is zero.">
+  <p class="q">Maclaurin's series is a special case of Taylor's series when...?</p>
+  <button data-key="a">The function is a polynomial of any degree</button>
+  <button data-key="b">The expansion has only finitely many terms</button>
+  <button data-key="c">The center point a is equal to zero exactly</button>
+  <button data-key="d">The function must be continuous everywhere</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="a"
+     data-explain="The Maclaurin series for sin x is: x - x&sup3;/3! + x&sup5;/5! - x&sup7;/7! + ... The sign alternates (+, -, +, -) and only odd powers appear. The x&sup3; term has a negative sign.">
+  <p class="q">In the Maclaurin series of sin x, the x&sup3; term is...?</p>
+  <button data-key="a">Negative: -x&sup3; divided by 3 factorial</button>
+  <button data-key="b">Positive: +x&sup3; divided by 3 factorial</button>
+  <button data-key="c">Zero: there is no x&sup3; term in sin x</button>
+  <button data-key="d">Positive: +x&sup3; divided by 2 factorial</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="b"
+     data-explain="For Maclaurin's series, you evaluate all derivatives at x = 0. f(0), f'(0), f"(0), f"'(0)... these become the coefficients. The coefficient of x<sup>n</sup> is f<sup>(n)</sup>(0)/n!.">
+  <p class="q">In Maclaurin's series, the coefficient of x<sup>n</sup> is...?</p>
+  <button data-key="a">f(n) evaluated at x equals n</button>
+  <button data-key="b">The nth derivative at 0 divided by n factorial</button>
+  <button data-key="c">Always equal to 1 divided by n factorial</button>
+  <button data-key="d">f at 0 raised to the power n</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="d"
+     data-explain="The general Maclaurin formula is: f(x) = f(0) + xf'(0) + x&sup2;f"(0)/2! + x&sup3;f"'(0)/3! + ... Each term x<sup>n</sup> is multiplied by f<sup>(n)</sup>(0)/n!.">
+  <p class="q">The third term (x&sup2; term) in Maclaurin's series is...?</p>
+  <button data-key="a">x&sup2; times f'(0) divided by 2</button>
+  <button data-key="b">x&sup2; times f"(0) without division</button>
+  <button data-key="c">x&sup3; times f"(0) divided by 2 factorial</button>
+  <button data-key="d">x&sup2; times f"(0) divided by 2 factorial</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="a"
+     data-explain="e<sup>x</sup> Maclaurin: 1 + x + x&sup2;/2! + x&sup3;/3! + x&sup4;/4! + ... At x=1: 1 + 1 + 1/2 + 1/6 + 1/24 = 2.5 + 0.1667 + 0.0417 = 2.7083. This is the classic 'approximate e' question.">
+  <p class="q">Using Maclaurin's series for e<sup>x</sup> up to x&sup3;, approximate e.</p>
+  <button data-key="a">2.5 plus 0.1667 equals 2.7667</button>
+  <button data-key="b">1 plus 1 equals 2 exactly</button>
+  <button data-key="c">2.5 exactly</button>
+  <button data-key="d">2.5 plus 0.1667 plus 0.0417 equals 2.7083</button>
+  <p class="feedback"></p>
+</div>
+
+<h2>PYQ drill &mdash; 5 high-probability questions</h2>
+
+<div class="callout">
+  <span class="label">Drill set A &mdash; Maclaurin Expansion</span>
+  <ol>
+    <li>Expand <code>cos x</code> up to <code>x&sup4;</code>. <em>(Jun 2023)</em></li>
+    <li>Expand <code>e<sup>-x</sup></code> up to <code>x&sup3;</code>. <em>(Dec 2023)</em></li>
+    <li>Expand <code>ln(1+x)</code> up to <code>x&sup3;</code>. <em>(Jun 2024)</em></li>
+    <li>Expand <code>sin 2x</code> up to <code>x&sup3;</code>. <em>(Dec 2024)</em></li>
+    <li>Expand <code>(1+x)&sup3;</code> using Maclaurin's theorem. <em>(Jun 2025)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Drill set B &mdash; Taylor's Series</span>
+  <ol start="6">
+    <li>Expand <code>sin x</code> in powers of <code>(x - &pi;/6)</code> up to 3 terms.</li>
+    <li>Expand <code>e<sup>x</sup></code> in powers of <code>(x - 1)</code> up to <code>(x-1)&sup3;</code>.</li>
+    <li>Expand <code>ln x</code> in powers of <code>(x - 1)</code> up to 4 terms.</li>
+    <li>Find <code>tan &pi;/6</code> using Maclaurin's series for tan x up to x&sup3;.</li>
+    <li>State the relation between Taylor's and Maclaurin's series.</li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Primary source — do this next</span>
+  <a href="https://www.analyzemath.com/calculus/series/taylor_series.html">Taylor Series Expansion — Calculus Tutorial</a>
+  &mdash; worked LMVT problems with graphs and step-by-step solutions.
+</div>
+
+<div class="callout">
+  <span class="label">More PYQs to solve</span>
+  <ul>
+    <li><a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">CampusPrep &mdash; BT-102 PYQs (Jun 2022 through Jun 2025)</a></li>
+    <li><a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">RGPV Question Papers &mdash; BT-102 archive with solutions</a></li>
+  </ul>
+</div>
+
+</div><!-- end lesson tab -->
+
+<!-- CHEAT-SHEET TAB -->
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT102 Unit 1</p>
+<h1>Taylor's & Maclaurin's &mdash; Quick Reference</h1>
+
+<h2>The formulas</h2>
+<pre><code><span class="highlight">Taylor (about x=a):</span>
+f(x) = f(a) + (x-a)f'(a) + (x-a)&sup2;/2! f"(a) + (x-a)&sup3;/3! f"'(a) + ...
+
+<span class="highlight">Maclaurin (a=0):</span>
+f(x) = f(0) + xf'(0) + x&sup2;/2! f"(0) + x&sup3;/3! f"'(0) + ...</code></pre>
+
+<h2>Standard Maclaurin expansions</h2>
+<table>
+<tr><th>f(x)</th><th>Series</th></tr>
+<tr><td>e<sup>x</sup></td><td>1 + x + x&sup2;/2! + x&sup3;/3! + x&sup4;/4! + ...</td></tr>
+<tr><td>sin x</td><td>x - x&sup3;/3! + x&sup5;/5! - x&sup7;/7! + ...</td></tr>
+<tr><td>cos x</td><td>1 - x&sup2;/2! + x&sup4;/4! - x&sup6;/6! + ...</td></tr>
+<tr><td>ln(1+x)</td><td>x - x&sup2;/2 + x&sup3;/3 - x&sup4;/4 + ...</td></tr>
+<tr><td>(1+x)<sup>n</sup></td><td>1 + nx + n(n-1)x&sup2;/2! + n(n-1)(n-2)x&sup3;/3! + ...</td></tr>
+<tr><td>e<sup>-x</sup></td><td>1 - x + x&sup2;/2! - x&sup3;/3! + x&sup4;/4! - ...</td></tr>
+<tr><td>sin 2x</td><td>2x - 8x&sup3;/6 + 32x&sup5;/120 - ...</td></tr>
+</table>
+
+<h2>Exam checklist</h2>
+<ul>
+  <li>&#x2610; Maclaurin = Taylor at a = 0 &mdash; know when to use which</li>
+  <li>&#x2610; "Up to x&sup3;" = compute f(0), f'(0), f"(0), f"'(0)</li>
+  <li>&#x2610; Coefficient of x<sup>n</sup> is always f<sup>(n)</sup>(0) / n!</li>
+  <li>&#x2610; Alternating signs in sin, cos, ln(1+x)</li>
+  <li>&#x2610; All positive signs in e<sup>x</sup></li>
+</ul>
+
+</div><!-- end cheatsheet tab -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt102/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

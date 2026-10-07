@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measurement of Temperature, Pressure, Velocity, Flow, Force and Torque</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit2 $</span> cat 06-physical-quantities-measurement.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 2 &mdash; Measurement &amp; Production</p>
+<h1>Measurement of Temperature, Pressure, Velocity, Flow, Force and Torque</h1>
+<p><em>The MST-1 syllabus page lists six quantities in one line, and RGPV asks about them as
+&ldquo;<strong>methods of measurement &mdash; explain any one</strong>&rdquo;. Temperature alone
+appears in 4 of 11 papers. So this topic is a matched list: one quantity, one instrument, one
+principle. Learn the pairing and the question becomes a lookup table rather than a memory
+test.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>Each physical quantity has a class of instrument that works on one physical
+principle:
+
+  temperature -> expansion (thermometer) or emf (thermocouple) or radiation (pyrometer)
+  pressure    -> a liquid column (manometer) or elastic deflection (Bourdon gauge)
+  velocity    -> pitot tube, from the difference of total and static pressure
+  flow        -> variable head (venturi and orifice), or variable area (rotameter)
+  force       -> elastic deformation (spring balance), or strain (strain gauge)
+  torque      -> force at a measured radius (dynamometer), or shaft twist</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;Nothing here is
+memorised &mdash; every one of these instruments converts the quantity into something easier to
+measure: a length, a deflection, or a voltage. Say what it converts the quantity
+<strong>into</strong>, and the principle states itself.</em>&rdquo;</p>
+
+<h2>The master table &mdash; quantity to instrument</h2>
+
+<table>
+<thead><tr><th>Quantity</th><th>Instrument</th><th>Principle &mdash; what it converts into</th></tr></thead>
+<tbody>
+<tr><td rowspan="3"><strong>Temperature</strong></td><td>Liquid-in-glass thermometer</td><td>Thermal <em>expansion</em> of a liquid in a capillary &mdash; mercury or alcohol, change of volume read as length</td></tr>
+<tr><td>Thermocouple</td><td>The <em>Seebeck effect</em> &mdash; two dissimilar metals at a junction generate a small emf, proportional to the temperature difference</td></tr>
+<tr><td>Pyrometer</td><td><em>Radiation</em> &mdash; the intensity of radiation received from the hot body; the only one usable above about 1200&deg;C, because it never touches the object</td></tr>
+<tr><td rowspan="3"><strong>Pressure</strong></td><td>Manometer</td><td>Balancing the pressure against a <em>liquid column</em>; p = &rho;gh</td></tr>
+<tr><td>Bourdon tube gauge</td><td><em>Elastic deflection</em> &mdash; a curved flattened tube straightens under pressure and moves a needle</td></tr>
+<tr><td>Diaphragm / bellows gauge</td><td>Elastic deflection of a flexible membrane, for low pressures</td></tr>
+<tr><td><strong>Velocity</strong></td><td>Pitot tube</td><td>The <em>difference between total and static pressure</em> in the flow; v = &radic;(2gh)</td></tr>
+<tr><td rowspan="2"><strong>Flow rate</strong></td><td>Venturi meter, orifice meter</td><td><em>Variable head</em> &mdash; the flow is throttled, and the resulting pressure difference is related to the discharge</td></tr>
+<tr><td>Rotameter</td><td><em>Variable area</em> &mdash; a float rises in a tapered tube until the annulus area balances the flow</td></tr>
+<tr><td rowspan="2"><strong>Force</strong></td><td>Spring balance</td><td>Elastic <em>extension</em> of a spring, which is proportional to the load (Hooke's law)</td></tr>
+<tr><td>Strain gauge</td><td><em>Change of electrical resistance</em> of a wire or foil bonded to the member, which strains with it</td></tr>
+<tr><td rowspan="2"><strong>Torque</strong></td><td>Dynamometer</td><td><em>Force measured at a known radius</em>; T = F &times; r</td></tr>
+<tr><td>Torsion meter</td><td><em>Angle of twist</em> of the shaft, from which torque follows</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="The six quantities mapped to the physical principle their instruments use">
+   QUANTITY            INSTRUMENT            CONVERTS INTO
+   --------            ----------            -------------
+   TEMPERATURE  --->   thermometer   --->    a LENGTH
+                       thermocouple  --->    a VOLTAGE
+                       pyrometer     --->    RADIATION intensity
+                            (non-contact: the only way above 1200 C)
+
+   PRESSURE     --->   manometer     --->    a LIQUID COLUMN height
+                       Bourdon tube  --->    a DEFLECTION (needle)
+                       diaphragm     --->    a DEFLECTION (low pressures)
+
+   VELOCITY     --->   pitot tube    --->    a PRESSURE DIFFERENCE
+                            (total minus static)
+
+   FLOW         --->   venturi       --->    a PRESSURE DIFFERENCE
+                       orifice       --->    a PRESSURE DIFFERENCE
+                       rotameter     --->    a FLOAT HEIGHT
+                            (variable head vs variable area)
+
+   FORCE        --->   spring balance--->    an EXTENSION
+                       strain gauge  --->    a RESISTANCE CHANGE
+
+   TORQUE       --->   dynamometer   --->    FORCE at a known RADIUS
+                       torsion meter --->    an ANGLE OF TWIST
+
+   Every instrument in the table works by turning one quantity into
+   another that is easier to read. Name the conversion, and the
+   principle is stated.
+</pre>
+
+<h2>Temperature &mdash; the quantity with the most instruments</h2>
+
+<table>
+<thead><tr><th>Range</th><th>Instrument</th><th>Why this one here</th></tr></thead>
+<tbody>
+<tr><td>Below about 600&deg;C</td><td>Liquid-in-glass thermometer</td><td>Simple and direct, but the liquid boils or freezes outside the range, and the glass softens at high temperature</td></tr>
+<tr><td>About &minus;200 to 1200&deg;C</td><td>Thermocouple</td><td>Wide range, rugged, and the junction can be placed remotely and read electrically</td></tr>
+<tr><td>About &minus;200 to 600&deg;C</td><td>Resistance thermometer</td><td>Most accurate in its range, because resistance changes reproducibly with temperature</td></tr>
+<tr><td>Above about 1200&deg;C</td><td>Optical or radiation pyrometer</td><td><strong>Non-contact</strong> &mdash; it reads the radiation from the body, so it neither melts nor cools what it measures</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>The pyrometer's one job.</strong> A pyrometer exists for exactly one
+reason: <strong>it does not touch the object.</strong> Above about 1200&deg;C no contact instrument
+survives, and contact would also draw heat from the body being measured. If a question asks how the
+temperature of a furnace or molten metal is measured, the pyrometer is the answer and non-contact is
+the reason.</div>
+
+<h2>Pressure, velocity and flow &mdash; the three that share a column of fluid</h2>
+
+<p>All three reduce to the same idea: a pressure difference is balanced against a column of liquid,
+and the height is read.</p>
+
+<table>
+<thead><tr><th>Instrument</th><th>What it reads</th><th>Relation</th></tr></thead>
+<tbody>
+<tr><td><strong>Piezometer tube</strong></td><td>Gauge pressure only, for liquids</td><td>p = &rho;gh</td></tr>
+<tr><td><strong>U-tube manometer</strong></td><td>Difference of pressure between two points</td><td>&Delta;p = (&rho;<sub>m</sub> &minus; &rho;<sub>f</sub>) g h</td></tr>
+<tr><td><strong>Differential manometer</strong></td><td>Difference across a device such as an orifice</td><td>&Delta;p = &rho;gh &times; (S<sub>m</sub> &minus; S<sub>f</sub>)</td></tr>
+<tr><td><strong>Pitot tube</strong></td><td>Velocity at a point in the flow</td><td>v = &radic;(2gh), from total minus static head</td></tr>
+<tr><td><strong>Venturi / orifice meter</strong></td><td>Discharge through a pipe</td><td>Q = C<sub>d</sub>A&radic;(2gh), where h is the head difference</td></tr>
+<tr><td><strong>Rotameter</strong></td><td>Discharge, read directly off a scale</td><td>Variable area &mdash; no calculation needed</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Venturi against orifice &mdash; the standard comparison</span>
+<p>Both measure discharge by throttling the flow, and RGPV contrasts them. The difference is the
+shape of the throat:</p>
+<ul>
+<li><strong>Orifice meter</strong> &mdash; a flat plate with a sharp-edged hole. <strong>Cheap, simple,
+compact</strong>, and can be dropped into an existing flange. But the sudden contraction and sudden
+expansion cause a large <strong>permanent pressure loss</strong>, because the energy in the eddies is
+lost.</li>
+<li><strong>Venturi meter</strong> &mdash; a gradual conical contraction, a cylindrical throat, then a
+gradual conical expansion. <strong>Expensive and bulky</strong>, but the streamline flow means the
+pressure largely <em>recovers</em> downstream, so the <strong>permanent loss is small</strong>.</li>
+</ul>
+<p>So the choice is cost and space against running cost: the orifice is cheap to install and wasteful
+to run, the venturi is costly to install and efficient to run.</p>
+</div>
+
+<h2>Force and torque</h2>
+
+<table>
+<thead><tr><th>Quantity</th><th>Instrument</th><th>Principle</th></tr></thead>
+<tbody>
+<tr><td rowspan="3"><strong>Force</strong></td><td>Spring balance / spring dynamometer</td><td>The spring extends in proportion to the load; a pointer reads the extension on a calibrated scale</td></tr>
+<tr><td>Load cell</td><td>Strain gauges bonded to an elastic member; the strain is converted to a resistance change and hence a voltage</td></tr>
+<tr><td>Proving ring</td><td>The elastic deflection of a ring under load, read with a micrometer or dial gauge</td></tr>
+<tr><td rowspan="3"><strong>Torque</strong></td><td>Dynamometer</td><td>T = F &times; r &mdash; a force measured at the end of a known lever arm</td></tr>
+<tr><td>Torsion meter</td><td>The angle of twist between two sections of a rotating shaft, measured optically or electrically</td></tr>
+<tr><td>Strain gauge bridge</td><td>The surface strain on the shaft, from which the torque is computed</td></tr>
+</tbody>
+</table>
+
+<h2>Numericals in great depth</h2>
+
+<p>Three relations cover everything here, and all three are one-line substitutions once the units
+are handled. The units are the trap, not the algebra.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>p = &rho; g h</code></td><td>pressure from a liquid column of height h</td><td>Pa</td></tr>
+<tr><td><code>&rho;</code></td><td>density &mdash; water 1000, mercury 13600</td><td>kg/m<sup>3</sup></td></tr>
+<tr><td><code>g</code></td><td>acceleration due to gravity</td><td>9.81 m/s<sup>2</sup></td></tr>
+<tr><td><code>v = &radic;(2gh)</code></td><td>velocity from a pitot head h</td><td>m/s</td></tr>
+<tr><td><code>Q = C<sub>d</sub> A &radic;(2gh)</code></td><td>discharge through a venturi or orifice</td><td>m<sup>3</sup>/s</td></tr>
+<tr><td><code>C<sub>d</sub></code></td><td>coefficient of discharge, about 0.6 to 0.98</td><td>&mdash;</td></tr>
+<tr><td><code>A = &pi;d<sup>2</sup>/4</code></td><td>area of the throat or orifice, d in <strong>metres</strong></td><td>m<sup>2</sup></td></tr>
+<tr><td><code>T = F r</code></td><td>torque from a force at radius r</td><td>N&middot;m</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; quantity numerals</span>
+<pre><code>Given:  the reading (head in m, force in N, radius in m) and the properties
+Find:   pressure, velocity, discharge or torque
+Formula:p = rho g h ; v = sqrt(2gh) ; Q = Cd A sqrt(2gh) ; T = F r
+Solve:  CONVERT to metres and kg/m3 first, then substitute
+Check:  a manometer head of a few hundred mm of water is a few kPa;
+        a torque in the tens of N.m is hand-tool scale</code></pre>
+</div>
+
+<h3>Solved A &mdash; pressure from a manometer column</h3>
+<p><em>A U-tube manometer containing mercury shows a difference of 250 mm between its two limbs. Find
+the pressure difference, taking the density of mercury as 13600 kg/m<sup>3</sup>.</em></p>
+<p><strong>Given:</strong> h = 250 mm, &rho; = 13600 kg/m<sup>3</sup>, g = 9.81 m/s<sup>2</sup>.
+<strong>Find:</strong> &Delta;p. <strong>Formula:</strong> &Delta;p = &rho;gh.
+<strong>Solve:</strong></p>
+<pre><code>h = 250 mm = 0.250 m        (convert to metres FIRST)
+
+p = 13600 x 9.81 x 0.250
+  = 33354 Pa
+  = 33.35 kPa</code></pre>
+<p><strong>Answer:</strong> the pressure difference is <strong>33.35 kPa</strong>.</p>
+<p><strong>Check:</strong> substituting back, 33354/(13600 &times; 9.81) = 0.250 m, recovering the
+stated head. Independent magnitude check by a rule worth carrying: <strong>1 mm of mercury is about
+133 Pa</strong>, so 250 mm is 250 &times; 133 = 33250 Pa = 33.25 kPa &mdash; within 0.3% of the exact
+value, which confirms both the arithmetic and the conversion. Had the 250 been left in millimetres,
+the answer would have come out 1000 times too large at 33.4 MPa, a pressure at which the manometer
+itself would have burst.</p>
+
+<h3>Solved B &mdash; discharge through a venturi meter</h3>
+<p><em>A venturi meter with a throat diameter of 50 mm has a coefficient of discharge of 0.62. The
+manometer across it shows a head difference of 0.5 m of water. Find the discharge.</em></p>
+<p><strong>Given:</strong> d = 50 mm, C<sub>d</sub> = 0.62, h = 0.5 m.
+<strong>Find:</strong> Q. <strong>Formula:</strong> Q = C<sub>d</sub>A&radic;(2gh) with
+A = &pi;d<sup>2</sup>/4.
+<strong>Solve:</strong></p>
+<pre><code>d = 50 mm = 0.050 m         (convert to metres FIRST)
+
+A = pi x (0.050)^2 / 4
+  = 0.0019635 m2
+
+sqrt(2gh) = sqrt(2 x 9.81 x 0.5)
+          = sqrt(9.81) = 3.132 m/s
+
+Q = 0.62 x 0.0019635 x 3.132
+  = 0.003813 m3/s
+  = 3.813 litres per second</code></pre>
+<p><strong>Answer:</strong> the discharge is <strong>0.00381 m<sup>3</sup>/s</strong>, that is
+<strong>3.81 litres per second</strong>.</p>
+<p><strong>Check:</strong> substituting back, 0.003813/(0.62 &times; 0.0019635) = 3.132 m/s = &radic;(2gh),
+recovering the assumed velocity. Independent sense check on magnitude: a 50 mm throat with a
+0.5 m head is a small pipe flowing briskly, so a few litres per second is the right order &mdash; and
+multiplying by 1000 converts m<sup>3</sup>/s to litres/s, which gives 3.81. Had the diameter been used
+in millimetres, A would have come out 10<sup>6</sup> times too large and the discharge absurdly so.</p>
+
+<h3>Solved C &mdash; torque and a temperature conversion</h3>
+<p><em>A dynamometer measures a force of 200 N at a radius of 150 mm from the shaft axis. Find the
+torque. The same instrument reports the lubricating oil at 60&deg;C &mdash; state its value on the
+Fahrenheit scale, and name the instrument you would use for a furnace at 1400&deg;C.</em></p>
+<p><strong>Given:</strong> F = 200 N, r = 150 mm; T = 60&deg;C; a furnace at 1400&deg;C.
+<strong>Find:</strong> torque, the Fahrenheit reading, and the instrument.
+<strong>Formula:</strong> T = Fr with r in metres; &deg;F = (9/5)&deg;C + 32.
+<strong>Solve:</strong></p>
+<pre><code>r = 150 mm = 0.150 m
+
+T = 200 x 0.150
+  = 30.00 N.m
+
+degF = (9/5) x 60 + 32
+     = 108 + 32 = 140 degF
+
+1400 degC  ->  no contact instrument survives;
+               use an OPTICAL (RADIATION) PYROMETER, which is
+               non-contact and reads the emitted radiation</code></pre>
+<p><strong>Answer:</strong> torque <strong>30.00 N&middot;m</strong>; 60&deg;C is
+<strong>140&deg;F</strong>; a 1400&deg;C furnace requires an <strong>optical or radiation
+pyrometer</strong>.</p>
+<p><strong>Check:</strong> on the torque, 30.00/0.150 = 200 N, recovering the stated force, and
+30 N&middot;m is the scale of a hand tool such as a torque wrench, not of a shaft &mdash; which is
+sensible for a bench dynamometer. Had the radius been left as 150 mm, the torque would have come out
+30000 N&middot;m, which is turbine scale and three orders out. On the conversion, 60&deg;C sits between
+0&deg;C = 32&deg;F and 100&deg;C = 212&deg;F, and 140&deg;F is indeed between them. On the pyrometer,
+the deciding fact is not the material but the <strong>range</strong>: above about 1200&deg;C contact
+instruments fail, so non-contact is forced.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>Convert to metres and kg/m<sup>3</sup> before substituting.</strong> &rho;gh only returns
+pascals if h is in metres.</li>
+<li><strong>The diameter in A = &pi;d<sup>2</sup>/4 must be in metres</strong>, because the area is
+needed in m<sup>2</sup> to give a discharge in m<sup>3</sup>/s.</li>
+<li><strong>&rho; of mercury is 13600, not 13.6.</strong> The 13.6 is <em>specific gravity</em>, and
+using it in &rho;gh gives an answer three orders off.</li>
+<li><strong>Remember the square root in &radic;(2gh).</strong> Without it the velocity is 2gh instead of
+&radic;(2gh).</li>
+<li><strong>Pitot gives velocity, venturi gives discharge.</strong> Do not apply the discharge formula
+to a pitot reading.</li>
+<li><strong>Torque is force times radius in METRES.</strong> A radius left in millimetres gives a torque
+a thousand times too large.</li>
+<li><strong>Manometer gives the pressure DIFFERENCE</strong>, not an absolute pressure. A U-tube
+measures &Delta;p.</li>
+<li><strong>Above about 1200&deg;C the answer is pyrometer</strong>, and the reason is non-contact,
+not accuracy.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;Temperature, pressure, velocity, flow, force and torque
+are each measured by an instrument working on a definite physical principle which converts the
+quantity into an easier one to read, such as a length, a deflection or a voltage.&rdquo;</li>
+<li><strong>Pairing line</strong> &mdash; &ldquo;Temperature is measured by expansion in a thermometer,
+by thermoelectric emf in a thermocouple, and by radiation in a pyrometer; pressure by a liquid column
+in a manometer and by elastic deflection in a Bourdon tube.&rdquo;</li>
+<li><strong>Flow line</strong> &mdash; &ldquo;Flow is measured by the variable-head principle in the
+venturi and orifice meters, where the discharge follows Q = C<sub>d</sub>A&radic;(2gh), and by the
+variable-area principle in the rotameter.&rdquo;</li>
+<li><strong>Comparison line</strong> &mdash; &ldquo;The orifice meter is cheap and compact but wastes
+head, whereas the venturi meter is costly and bulky but recovers most of the head, so the choice is
+between installation cost and running cost.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence every instrument here exists to convert one
+quantity into another that can be read directly, which is why the principle and the range together
+decide which instrument is chosen.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Answer in the matched-pair form</strong> &mdash; quantity, instrument, principle, and one
+line of working</li>
+<li><strong>Give a table</strong> &mdash; six rows is a full answer and it is what the examiner is
+looking for</li>
+<li><strong>Name the principle, not just the instrument</strong> &mdash; &ldquo;Seebeck effect&rdquo;
+scores where &ldquo;thermocouple&rdquo; alone does not</li>
+<li><strong>State the range with the instrument</strong> &mdash; it is what justifies the choice</li>
+<li><strong>Remember the pyrometer is non-contact</strong> &mdash; one line, one mark</li>
+<li><strong>Sketch one instrument properly</strong> rather than six badly &mdash; the U-tube or the
+venturi is the usual choice</li>
+<li><strong>Never leave blank</strong> &mdash; the six pairings alone clear 4 of 7</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="C" data-explain="A pitot tube measures the difference between the total pressure and the static pressure in a flowing stream, and that pressure difference is converted into velocity by v = sqrt(2gh). A venturi meter, by contrast, measures discharge by throttling the flow, and a manometer measures a pressure difference directly.">
+<p><strong>Q1. A pitot tube is used to measure:</strong></p>
+<button data-key="A">Discharge through a pipe</button>
+<button data-key="B">Static pressure only</button>
+<button data-key="C">Velocity, from the difference of total and static pressure</button>
+<button data-key="D">Temperature of a moving fluid</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="A radiation or optical pyrometer is non-contact: it reads the radiation emitted by the hot body, so it neither melts nor draws heat from it. That is why it is the only instrument usable above about 1200 degrees Celsius, where contact instruments cannot survive.">
+<p><strong>Q2. The temperature of a furnace at 1400&deg;C is measured with:</strong></p>
+<button data-key="A">A mercury-in-glass thermometer</button>
+<button data-key="B">An optical or radiation pyrometer, because it is non-contact</button>
+<button data-key="C">A thermocouple placed in the flame</button>
+<button data-key="D">A resistance thermometer</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="A U-tube manometer shows a difference of 250 mm of mercury, which is 0.250 m. The pressure is rho g h = 13600 x 9.81 x 0.250 = 33354 Pa = 33.35 kPa. Leaving the head in millimetres gives an answer a thousand times too large.">
+<p><strong>Q3. A mercury manometer reads a difference of 250 mm. Taking &rho; = 13600 kg/m&sup3;, the pressure difference is:</strong></p>
+<button data-key="A">3.34 kPa</button>
+<button data-key="B">333.5 kPa</button>
+<button data-key="C">33.35 Pa</button>
+<button data-key="D">33.35 kPa</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="The orifice meter is a flat plate with a sharp-edged hole: cheap, simple and compact, but the abrupt contraction and expansion dissipate energy as eddies, so it has a large permanent pressure loss. The venturi's gradual contraction and expansion keep the flow streamlined and recover most of the head, at the cost of being bulky and expensive to make.">
+<p><strong>Q4. Compared with a venturi meter, an orifice meter has:</strong></p>
+<button data-key="A">Lower cost but a larger permanent pressure loss</button>
+<button data-key="B">Higher cost and a larger permanent pressure loss</button>
+<button data-key="C">Lower cost and a smaller permanent pressure loss</button>
+<button data-key="D">The same cost and the same pressure loss</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="Torque is force times radius, so T = 200 x 0.150 = 30.00 N.m. The radius must be in metres: leaving it as 150 mm gives 30000 N.m, which is three orders of magnitude too large and would be turbine-scale rather than bench-scale.">
+<p><strong>Q5. A force of 200 N acts at a radius of 150 mm. The torque is:</strong></p>
+<button data-key="A">30000 N&middot;m</button>
+<button data-key="B">1.33 N&middot;m</button>
+<button data-key="C">30 N&middot;m</button>
+<button data-key="D">200 N&middot;m</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring, temperature 4 of 11 papers.</strong> &ldquo;What are the various methods used
+for temperature measurement? Explain any one.&rdquo; &rarr; A four-row table &mdash; liquid-in-glass,
+thermocouple, resistance, pyrometer &mdash; each with its principle and range; then one in full, with
+the pyrometer the easiest to explain because non-contact is its whole justification.</li>
+<li><strong>Recurring short question.</strong> &ldquo;How is pressure measured? Explain the Bourdon
+tube gauge.&rdquo; &rarr; Manometer by a liquid column, Bourdon by elastic deflection; then the
+flattened curved tube straightening under pressure and moving a needle through a linkage.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between a venturi meter and an
+orifice meter.&rdquo; &rarr; A four-row table on cost, size, pressure loss and accuracy, closing on
+the permanent-loss reason.</li>
+<li><strong>Short question.</strong> &ldquo;How is flow rate measured?&rdquo; &rarr; Variable head
+(venturi, orifice) against variable area (rotameter), with Q = C<sub>d</sub>A&radic;(2gh).</li>
+<li><strong>Short question.</strong> &ldquo;How are force and torque measured?&rdquo; &rarr; Force by
+elastic extension or strain; torque as force at a known radius, T = Fr, or by the angle of twist.</li>
+<li><strong>One-line recall.</strong> &ldquo;What does a pitot tube measure?&rdquo; &rarr; Velocity,
+from the difference of total and static pressure, as v = &radic;(2gh).</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="7">
+<li><strong>6 minutes, no notes.</strong> Write the six quantities against their instruments and
+principles. Check each row names a <em>principle</em>, not just an instrument.</li>
+<li><strong>4 minutes.</strong> Solved A on paper. Check the head is converted to 0.250 m and the
+answer is 33.35 kPa.</li>
+<li><strong>5 minutes.</strong> Solved B on paper. Check the throat diameter is 0.050 m, the area
+0.0019635 m<sup>2</sup> and the answer 3.81 L/s.</li>
+<li><strong>4 minutes.</strong> Solved C on paper. Check the radius is 0.150 m and the torque 30 N&middot;m,
+not 30000.</li>
+<li><strong>3 minutes.</strong> State which instrument you would choose for a furnace at 1400&deg;C
+and why. Check the word <em>non-contact</em> appears.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 2 Topic 06</p>
+<h1>Measurement of Physical Quantities &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>Each of these quantities is measured by an instrument that converts it
+into something easier to read:
+
+  TEMPERATURE -> expansion (liquid-in-glass), emf (thermocouple),
+                 radiation (pyrometer, NON-CONTACT, above 1200 C)
+  PRESSURE    -> liquid column (manometer), elastic deflection
+                 (Bourdon tube, diaphragm)
+  VELOCITY    -> pitot tube, from total minus static pressure,
+                 v = sqrt(2gh)
+  FLOW        -> variable head (venturi, orifice), Q = Cd A sqrt(2gh);
+                 variable area (rotameter)
+  FORCE       -> elastic extension (spring balance), strain (strain gauge)
+  TORQUE      -> force at a known radius, T = F x r; or angle of twist
+
+VENTURI vs ORIFICE
+  Orifice: cheap, compact, LARGE permanent pressure loss.
+  Venturi: costly, bulky, SMALL permanent pressure loss (recovers head).</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Pressure  -> a column of fluid balances the pressure:
+                p = rho g h          [h in METRES, rho in kg/m3]
+2. Velocity  -> the pitot head is the velocity head:
+                v = sqrt(2 g h)
+3. Flow      -> throttle the flow, read the head difference:
+                Q = Cd A sqrt(2 g h)   [A in m2, d in METRES]
+4. Torque    -> measure force at a known lever arm:
+                T = F x r              [r in METRES]</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Instrument</th><th>Principle</th><th>Range / note</th></tr></thead>
+<tbody>
+<tr><td>Temperature</td><td>Liquid-in-glass thermometer</td><td>Thermal expansion</td><td>Up to about 600&deg;C</td></tr>
+<tr><td>Temperature</td><td>Thermocouple</td><td>Seebeck emf at a bimetallic junction</td><td>&minus;200 to 1200&deg;C</td></tr>
+<tr><td>Temperature</td><td>Resistance thermometer</td><td>Change of resistance</td><td>&minus;200 to 600&deg;C, most accurate</td></tr>
+<tr><td>Temperature</td><td>Pyrometer</td><td>Radiation, <strong>non-contact</strong></td><td>Above about 1200&deg;C</td></tr>
+<tr><td>Pressure</td><td>Manometer</td><td>Liquid column, p = &rho;gh</td><td>Low pressures</td></tr>
+<tr><td>Pressure</td><td>Bourdon tube</td><td>Elastic deflection of a curved tube</td><td>Medium to high</td></tr>
+<tr><td>Pressure</td><td>Diaphragm / bellows</td><td>Elastic deflection of a membrane</td><td>Low pressures</td></tr>
+<tr><td>Velocity</td><td>Pitot tube</td><td>Total minus static pressure, v = &radic;(2gh)</td><td>Point velocity</td></tr>
+<tr><td>Flow</td><td>Venturi meter</td><td>Variable head, small permanent loss</td><td>Expensive, bulky</td></tr>
+<tr><td>Flow</td><td>Orifice meter</td><td>Variable head, large permanent loss</td><td>Cheap, compact</td></tr>
+<tr><td>Flow</td><td>Rotameter</td><td>Variable area, direct reading</td><td>No calculation</td></tr>
+<tr><td>Force</td><td>Spring balance</td><td>Elastic extension (Hooke's law)</td><td>Simple, direct</td></tr>
+<tr><td>Force</td><td>Strain gauge / load cell</td><td>Resistance change with strain</td><td>Electrical output</td></tr>
+<tr><td>Force</td><td>Proving ring</td><td>Elastic deflection of a ring</td><td>Calibration standard</td></tr>
+<tr><td>Torque</td><td>Dynamometer</td><td>T = F &times; r</td><td>Force at known radius</td></tr>
+<tr><td>Torque</td><td>Torsion meter</td><td>Angle of twist of a shaft</td><td>Rotating shafts</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Thermocouple</strong> &mdash; two dissimilar metals joined at a hot junction, generating an
+emf proportional to the temperature difference between it and the cold junction.</li>
+<li><strong>Pyrometer</strong> &mdash; a non-contact instrument measuring temperature from the
+radiation emitted by the hot body; the only type usable above about 1200&deg;C.</li>
+<li><strong>Manometer</strong> &mdash; an instrument measuring a pressure difference by the height of a
+liquid column it supports; p = &rho;gh.</li>
+<li><strong>Bourdon tube</strong> &mdash; a curved, flattened tube of oval section that tends to
+straighten under internal pressure, the movement being transmitted to a needle.</li>
+<li><strong>Pitot tube</strong> &mdash; a probe measuring the difference between the total and static
+pressure in a flowing fluid, giving the velocity as &radic;(2gh).</li>
+<li><strong>Venturi meter</strong> &mdash; a variable-head flow meter with a gradual contraction, throat
+and gradual expansion, recovering most of the pressure head.</li>
+<li><strong>Orifice meter</strong> &mdash; a variable-head flow meter consisting of a flat plate with a
+sharp-edged hole, cheap but with a large permanent pressure loss.</li>
+<li><strong>Rotameter</strong> &mdash; a variable-area meter in which a float rises in a tapered tube
+until the annular area balances the flow.</li>
+<li><strong>Coefficient of discharge</strong> &mdash; the ratio of actual discharge to the theoretical
+discharge, about 0.6 to 0.98.</li>
+<li><strong>Strain gauge</strong> &mdash; a wire or foil element bonded to a member, whose electrical
+resistance changes as the member strains.</li>
+<li><strong>Torque</strong> &mdash; the turning moment of a force about an axis, T = Fr, measured by a
+dynamometer or a torsion meter.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can give the six quantities with an instrument and a principle for each</li>
+<li>[ ] Can say why a pyrometer is used above 1200&deg;C, in terms of non-contact</li>
+<li>[ ] Can state the Seebeck effect for the thermocouple</li>
+<li>[ ] Can explain the Bourdon tube mechanism in two sentences</li>
+<li>[ ] Can contrast the venturi and orifice meters on cost and pressure loss</li>
+<li>[ ] Can state the variable-head against variable-area distinction</li>
+<li>[ ] Can write p = &rho;gh, v = &radic;(2gh), Q = C<sub>d</sub>A&radic;(2gh) and T = Fr</li>
+<li>[ ] Can compute a manometer pressure with the head in metres</li>
+<li>[ ] Can compute a discharge with the throat diameter in metres</li>
+<li>[ ] Can compute a torque with the radius in metres</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Four relations, one habit.</strong> p = &rho;gh for a manometer,
+v = &radic;(2gh) for a pitot, Q = C<sub>d</sub>A&radic;(2gh) for a venturi or orifice, T = Fr for
+torque. The habit is to <strong>convert to metres and kg/m<sup>3</sup> before substituting</strong>
+&mdash; every one of these formulas takes SI base units, and every one of the standard errors in this
+topic is a millimetre left unconverted. Finish with a magnitude check: a few hundred mm of mercury is
+a few tens of kPa, and a few litres per second from a 50 mm throat is right.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 2 Topic 06 &middot; temperature in 4 of 11 papers</p>
+<h1>Measurement of Physical Quantities &mdash; questionnaire</h1>
+<div class="q-meta">Q2 slot &middot; recurring pattern &middot; "methods used for temperature measurement, explain any one" &rarr; a four-row table plus one instrument explained in full</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; 4 papers</span></div>
+<h3>What are the various methods used for temperature measurement? Explain any one.</h3>
+<p>The most-asked form of this topic. Give the four methods as a table with principle and range, then take one &mdash; the pyrometer is easiest because non-contact is its entire justification &mdash; and explain it properly with a sketch.</p>
+<div class="q-foot"><b>write</b> &mdash; four methods named: liquid-in-glass, thermocouple, resistance, pyrometer (2) &rarr; principle and range for each in a table (3) &rarr; one explained in full with a diagram (2).</div>
+<div class="q-foot"><b>check</b> &mdash; naming four instruments without their principles scores half; omitting the range loses the justification for choosing between them; giving no sketch on the "explain any one" part loses the diagram mark; the pyrometer must be described as <em>non-contact</em>.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>How is flow rate measured in a pipe? Differentiate between a venturi meter and an orifice meter.</h3>
+<p>Two parts in one question. The first wants the two principles &mdash; variable head and variable area &mdash; and the second is a comparison table closing on <em>why</em> the pressure losses differ.</p>
+<div class="q-foot"><b>write</b> &mdash; variable-head principle with Q = C<sub>d</sub>A&radic;(2gh) (1) &rarr; variable-area principle with the rotameter (1) &rarr; comparison: cost, size, pressure loss, accuracy (2) &rarr; reason: gradual against sudden contraction (1).</div>
+<div class="q-foot"><b>check</b> &mdash; the comparison must end on the <em>reason</em> for the pressure loss, not just assert it; omitting the rotameter loses the variable-area half; the orifice must be named as the cheaper one, and the venturi as the more efficient.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>A mercury manometer shows a difference of 250 mm. Find the pressure difference. A venturi of 50 mm throat with C<sub>d</sub> = 0.62 carries a head of 0.5 m &mdash; find the discharge.</h3>
+<p>Two numerals from two instruments. Both hinge on converting to metres, and both are lost by a unit slip rather than by wrong method.</p>
+<div class="q-foot"><b>write</b> &mdash; h = 0.250 m stated (1) &rarr; p = 13600 &times; 9.81 &times; 0.250 = 33.35 kPa (2) &rarr; d = 0.050 m and A = 0.0019635 m<sup>2</sup> with &radic;(2gh) = 3.132 m/s (1) &rarr; Q = 3.81 L/s (1).</div>
+<div class="q-foot"><b>check</b> &mdash; leaving the head in millimetres gives 33.4 MPa; leaving the throat diameter in millimetres makes the area a million times too large; a manometer of a few hundred mm of mercury should give a few tens of kPa, and a 50 mm throat a few litres per second.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence saying each quantity is converted into something easier to read.</li>
+    <li><strong>Table:</strong> Quantity against instrument against principle, one row each.</li>
+    <li><strong>Sketch:</strong> One instrument drawn properly &mdash; the U-tube, the Bourdon tube or the venturi.</li>
+    <li><strong>Close:</strong> The formula with a substituted value, and the range that justifies the choice.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "Temperature, pressure, velocity, flow, force and torque are each measured by an instrument working on a definite physical principle which converts the quantity into an easier one to read, such as a length, a deflection or a voltage."</p>
+  <p class="answer-close"><strong>For this topic:</strong> the six pairings as a table &rarr; temperature in four methods with ranges &rarr; one instrument in full with a sketch &rarr; the venturi-orifice comparison &rarr; the formulas with one worked substitution &rarr; boxed answers.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Table first</strong> &mdash; quantity, instrument, principle, range</li>
+    <li><strong>Name the principle</strong> &mdash; Seebeck effect, elastic deflection, variable area</li>
+    <li><strong>Give the range</strong> &mdash; it is what justifies choosing one over another</li>
+    <li><strong>Say non-contact</strong> for the pyrometer, in those words</li>
+    <li><strong>One good sketch</strong> beats six rough ones</li>
+    <li><strong>Underline keywords</strong> &mdash; non-contact, permanent pressure loss, variable area</li>
+    <li><strong>Box the numeral answers</strong> with kPa, m<sup>3</sup>/s or N&middot;m</li>
+    <li><strong>Never leave blank</strong> &mdash; the six pairings alone clear 4 of 7</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>What are the various methods used for temperature measurement? Explain any one.</h3>
+<p class="answer-lead">Four methods as a table with principle and range, then one in full. The pyrometer is the easiest to explain because non-contact is its whole reason for existing.</p>
+<pre class="ascii-diagram" role="img" aria-label="Four methods of temperature measurement with their principles and ranges">
+   METHOD                 PRINCIPLE              RANGE
+   ------                 ---------              -----
+   liquid-in-glass  --->  thermal EXPANSION      up to ~600 C
+   thermometer            of mercury/alcohol     (liquid boils,
+                          in a capillary          glass softens)
+        |
+   thermocouple     --->  SEEBECK EMF at a       -200 to 1200 C
+                          junction of two         wide + rugged
+                          dissimilar metals       + remote reading
+        |
+   resistance       --->  CHANGE of electrical   -200 to 600 C
+   thermometer            resistance with         most ACCURATE
+                          temperature             in its range
+        |
+   PYROMETER        --->  RADIATION emitted      above ~1200 C
+   (optical)              by the hot body         NON-CONTACT:
+                                                  nothing touches
+                                                  the hot object
+
+   Choosing between them is a question of RANGE and of CONTACT:
+   the pyrometer exists because above 1200 C nothing else survives
+   and contact would cool the body being measured.
+</pre>
+<table>
+<tr><th>Method</th><th>Principle</th><th>Range</th><th>Note</th></tr>
+<tr><td>Liquid-in-glass thermometer</td><td>Thermal expansion of a liquid in a capillary</td><td>Up to about 600&deg;C</td><td>Simple and direct; the liquid boils and the glass softens beyond the range</td></tr>
+<tr><td>Thermocouple</td><td>Seebeck effect &mdash; an emf at a junction of two dissimilar metals, proportional to the temperature difference</td><td>About &minus;200 to 1200&deg;C</td><td>Wide range, rugged, junction may be remote and read electrically</td></tr>
+<tr><td>Resistance thermometer</td><td>Change of electrical resistance of a metal with temperature</td><td>About &minus;200 to 600&deg;C</td><td>Most accurate within its range</td></tr>
+<tr><td>Optical or radiation pyrometer</td><td>Intensity of radiation emitted by the hot body</td><td>Above about 1200&deg;C</td><td><strong>Non-contact</strong></td></tr>
+</table>
+<p><strong>Explained in full &mdash; the optical pyrometer.</strong> The pyrometer consists of a
+telescope fitted with a red filter, through which the observer sights the hot body, and a calibrated
+incandescent filament lamp in the same field of view. The filament current is adjusted by a
+rheostat until the filament brightness exactly matches the brightness of the hot body, so the
+filament disappears against it. The filament current then indicates the temperature on a calibrated
+scale.</p>
+<p>The essential property is that the instrument is <strong>non-contact</strong>. It measures the
+<em>radiation</em> leaving the body rather than its temperature directly, so it neither melts at the
+temperature being measured nor draws heat from the body and cools it. That is why it is the only
+practical method above about 1200&deg;C, and why it is used for furnaces, molten metal and
+incandescent sources.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the choice of instrument is decided by
+the range and by whether contact is permissible &mdash; and the pyrometer exists precisely because
+above about 1200 degrees Celsius no contact instrument survives and contact would itself disturb the
+body being measured."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>How is flow rate measured in a pipe? Differentiate between a venturi meter and an orifice meter.</h3>
+<p class="answer-lead">Two principles first, then a comparison that ends on the reason for the pressure loss. The reason is the mark most often left out.</p>
+<pre class="ascii-diagram" role="img" aria-label="Variable head against variable area flow measurement, and venturi against orifice pressure recovery">
+   FLOW MEASUREMENT - TWO PRINCIPLES
+
+   VARIABLE HEAD                       VARIABLE AREA
+   (venturi, orifice)                  (rotameter)
+
+   throttle the flow,                  float rises in a
+   read the pressure                   TAPERED tube until
+   difference across it                the annular area
+                                       balances the flow
+        |                                   |
+        v                                   v
+   Q = Cd A sqrt(2gh)                  read the float height
+                                       directly off a scale
+                                       - no calculation
+
+   ============ VENTURI vs ORIFICE ============
+
+   ORIFICE METER                  VENTURI METER
+   flat plate,                    gradual cone,
+   sharp-edged hole               throat, gradual cone
+
+        __                             __
+       /  \                           /  \
+   ====| [] |====                 ====(____)====
+       \__/                           \__/
+    sudden                         smooth
+    contraction                    contraction
+        |                               |
+   eddies -> LARGE                 streamline -> SMALL
+   permanent loss                  permanent loss
+        |                               |
+   cheap, compact                  costly, bulky
+
+   The SHAPE of the throat decides the LOSS, and the loss is the
+   running cost of the meter - so the choice is installation cost
+   against running cost.
+</pre>
+<p><strong>Two principles.</strong> In the <strong>variable-head</strong> instruments &mdash; the
+venturi meter and the orifice meter &mdash; the flow is throttled and the resulting pressure
+difference is measured, the discharge following Q = C<sub>d</sub>A&radic;(2gh). In the
+<strong>variable-area</strong> instrument &mdash; the rotameter &mdash; a float rises in a tapered
+tube until the annular area is just sufficient to pass the flow, and the discharge is read directly
+off a scale with no calculation.</p>
+<table>
+<tr><th>Point</th><th>Orifice meter</th><th>Venturi meter</th></tr>
+<tr><td>Construction</td><td>A flat plate with a sharp-edged hole</td><td>A gradual conical contraction, a cylindrical throat and a gradual conical expansion</td></tr>
+<tr><td>Cost</td><td>Low &mdash; simple to make</td><td>High &mdash; the profile must be accurately machined</td></tr>
+<tr><td>Space</td><td>Compact; fits between existing flanges</td><td>Bulky; needs a long straight length of pipe</td></tr>
+<tr><td>Permanent pressure loss</td><td><strong>Large</strong> &mdash; the sudden contraction and expansion dissipate energy as eddies</td><td><strong>Small</strong> &mdash; the streamlined passage largely recovers the pressure</td></tr>
+<tr><td>Accuracy</td><td>Lower, and affected by edge wear</td><td>Higher and more stable, since the profile does not wear sharply</td></tr>
+</table>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the orifice meter is cheap to install and
+wasteful to run, while the venturi meter is costly to install and efficient to run, so the choice is
+governed by the relative weight of installation cost and pumping cost."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>A mercury manometer shows a difference of 250 mm. Find the pressure difference. A venturi of 50 mm throat with C<sub>d</sub> = 0.62 carries a head of 0.5 m &mdash; find the discharge.</h3>
+<p class="answer-lead">Two numerals, both reducible to a unit conversion followed by one substitution. Write the conversion explicitly, since that is where the marks are lost.</p>
+<pre class="ascii-diagram" role="img" aria-label="Manometer pressure and venturi discharge worked through, showing the metre conversions">
+   PART 1 - MANOMETER                  PART 2 - VENTURI
+   ==================                  ================
+
+   h = 250 mm                          d = 50 mm
+     = 0.250 m  <-- CONVERT              = 0.050 m  <-- CONVERT
+   rho = 13600 kg/m3                   A = pi d^2 / 4
+   g = 9.81 m/s2                         = pi (0.050)^2 / 4
+                                         = 0.0019635 m2
+   p = rho g h
+     = 13600 x 9.81 x 0.250            sqrt(2gh) = sqrt(2x9.81x0.5)
+     = 33354 Pa                                  = 3.132 m/s
+     = 33.35 kPa
+                                       Q = Cd A sqrt(2gh)
+                                         = 0.62 x 0.0019635 x 3.132
+   RULE OF THUMB:                        = 0.003813 m3/s
+   1 mm Hg ~ 133 Pa                       = 3.81 litres/s
+   250 mm -> ~33250 Pa  = 33.25 kPa
+   (within 0.3% - confirms it)         SANITY: a 50 mm throat at
+                                       0.5 m head flows a few L/s
+</pre>
+<p><strong>Part one &mdash; manometer.</strong> <strong>Given:</strong> h = 250 mm,
+&rho; = 13600 kg/m<sup>3</sup>, g = 9.81 m/s<sup>2</sup>. <strong>Find:</strong> &Delta;p.
+<strong>Formula:</strong> &Delta;p = &rho;gh. <strong>Solve:</strong></p>
+<pre><code>h = 0.250 m
+
+p = 13600 x 9.81 x 0.250
+  = 33354 Pa = 33.35 kPa</code></pre>
+<p><strong>Part two &mdash; venturi discharge.</strong> <strong>Given:</strong> d = 50 mm,
+C<sub>d</sub> = 0.62, h = 0.5 m. <strong>Find:</strong> Q.
+<strong>Formula:</strong> Q = C<sub>d</sub>A&radic;(2gh), A = &pi;d<sup>2</sup>/4.
+<strong>Solve:</strong></p>
+<pre><code>d = 0.050 m
+A = pi x (0.050)^2 / 4 = 0.0019635 m2
+sqrt(2gh) = sqrt(2 x 9.81 x 0.5) = 3.132 m/s
+Q = 0.62 x 0.0019635 x 3.132 = 0.003813 m3/s = 3.81 L/s</code></pre>
+<p><strong>Answer:</strong> pressure difference <strong>33.35 kPa</strong>; discharge
+<strong>0.00381 m<sup>3</sup>/s (3.81 L/s)</strong>.</p>
+<p><strong>Check:</strong> part one substitutes back to 33354/(13600 &times; 9.81) = 0.250 m, the
+stated head, and independently 250 &times; 133 = 33250 Pa by the 1 mm Hg &asymp; 133 Pa rule, within
+0.3%. Part two substitutes back to 0.003813/(0.62 &times; 0.0019635) = 3.132 m/s, the assumed
+velocity head. Both answers also pass a magnitude test: a mercury manometer of a few hundred
+millimetres gives a few tens of kPa, and a 50 mm throat under a 0.5 m head gives a few litres per
+second. Had either conversion been missed the results would have been a thousand or a million times
+out, and those magnitudes are immediately absurd.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence both quantities reduce to a single
+substitution once the units are taken in metres, the manometer giving 33.35 kPa from the column head
+and the venturi 3.81 litres per second from the throat area and head."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203. The MST-1 syllabus page reads
+&ldquo;temperature, pressure, velocity, flow, force and torque measurement&rdquo;. Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, for the temperature measurement
+question this page drills. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference books</strong> (official BT-203 list) &mdash; Nakra &amp; Chaudhary,
+<em>Instrumentation and Measurements</em>, TMH, the primary text for this topic, and
+Kothandaraman &amp; Rudramoorthy, <em>Fluid Mechanics &amp; Machinery</em>, New Age, for the flow
+measurement.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hubs and the December 2020 archive support revision and question practice. All
+numerical values were computed rather than quoted: 13600 &times; 9.81 &times; 0.250 = 33354 Pa;
+&pi;(0.050)<sup>2</sup>/4 = 0.0019635 m<sup>2</sup>; &radic;(9.81) = 3.132 m/s;
+200 &times; 0.150 = 30.00 N&middot;m; and (9/5)&times;60 + 32 = 140&deg;F.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

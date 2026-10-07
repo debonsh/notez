@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maxima &amp; Minima of Three Variables &amp; Lagrange Multipliers &mdash; RGPV BT102 PYQ Prep &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt102/unit1 $</span> cat 07-maxima-minima-three-variables.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT102 Unit 1 &mdash; Calculus</p>
+<h1>Maxima &amp; Minima of Three Variables &amp; Lagrange's Multipliers</h1>
+<p><em>Syllabus items 8 and 9 of Module 1: "Maxima &amp; Minima (two and three variables), Method of
+Lagranges Multipliers". Topic 04 handled two variables with the discriminant
+<code>D = f<sub>xx</sub>f<sub>yy</sub> &minus; f<sub>xy</sub>&sup2;</code>. This topic finishes the
+job: the three-variable test, and the constrained problem where the stationary-point method
+simply fails and a multiplier is needed instead.</em></p>
+
+<h2>Unconstrained stationary points in three variables</h2>
+<pre><code>A stationary point of f(x, y, z) satisfies all THREE first
+partials vanishing simultaneously:
+
+  f_x = 0 ,   f_y = 0 ,   f_z = 0
+
+That is three equations in three unknowns, so unlike the
+two-variable case there is usually a FINITE, enumerable list
+of candidate points rather than a curve of them.</code></pre>
+
+<h2>The classification test (3x3 determinant)</h2>
+<pre><code>Build the Hessian matrix of second partials at the point:
+
+     | f_xx  f_xy  f_xz |
+ H = | f_xy  f_yy  f_yz |
+     | f_xz  f_yz  f_zz |
+
+Let  D  = |H|   (the 3x3 determinant)
+
+Then:
+  D > 0 and all diagonal entries positive
+        (in practice f_xx > 0)
+                          -> LOCAL MINIMUM
+  D > 0 and an ODD number of negative diagonal entries
+        (in practice f_xx < 0)
+                          -> LOCAL MAXIMUM
+  D < 0                       -> SADDLE POINT
+  D = 0                       -> inconclusive, go to
+                                 higher order terms</code></pre>
+
+<div class="callout">
+  <span class="label">The shortcut that saves the whole determinant</span>
+  A symmetric 3&times;3 matrix is <strong>positive definite</strong> (minimum) or <strong>negative
+  definite</strong> (maximum) exactly when its <em>leading principal minors</em> are all positive
+  (or an odd number of them negative). So in practice you only need the first two:
+  <table style="margin:.6rem 0 .2rem">
+  <tr><th>Symbol</th><th>Expression</th></tr>
+  <tr><td><code>&Delta;1</code></td><td><code>f_xx</code></td></tr>
+  <tr><td><code>&Delta;2</code></td><td><code>f_xx f_yy &minus; f_xy&sup2;</code></td></tr>
+  <tr><td><code>&Delta;3 = D</code></td><td>the full 3&times;3 determinant</td></tr>
+  </table>
+  <code>&Delta;1 &gt; 0</code> and <code>&Delta;2 &gt; 0</code> and <code>D &gt; 0</code> &rarr; minimum.
+  <code>&Delta;1 &lt; 0</code> and <code>&Delta;2 &gt; 0</code> and <code>D &gt; 0</code> &rarr; maximum.
+  <code>D &lt; 0</code> &rarr; saddle. This is Sylvester's criterion, and writing the three
+  quantities instead of expanding a 27-term determinant is the mark-winning move.
+</div>
+
+<pre class="ascii-diagram" role="img" aria-label="Three variable stationary point workflow with a vertical decision ladder for the discriminant cases">  THREE-VARIABLE WORKFLOW
+  ==========================================================
+   f(x, y, z)
+      |
+      |  1. f_x = 0 ,  f_y = 0 ,  f_z = 0
+      v
+   candidate points  ( three equations, three unknowns )
+      |
+      |  2. build the 3x3 Hessian of second partials
+      v
+   H = | f_xx  f_xy  f_xz |
+       | f_xy  f_yy  f_yz |
+       | f_xz  f_yz  f_zz |
+      |
+      |  3. evaluate at the point, then decide on D
+      v
+   +----------------------------+
+   |  D  >  0   and  f_xx  >  0  |
+   +----------------------------+
+      |
+      v
+   +----------------------------+
+   |      LOCAL MINIMUM          |
+   |  Delta1, Delta2, D  >  0   |
+   +----------------------------+
+
+   +----------------------------+
+   |  D  >  0   and  f_xx  <  0  |
+   +----------------------------+
+      |
+      v
+   +----------------------------+
+   |      LOCAL MAXIMUM          |
+   | odd number of negative diag |
+   +----------------------------+
+
+   +----------------------------+
+   |          D  <  0            |
+   +----------------------------+
+      |
+      v
+   +----------------------------+
+   |      SADDLE POINT           |
+   |  neither maximum nor minimum|
+   +----------------------------+
+
+   +----------------------------+
+   |          D  =  0            |
+   +----------------------------+
+      |
+      v
+   +----------------------------+
+   |     INCONCLUSIVE            |
+   |  go to higher order terms   |
+   +----------------------------+
+  ==========================================================
+   SYLVESTR'S CRITERION: you rarely need the 3x3 expansion.
+       Delta1 = f_xx
+       Delta2 = f_xx f_yy - f_xy^2
+       Delta3 = the determinant D
+   min    : all three positive
+   max    : Delta1 negative, Delta2 and Delta3 positive
+   saddle : Delta3 negative
+  ==========================================================</pre>
+
+<h2>Where the plain method breaks &mdash; the constrained problem</h2>
+<p>Suppose you must <strong>maximise</strong> <code>f(x, y)</code> subject to
+<code>g(x, y) = 0</code> &mdash; for example the largest volume of a box with
+<code>2x + 2y + 2z = 12</code> inches of sheet metal. Now <code>f_x = 0</code> and
+<code>f_y = 0</code> cannot both hold in general, because the constraint forbids moving freely.
+Setting the partials to zero is the wrong move. Lagrange's method replaces the constraint with a
+gradient alignment condition.</p>
+
+<h2>Method of Lagrange's multipliers (write verbatim)</h2>
+<pre><code>To find the stationary values of f(x1, x2, ..., xn) subject to
+the constraints  g(x1, ..., xn) = 0 ,  h(x1, ..., xn) = 0 :
+
+Introduce one multiplier per constraint (say lambda, mu) and
+consider the FUNCTION
+
+      F = f - lambda g - mu h
+
+Then form the n + m equations by differentiating F:
+
+  F_x1 = 0 , F_x2 = 0 , ... , F_xn = 0
+  together with the constraints themselves:
+  g = 0 ,  h = 0
+
+Solving this system gives the candidate points. Substitute each
+into f, keep the largest and smallest values, and discard
+infeasible points (negative sizes, outside the region).
+
+For the common one-variable-independent case, constrained extremum
+of f subject to g = 0 requires the two GRADIENTS to be parallel:
+
+      grad f  =  lambda * grad g
+      (f_x, f_y, f_z) = lambda (g_x, g_y, g_z)</code></pre>
+
+<div class="callout">
+  <span class="label">The geometric reading &mdash; this is the whole idea in one line</span>
+  At a constrained extremum the surface <code>z = f</code> is <em>just touching</em> the cylinder (or
+  surface) <code>g = 0</code> without crossing it. Two surfaces that touch without crossing have the
+  same tangent plane at the contact point, which is exactly what
+  <code>&nabla;f = &lambda;&nabla;g</code> says. <code>&lambda; = 0</code> would mean
+  <code>&nabla;f = 0</code>, i.e. an unconstrained stationary point that happens to satisfy the
+  constraint &mdash; check those too, they are genuine candidates.
+</div>
+
+<pre class="ascii-diagram" role="img" aria-label="Lagrange multiplier geometry showing a sphere constrained by a plane and parallel gradient vectors at the tangency point">  WHY  grad f = lambda * grad g
+  ==========================================================
+   Maximise  f  on the surface  g = 0
+   (picture: a sphere resting on a plane, touching it)
+
+        z
+        ^
+        |          surface  f  (a dome)
+        |              .-''''-.
+        |           .-'   .-----.   <- touching at P
+        |        .-'    .'   /   '.     no crossing here
+        |      .'     .'    /      '.
+        |     /      /     /         \
+        |    |      |     |   P       |
+        +----|------|-----|-----------|----> y
+             |      |    (0,0,c)       |
+        ============================|==========  plane  g = 0
+
+   At P the two surfaces SHARE a tangent plane, so their
+   normals are parallel:
+
+        grad f   =  lambda * grad g
+           ^              ^
+           |              |
+           +-------->     +-------->
+        both perpendicular to the shared tangent plane
+  ==========================================================
+   IF the surfaces CROSSED at P, the normals would not be
+   parallel, and P would not be a constrained extremum.
+   That crossing case is exactly what the unconstrained
+   method f_x = f_y = 0 is for.
+  ==========================================================</pre>
+
+<h2>Worked Lagrange example &mdash; largest box from a sheet</h2>
+<pre><code>Maximise  V = x y z   subject to  2x + 2y + 2z = 12
+                        i.e.  g = x + y + z - 6 = 0
+
+METHOD (one constraint, so one multiplier lambda)
+  F = V - lambda (x + y + z - 6)
+     = x y z - lambda x - lambda y - lambda z + 6 lambda
+
+  F_x = y z - lambda          = 0
+  F_y = x z - lambda          = 0
+  F_z = x y - lambda          = 0
+  g   = x + y + z - 6 = 0
+
+FROM THE THREE EQUATIONS
+  yz = xz   ->  z(y - x) = 0  ->  y = x   (z > 0 here)
+  xz = xy   ->  x(z - y) = 0  ->  z = y   (x > 0 here)
+  so  x = y = z.
+
+INTO THE CONSTRAINT
+  3x = 6   ->   x = y = z = 2
+
+VOLUME
+  V = 2 * 2 * 2 = 8 cubic inches   <- the CUBE
+
+WHY IT IS A MAXIMUM
+  lambda = yz = 4
+  Boundary of the feasible triangle (say z = 0) gives V = 0,
+  and the single interior critical point gives V = 8, so the
+  interior value is the global maximum.
+  Equivalently, x + y + z = 6 is fixed and xyz is largest when
+  the three are equal (AM-GM: (x+y+z)/3 >= (xyz)^(1/3)).</code></pre>
+<div class="exam-note"><strong>Read the reasoning:</strong> equating <code>yz = xz = xy</code> and
+dividing by the positive sizes is the step that produces <code>x = y = z</code>. If a size is zero the
+box is degenerate and the volume is zero, so it cannot be the maximiser &mdash; that is why the
+"positive" qualifier in the algebra is legitimate, and saying so earns a mark.</div>
+
+<h2>Numericals in great depth</h2>
+<p>Both halves of this topic are mechanical once the method is fixed, so the marks live in the
+condition checks: never divide by a quantity that might be zero, and always compare against the
+boundary before declaring a global extremum.</p>
+
+<table>
+<tr><th>Id</th><th>Formula identifier</th><th>Use it when</th></tr>
+<tr><td>W1</td><td><code>f_x = f_y = f_z = 0</code></td><td>unconstrained stationary points in three variables</td></tr>
+<tr><td>W2</td><td><code>&Delta;1 = f_xx</code>, <code>&Delta;2 = f_xx f_yy &minus; f_xy&sup2;</code>, <code>&Delta;3 = |H|</code></td><td>classification via Sylvester's criterion, instead of a 27-term determinant</td></tr>
+<tr><td>W3</td><td><code>f &minus; &lambda;g &minus; &mu;h</code></td><td>constrained problems; one multiplier per constraint</td></tr>
+<tr><td>W4</td><td><code>&nabla;f = &lambda; &nabla;g</code></td><td>the compact test for parallel gradients at tangency</td></tr>
+<tr><td>W5</td><td><code>yz = xz = xy &rarr; x = y = z</code></td><td>symmetric products; the fastest line in the box problem</td></tr>
+<tr><td>W6</td><td><code>AM-GM: (a+b+c)/3 &ge; (abc)^(1/3)</code></td><td>independent check that a symmetric product is maximal</td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">5-line answer format</span>
+  <strong>Given:</strong> <code>f(x, y, z)</code> and whether a constraint is present.<br>
+  <strong>Find:</strong> the unconstrained stationary points, or the constrained extremum.<br>
+  <strong>Formula:</strong> W1&ndash;W2 with no constraint, W3&ndash;W4 with one.<br>
+  <strong>Solve:</strong> build <code>F = f &minus; &lambda;g</code>, differentiate, solve the system, evaluate <code>f</code>.<br>
+  <strong>Check:</strong> test the boundary or use AM-GM, and confirm <code>&Delta;1 &gt; 0</code> (or <code>&lt; 0</code>) so the minimum/maximum claim is not just asserted.
+</div>
+
+<h3>Solved A &mdash; <code>f = x&sup2; + y&sup2; + z&sup2; &minus; 2x + 4y &minus; 6z + 11</code>, find and classify</h3>
+<pre><code>Given:   f(x,y,z) = x^2 + y^2 + z^2 - 2x + 4y - 6z + 11
+Find:    the stationary point, and classify it
+Formula: W1  f_x = f_y = f_z = 0
+         W2  Delta1, Delta2, Delta3
+
+STEP 1  First partials
+        f_x = 2x - 2      = 0   ->  x = 1
+        f_y = 2y + 4      = 0   ->  y = -2
+        f_z = 2z - 6      = 0   ->  z = 3
+        One candidate point: (1, -2, 3)
+
+STEP 2  Second partials at that point
+        f_xx = 2     f_xy = 0     f_xz = 0
+        f_yy = 2     f_yz = 0     f_zz = 2
+        All second partials are constants, so the values are
+        the same at every point.
+
+STEP 3  Sylvester's criteria
+        Delta1 = f_xx = 2                                  > 0
+        Delta2 = f_xx f_yy - f_xy^2
+               = (2)(2) - 0 = 4                             > 0
+        Delta3 = |H|  with H = diag(2, 2, 2)
+               = 2 * 2 * 2 = 8                              > 0
+        All three positive -> the Hessian is positive definite
+        -> LOCAL (indeed GLOBAL) MINIMUM
+
+STEP 4  The minimum value
+        f(1, -2, 3) = 1 + 4 + 9 - 2 - 8 - 18 + 11
+                    = 14 - 28 + 11 = -3
+
+CHECK:  Completing the square is the independent check and it
+        is short:
+          f = (x-1)^2 + (y+2)^2 + (z-3)^2 - 3
+        Every square is >= 0, so f >= -3 with equality only
+        at (1, -2, 3). That proves a GLOBAL minimum of -3, not
+        merely a local one, and it confirms the sign of the
+        minimum. If Delta1 had come out negative with Delta2
+        and Delta3 positive, the same argument would prove a
+        global maximum instead.</code></pre>
+<div class="callout">
+  <span class="label">Check note &mdash; the trap in Solved A</span>
+  Expanding the 3&times;3 determinant term by term gives up to 27 products and a sign error is nearly
+  certain. Note that here <code>f_xy = f_xz = f_yz = 0</code>, so <code>H</code> is diagonal and
+  <code>D = f_xx f_yy f_zz</code>. Always check for that first: a separable
+  <code>f = g(x) + h(y) + k(z)</code> has an off-diagonal-free Hessian and the determinant is a
+  simple product. That one observation replaces the whole expansion.
+</div>
+
+<h3>Solved B &mdash; constrained: minimise <code>f = x&sup2; + y&sup2;</code> subject to <code>x + y = 4</code></h3>
+<pre><code>Given:   f(x, y) = x^2 + y^2 ,  constraint  x + y = 4
+Find:    the constrained minimum, and verify it is a minimum
+Formula: W3  F = f - lambda g ,  g = x + y - 4
+         W4  grad f = lambda grad g
+
+STEP 1  Build the augmented function
+        F = x^2 + y^2 - lambda (x + y - 4)
+
+STEP 2  Differentiate
+        F_x = 2x - lambda        = 0
+        F_y = 2y - lambda        = 0
+        g   = x + y - 4 = 0
+
+STEP 3  Solve
+        From the first two:  2x = 2y  ->  x = y
+        Into the constraint:  2x = 4   ->  x = y = 2
+        lambda = 2x = 4
+
+STEP 4  Evaluate
+        f(2, 2) = 4 + 4 = 8   <- the MINIMUM
+
+STEP 5  Prove it is a minimum, not a maximum
+        Feasible set is the line x + y = 4, unbounded. Along
+        it write y = 4 - x, so
+          f(x) = x^2 + (4 - x)^2 = 2x^2 - 8x + 16
+                            = 2(x - 2)^2 + 8
+        The bracket is >= 0, so f >= 8 with equality only at
+        x = 2. There is NO maximum: as x -> +infinity along
+        the line, f -> +infinity. So (2,2) is the global
+        MINIMUM and no maximum exists.
+
+CHECK:  grad f = (2x, 2y) = (4, 4) at (2,2)
+        grad g = (1, 1)
+        lambda grad g = 4 * (1, 1) = (4, 4)   = grad f  PARALLEL</code></pre>
+<div class="exam-note"><strong>Read the reasoning:</strong> Step 5 is the part that earns the last
+mark. Lagrange's method returns <em>candidate</em> points; declaring one the global extremum
+requires either a completing-the-square bound or a boundary comparison. On an unbounded feasible
+set, a maximum may simply not exist &mdash; and saying that explicitly is a strong answer.
+</div>
+
+<h3>Solved C &mdash; Lagrange on a symmetric surface: largest box</h3>
+<pre><code>Given:   maximise V = x y z  subject to  x + y + z = 6
+         (from 2x + 2y + 2z = 12 of sheet metal)
+Find:    the maximum volume, and justify that it is global
+Formula: W3  F = V - lambda (x + y + z - 6)
+         W5  yz = xz = xy  ->  x = y = z
+         W6  AM-GM as the independent check
+
+STEP 1  Augmented function
+        F = x y z - lambda (x + y + z - 6)
+
+STEP 2  Differentiate
+        F_x = y z - lambda = 0
+        F_y = x z - lambda = 0
+        F_z = x y - lambda = 0
+        g   = x + y + z - 6 = 0
+
+STEP 3  Solve. All three of x, y, z are positive for a
+        non-degenerate box, so dividing is legitimate.
+        yz = xz   ->  z(y - x) = 0   ->  y = x
+        xz = xy   ->  x(z - y) = 0   ->  z = y
+        Hence x = y = z, and 3x = 6, so x = y = z = 2.
+        lambda = yz = 4
+
+STEP 4  Volume
+        V = 2 * 2 * 2 = 8 cubic inches
+
+STEP 5  Global check, two independent ways
+        (a) Boundary: if any size is 0 the box is flat and
+            V = 0, which is below 8.
+        (b) AM-GM: (x + y + z)/3 = 2 >= (xyz)^(1/3)
+            so  xyz <= 2^3 = 8, with equality iff x = y = z.
+            The bound 8 is attained, so 8 is the GLOBAL max.
+        (c) Second derivative of V along the constraint is
+            negative, confirming a local max.
+
+CHECK:  Recompute the sheet usage: 2(2) + 2(2) + 2(2) = 12 in
+        exactly as required, and the box 2 x 2 x 2 uses all
+        12 inches. Answer dimensionally sensible: a cube from
+        a fixed sheet is the classical result.</code></pre>
+
+<div class="callout">
+  <span class="label">Numeral traps</span>
+  <ul>
+    <li><strong>Dividing by a size that may be zero.</strong> Going from <code>yz = xz</code> to
+    <code>y = x</code> divides by <code>z</code>. If <code>z = 0</code> the box is degenerate with
+    <code>V = 0</code>; state that case explicitly before dividing.</li>
+    <li><strong>Setting <code>f_x = f_y = 0</code> on a constrained problem.</strong> That is the
+    <em>unconstrained</em> condition and it is wrong here. The constrained condition is
+    <code>&nabla;f = &lambda;&nabla;g</code>.</li>
+    <li><strong>Forgetting the constraint in the system.</strong> Differentiating
+    <code>F</code> gives three equations, but you still must impose <code>g = 0</code>. Three
+    equations alone leave a one-parameter family of answers.</li>
+    <li><strong>Sign of the multiplier.</strong> <code>F = f &minus; &lambda;g</code> and
+    <code>F = f + &lambda;g</code> both work and give opposite <code>&lambda;</code>. Either is
+    acceptable if you are consistent; mixing them mid-solution is not.</li>
+    <li><strong>Using <code>D &gt; 0</code> alone to call a minimum.</strong> You still need
+    <code>&Delta;1 &gt; 0</code> (or <code>f_xx &gt; 0</code>). <code>D &gt; 0</code> with
+    <code>f_xx &lt; 0</code> is a maximum.</li>
+    <li><strong>Expanding the 3&times;3 determinant by hand.</strong> 27 terms, guaranteed sign
+    error. Use <code>&Delta;1</code>, <code>&Delta;2</code>, <code>&Delta;3</code> via Sylvester, and
+    note that a separable <code>f</code> has a diagonal Hessian so <code>D = f_xx f_yy f_zz</code>.</li>
+    <li><strong>One multiplier per constraint.</strong> Two constraints need <code>&lambda;</code> and
+    <code>&mu;</code>, and the candidate points must satisfy <em>both</em>.</li>
+    <li><strong>No closing line.</strong> End with the boxed extremum value and one line on why it
+    is global (boundary, AM-GM, or a completing-the-square bound).</li>
+  </ul>
+</div>
+
+<h2>Retrieval practice &mdash; 5 MCQs</h2>
+
+<div class="quiz" data-answer="c" data-explain="A stationary point of a function of three variables requires all three first partials to vanish: f_x = 0, f_y = 0 and f_z = 0. That is three equations in three unknowns, which is why three-variable problems usually have a finite enumerable set of candidate points rather than a curve of them, unlike the two-variable case.">
+<p class="q">A stationary point of <code>f(x, y, z)</code> must satisfy&hellip;</p>
+<button data-key="a"><code>f_x = 0</code> only</button>
+<button data-key="b"><code>f_x = 0</code> and <code>f_y = 0</code></button>
+<button data-key="c"><code>f_x = 0</code>, <code>f_y = 0</code> and <code>f_z = 0</code></button>
+<button data-key="d"><code>f_xx + f_yy + f_zz = 0</code></button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="b" data-explain="At a constrained extremum of f subject to g = 0, the surface z = f just touches the surface g = 0 without crossing it. Two surfaces touching without crossing share a tangent plane, so their normals are parallel, which is exactly the statement that grad f is a scalar multiple of grad g. If they crossed, there would be no constrained extremum there.">
+<p class="q">At a constrained extremum of <code>f</code> subject to <code>g = 0</code>, the gradients satisfy&hellip;</p>
+<button data-key="a"><code>&nabla;f = 0</code> and <code>&nabla;g = 0</code></button>
+<button data-key="b"><code>&nabla;f = &lambda; &nabla;g</code> for some scalar <code>&lambda;</code></button>
+<button data-key="c"><code>&nabla;f</code> and <code>&nabla;g</code> are perpendicular</button>
+<button data-key="d"><code>&nabla;f = &nabla;g</code> with no scaling</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="a" data-explain="Sylvester's criterion for a symmetric matrix: it is positive definite exactly when all leading principal minors are positive, which makes the Hessian positive definite and the point a strict local minimum. So Delta1 = f_xx positive, Delta2 = f_xx f_yy - f_xy^2 positive, and D = the 3x3 determinant positive together give a minimum.">
+<p class="q">By Sylvester's criterion, a point is a local <strong>minimum</strong> when&hellip;</p>
+<button data-key="a"><code>&Delta;1 &gt; 0</code>, <code>&Delta;2 &gt; 0</code> and <code>D &gt; 0</code></button>
+<button data-key="b"><code>D &gt; 0</code> regardless of the other two</button>
+<button data-key="c"><code>&Delta;1 &gt; 0</code> and <code>D &lt; 0</code></button>
+<button data-key="d"><code>&Delta;2 = 0</code></button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="d" data-explain="The largest box from a fixed sheet is a cube, because a symmetric product xyz is maximised when the three factors are equal (AM-GM). With x + y + z = 6 we get x = y = z = 2 and V = 8 cubic inches. A rectangular box cannot beat the cube here.">
+<p class="q">The largest box from 12 inches of sheet metal (<code>2x + 2y + 2z = 12</code>) has volume&hellip;</p>
+<button data-key="a">12 cubic inches</button>
+<button data-key="b">6 cubic inches</button>
+<button data-key="c">4 cubic inches</button>
+<button data-key="d">8 cubic inches, and the box is a 2 &times; 2 &times; 2 cube</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="b" data-explain="D &lt; 0 is the signature of a saddle point: the surface rises in one direction and falls in another, so the point is neither a local maximum nor a local minimum. No sign of any diagonal entry can rescue it, because the quadratic form is indefinite.">
+<p class="q">If the Hessian determinant satisfies <code>D &lt; 0</code>, the stationary point is&hellip;</p>
+<button data-key="a">A local maximum</button>
+<button data-key="b">A saddle point</button>
+<button data-key="c">A local minimum</button>
+<button data-key="d">Indeterminate, and nothing can be concluded</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<div class="callout">
+  <span class="label">Drill set A &mdash; State and classify (theory)</span>
+  <ol>
+    <li>Find and classify the stationary point of <code>f = x&sup2; + y&sup2; + z&sup2;</code>. <em>(Jun 2023 pattern)</em></li>
+    <li>State the method of Lagrange's multipliers and write the system of equations for one constraint. <em>(Dec 2023 pattern)</em></li>
+    <li>Explain geometrically why <code>&nabla;f = &lambda;&nabla;g</code> at a constrained extremum. <em>(Jun 2024 pattern)</em></li>
+    <li>Find the minimum of <code>f = x&sup2; + y&sup2;</code> subject to <code>x + y = 4</code>. <em>(Dec 2024 pattern)</em></li>
+    <li>Using Lagrange's method, show that the largest box from a fixed sheet is a cube. <em>(Jun 2025 pattern)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Drill set B &mdash; Apply (numericals, with answers)</span>
+  <ol start="6">
+    <li>Find and classify the stationary point of <code>f = x&sup2; + y&sup2; + z&sup2; + 2x &minus; 4y + 6z</code>.
+    <em>Ans: f_x = 2x + 2 = 0 &rarr; x = &minus;1; f_y = 2y &minus; 4 = 0 &rarr; y = 2; f_z = 2z + 6 = 0 &rarr; z = &minus;3.
+    All second partials are 2, so H = diag(2,2,2), D = 8 &gt; 0 and f_xx = 2 &gt; 0 &rarr; minimum at (&minus;1, 2, &minus;3),
+    f = 1 + 4 + 9 &minus; 2 &minus; 8 &minus; 18 = &minus;14</em></li>
+    <li>Find the extrema of <code>f = x&sup2; + y&sup2; + z&sup2;</code> subject to <code>x&sup2; + y&sup2; + z&sup2; = 1</code>.
+    <em>Ans: the constraint is itself a sphere, so f &equiv; 1 on it: <strong>every</strong> point of the sphere is simultaneously a maximum and a minimum. Lagrange: F = f &minus; &lambda;(f&minus;1); 2x(1&minus;&lambda;) = 0, and cyclically, so either &lambda; = 1 (which holds at every feasible point) or x = y = z = 0, which is infeasible. This is the case where &lambda; = 1 and the "extremum" is degenerate &mdash; a good viva question.</em></li>
+    <li>Maximise <code>f = xy</code> subject to <code>x + y = 10</code>.
+    <em>Ans: F = xy &minus; &lambda;(x+y&minus;10); y = &lambda;, x = &lambda; so x = y = 5; f = 25, a maximum since
+    xy = x(10&minus;x) = 25 &minus; (x&minus;5)^2 &le; 25</em></li>
+    <li>Find the extrema of <code>f = x&sup2; + y&sup2; + z&sup2;</code> subject to <code>x + y + z = 6</code>.
+    <em>Ans: F = x&sup2;+y&sup2;+z&sup2; &minus; &lambda;(x+y+z&minus;6); 2x = 2y = 2z = &lambda; so x = y = z = 2; f = 12.
+    By Cauchy-Schwarz, x&sup2;+y&sup2;+z&sup2; &ge; (x+y+z)&sup2;/3 = 12, so 12 is the global minimum. There is
+    no maximum, because the plane x+y+z = 6 is unbounded and f &rarr; &infin; along it.</em></li>
+    <li>Find the extrema of <code>f = x&sup2;y&sup2; + y&sup2;z&sup2; + z&sup2;x&sup2;</code>.
+    <em>Ans: f_x = 2x y^2 + 2z^2 x = 2x(y^2 + z^2) = 0, and cyclically. Either all zero (origin) or, taking
+    all non-zero, y^2+z^2 = z^2+x^2 = x^2+y^2 = 0 which is impossible for non-zero x, so the only real
+    stationary point is (0,0,0) with f = 0, and since f is a sum of squares it is a GLOBAL minimum</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Special lines for extra marks</span>
+  <ul>
+    <li><strong>Opening line:</strong> "To maximise <code>f(x<sub>i</sub>)</code> subject to <code>g(x<sub>i</sub>) = 0</code>, form the augmented function <code>F = f &minus; &lambda;g</code> and set all partials of <code>F</code> to zero together with <code>g = 0</code>."</li>
+    <li><strong>Geometric line:</strong> "At a constrained extremum the surface <code>z = f</code> is tangent to the constraint surface <code>g = 0</code> without crossing it, so the two share a tangent plane and their normal vectors are parallel: <code>&nabla;f = &lambda;&nabla;g</code>."</li>
+    <li><strong>Symmetry line:</strong> "From <code>yz = xz = xy</code> with <code>x, y, z &gt; 0</code> we obtain <code>x = y = z</code>, so the extremum of the symmetric product <code>xyz</code> subject to <code>x + y + z = 6</code> occurs at the cube <code>x = y = z = 2</code>."</li>
+    <li><strong>Limitation line:</strong> "Lagrange's method yields <em>candidates</em> only; the boundary of the feasible region must be compared, since a maximum may not exist on an unbounded constraint set &mdash; here the boundary gives <code>V = 0</code> against the interior <code>V = 8</code>."</li>
+    <li><strong>Closing line:</strong> "Hence the constrained maximum of <code>V = xyz</code> is <code>8</code> cubic inches, attained at the cube <code>2 &times; 2 &times; 2</code>. <strong>[boxed]</strong>"</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <span class="label">Exam tips</span>
+  <ul>
+    <li><strong>State the method before using it.</strong> Write the augmented function
+    <code>F = f &minus; &lambda;g</code> on the first line. It is a mark and it fixes the sign
+    convention.</li>
+    <li><strong>Use Sylvester's criteria,</strong> not the raw 3&times;3 expansion. Three short
+    quantities replace 27 products, and the sign logic becomes obvious.</li>
+    <li><strong>Check for a diagonal Hessian first.</strong> A separable
+    <code>f = g(x) + h(y) + k(z)</code> has <code>f_xy = f_xz = f_yz = 0</code>, so
+    <code>D = f_xx f_yy f_zz</code> immediately.</li>
+    <li><strong>Underline</strong> the constraint, the multiplier, and the positivity assumption
+    before you divide by a size. <strong>Box</strong> the extremum value and the point where it
+    occurs.</li>
+    <li><strong>Prove the extremum is global</strong> with a one-line check: AM-GM, Cauchy-Schwarz,
+    a completing-the-square bound, or the boundary value. This is the mark that separates a
+    5 from a 7.</li>
+    <li><strong>Attempt order:</strong> unconstrained stationary points (mechanical) &rarr; the
+    box/volume problem (everyone can do it) &rarr; the abstract "state the method and explain the
+    geometry" question last.</li>
+  </ul>
+</div>
+</div><!-- end lesson tab -->
+
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT102 Unit 1</p>
+<h1>Three Variables &amp; Lagrange &mdash; Quick Reference</h1>
+
+<h2>The two statements (write verbatim)</h2>
+<pre><code>UNCONSTRAINED
+  f(x, y, z) has a stationary point where
+      f_x = 0 ,  f_y = 0 ,  f_z = 0
+  and it is classified by the Hessian
+      H = | f_xx  f_xy  f_xz |
+          | f_xy  f_yy  f_yz |
+          | f_xz  f_yz  f_zz |
+  D = |H|:   D > 0 & f_xx > 0 -> MINIMUM
+            D > 0 & f_xx &lt; 0 -> MAXIMUM
+            D &lt; 0              -> SADDLE
+            D = 0              -> inconclusive
+
+CONSTRAINED  (one constraint g = 0)
+  Form  F = f - lambda g
+  Then  F_x = F_y = F_z = 0   together with   g = 0
+  Equivalently  grad f = lambda grad g</code></pre>
+
+<h2>Derivation steps &mdash; why the gradients must be parallel</h2>
+<pre><code>1. At a constrained extremum, z = f is tangent to g = 0
+   and does NOT cross it.
+2. Two surfaces tangent at P share the same tangent plane.
+3. Grad f and grad g are both normal to that plane.
+4. Two vectors normal to the same plane are parallel:
+        grad f = lambda grad g
+   Hence proved.</code></pre>
+
+<h2>Formula table</h2>
+<table>
+<tr><th>Object</th><th>Formula</th></tr>
+<tr><td>Stationary condition</td><td><code>f_x = f_y = f_z = 0</code></td></tr>
+<tr><td>Hessian <code>H</code></td><td>3&times;3 symmetric matrix of second partials</td></tr>
+<tr><td><code>&Delta;1</code></td><td><code>f_xx</code></td></tr>
+<tr><td><code>&Delta;2</code></td><td><code>f_xx f_yy &minus; f_xy&sup2;</code></td></tr>
+<tr><td><code>&Delta;3 = D</code></td><td><code>|H|</code></td></tr>
+<tr><td>Minimum (Sylvester)</td><td><code>&Delta;1 &gt; 0</code>, <code>&Delta;2 &gt; 0</code>, <code>D &gt; 0</code></td></tr>
+<tr><td>Maximum (Sylvester)</td><td><code>&Delta;1 &lt; 0</code>, <code>&Delta;2 &gt; 0</code>, <code>D &gt; 0</code></td></tr>
+<tr><td>Saddle</td><td><code>D &lt; 0</code></td></tr>
+<tr><td>Diagonal Hessian case</td><td><code>D = f_xx f_yy f_zz</code> when all mixed partials vanish</td></tr>
+<tr><td>Augmented function</td><td><code>F = f &minus; &lambda;g</code> (one multiplier per constraint)</td></tr>
+<tr><td>Gradient parallelism</td><td><code>&nabla;f = &lambda; &nabla;g</code></td></tr>
+<tr><td>Symmetric product</td><td><code>yz = xz = xy &rarr; x = y = z</code> (for positive sizes)</td></tr>
+<tr><td>AM-GM check</td><td><code>(a+b+c)/3 &ge; (abc)^(1/3)</code></td></tr>
+<tr><td>Cauchy-Schwarz check</td><td><code>a&sup2;+b&sup2;+c&sup2; &ge; (a+b+c)&sup2;/3</code></td></tr>
+</table>
+
+<h2>Key definitions</h2>
+<ul>
+  <li><strong>Stationary point</strong> &mdash; a point where all three first partials vanish.</li>
+  <li><strong>Hessian</strong> &mdash; the symmetric 3&times;3 matrix of second partials at the point.</li>
+  <li><strong>Saddle point</strong> &mdash; stationary point with <code>D &lt; 0</code>; neither max nor min.</li>
+  <li><strong>Lagrange multiplier</strong> &mdash; the scalar <code>&lambda;</code> in <code>&nabla;f = &lambda;&nabla;g</code>; one per constraint.</li>
+  <li><strong>Augmented function</strong> &mdash; <code>F = f &minus; &lambda;g</code>, whose stationary points are the constrained candidates.</li>
+  <li><strong>Leading principal minor</strong> &mdash; determinant of the top-left <code>k &times; k</code> block; drives Sylvester's criterion.</li>
+</ul>
+
+<h2>Exam checklist</h2>
+<ul>
+  <li>&#x2610; Did I write all THREE of <code>f_x = f_y = f_z = 0</code>, not just two?</li>
+  <li>&#x2610; Did I classify with <code>&Delta;1</code>, <code>&Delta;2</code>, <code>D</code> rather than expanding 27 terms?</li>
+  <li>&#x2610; Did I check whether the Hessian is diagonal (separable <code>f</code>) before doing any work?</li>
+  <li>&#x2610; For a constrained question, did I use <code>F = f &minus; &lambda;g</code> and NOT <code>f_x = f_y = 0</code>?</li>
+  <li>&#x2610; Did I impose the constraint <code>g = 0</code> alongside the differentiated equations?</li>
+  <li>&#x2610; Did I state the positivity assumption before dividing by a size?</li>
+  <li>&#x2610; Did I prove the extremum is global (AM-GM, Cauchy-Schwarz, or boundary check)?</li>
+  <li>&#x2610; Did I box the value <em>and</em> the point, and add one significance line?</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="callout">
+  <span class="label">Fastest route through any question on this topic</span>
+  1. No constraint &rarr; write <code>f_x = f_y = f_z = 0</code>, solve, then
+  <code>&Delta;1</code>, <code>&Delta;2</code>, <code>D</code>.<br>
+  2. With a constraint &rarr; write <code>F = f &minus; &lambda;g</code>, then
+  <code>F_x = F_y = F_z = 0</code> <em>together with</em> <code>g = 0</code>.<br>
+  3. Symmetric product or sum &rarr; expect <code>x = y = z</code> and skip the algebra.<br>
+  4. Compare against the boundary (a zero size, or <code>y = 0</code>) to prove the extremum is global.<br>
+  5. Close with the boxed value, the point, and one AM-GM or Cauchy-Schwarz confirmation line.
+</div>
+</div><!-- end cheatsheet tab -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT102 Unit 1 &middot; from 10 PYQ sessions (Dec-2023 &rarr; Jun-2025)</p>
+<h1>Three Variables &amp; Lagrange &mdash; questionnaire</h1>
+<div class="q-meta">Q1/Q3 slot &middot; recurring pattern &middot; "find and classify stationary point" or "maximise subject to a constraint" &rarr; augmented function plus a criteria table, never a prose blob</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>Find and classify the stationary point of f = x&sup2; + y&sup2; + z&sup2; &minus; 2x + 4y &minus; 6z + 11</h3>
+<p>Write the three-equation stationary condition and solve it in one line: f<sub>x</sub> = 2x &minus; 2 = 0, f<sub>y</sub> = 2y + 4 = 0, f<sub>z</sub> = 2z &minus; 6 = 0, giving (1, &minus;2, 3). Then show every second partial equals 2, so the Hessian is diagonal and D = 2&middot;2&middot;2 = 8. Apply Sylvester's criteria &mdash; &Delta;1 = 2 &gt; 0, &Delta;2 = 4 &gt; 0, D = 8 &gt; 0 &mdash; and conclude a local minimum. Then complete the square as the independent check: f = (x&minus;1)&sup2; + (y+2)&sup2; + (z&minus;3)&sup2; &minus; 3, so f &ge; &minus;3 with equality only at that point, which upgrades local to <strong>global</strong> and gives the value f = &minus;3.</p>
+<div class="q-foot"><b>write</b> &mdash; stationary condition and solution (2) &rarr; diagonal Hessian and D (1) &rarr; Sylvester criteria and classification (2) &rarr; completing the square with the value &minus;3 (2).</div>
+<div class="q-foot"><b>check</b> &mdash; the completing-the-square line is what makes it global; the point is (1, &minus;2, 3) with the y and z signs reversed from the linear terms, and the value is &minus;3, not +3.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>Using Lagrange's multipliers, find the largest box that can be made from 12 inches of sheet metal, 2x + 2y + 2z = 12</h3>
+<p>Reduce to x + y + z = 6 and set V = xyz. Form F = xyz &minus; &lambda;(x + y + z &minus; 6) and differentiate to get yz = &lambda;, xz = &lambda;, xy = &lambda;, plus the constraint. Note explicitly that a non-degenerate box has x, y, z &gt; 0, so dividing by a size is legitimate, then equate to get x = y = z, hence x = y = z = 2 and V = 8. Prove it is global two ways: the boundary (any size zero) gives V = 0, and AM-GM gives xyz &le; ((x+y+z)/3)&sup3; = 8 with equality at x = y = z. Close by noting the optimum is a cube.</p>
+<div class="q-foot"><b>write</b> &mdash; constraint reduced + augmented F (1) &rarr; three differentiated equations with the constraint (2) &rarr; positivity note and x = y = z = 2 (1) &rarr; V = 8 boxed (1) &rarr; boundary and AM-GM justification (2).</div>
+<div class="q-foot"><b>check</b> &mdash; the multiplier equations alone leave a family until the constraint is imposed; 2 &times; 2 &times; 2 = 8 in cubic inches, and the AM-GM line is what earns the final mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 12 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Explain, with a diagram, why &nabla;f = &lambda;&nabla;g at a constrained extremum of f subject to g = 0</h3>
+<p>Start with the observation that on the constraint surface <code>g = 0</code> the function <code>z = f</code> can only reach a maximum or minimum at a point where it just <em>touches</em> the surface instead of crossing it. Two surfaces that touch without crossing share a tangent plane at the contact point. Now <code>&nabla;f</code> and <code>&nabla;g</code> are both normal to that shared plane, and two vectors normal to the same plane are parallel, so <code>&nabla;f = &lambda;&nabla;g</code> for some scalar <code>&lambda;</code>. Draw a dome tangent to a plane, mark the contact point, and draw both normals. Add the complement: where the two surfaces cross, the normals are not parallel and the plain conditions <code>f_x = f_y = 0</code> apply instead.</p>
+<div class="q-foot"><b>write</b> &mdash; tangency observation (1) &rarr; shared tangent plane (1) &rarr; both gradients normal to it (1) &rarr; parallelism and the conclusion (1) &rarr; labelled diagram (1).</div>
+<div class="q-foot"><b>check</b> &mdash; the diagram must show the surfaces touching and NOT crossing, with both normals drawn at the contact point; stating the result without the geometric argument loses the reasoning marks.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> Write the stationary condition or the augmented function F = f &minus; &lambda;g on the first line, before any derivative.</li>
+    <li><strong>Visual:</strong> For Lagrange, draw the tangency diagram; for classification, give the criteria table with the three signs filled in.</li>
+    <li><strong>Reason:</strong> Number the steps &mdash; condition, solve, evaluate, classify &mdash; and state any assumption you divide on.</li>
+    <li><strong>Close:</strong> Box the value and the point, then add one line proving the extremum is global (AM-GM, Cauchy-Schwarz, or boundary).</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "To maximise f(x&#8321;, &hellip;, x&#8345;) subject to g(x&#8321;, &hellip;, x&#8345;) = 0, introduce the multiplier &lambda; and consider the augmented function F = f &minus; &lambda;g. Setting all partial derivatives of F equal to zero, together with the constraint, gives the system whose solutions are the constrained stationary points."</p>
+  <p class="answer-close"><strong>For this topic:</strong> condition or augmented function &rarr; solve the system &rarr; classify with &Delta;1/&Delta;2/D, or equating the multiplier equations &rarr; box the value and point &rarr; one global-extremum justification line.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>State the method first</strong> &mdash; the stationary condition or F = f &minus; &lambda;g before any calculus; it is a banked mark</li>
+    <li><strong>Diagram before prose</strong> &mdash; the tangency picture for Lagrange, the criteria table for classification</li>
+    <li><strong>Write your assumptions</strong> &mdash; "for a non-degenerate box x, y, z &gt; 0, so dividing is valid"</li>
+    <li><strong>Underline keywords</strong> &mdash; augmented function, multiplier, parallel gradients, Sylvester, leading principal minors</li>
+    <li><strong>Box both the value and the point</strong> &mdash; "V = 8 cubic inches at (2, 2, 2)"</li>
+    <li><strong>Attempt order:</strong> unconstrained stationary points &rarr; the box/volume problem &rarr; the abstract geometry question last</li>
+    <li><strong>Never leave blank:</strong> the method statement plus the first two equations is 40% of any question</li>
+    <li><strong>Close every answer:</strong> boxed result / AM-GM confirmation / "hence proved"</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Find and classify the stationary point of f = x&sup2; + y&sup2; + z&sup2; &minus; 2x + 4y &minus; 6z + 11</h3>
+<p class="answer-lead">All second partials of a separable quadratic are constants, so the Hessian is diagonal and the classification is immediate.</p>
+<pre class="ascii-diagram" role="img" aria-label="Stationary point workflow for the separable quadratic with a diagonal Hessian giving a global minimum of minus three">  f = x^2 + y^2 + z^2 - 2x + 4y - 6z + 11
+  ==========================================================
+   STEP 1   THREE FIRST PARTIALS, ALL SET TO ZERO
+  ----------------------------------------------------------
+        f_x = 2x - 2 = 0    ->  x =  1
+        f_y = 2y + 4 = 0    ->  y = -2
+        f_z = 2z - 6 = 0    ->  z =  3
+                       one candidate:  (1, -2, 3)
+  ----------------------------------------------------------
+   STEP 2   HESSIAN IS CONSTANT AND DIAGONAL
+  ----------------------------------------------------------
+        f_xx = 2   f_xy = 0   f_xz = 0
+        f_yy = 2   f_yz = 0   f_zz = 2
+
+              +---+---+---+
+              | 2 | 0 | 0 |
+              +---+---+---+
+        H  =  | 0 | 2 | 0 |     diagonal, so no 27-term
+              +---+---+---+     expansion is needed
+              | 0 | 0 | 2 |
+              +---+---+---+
+
+        D = 2 * 2 * 2 = 8
+  ----------------------------------------------------------
+   STEP 3   SYLVESTR'S CRITERIA
+  ----------------------------------------------------------
+        Delta1 = f_xx            = 2    > 0
+        Delta2 = f_xx f_yy - f_xy^2 = 4  > 0
+        Delta3 = D                = 8    > 0
+        all three positive -> Hessian positive definite
+        -> LOCAL MINIMUM
+  ----------------------------------------------------------
+   STEP 4   COMPLETE THE SQUARE  (the global check)
+  ----------------------------------------------------------
+        f = (x - 1)^2 + (y + 2)^2 + (z - 3)^2 - 3
+                                   |
+              each square >= 0      |
+              therefore f >= -3, equality ONLY at (1, -2, 3)
+                                   |
+                                   v
+        so the MINIMUM IS GLOBAL and its VALUE IS -3
+  ==========================================================</pre>
+<ol class="answer-steps">
+<li><strong>Stationary condition:</strong> <code>f_x = 2x &minus; 2 = 0</code> gives <code>x = 1</code>, <code>f_y = 2y + 4 = 0</code> gives <code>y = &minus;2</code>, and <code>f_z = 2z &minus; 6 = 0</code> gives <code>z = 3</code>, so the unique candidate is <code>(1, &minus;2, 3)</code>.</li>
+<li><strong>Hessian:</strong> all second partials are constants, with <code>f_xx = f_yy = f_zz = 2</code> and all mixed partials zero, so <code>H = diag(2, 2, 2)</code> and <code>D = 8</code>.</li>
+<li><strong>Classification by Sylvester's criterion:</strong> <code>&Delta;1 = 2 &gt; 0</code>, <code>&Delta;2 = (2)(2) &minus; 0 = 4 &gt; 0</code>, <code>D = 8 &gt; 0</code>, so the point is a local minimum.</li>
+<li><strong>Value:</strong> <code>f(1, &minus;2, 3) = 1 + 4 + 9 &minus; 2 &minus; 8 &minus; 18 + 11 = &minus;3</code>.</li>
+<li><strong>Independent global check:</strong> completing the square gives <code>f = (x&minus;1)&sup2; + (y+2)&sup2; + (z&minus;3)&sup2; &minus; 3</code>. Every square is non-negative, so <code>f &ge; &minus;3</code> with equality only at <code>(1, &minus;2, 3)</code> &mdash; the minimum is global, not merely local.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box "<code>f</code> has a <strong>global minimum &minus;3</strong> at <code>(1, &minus;2, 3)</code>" and write the completing-the-square form as the justification.</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Using Lagrange's multipliers, find the largest box that can be made from 12 inches of sheet metal, 2x + 2y + 2z = 12</h3>
+<p class="answer-lead">The constraint reduces to a symmetric sum, so the symmetric product xyz is largest when the three sizes are equal &mdash; a cube.</p>
+<pre class="ascii-diagram" role="img" aria-label="Lagrange multiplier solution for the largest box showing the augmented function, the multiplier equations and the cubic result">  LARGEST BOX FROM 12 in OF SHEET
+  ==========================================================
+   2x + 2y + 2z = 12   ->   x + y + z = 6      (sheet cost)
+   maximise  V = x y z                          (volume)
+  ==========================================================
+   AUGMENTED FUNCTION     (one constraint, so one lambda)
+  ----------------------------------------------------------
+        F = x y z  -  lambda ( x + y + z - 6 )
+  ==========================================================
+   DIFFERENTIATE   F_x = F_y = F_z = 0   WITH   x+y+z = 6
+  ----------------------------------------------------------
+        F_x = y z - lambda = 0     ->  yz = lambda
+        F_y = x z - lambda = 0     ->  xz = lambda
+        F_z = x y - lambda = 0     ->  xy = lambda
+        g   = x + y + z - 6 = 0
+  ----------------------------------------------------------
+   NOTE: a non-degenerate box has x, y, z > 0, so dividing
+         by a size is legitimate. (If a size were 0 then
+          V = 0 and it cannot be the maximiser.)
+  ==========================================================
+   EQUATE THE THREE           3x = 6
+  ----------------------------------------------------------
+        yz = xz  ->  z(y - x) = 0  ->  y = x
+        xz = xy  ->  x(z - y) = 0  ->  z = y
+                                    |
+                                    v
+                          x = y = z = 2
+                          lambda = yz = 4
+  ==========================================================
+   VOLUME      V = 2 * 2 * 2 = 8 cubic inches       [BOXED]
+                check sheet: 2(2)+2(2)+2(2) = 12 in, exact
+  ----------------------------------------------------------
+   IS IT GLOBAL?  two independent confirmations
+  ----------------------------------------------------------
+   (a) BOUNDARY: a zero size gives V = 0, below 8.
+   (b) AM-GM:   (x+y+z)/3 = 2  >=  (xyz)^(1/3)
+               so  xyz <= 8, with equality iff x = y = z.
+   Both bound V from above by 8, and 8 is attained, so
+   8 is the GLOBAL maximum and the box is a CUBE.
+  ==========================================================</pre>
+<ol class="answer-steps">
+<li><strong>Reduce the constraint:</strong> divide <code>2x + 2y + 2z = 12</code> by 2 to get <code>x + y + z = 6</code>, and take <code>V = xyz</code> as the function to maximise.</li>
+<li><strong>Augmented function:</strong> <code>F = xyz &minus; &lambda;(x + y + z &minus; 6)</code>.</li>
+<li><strong>System:</strong> <code>yz = &lambda;</code>, <code>xz = &lambda;</code>, <code>xy = &lambda;</code> from the partials, together with the constraint <code>x + y + z = 6</code>.</li>
+<li><strong>Solve:</strong> since the sizes are positive, <code>yz = xz</code> gives <code>y = x</code> and <code>xz = xy</code> gives <code>z = y</code>, so <code>x = y = z</code> and <code>3x = 6</code> gives <code>x = y = z = 2</code>, with <code>&lambda; = 4</code>.</li>
+<li><strong>Volume and global check:</strong> <code>V = 8</code> cubic inches. The boundary case of a zero size gives <code>V = 0</code>, and AM-GM gives <code>xyz &le; ((x+y+z)/3)&sup3; = 8</code> with equality at <code>x = y = z</code>, so 8 is the global maximum and the box is a cube.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box "<code>V<sub>max</sub> = 8</code> cubic inches at <code>x = y = z = 2</code>" and write "the largest box is a cube, confirmed by AM-GM since <code>xyz &le; ((x+y+z)/3)&sup3;</code>."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Explain, with a diagram, why &nabla;f = &lambda;&nabla;g at a constrained extremum of f subject to g = 0</h3>
+<p class="answer-lead">The explanation is geometric: the optimum is where the two surfaces touch rather than cross, and touching surfaces share a tangent plane.</p>
+<pre class="ascii-diagram" role="img" aria-label="Diagram of a dome surface tangent to a plane at point P, with both gradient vectors drawn as parallel normals to the shared tangent plane">  CONSTRAINED EXTREMUM  =  TANGENCY, NOT CROSSING
+  ==========================================================
+        z
+        ^
+        |             surface  z = f(x, y)     a dome
+        |                 .-'''''''-.
+        |              .-'    .-----.  '-.
+        |           .-'     .'       '.   '-.
+        |        .-'      .'     P       '.   '-.   surfaces
+        |      .'        .'     (0,0)      '.     '.  TOUCH here
+        |     /         /         |          \      \
+        +----|---------|---------|-----------|------|----> y
+             |         |         |           |      |
+        =====|=========|=========|===========|======|====  plane
+             |         |         |           |      |     g = 0
+        -----|---------|---------|-----------|------|-----  (no
+             |         |         |           |      |      crossing)
+  ==========================================================
+   AT P   both surfaces share ONE tangent plane, so
+          both gradients are NORMAL to that same plane:
+
+              grad f  =  lambda * grad g
+                 ^                 ^
+                 |                 |
+                 +-------->        +-------->
+                       parallel, not equal
+  ----------------------------------------------------------
+   IF THEY CROSSED at P, the tangent planes would differ,
+   the normals would NOT be parallel, and P would not be a
+   constrained extremum. That crossing case is what the
+   unconstrained conditions f_x = f_y = 0 are for instead.
+  ----------------------------------------------------------
+   Special case: lambda = 0  means  grad f = 0, i.e. an
+   unconstrained stationary point that happens to satisfy
+   the constraint. Those are genuine candidates too and
+   must be tested as well.
+  ==========================================================</pre>
+<ol class="answer-steps">
+<li><strong>The observation:</strong> on the constraint surface <code>g = 0</code>, a maximum or minimum of <code>z = f(x, y)</code> can occur only where the surface just touches the constraint surface rather than crossing it. Crossing points allow movement to larger and smaller values along the surface.</li>
+<li><strong>Shared tangent plane:</strong> two surfaces that touch without crossing are tangent at the contact point, so they have the same tangent plane there.</li>
+<li><strong>Normals:</strong> <code>&nabla;f</code> and <code>&nabla;g</code> are both normal to that shared tangent plane.</li>
+<li><strong>Conclusion:</strong> two vectors normal to the same plane are parallel, hence <code>&nabla;f = &lambda; &nabla;g</code> for some scalar <code>&lambda;</code>. This is exactly the condition Lagrange's method enforces, and it is why the augmented function <code>F = f &minus; &lambda;g</code> has zero gradient at the constrained extremum.</li>
+<li><strong>Complement and edge case:</strong> where the two surfaces cross, the normals are not parallel and the unconstrained conditions apply; and <code>&lambda; = 0</code> recovers an unconstrained stationary point that also satisfies the constraint, which must still be tested.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box "<code>&nabla;f = &lambda;&nabla;g</code>" and close with "the surfaces are tangent at the extremum, not crossing, so their normals are parallel."</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT102 scheme</a> &mdash; Module 1 scope, which lists "Maxima &amp; Minima (two and three variables)" and "Method of Lagranges Multipliers" as required items.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/mathematics-i-bt-102">RGPV Notes BT-102 syllabus page</a> &mdash; the nine Module 1 items verbatim, indexed from rgpv.ac.in.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-102-mathematics-i">CareerShiksha BT102 PYQ archive</a> &mdash; Dec-2025 through Nov-2022 papers.</li>
+    <li><a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">CampusPrep &mdash; BT-102 PYQs (Jun 2022 through Jun 2025)</a>.</li>
+    <li><a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">RGPV Question Papers &mdash; BT-102 archive with solutions</a>.</li>
+  </ul>
+  <p class="source-note">Checked 28 September 2026. The official scheme fixes scope; the syllabus index and paper archives support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt102/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taylor's Theorem in Two Variables &mdash; RGPV BT102 PYQ Prep &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt102/unit1 $</span> cat 06-taylor-two-variables.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT102 Unit 1 &mdash; Calculus</p>
+<h1>Taylor's Theorem in Two Variables &mdash; The Surface Version of a Series</h1>
+<p><em>Syllabus item 5 of Module 1: "Taylor's theorem for function of two variables". Topic 03
+expanded a <em>curve</em>; this topic expands a <em>surface</em>. The jump in difficulty is real but
+manageable: the one-variable formula simply appears once for every total order, and the mixed
+partials come from topic 05.</em></p>
+
+<h2>Statement (write verbatim)</h2>
+<pre><code>Let f(x, y) be defined in a neighbourhood of (a, b) and possess
+partial derivatives of all orders up to n in that neighbourhood.
+Put   h = x - a,  k = y - b.
+
+Then for (x, y) near (a, b):
+
+  f(x, y) = f(a, b)
+          + [ f_x(a,b) h + f_y(a,b) k ]
+          + 1/2! [ f_xx h^2 + 2 f_xy h k + f_yy k^2 ]
+          + 1/3! [ f_xxx h^3 + 3 f_xxy h^2 k + 3 f_xyy h k^2 + f_yyy k^3 ]
+          + ... + a remainder term
+
+The n-th order group is  1/n! * (h d/dx + k d/dy)^n f  (Euler operator).</code></pre>
+
+<div class="callout">
+  <span class="label">The one thing that makes this topic tractable</span>
+  Read each line as a <strong>total order</strong>, not as a term count. The zeroth line has one
+  term, the first line has two, the second has three, the third has four. RGPV almost never asks
+  beyond the second-order line &mdash; so learn the first three lines cold and treat the
+  third-order line as bonus.
+</div>
+
+<h2>The three lines you must be able to write instantly</h2>
+<pre><code>ZEROTH ORDER
+  f(a, b)
+
+FIRST ORDER  (the tangent plane)
+  f(a, b) + f_x(a,b) h + f_y(a,b) k
+
+SECOND ORDER  (the quadratic surface)
+  f(a, b) + f_x h + f_y k
+         + 1/2 [ f_xx h^2 + 2 f_xy h k + f_yy k^2 ]</code></pre>
+<table>
+<tr><th>Term</th><th>Count</th><th>Where the coefficients come from</th></tr>
+<tr><td>zeroth</td><td>1</td><td><code>f</code> itself</td></tr>
+<tr><td>first</td><td>2</td><td><code>f_x</code>, <code>f_y</code></td></tr>
+<tr><td>second</td><td>3</td><td><code>f_xx</code>, <code>f_xy</code>, <code>f_yy</code> &mdash; note the <strong>2</strong> in front of the mixed term</td></tr>
+<tr><td>third</td><td>4</td><td>binomial coefficients 1, 3, 3, 1</td></tr>
+</table>
+
+<h2>Why the 2 in front of the mixed term</h2>
+<p>The mixed term carries the coefficient <code>2 f_xy h k / 2! = f_xy h k</code>. It appears twice
+because the cross product <code>hk</code> can be formed in two orders, <code>dx dy</code> and
+<code>dy dx</code>, and by Schwarz' theorem those are equal. Writing the full second-order group
+without the 2 is the single most common error on this topic.</p>
+
+<pre class="ascii-diagram" role="img" aria-label="The three total-order lines of the two-variable Taylor expansion with the coefficient pattern of each">  TAYLOR IN TWO VARIABLES  --  count by TOTAL ORDER
+  =========================================================
+   h = x - a ,  k = y - b
+
+   ORDER 0   1 term        f(a, b)
+                    |
+   ORDER 1   2 terms       f_x(a,b) h  +  f_y(a,b) k
+                    |
+   ORDER 2   3 terms       1/2 [ f_xx h^2  +  2 f_xy h k
+                                        +  f_yy k^2 ]
+                    |
+   ORDER 3   4 terms       1/6 [ f_xxx h^3
+                                 + 3 f_xxy h^2 k
+                                 + 3 f_xyy h k^2
+                                 +   f_yyy k^3 ]
+  =========================================================
+   COEFFICIENTS WITHIN A LINE are the binomial row:
+      order 0 : 1
+      order 1 : 1 1
+      order 2 : 1 2 1
+      order 3 : 1 3 3 1
+   The 2 in order 2 exists because hk can be reached by
+   dx then dy, or dy then dx -- Schwarz says both are f_xy.
+  =========================================================
+   COMPACT FORM:  1/n! ( h d/dx + k d/dy )^n f
+   This is Euler's operator and generates every line above.</pre>
+
+<h2>Maclaurin in two variables is just a = 0, b = 0</h2>
+<pre><code>f(x, y) = f(0, 0) + (f_x) x + (f_y) y
+                   + 1/2 [ f_xx x^2 + 2 f_xy x y + f_yy y^2 ] + ...
+(all partials evaluated at the origin)
+
+Memorize the common ones:
+  e^(x + y) = 1 + (x + y) + (x + y)^2/2! + ...
+            = 1 + x + y + 1/2 (x^2 + 2xy + y^2) + ...
+  e^x e^y   = the same thing, since e^(x+y) = e^x e^y
+  sin(x + y), cos(x + y)  -- expand the bracket, same rule
+
+Standalone pairs (NOT functions of x + y, so different):
+  e^(xy)    = 1 + xy + (xy)^2/2! + ...      <- no x^2, no y^2
+  sin(x)cos(y) = (x - x^3/6 + ...)(1 - y^2/2 + ...)
+               = x + x y^2/2 - x^3/6 - ...  <- cross terms only</code></pre>
+<div class="exam-note"><strong>Read the distinction:</strong> a function of
+<code>x + y</code> expands as a Taylor series in the single variable <code>u = x + y</code>, so
+<em>all</em> powers of <code>x</code> and <code>y</code> appear. A function of <code>xy</code> like
+<code>e^(xy)</code> expands in powers of the <em>product</em>, so only <code>xy</code>, <code>x&sup2;y&sup2;</code>,
+<code>x&sup3;y&sup3;</code> appear and never a lone <code>x&sup2;</code>. Deciding which case you are in
+is the first step of every question on this topic.</div>
+
+<h2>Deriving the two-variable result from the one-variable theorem</h2>
+<pre><code>For fixed k, treat y = b + k as a CONSTANT and apply the
+one-variable Taylor theorem to f(., b + k) in x about x = a:
+
+  f(x, b + k) = f(a, b + k)
+              + f_x(a, b + k) h
+              + 1/2 f_xx(a, b + k) h^2 + ...
+
+Now expand EACH piece about b, in powers of k:
+
+  f(a, b + k)     = f(a,b)   + f_y(a,b) k   + 1/2 f_yy(a,b) k^2 + ...
+  f_x(a, b + k)   = f_x(a,b) + f_xy(a,b) k  + ...
+  f_xx(a, b + k)  = f_xx(a,b)+ f_xxy(a,b) k + ...
+
+Collecting every term of TOTAL order 2:
+
+  f(a,b) + f_x h + f_y k
+    + 1/2 f_xx h^2
+    + 1/2 * 2 f_xy h k        <-  f_x * k gives f_xy h k,
+    + 1/2 f_yy k^2               and it is NOT halved, because
+                                 the 1/2 of the x-expansion and
+                                 the 1/2 of the y-expansion are
+                                 different 1/2's being multiplied
+  which is exactly the second-order line.  QED</code></pre>
+
+<h2>Numericals in great depth</h2>
+<p>Every question on this topic is "evaluate all the required partials at one point, then assemble
+the right number of lines". The whole difficulty is bookkeeping, so the identifier table and the
+check line are what earn the marks.</p>
+
+<table>
+<tr><th>Id</th><th>Formula identifier</th><th>Use it when</th></tr>
+<tr><td>V1</td><td><code>&part;x^n/&part;x = n x^(n-1)</code>, <code>&part;x^n/&part;y = 0</code></td><td>expand a bivariate polynomial. The second half is the one students forget: <code>x&sup2;</code> has <em>no</em> <code>y</code>-derivative.</td></tr>
+<tr><td>V2</td><td><code>&part; e^u/&part;x = e^u u_x</code></td><td>exponentials; the exponent is a function of both variables</td></tr>
+<tr><td>V3</td><td>coefficient row <code>1, 2, 1</code> at order 2</td><td>assembling the quadratic group; the middle coefficient is 2</td></tr>
+<tr><td>V4</td><td><code>1/n! (h &part;x + k &part;y)^n f</code></td><td>generating any order without expanding the row by hand</td></tr>
+<tr><td>V5</td><td><code>1/2 f_xx(a,b) h&sup2; + f_xy(a,b) hk + 1/2 f_yy(a,b) k&sup2;</code></td><td>second-order Taylor &mdash; this <em>is</em> the answer for most 7-mark questions</td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">5-line answer format</span>
+  <strong>Given:</strong> <code>f(x, y)</code> and the point <code>(a, b)</code> and the order asked.<br>
+  <strong>Find:</strong> the Taylor expansion to that order.<br>
+  <strong>Formula:</strong> the statement, or the specific order group you are assembling.<br>
+  <strong>Solve:</strong> a table of partials at <code>(a, b)</code>, then the assembled expansion.<br>
+  <strong>Check:</strong> substitute <code>h = k = 0</code> (the expansion must return <code>f(a, b)</code>), and confirm total-order count 1, 2, 3, 4.
+</div>
+
+<h3>Solved A &mdash; <code>f(x,y) = x&sup2; + xy + y&sup2;</code> at <code>(1, 1)</code> to second order</h3>
+<pre><code>Given:   f(x, y) = x^2 + x y + y^2 ,  expand about (a, b) = (1, 1)
+         up to second order terms
+Find:    the two-variable Taylor expansion
+Formula: V5  1/2 f_xx h^2 + f_xy h k + 1/2 f_yy k^2
+
+STEP 1  The shifts
+        h = x - 1 ,  k = y - 1
+        So x = 1 + h and y = 1 + k.
+
+STEP 2  Partials at the point (1, 1)
+        f_x  = 2x + y       ->  f_x(1,1)  = 2(1) + 1 = 3
+        f_y  = x + 2y       ->  f_y(1,1)  = 1 + 2(1) = 3
+        f_xx = 2            ->  f_xx(1,1) = 2
+        f_xy = 1            ->  f_xy(1,1) = 1
+        f_yy = 2            ->  f_yy(1,1) = 2
+        f(1, 1) = 1 + 1 + 1 = 3
+
+STEP 3  Assemble
+        f = 3
+          + 3h + 3k
+          + 1/2(2) h^2 + (1) h k + 1/2(2) k^2
+          = 3 + 3h + 3k + h^2 + h k + k^2
+
+STEP 4  Substitute back h = x - 1, k = y - 1
+        f = 3 + 3(x - 1) + 3(y - 1)
+              + (x - 1)^2 + (x - 1)(y - 1) + (y - 1)^2
+          = 3 + 3x - 3 + 3y - 3
+              + (x^2 - 2x + 1) + (xy - x - y + 1)
+              + (y^2 - 2y + 1)
+          = x^2 + xy + y^2 + (3x - 2x - x) + (3y - y - 2y)
+              + (3 - 3 - 3 + 1 + 1 + 1)
+          = x^2 + x y + y^2 + 0 + 0 + 0
+          = x^2 + x y + y^2                    EXACT
+
+CHECK:  Step 4 returns the ORIGINAL polynomial, not merely an
+        approximation. That is the tell-tale of a quadratic f:
+        the series terminates. Set h = k = 0 and the expansion
+        collapses to f(1,1) = 3, as it must. Coefficient count
+        is 1, 2, 3 -- correct for orders 0, 1, 2.</code></pre>
+<div class="callout">
+  <span class="label">Check note &mdash; the trap in Solved A</span>
+  If you skip the <strong>substitution back</strong> to <code>x</code> and <code>y</code>, your answer
+  is still a valid expansion but it reads as an expression in <code>h</code> and <code>k</code>, which
+  many examiners do not accept as "expanded in powers of
+  <code>(x&minus;a)</code> and <code>(y&minus;b)</code>". Always finish by writing
+  <code>h = x &minus; a, k = y &minus; b</code> back in. And a quadratic <code>f</code> has an
+  <em>exact</em> series that terminates &mdash; if your expansion still has an
+  <code>h&sup3;</code> or <code>k&sup3;</code> term, you over-differentiated.
+</div>
+
+<h3>Solved B &mdash; <code>f(x,y) = e^(xy)</code> at the origin to second order</h3>
+<pre><code>Given:   f(x, y) = e^(x y) ,  expand about (a, b) = (0, 0)
+Find:    the Maclaurin expansion to second order
+Formula: V1  h = x, k = y at the origin
+
+STEP 1  Read the structure first
+        e^(xy) depends on x and y only through the PRODUCT xy.
+        So the series is a series in xy:
+        e^(xy) = 1 + xy + (xy)^2/2! + (xy)^3/3! + ...
+        There is NO x^2 term and NO y^2 term. Deciding this
+        first saves two useless derivatives.
+
+STEP 2  Confirm with the partials at (0, 0)
+        f    = e^(xy)          f(0,0)   = 1
+        f_x  = y e^(xy)        f_x(0,0) = 0
+        f_y  = x e^(xy)        f_y(0,0) = 0
+        f_xx = y^2 e^(xy)      f_xx(0,0)= 0
+        f_xy = (1 + xy) e^(xy) f_xy(0,0)= 1
+        f_yy = x^2 e^(xy)      f_yy(0,0)= 0
+
+STEP 3  Assemble with h = x, k = y
+        f = 1 + (0) x + (0) y
+              + 1/2(0) x^2 + (1) x y + 1/2(0) y^2
+          = 1 + x y
+
+STEP 4  The true series, for comparison
+        e^(xy) = 1 + xy + (xy)^2/2! + (xy)^3/3! + ...
+               = 1 + xy + x^2 y^2/2 + x^3 y^3/6 + ...
+
+CHECK:  The second-order group is exactly 1 + xy, because the
+        next surviving term is (xy)^2/2 = x^2 y^2/2, which is
+        TOTAL ORDER 4, not order 2. That is the whole lesson:
+        order is the TOTAL degree, so x^2 y^2 is a
+        fourth-order term. Numerical check at (0.1, 0.2):
+          exact  e^0.02            = 1.0202013
+          second order  1 + (0.02) = 1.02
+        agreement to two decimals, as expected.</code></pre>
+<div class="exam-note"><strong>Read the arithmetic:</strong> "second order" in
+<code>x</code> and <code>y</code> together means every monomial of total degree
+&le; 2. For <code>e^(xy)</code> the only such monomial is <code>xy</code>, so the whole second-order
+group collapses to one term. If your answer contains <code>x&sup2;</code> or <code>y&sup2;</code> here,
+your derivatives were wrong, not your order.</div>
+
+<h3>Solved C &mdash; <code>f(x,y) = sin(x + y)</code> at <code>(&pi;/6, &pi;/6)</code> to first order, and the tangent-plane estimate</h3>
+<pre><code>Given:   f(x, y) = sin(x + y) ,  about (a, b) = (pi/6, pi/6)
+Find:    the first-order expansion, then estimate f at
+         (x, y) = (pi/4, pi/3) and comment on the error
+Formula: f ~ f(a,b) + f_x(a,b) h + f_y(a,b) k
+
+STEP 1  The shifts
+        h = x - pi/6 ,  k = y - pi/6
+        x + y = (pi/6 + h) + (pi/6 + k) = pi/3 + h + k
+
+STEP 2  Partials at the point
+        f    = sin(x + y)          f(pi/6,pi/6)   = sin(pi/3) = sqrt3/2
+        f_x  = cos(x + y)          f_x(pi/6,pi/6) = cos(pi/3) = 1/2
+        f_y  = cos(x + y)          f_y(pi/6,pi/6) = cos(pi/3) = 1/2
+
+STEP 3  Assemble
+        f ~ sqrt3/2 + 1/2 h + 1/2 k
+
+STEP 4  Estimate at (pi/4, pi/3)
+        h = pi/4 - pi/6 = pi/12
+        k = pi/3 - pi/6 = pi/6
+        f ~ sqrt3/2 + 1/2 (pi/12) + 1/2 (pi/6)
+           = 0.8660254 + 0.1308997 + 0.2617994
+           = 1.2587245
+
+CHECK:  Exact value is sin(pi/4 + pi/3) = sin(7pi/12).
+        7pi/12 = 105 degrees, and sin 105 deg = 0.9659258.
+        The linear estimate 1.2587245 EXCEEDS the true value
+        0.9659258 by 0.29287. That is not a small error, and
+        the reason is worth writing: the h and k steps here are
+        large (pi/12 and pi/6 are not infinitesimal), so a
+        first-order approximation is simply not valid this far
+        from the centre. Rule: first-order is safe only for
+        SMALL h and k; otherwise add the second-order group.
+        This is the limitation the examiner wants named.</code></pre>
+
+<div class="callout">
+  <span class="label">Numeral traps</span>
+  <ul>
+    <li><strong>Forgetting the 2 in <code>2 f_xy hk</code>.</strong> After dividing by 2! the mixed
+    term is simply <code>f_xy hk</code>. Writing <code>1/2 f_xy hk</code> halves the cross term and is
+    the most common error on this topic.</li>
+    <li><strong>Confusing total order with the exponent of one variable.</strong> In
+    <code>e^(xy)</code> the term <code>x&sup2;y&sup2;</code> is order <strong>4</strong>, not 2. Count
+    <code>a + b</code> in <code>x^a y^b</code>.</li>
+    <li><strong>Not substituting back.</strong> The answer must end in powers of
+    <code>(x &minus; a)</code> and <code>(y &minus; b)</code> or in <code>x</code>, <code>y</code>
+    &mdash; not left in <code>h</code> and <code>k</code> with the shifts undefined.</li>
+    <li><strong><code>&part;/&part;y (x&sup2;) = 0</code>, not <code>2x</code>.</strong> Pure
+    powers of the <em>other</em> variable differentiate to zero. This kills <code>f_y</code> for
+    <code>e^(xy)</code> at the origin and is how you get <code>1 + xy</code>.</li>
+    <li><strong>Evaluating the partials at the wrong point.</strong> They go at the
+    <em>centre</em> <code>(a, b)</code>, not at the point you are estimating. For a tangent-plane
+    estimate that swap produces a plausible but wrong number.</li>
+    <li><strong>Over-differentiating a polynomial.</strong> A degree-2 <code>f</code> has a finite
+    series; <code>f_xxx = 0</code> and the expansion terminates exactly. Extra terms mean a
+    miscounted order.</li>
+    <li><strong>Claiming first-order is always accurate.</strong> It is a local statement. Say the
+    estimate is valid for <em>small</em> <code>h, k</code> and name the error otherwise.</li>
+  </ul>
+</div>
+
+<h2>Retrieval practice &mdash; 5 MCQs</h2>
+
+<div class="quiz" data-answer="b" data-explain="Counting by total order: the zeroth line has 1 term, the first has 2, the second has 3 and the third has 4. A seven-mark question is almost always the first three lines. The 1, 2, 3 pattern is also the binomial row, which is why the mixed term carries a coefficient of 2.">
+<p class="q">In the two-variable Taylor expansion of <code>f(x, y)</code> about <code>(a, b)</code>, the second-order group contains how many terms?</p>
+<button data-key="a">2 terms, one for each variable</button>
+<button data-key="b">3 terms: f_xx, f_xy and f_yy</button>
+<button data-key="c">4 terms, one per total order</button>
+<button data-key="d">6 terms, all ordered pairs of derivatives</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="a" data-explain="The second-order group is 1/2 [ f_xx h^2 + 2 f_xy h k + f_yy k^2 ]. After dividing by 2! = 2, the mixed term becomes f_xy h k with no remaining factor of 1/2. The 2 in the bracket is there precisely so the factorial cancels it.">
+<p class="q">After the 2! is cancelled, the mixed second-order term is&hellip;</p>
+<button data-key="a">f<sub>xy</sub> hk</button>
+<button data-key="b">&frac12; f<sub>xy</sub> hk</button>
+<button data-key="c">2 f<sub>xy</sub> hk</button>
+<button data-key="d">f<sub>xy</sub> h + f<sub>xy</sub> k</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="d" data-explain="Because e^(xy) depends on x and y only through the product, its series is a series in xy: 1 + xy + (xy)^2/2! + (xy)^3/3! + ... There is no x^2 term and no y^2 term. The first surviving term after xy is x^2 y^2/2, which is total order 4.">
+<p class="q">The Maclaurin expansion of <code>e^(xy)</code> in two variables contains&hellip;</p>
+<button data-key="a">All powers of x and all powers of y</button>
+<button data-key="b">Only even powers of x and y</button>
+<button data-key="c">Only terms of the form x^n y^n divided by n!</button>
+<button data-key="d">Only powers of the product xy, so 1 + xy + (xy)^2/2! + (xy)^3/3! + &hellip;</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="c" data-explain="A first-order expansion is the tangent plane at (a, b), which is a local statement: it is reliable only for small h and k. Here h = pi/12 and k = pi/6 are not small, so the linear estimate overshoots the true value by about 0.29. The honest answer names the limitation rather than claiming the estimate is good.">
+<p class="q">A first-order (tangent-plane) expansion is used to estimate f at a point a long way from the centre (a, b). The estimate is&hellip;</p>
+<button data-key="a">Always exact, because f is smooth</button>
+<button data-key="b">Exact for any function that is twice differentiable</button>
+<button data-key="c">Unreliable, and its error can be large when the steps are not small</button>
+<button data-key="d">Reliable provided all second partials vanish</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="b" data-explain="f_xy = d/dy (f_x) = d/dy (2x + y) = 1. Subscripts are read left to right as a sequence of operations, so f_xy means first differentiate in x, then in y. The 2 on the x^2 term dies when you differentiate in x again.">
+<p class="q">For <code>f(x, y) = x&sup2; + xy + y&sup2;</code>, what is <code>f<sub>xy</sub></code>?</p>
+<button data-key="a">2x</button>
+<button data-key="b">1</button>
+<button data-key="c">2</button>
+<button data-key="d">2y</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<div class="callout">
+  <span class="label">Drill set A &mdash; Expand (theory)</span>
+  <ol>
+    <li>Expand <code>f(x, y) = x&sup2; + xy + y&sup2;</code> in powers of <code>(x &minus; 1)</code> and <code>(y &minus; 1)</code> up to second order. <em>(Jun 2023 pattern)</em></li>
+    <li>State Taylor's theorem for a function of two variables and write its first three lines. <em>(Dec 2023 pattern)</em></li>
+    <li>Expand <code>e^(x + y)</code> in ascending powers of <code>x</code> and <code>y</code> up to terms of total degree 2. <em>(Jun 2024 pattern)</em></li>
+    <li>Show that <code>e^(x+y) = e^x e^y</code> by comparing their two-variable expansions. <em>(Dec 2024 pattern)</em></li>
+    <li>Why does the expansion of <code>e^(xy)</code> contain no <code>x&sup2;</code> or <code>y&sup2;</code> term? <em>(Jun 2025 pattern)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Drill set B &mdash; Apply (numericals, with answers)</span>
+  <ol start="6">
+    <li>Find the second-order expansion of <code>f = x&sup2;y</code> about <code>(1, 2)</code>.
+    <em>Ans: f = 2; f_x = 2xy = 4, f_y = x&sup2; = 1, f_xx = 2y = 4, f_xy = 2x = 2, f_yy = 0. With h = x&minus;1, k = y&minus;2: f = 2 + 4h + k + 2h&sup2; + 2hk</em></li>
+    <li>Expand <code>sin(x + y)</code> about <code>(0, 0)</code> to total order 2.
+    <em>Ans: f = 0, f_x = f_y = 1, f_xx = f_xy = f_yy = 0, so f = x + y exactly &mdash; the series is sin(x+y) and only odd total orders survive</em></li>
+    <li>Find the tangent-plane estimate of <code>f = x&sup2; + y&sup2;</code> at <code>(2, 1)</code> for the point <code>(2.1, 1.05)</code>.
+    <em>Ans: f(2,1) = 5, f_x = 2x = 4, f_y = 2y = 2; h = 0.1, k = 0.05; estimate = 5 + 0.4 + 0.1 = 5.5. Exact = 4.41 + 1.1025 = 5.5125, so the error is 0.0125</em></li>
+    <li>Expand <code>ln(1 + x + y)</code> about <code>(0, 0)</code> to total order 2.
+    <em>Ans: with u = x + y, ln(1+u) = u &minus; u&sup2;/2, so f = (x + y) &minus; (x + y)&sup2;/2 = x + y &minus; (x&sup2; + 2xy + y&sup2;)/2 = x + y &minus; x&sup2;/2 &minus; xy &minus; y&sup2;/2</em></li>
+    <li>Expand <code>(1 + x + y)&sup3;</code> about <code>(0, 0)</code> to total order 2.
+    <em>Ans: with u = x + y, (1+u)^3 = 1 + 3u + 3u&sup2;, so f = 1 + 3(x + y) + 3(x&sup2; + 2xy + y&sup2;) = 1 + 3x + 3y + 3x&sup2; + 6xy + 3y&sup2;</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Special lines for extra marks</span>
+  <ul>
+    <li><strong>Opening line:</strong> "Let <code>f(x, y)</code> possess partial derivatives of all orders up to <code>n</code> near <code>(a, b)</code>, and put <code>h = x &minus; a</code>, <code>k = y &minus; b</code>. Then by Taylor's theorem for two variables, <code>f(x, y)</code> equals the sum of the total-order groups, the <code>r</code>-th being <code>1/r! (h&part;x + k&part;y)^r f</code> evaluated at <code>(a, b)</code>."</li>
+    <li><strong>Coefficient line:</strong> "The mixed term carries the coefficient <code>2 f_xy</code> because <code>hk</code> is reached by two routes, <code>&part;x&part;y</code> and <code>&part;y&part;x</code>, which Schwarz' theorem makes equal; the <code>2!</code> then cancels it, leaving <code>f_xy hk</code>."</li>
+    <li><strong>Order line:</strong> "A monomial <code>x^a y^b</code> belongs to total order <code>a + b</code>, which is why <code>x&sup2;y&sup2;</code> in the series for <code>e^(xy)</code> is a fourth-order term and does not appear in the second-order group."</li>
+    <li><strong>Limitation line:</strong> "The first-order expansion is the tangent plane and is therefore a <em>local</em> result; at <code>(&pi;/4, &pi;/3)</code> the steps <code>h = &pi;/12</code>, <code>k = &pi;/6</code> are not small, and the linear estimate <code>1.2587</code> overshoots the true value <code>0.9659</code> by <code>0.2928</code>."</li>
+    <li><strong>Closing line:</strong> "Hence the second-order expansion of <code>e^(xy)</code> at the origin is <code>1 + xy</code>. <strong>[boxed]</strong>"</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <span class="label">Exam tips</span>
+  <ul>
+    <li><strong>State the theorem first,</strong> then define <code>h</code> and <code>k</code>. The
+    shifts are a mark and they make every later line shorter.</li>
+    <li><strong>Put a partials table in the answer</strong> &mdash; <code>f, f_x, f_y, f_xx, f_xy, f_yy</code>
+    each with its value at <code>(a, b)</code>. The examiner awards from the table, and it stops you
+    evaluating anything twice.</li>
+    <li><strong>Count total order out loud</strong> in the margin: 1, 2, 3. It is the fastest way to
+    catch a missing or extra term.</li>
+    <li><strong>Underline</strong> <code>h = x &minus; a</code> and <code>k = y &minus; b</code>;
+    <strong>box</strong> the final expansion. Substitute <code>h = k = 0</code> as a last check that you
+    return <code>f(a, b)</code>.</li>
+    <li><strong>Attempt order:</strong> polynomial <code>f</code> first (it terminates, so it is
+    short and exact) &rarr; then <code>e^(x+y)</code> / <code>sin(x+y)</code> &rarr; then
+    <code>e^(xy)</code>-type, which is where the order counting bites.</li>
+    <li><strong>Never leave blank:</strong> the statement plus the partials table is 40% of any
+    question, and both are pure recall.</li>
+  </ul>
+</div>
+</div><!-- end lesson tab -->
+
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT102 Unit 1</p>
+<h1>Taylor in Two Variables &mdash; Quick Reference</h1>
+
+<h2>The statement (write verbatim)</h2>
+<pre><code>Put h = x - a,  k = y - b.  Then near (a, b):
+
+f(x, y) = f(a,b)
+        + [ f_x h + f_y k ]
+        + 1/2! [ f_xx h^2 + 2 f_xy h k + f_yy k^2 ]
+        + 1/3! [ f_xxx h^3 + 3 f_xxy h^2 k + 3 f_xyy h k^2 + f_yyy k^3 ]
+        + ...
+
+Compact:   order r  =  1/r! ( h d/dx + k d/dy )^r f
+All partials on the right are evaluated at (a, b).</code></pre>
+
+<h2>Derivation steps &mdash; from the one-variable theorem</h2>
+<pre><code>1. Fix k, treat y = b + k as constant, apply 1-variable Taylor
+   in x about a:      f(x, b+k) = f(a,b+k) + f_x(a,b+k) h
+                                        + 1/2 f_xx(a,b+k) h^2 + ...
+2. Expand each piece about b in powers of k:
+      f(a, b+k)    = f(a,b)   + f_y(a,b) k  + 1/2 f_yy(a,b) k^2 + ...
+      f_x(a, b+k)  = f_x(a,b) + f_xy(a,b) k + ...
+      f_xx(a, b+k) = f_xx(a,b)+ f_xxy(a,b) k + ...
+3. Collect terms of TOTAL order 2:
+      f(a,b) + f_x h + f_y k + 1/2 f_xx h^2 + f_xy h k + 1/2 f_yy k^2
+4. Hence proved.</code></pre>
+
+<h2>Formula table</h2>
+<table>
+<tr><th>Object</th><th>Formula</th></tr>
+<tr><td>Shifts</td><td><code>h = x &minus; a</code>, <code>k = y &minus; b</code></td></tr>
+<tr><td>Order 0</td><td><code>f(a, b)</code></td></tr>
+<tr><td>Order 1 (tangent plane)</td><td><code>f(a,b) + f_x h + f_y k</code></td></tr>
+<tr><td>Order 2 (quadratic)</td><td><code>+ 1/2 f_xx h&sup2; + f_xy hk + 1/2 f_yy k&sup2;</code></td></tr>
+<tr><td>Order 3</td><td><code>+ 1/6 (f_xxx h&sup3; + 3 f_xxy h&sup2;k + 3 f_xyy hk&sup2; + f_yyy k&sup3;)</code></td></tr>
+<tr><td>Order r, compact</td><td><code>1/r! (h&part;x + k&part;y)^r f</code></td></tr>
+<tr><td>Term count at order r</td><td><code>r + 1</code> (so 1, 2, 3, 4, 5, &hellip;)</td></tr>
+<tr><td>Coefficient row</td><td>binomial: 1 / 1,1 / 1,2,1 / 1,3,3,1</td></tr>
+<tr><td>Total order of <code>x^a y^b</code></td><td><code>a + b</code></td></tr>
+<tr><td>Maclaurin</td><td><code>a = 0, b = 0</code>, so <code>h = x, k = y</code></td></tr>
+<tr><td>Schwarz (why 2 appears)</td><td><code>f_xy = f_yx</code> &rarr; two routes to <code>hk</code></td></tr>
+</table>
+
+<h2>Key definitions</h2>
+<ul>
+  <li><strong>Total order</strong> &mdash; for <code>x^a y^b</code> it is <code>a + b</code>; order is <em>not</em> the exponent of one variable.</li>
+  <li><strong>Tangent plane</strong> &mdash; the first-order expansion, <code>f(a,b) + f_x h + f_y k</code>.</li>
+  <li><strong>Maclaurin in two variables</strong> &mdash; expansion about the origin, <code>a = b = 0</code>.</li>
+  <li><strong>Euler operator</strong> &mdash; <code>h&part;x + k&part;y</code>; raised to the power <code>r</code> it generates the order-<code>r</code> group.</li>
+  <li><strong>Exact termination</strong> &mdash; for a polynomial <code>f</code> the series is finite and the expansion reproduces <code>f</code> identically.</li>
+</ul>
+
+<h2>Exam checklist</h2>
+<ul>
+  <li>&#x2610; Did I state the theorem and define <code>h = x &minus; a</code>, <code>k = y &minus; b</code>?</li>
+  <li>&#x2610; Is there a partials table with every value at <code>(a, b)</code>?</li>
+  <li>&#x2610; Did the mixed term get coefficient <code>2</code> inside the bracket, becoming <code>f_xy hk</code> after the 2! cancels?</li>
+  <li>&#x2610; Did I count total order (1, 2, 3, 4) for the lines I wrote?</li>
+  <li>&#x2610; Did I substitute back so the answer is in <code>x</code> and <code>y</code>, or in explicitly defined <code>(x &minus; a)</code> and <code>(y &minus; b)</code>?</li>
+  <li>&#x2610; Did I check <code>h = k = 0</code> returns <code>f(a, b)</code>?</li>
+  <li>&#x2610; For a polynomial <code>f</code>, did I stop at the true degree instead of adding <code>h&sup3;</code>, <code>k&sup3;</code> terms?</li>
+  <li>&#x2610; Did I box the expansion and add one line about when the approximation is valid?</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="callout">
+  <span class="label">Fastest route through any two-variable Taylor question</span>
+  1. Write <code>h = x &minus; a</code>, <code>k = y &minus; b</code> immediately.<br>
+  2. Build the partials table at <code>(a, b)</code>: <code>f, f_x, f_y, f_xx, f_xy, f_yy</code>.<br>
+  3. Read the structure: function of <code>x + y</code> &rarr; every monomial appears;<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;function of <code>xy</code> &rarr; only <code>(xy)^n</code> terms appear.<br>
+  4. Assemble: <code>f(a,b)</code> &rarr; <code>+ f_x h + f_y k</code> &rarr;
+  <code>+ 1/2 f_xx h&sup2; + f_xy hk + 1/2 f_yy k&sup2;</code>.<br>
+  5. Substitute <code>h, k</code> back into <code>x, y</code>.<br>
+  6. Check: put <code>h = k = 0</code>, you must get <code>f(a, b)</code>.
+</div>
+</div><!-- end cheatsheet tab -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT102 Unit 1 &middot; from 10 PYQ sessions (Dec-2023 &rarr; Jun-2025)</p>
+<h1>Taylor in Two Variables &mdash; questionnaire</h1>
+<div class="q-meta">Q2/Q3 slot &middot; recurring pattern &middot; "expand f(x,y) about (a,b)" or "estimate f at a point" &rarr; shifts, partials table, then the order group, never a prose blob</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>Expand f(x, y) = x&sup2; + xy + y&sup2; in powers of (x &minus; 1) and (y &minus; 1) up to second order terms</h3>
+<p>State the theorem and set h = x &minus; 1, k = y &minus; 1. Give the partials table at (1, 1): f = 3, f<sub>x</sub> = 3, f<sub>y</sub> = 3, f<sub>xx</sub> = 2, f<sub>xy</sub> = 1, f<sub>yy</sub> = 2. Assemble the three lines to get 3 + 3h + 3k + h&sup2; + hk + k&sup2;, note that the mixed coefficient is 1 because the 2 in the bracket cancels the 2!, then substitute back and show the whole thing collapses back to x&sup2; + xy + y&sup2; &mdash; which proves the series is exact for a quadratic.</p>
+<div class="q-foot"><b>write</b> &mdash; theorem + shifts (1) &rarr; partials table (3) &rarr; assembled expansion (2) &rarr; substitution back showing exact collapse (1).</div>
+<div class="q-foot"><b>check</b> &mdash; the mixed term must be hk, not &frac12;hk; the h&sup3;/k&sup3; terms must be absent; a series left in h and k with the shifts undefined loses the last mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Expand e<sup>(xy)</sup> about the origin up to terms of total order 2, and explain why no x&sup2; or y&sup2; term appears</h3>
+<p>Start by observing that e<sup>(xy)</sup> depends on x and y only through the product, so the series is in powers of xy alone. Give the partials table at (0,0): f = 1, f<sub>x</sub> = 0, f<sub>y</sub> = 0, f<sub>xx</sub> = 0, f<sub>xy</sub> = 1, f<sub>yy</sub> = 0 &mdash; the three zeros are exactly the point of the question. Assemble to get 1 + xy, then state the full series 1 + xy + x&sup2;y&sup2;/2 + x&sup3;y&sup3;/6 + &hellip; and close by noting that x&sup2;y&sup2; has total order 4, so it lies outside the second-order group.</p>
+<div class="q-foot"><b>write</b> &mdash; structural observation (1) &rarr; partials table with the three zeros (3) &rarr; 1 + xy boxed (2) &rarr; total-order explanation (1).</div>
+<div class="q-foot"><b>check</b> &mdash; the explanation of the absent x&sup2;/y&sup2; terms is what the marks are for, not the expansion itself; a numerical check at (0.1, 0.2) giving 1.02 against e^0.02 = 1.0202 earns the accuracy mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Find the tangent-plane estimate of f = sin(x + y) at the point (&pi;/6, &pi;/6) for the point (&pi;/4, &pi;/3), and comment</h3>
+<p>Compute f(&pi;/6, &pi;/6) = sin(&pi;/3) = &radic;3/2, f<sub>x</sub> = f<sub>y</sub> = cos(&pi;/3) = 1/2, then apply the first-order line with h = &pi;/12 and k = &pi;/6 to obtain &radic;3/2 + &pi;/24 + &pi;/12 = 1.2587. Then compute the exact value sin(105&deg;) = 0.9659 and compare. The comment is the scored part: the first-order expansion is local, the steps are not small, and the estimate overshoots by 0.2928, so the second-order group would be required for accuracy at that distance.</p>
+<div class="q-foot"><b>write</b> &mdash; partials at the centre (1) &rarr; first-order line (1) &rarr; substitute h and k and box the estimate (1) &rarr; exact value and error (1) &rarr; locality comment (1).</div>
+<div class="q-foot"><b>check</b> &mdash; the estimate EXCEEDS the true value, so writing that the approximation "underestimates" is wrong; the error figure 0.2928 is what makes the comment credible.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> Give the theorem and define the shifts h = x &minus; a, k = y &minus; b before any derivative.</li>
+    <li><strong>Visual:</strong> Put a partials table on the page &mdash; that table is the working, and the examiner reads it first.</li>
+    <li><strong>Reason:</strong> Assemble one total-order group per line, counting 1, 2, 3 terms, with the 2 in the mixed coefficient shown explicitly.</li>
+    <li><strong>Close:</strong> Substitute the shifts back, box the expansion, and add one line on when the truncation is valid.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "Let f(x, y) possess partial derivatives of all orders up to n in a neighbourhood of (a, b), and put h = x &minus; a, k = y &minus; b. By Taylor's theorem for two variables, f(x, y) is the sum of the total-order groups, the r-th being 1/r! times (h&part;/&part;x + k&part;/&part;y)<sup>r</sup> f, evaluated at (a, b)."</p>
+  <p class="answer-close"><strong>For this topic:</strong> theorem + shifts &rarr; partials table &rarr; order 0, 1, 2 lines &rarr; substitute back &rarr; boxed expansion &rarr; one accuracy or total-order comment.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Shifts first</strong> &mdash; write h = x &minus; a and k = y &minus; b on the first line; it is a mark and it shortens everything after</li>
+    <li><strong>Partials table before prose</strong> &mdash; the examiner awards from the table</li>
+    <li><strong>Count total order</strong> &mdash; 1, 2, 3 terms; it is the fastest way to spot a missing or extra term</li>
+    <li><strong>Underline keywords</strong> &mdash; total order, Schwarz, tangent plane, Maclaurin, remainder</li>
+    <li><strong>Box the expansion</strong> &mdash; the full expression in powers of (x &minus; a) and (y &minus; b)</li>
+    <li><strong>Attempt order:</strong> polynomial f (terminates, exact) &rarr; f(x + y) &rarr; f(xy) &rarr; estimation questions last</li>
+    <li><strong>Never leave blank:</strong> statement + partials table is 40% of any question and both are recall</li>
+    <li><strong>Close every answer:</strong> "Hence proved" / the boxed expansion / one validity line</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Expand f(x, y) = x&sup2; + xy + y&sup2; in powers of (x &minus; 1) and (y &minus; 1) up to second order terms</h3>
+<p class="answer-lead">A quadratic function has a finite Taylor series, so the second-order expansion reproduces it exactly &mdash; that is the check to aim for.</p>
+<pre class="ascii-diagram" role="img" aria-label="Partials table feeding three total order lines which then collapse back to the original quadratic">  h = x - 1 ,  k = y - 1   so  x = 1 + h ,  y = 1 + k
+  ==========================================================
+   PARTIALS AT THE CENTRE (1, 1)
+  ----------------------------------------------------------
+        f     = x^2 + x y + y^2        f(1,1)     =  3
+        f_x   = 2x + y                 f_x(1,1)   =  3
+        f_y   = x + 2y                 f_y(1,1)   =  3
+        f_xx  = 2                      f_xx(1,1)  =  2
+        f_xy  = 1                      f_xy(1,1)  =  1
+        f_yy  = 2                      f_yy(1,1)  =  2
+  ----------------------------------------------------------
+   ASSEMBLE, ONE LINE PER TOTAL ORDER
+  ----------------------------------------------------------
+   ORDER 0    1 term    3
+   ORDER 1    2 terms   3h + 3k
+   ORDER 2    3 terms   1/2 (2)h^2 + 1/2(2)(1) h k + 1/2 (2) k^2
+                          = h^2 + h k + k^2
+                               |
+                               |  hmm: the bracket is
+                               |  1/2 [ f_xx h^2 + 2 f_xy hk + f_yy k^2 ]
+                               |  = 1/2 [ 2h^2 + 2 h k + 2 k^2 ]
+                               |  = h^2 + hk + k^2        CORRECT
+                               v
+        f = 3 + 3h + 3k + h^2 + hk + k^2
+  ----------------------------------------------------------
+   SUBSTITUTE BACK:  x = 1 + h ,  y = 1 + k
+        3 + 3(x-1) + 3(y-1) + (x-1)^2 + (x-1)(y-1) + (y-1)^2
+      = 3 + 3x - 3 + 3y - 3
+           + x^2 - 2x + 1 + x y - x - y + 1 + y^2 - 2y + 1
+      = x^2 + x y + y^2
+        x terms: 3x - 2x - x = 0        constants: 0
+        y terms: 3y - y - 2y = 0        -> EXACT
+  ==========================================================
+   CHECK  h = k = 0  gives  f(1,1) = 3  as required.
+   No h^3 or k^3 term: f is quadratic, so f_xxx = 0
+   and the series TERMINATES rather than being truncated.
+  ==========================================================</pre>
+<ol class="answer-steps">
+<li><strong>Shifts:</strong> <code>h = x &minus; 1</code>, <code>k = y &minus; 1</code>, so <code>x = 1 + h</code> and <code>y = 1 + k</code>.</li>
+<li><strong>Order 0:</strong> <code>f(1, 1) = 1 + 1 + 1 = 3</code>.</li>
+<li><strong>Order 1:</strong> <code>f_x(1,1) = 3</code> and <code>f_y(1,1) = 3</code>, giving <code>3h + 3k</code>.</li>
+<li><strong>Order 2:</strong> <code>&frac12;2!&#8202;[2h&sup2; + 2(1)hk + 2k&sup2;] = h&sup2; + hk + k&sup2;</code>. The mixed coefficient is <code>f_xy hk</code>, because the 2 in the bracket cancels the <code>2!</code>.</li>
+<li><strong>Substitute back and confirm:</strong> the expansion simplifies to exactly <code>x&sup2; + xy + y&sup2;</code>, with all linear and constant terms cancelling. Setting <code>h = k = 0</code> returns <code>f(1,1) = 3</code>.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box <code>f = 3 + 3(x&minus;1) + 3(y&minus;1) + (x&minus;1)&sup2; + (x&minus;1)(y&minus;1) + (y&minus;1)&sup2;</code> and write "the series terminates exactly, since <code>f</code> is a polynomial of degree 2."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Expand e<sup>(xy)</sup> about the origin up to terms of total order 2, and explain why no x&sup2; or y&sup2; term appears</h3>
+<p class="answer-lead">The whole question turns on noticing that x and y appear only as the product xy, so only powers of xy survive.</p>
+<pre class="ascii-diagram" role="img" aria-label="Expansion of e to the power xy as a series in the product, with the total order of each surviving term">  e^(xy) :  x and y appear ONLY as the product
+  ==========================================================
+   f = e^(xy)
+        |
+        |  expand in powers of the single quantity u = xy
+        v
+   u = 0
+      |
+      +---> 1                      total order 0
+      |
+      +---> u        =  x y         total order 2   &lt;- 1 + xy
+      |                                      is all that
+      |                                      order &lt;= 2
+      |                                      allows
+      +---> u^2 / 2!  =  x^2 y^2 / 2     total order 4  REJECTED
+      |
+      +---> u^3 / 3!  =  x^3 y^3 / 6     total order 6  REJECTED
+  ==========================================================
+   CONFIRM WITH PARTIALS AT (0, 0)
+  ----------------------------------------------------------
+        f     = e^(xy)            f(0,0)     =  1
+        f_x   = y e^(xy)          f_x(0,0)   =  0   <--  x dies
+        f_y   = x e^(xy)          f_y(0,0)   =  0   <--  y dies
+        f_xx  = y^2 e^(xy)        f_xx(0,0)  =  0
+        f_xy  = (1 + xy) e^(xy)   f_xy(0,0)  =  1
+        f_yy  = x^2 e^(xy)        f_yy(0,0)  =  0
+  ----------------------------------------------------------
+   ASSEMBLE:  f = 1 + 0 + 0 + 1/2(0) + (1) x y + 1/2(0)
+                        = 1 + x y                    [BOXED]
+  ----------------------------------------------------------
+   NUMERICAL CHECK at (0.1, 0.2):  xy = 0.02
+        second order   1 + 0.02            = 1.02
+        exact  e^0.02 = 1.0202013
+        agree to two decimals, as the order demands
+  ==========================================================</pre>
+<ol class="answer-steps">
+<li><strong>Structural observation:</strong> since <code>e<sup>(xy)</sup></code> is a function of the single quantity <code>u = xy</code>, its expansion is a series in powers of <code>u</code>: <code>1 + xy + (xy)&sup2;/2! + (xy)&sup3;/3! + &hellip;</code></li>
+<li><strong>Partials at the origin:</strong> <code>f(0,0) = 1</code>, <code>f_x(0,0) = f_y(0,0) = 0</code>, <code>f_xx(0,0) = f_yy(0,0) = 0</code>, <code>f_xy(0,0) = 1</code>. The three zeros are precisely why the answer has no <code>x&sup2;</code> or <code>y&sup2;</code> term.</li>
+<li><strong>Assemble:</strong> <code>f = 1 + (0)x + (0)y + &frac12;(0)x&sup2; + (1)xy + &frac12;(0)y&sup2; = 1 + xy</code>.</li>
+<li><strong>Why the next term is excluded:</strong> the next surviving term is <code>(xy)&sup2;/2 = x&sup2;y&sup2;/2</code>, whose total order is <code>2 + 2 = 4</code>, so it belongs to the fourth-order group, not the second.</li>
+<li><strong>Numerical check:</strong> at <code>(0.1, 0.2)</code> the second-order value is <code>1 + 0.02 = 1.02</code> against the exact <code>e<sup>0.02</sup> = 1.0202</code>, confirming agreement to second order.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box <code>1 + xy</code> and write "no <code>x&sup2;</code> or <code>y&sup2;</code> term occurs, since <code>e<sup>(xy)</sup></code> is a function of the product <code>xy</code> alone; the next term <code>x&sup2;y&sup2;/2</code> is of total order 4."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Find the tangent-plane estimate of f = sin(x + y) at the point (&pi;/6, &pi;/6) for the point (&pi;/4, &pi;/3), and comment</h3>
+<p class="answer-lead">The first-order expansion is the tangent plane, so the estimate is a linearisation of f about the centre and is only trustworthy for small steps.</p>
+<pre class="ascii-diagram" role="img" aria-label="Tangent plane estimate of sine of x plus y compared against the exact value, showing the overshoot">  f = sin(x + y) ,  centre (pi/6, pi/6)
+  ==========================================================
+   PARTIALS AT THE CENTRE
+  ----------------------------------------------------------
+        f(pi/6, pi/6)  = sin(pi/3)  =  0.866025
+        f_x            = cos(x + y)
+        f_x(pi/6,pi/6) = cos(pi/3)  =  0.5
+        f_y            = cos(x + y) = same
+        f_y(pi/6,pi/6)                =  0.5
+  ----------------------------------------------------------
+   FIRST ORDER (the tangent plane)
+        f ~ 0.866025 + 0.5 h + 0.5 k
+  ----------------------------------------------------------
+   STEPS TO THE TARGET POINT
+        h = pi/4 - pi/6 = pi/12
+        k = pi/3 - pi/6 = pi/6
+  ----------------------------------------------------------
+   ESTIMATE   0.866025 + 0.5(0.261799) + 0.5(0.523599)
+             = 0.866025 + 0.130900 + 0.261799
+             = 1.258724                               [BOXED]
+  ----------------------------------------------------------
+   COMPARE WITH THE EXACT VALUE
+        x + y at the target = 7pi/12 = 105 degrees
+        sin 105 deg = 0.965926
+  ==========================================================
+        estimate 1.258724
+        exact    0.965926
+        -----------------
+        error    0.2928      the estimate OVERSHOOTS
+
+   Why: pi/12 and pi/6 are not small steps, so the linear
+        approximation is not valid this far from the centre.
+        Adding the second-order group would fix it.
+  ==========================================================</pre>
+<ol class="answer-steps">
+<li><strong>Partials at the centre:</strong> <code>f(&pi;/6, &pi;/6) = sin(&pi;/3) = &radic;3/2 &asymp; 0.866025</code>, and <code>f_x = f_y = cos(x + y)</code> so <code>f_x = f_y = cos(&pi;/3) = 1/2</code>.</li>
+<li><strong>First-order line:</strong> <code>f &asymp; &radic;3/2 + &frac12;h + &frac12;k</code>, the tangent plane at the centre.</li>
+<li><strong>Steps:</strong> <code>h = &pi;/4 &minus; &pi;/6 = &pi;/12</code> and <code>k = &pi;/3 &minus; &pi;/6 = &pi;/6</code>.</li>
+<li><strong>Estimate:</strong> <code>&radic;3/2 + &pi;/24 + &pi;/12 = 0.866025 + 0.130900 + 0.261799 = 1.258724</code>.</li>
+<li><strong>Comment:</strong> the exact value is <code>sin(105&deg;) = 0.965926</code>, so the estimate overshoots by <code>0.2928</code>. The first-order expansion is a <em>local</em> result, and the steps here are not small, so the second-order group is needed for accuracy at that distance.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box <code>f &asymp; 1.2587</code> (first order) and write "the true value is <code>0.9659</code>; the error <code>0.2928</code> shows the first-order expansion is valid only for small <code>h, k</code>."</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT102 scheme</a> &mdash; Module 1 scope, which lists "Taylor's theorem for function of two variables" as a required item.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/mathematics-i-bt-102">RGPV Notes BT-102 syllabus page</a> &mdash; the nine Module 1 items verbatim, indexed from rgpv.ac.in.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-102-mathematics-i">CareerShiksha BT102 PYQ archive</a> &mdash; Dec-2025 through Nov-2022 papers.</li>
+    <li><a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">CampusPrep &mdash; BT-102 PYQs (Jun 2022 through Jun 2025)</a>.</li>
+    <li><a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">RGPV Question Papers &mdash; BT-102 archive with solutions</a>.</li>
+  </ul>
+  <p class="source-note">Checked 28 September 2026. The official scheme fixes scope; the syllabus index and paper archives support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt102/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

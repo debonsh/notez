@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>zevu.learn &mdash; RGPV B.Tech first-year notes</title>
+    <meta
+      name="description"
+      content="Shared study notes for RGPV B.Tech first year: BT102 Mathematics-I, BT201 Engineering Physics, BT205 Computer Engineering. Lessons, cheat sheets, MCQs and previous-year questions in one place."
+    />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#14161b" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="zevu.learn &mdash; RGPV B.Tech first-year notes" />
+    <meta
+      property="og:description"
+      content="40 topic pages across 8 units. Lessons, cheat sheets, MCQs, PYQ drills."
+    />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site.css" />
+
+    <script src="assets/config.js"></script>
+    <script src="assets/nav.js"></script>
+    <script src="assets/site.js" defer></script>
+  </head>
+
+  <body class="zv-home">
+    <div class="zv-wrap">
+      <!-- =============================================== terminal window -->
+      <div class="zv-term">
+        <div class="zv-term-bar">
+          <span class="zv-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="zv-title">zevu@learn &mdash; ~/notes</span>
+          <span class="zv-right"><b>80&times;24</b> <span>utf-8</span></span>
+        </div>
+        <div class="zv-term-body">
+          <div><span class="zv-p">zevu@learn</span>:<span class="zv-u">~/notes</span>$ ./index.sh</div>
+          <div>mounting /dev/notes ... <span class="zv-g">ok</span></div>
+          <div>
+            subjects <span class="zv-g">5</span> &nbsp; units
+            <span class="zv-g">8</span> &nbsp; topics
+            <span class="zv-g">40</span> &nbsp; sheets
+            <span class="zv-g">6</span>
+          </div>
+          <div>building practice bank ... <span class="zv-g">200 mcqs ready</span></div>
+          <div>last sync 2026-10-07 <span class="zv-d">(static build, no server)</span></div>
+          <div>
+            <span class="zv-p">zevu@learn</span>:<span class="zv-u">~/notes</span>$ ls
+            <span class="zv-caret" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ hero -->
+      <header class="zv-hero">
+        <p class="zv-kicker">RGPV &middot; B.Tech first year &middot; shared study notes</p>
+        <h1>
+          Everything for the semester,<br />
+          in <em>one place you can actually read</em>.
+        </h1>
+        <p class="zv-lede">
+          BT102 Mathematics-I, BT201 Engineering Physics, and BT205 Computer
+          Engineering. Every topic is a single self-contained page &mdash;
+          lesson, cheat sheet, worked numerals, previous-year drills, and
+          interactive MCQs that mark themselves. No login, no app, works
+          offline once loaded.
+        </p>
+        <div class="zv-actions">
+          <a class="zv-btn zv-btn-primary" href="#subjects">Browse subjects</a>
+          <a class="zv-btn" href="#all-files">See every file</a>
+          <a class="zv-btn" href="#contribute">Fix something</a>
+          <button class="zv-btn" type="button" data-open-palette>
+            <span>Search</span> <kbd>K</kbd>
+          </button>
+        </div>
+        <p class="zv-hint">
+          <kbd>Ctrl</kbd>+<kbd>K</kbd> search &middot; <kbd>[</kbd> index
+          &middot; <kbd>o</kbd> sections &middot; <kbd>]</kbd> next topic
+          &middot; <kbd>?</kbd> all shortcuts
+        </p>
+      </header>
+
+      <dl class="zv-meta zv-hero-meta">
+        <div><dt>built</dt><dd>static, no build step</dd></div>
+        <div><dt>navigation</dt><dd>keyboard first</dd></div>
+        <div><dt>comments</dt><dd>GitHub Discussions via Giscus</dd></div>
+        <div><dt>tracking</dt><dd>none</dd></div>
+        <div><dt>offline</dt><dd>works from a folder</dd></div>
+      </dl>
+
+      <!-- =========================================================== stats -->
+      <div class="zv-stats">
+        <div class="zv-stat">
+          <span class="zv-n">40</span><span class="zv-l">topic pages</span>
+        </div>
+        <div class="zv-stat">
+          <span class="zv-n">200</span><span class="zv-l">practice MCQs</span>
+        </div>
+        <div class="zv-stat">
+          <span class="zv-n">8</span><span class="zv-l">units</span>
+        </div>
+        <div class="zv-stat">
+          <span class="zv-n">5</span><span class="zv-l">subjects</span>
+        </div>
+        <div class="zv-stat">
+          <span class="zv-n">6</span><span class="zv-l">formula sheets</span>
+        </div>
+      </div>
+
+      <!-- ======================================================== subjects -->
+      <h2 class="zv-h2" id="subjects"><span>01</span> subjects</h2>
+
+      <div class="zv-grid zv-grid-2" data-subject-cards>
+        <a class="zv-card" href="notes/mathematics/unit1/index.html">
+          <div class="zv-card-head"><span class="zv-card-code">BT102</span><h3>Mathematics-I</h3></div>
+          <p>Differential calculus and mean value theorems.</p>
+          <div class="zv-card-foot"><span>1 unit</span><span>7 topics</span><span>35 MCQs</span></div>
+        </a>
+        <a class="zv-card" href="notes/physics/unit1/index.html">
+          <div class="zv-card-head"><span class="zv-card-code">BT201</span><h3>Engineering Physics</h3></div>
+          <p>Quantum mechanics, wave optics, modern physics.</p>
+          <div class="zv-card-foot"><span>1 unit</span><span>2 topics</span><span>10 MCQs</span></div>
+        </a>
+        <a class="zv-card" href="notes/bt203/unit1/index.html">
+          <div class="zv-card-head"><span class="zv-card-code">BT203</span><h3>Basic Mechanical Engineering</h3></div>
+          <p>Materials, measurement and metrology, production processes.</p>
+          <div class="zv-card-foot"><span>2 units</span><span>16 topics</span><span>80 MCQs</span></div>
+        </a>
+        <a class="zv-card" href="notes/bt204/unit1/index.html">
+          <div class="zv-card-head"><span class="zv-card-code">BT204</span><h3>Basic Civil Engineering & Mechanics</h3></div>
+          <p>Mid-sem plan ready. Unit notes not yet built.</p>
+          <div class="zv-card-foot"><span>2 units</span><span>3 topics</span><span>15 MCQs</span></div>
+        </a>
+        <a class="zv-card" href="notes/bt205/unit1/index.html">
+          <div class="zv-card-head"><span class="zv-card-code">BT205</span><h3>Basic Computer Engineering</h3></div>
+          <p>Fundamentals, operating systems, algorithms, C++.</p>
+          <div class="zv-card-foot"><span>2 units</span><span>12 topics</span><span>60 MCQs</span></div>
+        </a>
+      </div>
+
+      <!-- ====================================================== how to use -->
+      <h2 class="zv-h2"><span>02</span> how to use it</h2>
+
+      <div class="zv-steps">
+        <div class="zv-step">
+          <span class="zv-n">step 1</span>
+          <h3>Learn one page</h3>
+          <p>
+            Open a topic. Read the <strong>Lesson</strong> tab, then flip to
+            <strong>Cheat-Sheet</strong> &mdash; that tab is built to be the
+            only thing you read the morning of an exam.
+          </p>
+          <p>Diagrams are plain ASCII on purpose, so you can redraw them on paper.</p>
+        </div>
+        <div class="zv-step">
+          <span class="zv-n">step 2</span>
+          <h3>Test yourself</h3>
+          <p>
+            Five MCQs per topic mark themselves and explain the answer. Then
+            run the PYQ drill sets under a timer.
+          </p>
+          <p>Tick topics off on a unit hub; your progress is saved in this browser.</p>
+        </div>
+        <div class="zv-step">
+          <span class="zv-n">step 3</span>
+          <h3>Fix what's wrong</h3>
+          <p>
+            Spot a mistake or a better explanation? Add a comment on the page
+            and it lands in the repo's Discussions.
+          </p>
+          <p><a href="#contribute">How to send a fix &rarr;</a></p>
+        </div>
+      </div>
+
+      <!-- ====================================================== all files -->
+      <h2 class="zv-h2" id="all-files"><span>03</span> every file</h2>
+      <p
+        class="zv-hint"
+        style="margin: -0.4rem 0 1.1rem; line-height: 1.7"
+      >
+        The whole site, as <code>ls</code> sees it. 59 pages, no build
+        step, no dependencies.
+      </p>
+
+      <div class="zv-ls" data-listing><a class="zv-ls-row zv-ls-head" href="#all-files"><span class="zv-name">name</span><span class="zv-meta">size / contents</span></a>
+        <div class="zv-ls-row zv-ls-head"><span class="zv-name">BT102/ Mathematics-I</span><span class="zv-meta">1 unit</span></div>
+        <a class="zv-ls-row" href="notes/mathematics/midsem.html"><span class="zv-name"><b>&middot;</b>midsem.html</span><span class="zv-meta">predicted paper</span></a>
+        <a class="zv-ls-row" href="notes/mathematics/unit1/index.html"><span class="zv-name"><b>&middot;</b>unit1/</span><span class="zv-meta">hub &amp; resources</span></a>
+        <a class="zv-ls-row" href="notes/mathematics/unit1/01-rolles-theorem.html"><span class="zv-name"><b>&rsaquo;</b>01-rolles-theorem.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/mathematics/unit1/02-lagranges-mvt.html"><span class="zv-name"><b>&rsaquo;</b>02-lagranges-mvt.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/mathematics/unit1/03-taylors-maclaurins.html"><span class="zv-name"><b>&rsaquo;</b>03-taylors-maclaurins.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/mathematics/unit1/04-maxima-minima.html"><span class="zv-name"><b>&rsaquo;</b>04-maxima-minima.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/mathematics/unit1/05-partial-differentiation.html"><span class="zv-name"><b>&rsaquo;</b>05-partial-differentiation.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/mathematics/unit1/06-taylor-two-variables.html"><span class="zv-name"><b>&rsaquo;</b>06-taylor-two-variables.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/mathematics/unit1/07-maxima-minima-three-variables.html"><span class="zv-name"><b>&rsaquo;</b>07-maxima-minima-three-variables.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/mathematics/unit1/formula-sheet.html"><span class="zv-name"><b>&middot;</b>formula-sheet.html</span><span class="zv-meta">formula sheet</span></a>
+        <div class="zv-ls-row zv-ls-head"><span class="zv-name">BT201/ Engineering Physics</span><span class="zv-meta">1 unit</span></div>
+        <a class="zv-ls-row" href="notes/physics/midsem.html"><span class="zv-name"><b>&middot;</b>midsem.html</span><span class="zv-meta">predicted paper</span></a>
+        <a class="zv-ls-row" href="notes/physics/unit1/index.html"><span class="zv-name"><b>&middot;</b>unit1/</span><span class="zv-meta">hub &amp; resources</span></a>
+        <a class="zv-ls-row" href="notes/physics/unit1/01-wave-nature-debroglie.html"><span class="zv-name"><b>&rsaquo;</b>01-wave-nature-debroglie.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/physics/unit1/02-operators-born.html"><span class="zv-name"><b>&rsaquo;</b>02-operators-born.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/physics/unit1/formula-sheet.html"><span class="zv-name"><b>&middot;</b>formula-sheet.html</span><span class="zv-meta">formula sheet</span></a>
+        <div class="zv-ls-row zv-ls-head"><span class="zv-name">BT203/ Basic Mechanical Engineering</span><span class="zv-meta">2 units</span></div>
+        <a class="zv-ls-row" href="notes/bt203/midsem.html"><span class="zv-name"><b>&middot;</b>midsem.html</span><span class="zv-meta">predicted paper</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/index.html"><span class="zv-name"><b>&middot;</b>unit1/</span><span class="zv-meta">hub &amp; resources</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/01-material-classification.html"><span class="zv-name"><b>&rsaquo;</b>01-material-classification.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/02-cast-iron-carbon-steels.html"><span class="zv-name"><b>&rsaquo;</b>02-cast-iron-carbon-steels.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/03-iron-carbon-diagram.html"><span class="zv-name"><b>&rsaquo;</b>03-iron-carbon-diagram.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/04-alloy-steels.html"><span class="zv-name"><b>&rsaquo;</b>04-alloy-steels.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/05-mechanical-properties.html"><span class="zv-name"><b>&rsaquo;</b>05-mechanical-properties.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/06-tensile-test-stress-strain.html"><span class="zv-name"><b>&rsaquo;</b>06-tensile-test-stress-strain.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/07-hookes-law-modulus.html"><span class="zv-name"><b>&rsaquo;</b>07-hookes-law-modulus.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/08-hardness-impact-testing.html"><span class="zv-name"><b>&rsaquo;</b>08-hardness-impact-testing.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit1/formula-sheet.html"><span class="zv-name"><b>&middot;</b>formula-sheet.html</span><span class="zv-meta">formula sheet</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/index.html"><span class="zv-name"><b>&middot;</b>unit2/</span><span class="zv-meta">hub &amp; resources</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/01-measurement-concepts-errors.html"><span class="zv-name"><b>&rsaquo;</b>01-measurement-concepts-errors.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/02-micrometer-dial-slip.html"><span class="zv-name"><b>&rsaquo;</b>02-micrometer-dial-slip.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/03-vernier-calliper.html"><span class="zv-name"><b>&rsaquo;</b>03-vernier-calliper.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/04-sine-bar-combination.html"><span class="zv-name"><b>&rsaquo;</b>04-sine-bar-combination.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/05-lathe-drilling-machines.html"><span class="zv-name"><b>&rsaquo;</b>05-lathe-drilling-machines.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/06-physical-quantities-measurement.html"><span class="zv-name"><b>&rsaquo;</b>06-physical-quantities-measurement.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/07-dynamometer.html"><span class="zv-name"><b>&rsaquo;</b>07-dynamometer.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/08-welding-casting.html"><span class="zv-name"><b>&rsaquo;</b>08-welding-casting.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt203/unit2/formula-sheet.html"><span class="zv-name"><b>&middot;</b>formula-sheet.html</span><span class="zv-meta">formula sheet</span></a>
+        <div class="zv-ls-row zv-ls-head"><span class="zv-name">BT204/ Basic Civil Engineering & Mechanics</span><span class="zv-meta">2 units</span></div>
+        <a class="zv-ls-row" href="notes/bt204/midsem.html"><span class="zv-name"><b>&middot;</b>midsem.html</span><span class="zv-meta">predicted paper</span></a>
+        <a class="zv-ls-row" href="notes/bt204/unit1/index.html"><span class="zv-name"><b>&middot;</b>unit1/</span><span class="zv-meta">hub &amp; resources</span></a>
+        <a class="zv-ls-row" href="notes/bt204/unit1/01-building-materials.html"><span class="zv-name"><b>&rsaquo;</b>01-building-materials.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt204/unit2/index.html"><span class="zv-name"><b>&middot;</b>unit2/</span><span class="zv-meta">hub &amp; resources</span></a>
+        <a class="zv-ls-row" href="notes/bt204/unit2/01-surveying-fundamentals.html"><span class="zv-name"><b>&rsaquo;</b>01-surveying-fundamentals.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt204/unit2/05-levelling-rise-fall.html"><span class="zv-name"><b>&rsaquo;</b>05-levelling-rise-fall.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <div class="zv-ls-row zv-ls-head"><span class="zv-name">BT205/ Basic Computer Engineering</span><span class="zv-meta">2 units</span></div>
+        <a class="zv-ls-row" href="notes/bt205/midsem.html"><span class="zv-name"><b>&middot;</b>midsem.html</span><span class="zv-meta">predicted paper</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit1/index.html"><span class="zv-name"><b>&middot;</b>unit1/</span><span class="zv-meta">hub &amp; resources</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit1/01-computer-definition-classification.html"><span class="zv-name"><b>&rsaquo;</b>01-computer-definition-classification.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit1/02-cpu-registers-bus-instruction.html"><span class="zv-name"><b>&rsaquo;</b>02-cpu-registers-bus-instruction.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit1/03-memory-storage-io.html"><span class="zv-name"><b>&rsaquo;</b>03-memory-storage-io.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit1/04-software-and-applications.html"><span class="zv-name"><b>&rsaquo;</b>04-software-and-applications.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit1/05-operating-system.html"><span class="zv-name"><b>&rsaquo;</b>05-operating-system.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit1/06-ms-office.html"><span class="zv-name"><b>&rsaquo;</b>06-ms-office.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit1/formula-sheet.html"><span class="zv-name"><b>&middot;</b>formula-sheet.html</span><span class="zv-meta">formula sheet</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit2/index.html"><span class="zv-name"><b>&middot;</b>unit2/</span><span class="zv-meta">hub &amp; resources</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit2/01-algorithms-complexity-flowchart.html"><span class="zv-name"><b>&rsaquo;</b>01-algorithms-complexity-flowchart.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit2/02-languages-paradigms-oop.html"><span class="zv-name"><b>&rsaquo;</b>02-languages-paradigms-oop.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit2/03-cpp-tokens-datatypes.html"><span class="zv-name"><b>&rsaquo;</b>03-cpp-tokens-datatypes.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit2/04-operators-expressions-io.html"><span class="zv-name"><b>&rsaquo;</b>04-operators-expressions-io.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit2/05-control-structures.html"><span class="zv-name"><b>&rsaquo;</b>05-control-structures.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit2/06-arrays-functions.html"><span class="zv-name"><b>&rsaquo;</b>06-arrays-functions.html</span><span class="zv-meta">5 mcq + drills</span></a>
+        <a class="zv-ls-row" href="notes/bt205/unit2/formula-sheet.html"><span class="zv-name"><b>&middot;</b>formula-sheet.html</span><span class="zv-meta">formula sheet</span></a></div>
+
+      <!-- ====================================================== affordances -->
+      <h2 class="zv-h2"><span>04</span> how it behaves</h2>
+
+      <div class="zv-grid zv-grid-2">
+        <div class="zv-callout">
+          <span class="zv-ico" aria-hidden="true">&#9635;</span>
+          <div>
+            <h3>Hover anything</h3>
+            <p>
+              Hover a link and the target page peeks open before you leave.
+              Hover a figure and a copy button appears. Hover a block and you
+              can copy a link straight to that section.
+            </p>
+            <p>Borrowed from Obsidian and Notion, respectively.</p>
+          </div>
+        </div>
+        <div class="zv-callout">
+          <span class="zv-ico" aria-hidden="true">&#9001;</span>
+          <div>
+            <h3>Keyboard does the work</h3>
+            <p>
+              <kbd class="zv-kb">Ctrl K</kbd> search,
+              <kbd class="zv-kb">[</kbd> index,
+              <kbd class="zv-kb">o</kbd> sections,
+              <kbd class="zv-kb">f</kbd> focus mode,
+              <kbd class="zv-kb">]</kbd> next topic.
+            </p>
+            <p>Press <kbd class="zv-kb">?</kbd> anywhere for the full sheet.</p>
+          </div>
+        </div>
+        <div class="zv-callout">
+          <span class="zv-ico" aria-hidden="true">&#9670;</span>
+          <div>
+            <h3>Every page knows its place</h3>
+            <p>
+              Under each title sits a properties row &mdash; subject, unit,
+              how many MCQs, how long it takes to read &mdash; pulled from the
+              same data as the sidebar so the two cannot disagree.
+            </p>
+            <p>Notion's database row, in a static page.</p>
+          </div>
+        </div>
+        <div class="zv-callout">
+          <span class="zv-ico" aria-hidden="true">&#9673;</span>
+          <div>
+            <h3>Graphs are generated, not drawn</h3>
+            <p>
+              Function graphs are plotted from the formula and then checked:
+              the curve has to bend, pass its labelled points, and put the
+              secant parallel to the tangent.
+            </p>
+            <p>A hand-drawn curve is exactly what goes quietly wrong.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====================================================== contribute -->
+      <h2 class="zv-h2" id="contribute"><span>05</span> contribute</h2>
+
+      <div class="zv-grid zv-grid-2">
+        <div>
+          <div class="zv-callout">
+            <span class="zv-ico" aria-hidden="true">&#9670;</span>
+            <div>
+              <h3>Leave a comment on any page</h3>
+              <p>
+                Every topic page has a <strong>Comments &amp; corrections</strong>
+                box at the bottom. No account here &mdash; sign in with GitHub
+                and your note goes straight into the repo's Discussions, where
+                everyone can see it.
+              </p>
+              <p>
+                Good comments get folded into the page and credited. That is
+                the fastest path to a change; no git required.
+              </p>
+            </div>
+          </div>
+
+          <div class="zv-callout">
+            <span class="zv-ico" aria-hidden="true">&#9650;</span>
+            <div>
+              <h3>Or open a pull request</h3>
+              <p>
+                The pages are plain HTML with no framework. Edit a file in the
+                GitHub web editor, or clone and run
+                <span class="zv-kb">python3 tools/sync-web.py</span> to rebuild
+                the site.
+              </p>
+              <p>
+                The house style is written down in
+                <span class="zv-kb">notes/note.md</span> &mdash; read it before
+                you restructure anything.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="zv-callout">
+            <span class="zv-ico" aria-hidden="true">&#9635;</span>
+            <div>
+              <h3>Keep the pages portable</h3>
+              <p>
+                Every page must keep working when opened straight off a hard
+                drive or sent over WhatsApp. That means: relative links only,
+                no build step, no external CSS or JS beyond this site layer.
+              </p>
+              <p>
+                Do not add inline SVG, Mermaid, or web fonts to a topic page.
+                Diagrams stay portable ASCII.
+              </p>
+            </div>
+          </div>
+
+          <div class="zv-callout">
+            <span class="zv-ico" aria-hidden="true">&#9679;</span>
+            <div>
+              <h3>Colour tokens are a contract</h3>
+              <p>
+                <span class="zv-kb">--ink #e6e3dc</span>,
+                <span class="zv-kb">--paper #14161b</span>,
+                <span class="zv-kb">--accent #e0a370</span>. Restyle once in
+                <span class="zv-kb">assets/site.css</span>, not per file.
+              </p>
+              <p>
+                Hover states change a border or a text colour &mdash; never a
+                whole filled block.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================= foot -->
+      <footer class="zv-foot">
+        <span
+          ><span class="zv-p">zevu@learn</span>:~/notes $ # shared via zevu
+          &middot; built with ART</span
+        >
+        <span>static build &middot; synced 2026-10-07 &middot; no trackers</span>
+      </footer>
+    </div>
+  </body>
+</html>

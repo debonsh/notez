@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maxima & Minima of Two Variables &mdash; RGPV BT102 PYQ Prep &middot; by Zevu</title>
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #26201a;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { background: var(--accent-soft); }
+
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--accent-soft); color: var(--ink); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+
+.terminal-diagram { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.terminal-diagram .highlight { color: var(--accent); }
+
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt102/unit1 $</span> cat maxima-minima.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+</div>
+
+<!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT102 Unit 1 &mdash; Calculus</p>
+<h1>Maxima & Minima of Two Variables &mdash; Find Peaks and Valleys on a Surface</h1>
+<p><em>You've mastered single-variable optimization. Now we go 2D: functions like
+<code>f(x,y) = x&sup2; + y&sup2;</code> define surfaces, not curves. The peaks are maxima,
+the troughs are minima, and the mountain passes are saddle points. RGPV BT102 asks you to find
+and classify all three.</em></p>
+
+<h2>The setup</h2>
+<p>A function <code>f(x, y)</code> has a <strong>stationary point</strong> where both partial derivatives vanish:</p>
+
+<pre><code>f<sub>x</sub> = &part;f/&part;x = 0    AND    f<sub>y</sub> = &part;f/&part;y = 0</code></pre>
+
+<p>Stationary points can be: <strong>maximum</strong>, <strong>minimum</strong>, or <strong>saddle point</strong> (neither).</p>
+
+<h2>The second derivative test (your classification tool)</h2>
+<p>Define the discriminant <code>D</code> (also called the Hessian determinant):</p>
+
+<pre><code>Let:  r = f<sub>xx</sub>,  s = f<sub>xy</sub>,  t = f<sub>yy</sub>
+
+Then: D = r&middot;t &minus; s&sup2; = f<sub>xx</sub> &middot; f<sub>yy</sub> &minus; (f<sub>xy</sub>)&sup2;</code></pre>
+
+<table>
+<tr><th>Condition</th><th>Classification</th></tr>
+<tr><td><code>D &gt; 0</code> and <code>r &gt; 0</code></td><td>Local <strong>minimum</strong></td></tr>
+<tr><td><code>D &gt; 0</code> and <code>r &lt; 0</code></td><td>Local <strong>maximum</strong></td></tr>
+<tr><td><code>D &lt; 0</code></td><td><strong>Saddle point</strong> (neither max nor min)</td></tr>
+<tr><td><code>D = 0</code></td><td>Test is inconclusive &mdash; need higher-order analysis</td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">Memory trick</span>
+  D &gt; 0 means "definite" (either max or min) &mdash; the sign of r tells you which.
+  D &lt; 0 means "saddle" &mdash; think of a horse saddle: up in one direction, down in another.
+</div>
+
+<h2>The 5-step algorithm (RGPV marking scheme)</h2>
+
+<pre><code>Step 1: Find f<sub>x</sub> and f<sub>y</sub> (first partial derivatives)
+Step 2: Solve f<sub>x</sub> = 0 AND f<sub>y</sub; = 0 simultaneously &rarr; stationary points
+Step 3: Compute r = f<sub>xx</sub>, s = f<sub>xy</sub>, t = f<sub>yy</sub> at each stationary point
+Step 4: Calculate D = rt &minus; s&sup2;
+Step 5: Classify using the table above</code></pre>
+
+<h2>Example 1 &mdash; the classic PYQ</h2>
+<p><strong>Q:</strong> Find the maxima/minima/saddle points of <code>f(x,y) = x&sup2; + y&sup2; + 2x + 4y + 5</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>f<sub>x</sub> = 2x + 2</code>, <code>f<sub>y</sub> = 2y + 4</code></td></tr>
+<tr><td>2</td><td><code>2x + 2 = 0 &rarr; x = -1</code>; <code>2y + 4 = 0 &rarr; y = -2</code></td></tr>
+<tr><td>3</td><td><code>r = f<sub>xx</sub> = 2</code>, <code>s = f<sub>xy</sub> = 0</code>, <code>t = f<sub>yy</sub> = 2</code></td></tr>
+<tr><td>4</td><td><code>D = (2)(2) - (0)&sup2; = 4</code></td></tr>
+<tr><td>5</td><td><code>D = 4 &gt; 0</code>, <code>r = 2 &gt; 0</code> &rarr; <strong>Local minimum at (&minus;1, &minus;2)</strong></td></tr>
+</table>
+
+<pre class="terminal-diagram">  <span class="highlight">f(x,y) = x&sup2; + y&sup2; + 2x + 4y + 5</span>
+
+       z
+       |        ╱╲
+       |       ╱  ╲
+       |      ╱    ╲
+       |     ╱      ╲
+       |    ╱   &bull;   ╲      &larr; paraboloid opening upward
+       │   │ (-1,-2) │
+       └────────────────&rarr; y
+      /
+     / &rarr; x
+
+  Stationary point: (-1, -2)
+  D = 4 > 0, r = 2 > 0 &rarr; <span class="highlight">LOCAL MINIMUM</span></pre>
+
+
+<div class="callout">
+  <span class="label">Diagram — bowl = minimum (contour view)</span>
+  <svg viewBox="0 0 400 180" width="100%" role="img" aria-label="Contour circles around minimum point">
+    <rect x="0" y="0" width="400" height="180" fill="#000000" rx="8"/>
+    <ellipse cx="200" cy="90" rx="120" ry="60" fill="none" stroke="#2b2e36"/>
+    <ellipse cx="200" cy="90" rx="80" ry="40" fill="none" stroke="#2b2e36"/>
+    <ellipse cx="200" cy="90" rx="40" ry="20" fill="none" stroke="#e0a370"/>
+    <circle cx="200" cy="90" r="5" fill="#7bc97f"/>
+    <text x="212" y="94" fill="#7bc97f" font-size="12">min (−1,−2)</text>
+    <text x="40" y="30" fill="#a29d92" font-size="11">D &gt; 0, r &gt; 0</text>
+  </svg>
+</div>
+
+<h2>Example 2 &mdash; with a saddle point</h2>
+<p><strong>Q:</strong> Classify stationary points of <code>f(x,y) = x&sup2; &minus; y&sup2;</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>f<sub>x</sub> = 2x</code>, <code>f<sub>y</sub> = -2y</code></td></tr>
+<tr><td>2</td><td><code>2x = 0 &rarr; x = 0</code>; <code>-2y = 0 &rarr; y = 0</code> &rarr; point (0,0)</td></tr>
+<tr><td>3</td><td><code>r = 2</code>, <code>s = 0</code>, <code>t = -2</code></td></tr>
+<tr><td>4</td><td><code>D = (2)(-2) - (0)&sup2; = -4</code></td></tr>
+<tr><td>5</td><td><code>D = -4 &lt; 0</code> &rarr; <strong>Saddle point at (0, 0)</strong></td></tr>
+</table>
+
+<pre class="terminal-diagram">  <span class="highlight">f(x,y) = x&sup2; - y&sup2;</span>  (hyperbolic paraboloid)
+
+         y
+         |
+         |  ╲   ╱
+         |    ╳           &larr; SADDLE at (0,0)
+         |  ╱   ╲            up along x-axis
+         | │     │          down along y-axis
+         └──────────&rarr; x
+
+  D = -4 &lt; 0 &rarr; <span class="highlight">SADDLE POINT</span>
+  (neither max nor min)</pre>
+
+<h2>Example 3 &mdash; product term (s &ne; 0)</h2>
+<p><strong>Q:</strong> Find stationary points of <code>f(x,y) = x&sup3; + y&sup3; &minus; 3xy</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>f<sub>x</sub> = 3x&sup2; - 3y</code>, <code>f<sub>y</sub> = 3y&sup2; - 3x</code></td></tr>
+<tr><td>2</td><td><code>3x&sup2; = 3y &rarr; y = x&sup2;</code>; <code>3y&sup2; = 3x &rarr; y&sup2; = x</code></td></tr>
+<tr><td>3</td><td>Substituting: <code>(x&sup2;)&sup2; = x &rarr; x&sup4; = x &rarr; x(x&sup3;-1)=0</code></td></tr>
+<tr><td>4</td><td><code>x = 0 &rarr; y = 0</code>; <code>x = 1 &rarr; y = 1</code> &rarr; points (0,0) and (1,1)</td></tr>
+<tr><td>5</td><td>At (0,0): <code>r=0, s=-3, t=0</code>, <code>D = 0 - 9 = -9 &lt; 0</code> &rarr; <strong>saddle</strong></td></tr>
+<tr><td>6</td><td>At (1,1): <code>r=6, s=-3, t=6</code>, <code>D = 36-9 = 27 &gt; 0</code>, <code>r=6 &gt; 0</code> &rarr; <strong>min</strong></td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">Exam tip &mdash; common RGPV functions</span>
+  - <code>x&sup2; + y&sup2;</code>: always has a minimum (paraboloid bowl)
+  - <code>x&sup2; - y&sup2;</code>: always has a saddle (hyperbolic paraboloid)
+  - <code>x&sup3; + y&sup3; - 3xy</code>: the "fool's saddle" problem (two stationary points)
+  - <code>xy</code>: pure saddle at origin
+  - Product terms (xy) make s &ne; 0, which makes D harder to compute
+</div>
+
+<h2>Retrieval practice &mdash; MCQs</h2>
+
+<div class="quiz"
+     data-answer="b"
+     data-explain="For maxima/minima of two variables, both first partial derivatives must be zero: f_x = 0 AND f_y = 0. This gives the stationary points. Then you use the second derivative test (D = rt - s²) to classify them.">
+  <p class="q">To find stationary points of f(x,y), you must solve...?</p>
+  <button data-key="a">f_x equals zero only, f_y does not matter</button>
+  <button data-key="b">Both partial derivatives equal zero simultaneously</button>
+  <button data-key="c">Only the second derivative f_xx equals zero</button>
+  <button data-key="d">The total derivative df equals zero identically</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="a"
+     data-explain="D = rt - s² = f_xx·f_yy - (f_xy)². When D > 0, the point is either a max or min (definite). When D < 0, it's a saddle. When D = 0, the test fails. This is the Hessian discriminant.">
+  <p class="q">The discriminant D for classifying stationary points is...?</p>
+  <button data-key="a">D equals f_xx times f_yy minus (f_xy) squared</button>
+  <button data-key="b">D equals f_xx plus f_yy plus f_xy</button>
+  <button data-key="c">D equals (f_xx minus f_yy) squared always</button>
+  <button data-key="d">D equals f_xy divided by f_xx times f_yy</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="c"
+     data-explain="D > 0 means definite (max or min). Then r = f_xx tells you which: r > 0 means concave up = minimum, r < 0 means concave down = maximum. So D > 0 with r > 0 = local minimum.">
+  <p class="q">If D &gt; 0 and r &gt; 0 at a stationary point, the point is a...?</p>
+  <button data-key="a">Local maximum of the function</button>
+  <button data-key="b">Saddle point that is not extremum</button>
+  <button data-key="c">Local minimum of the function</button>
+  <button data-key="d">Point of inflection only, nothing else</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="d"
+     data-explain="D &lt; 0 always means saddle point regardless of r. A saddle is neither a max nor a min &mdash; it's a point where the surface curves up in one direction and down in another (like a mountain pass).">
+  <p class="q">If D &lt; 0 at a stationary point, it is classified as...?</p>
+  <button data-key="a">Always a local maximum</button>
+  <button data-key="b">Always a local minimum</button>
+  <button data-key="c">Either maximum or minimum based on r</button>
+  <button data-key="d">A saddle point that is neither max nor min</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="a"
+     data-explain="For f(x,y) = x² + y²: f_x = 2x, f_y = 2y, both zero at (0,0). r = 2, s = 0, t = 2. D = 4 > 0, r = 2 > 0 → minimum. This is the simplest case RGPV uses as a warm-up problem.">
+  <p class="q">f(x,y) = x&sup2; + y&sup2; has a stationary point at (0,0) which is a...?</p>
+  <button data-key="a">Minimum because D is positive and r is positive</button>
+  <button data-key="b">Maximum because D is positive and r is positive</button>
+  <button data-key="c">Saddle point because D is less than zero</button>
+  <button data-key="d">Cannot be determined without more information</button>
+  <p class="feedback"></p>
+</div>
+
+<h2>PYQ drill &mdash; 5 high-probability questions</h2>
+
+<div class="callout">
+  <span class="label">Drill set A &mdash; Find &amp; Classify</span>
+  <ol>
+    <li>Find stationary points of <code>f(x,y) = x&sup2; + y&sup2; &minus; 4x &minus; 6y + 10</code>. <em>(Jun 2023)</em></li>
+    <li>Classify stationary points of <code>f(x,y) = x&sup2; &minus; y&sup2;</code>. <em>(Dec 2023)</em></li>
+    <li>Find max/min of <code>f(x,y) = x&sup3; + y&sup3; &minus; 3xy</code>. <em>(Jun 2024)</em></li>
+    <li>Classify <code>f(x,y) = xy</code> at (0,0). <em>(Dec 2024)</em></li>
+    <li>Find stationary points of <code>f(x,y) = 2xy &minus; x&sup2; &minus; y&sup2;</code>. <em>(Jun 2025)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Drill set B &mdash; Conceptual</span>
+  <ol start="6">
+    <li>State the condition for a point to be a saddle point.</li>
+    <li>What does D = 0 mean in the second derivative test?</li>
+    <li>Find f(0,0) for <code>f(x,y) = x&sup2; + 4xy + y&sup2;</code> and classify the point.</li>
+    <li>Explain why f(x,y) = x² + y² has no maximum (only a minimum).</li>
+    <li>Find the maximum of <code>f(x,y) = 6x &minus; x&sup2; + 4y &minus; y&sup2;</code>.</li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Primary source — do this next</span>
+  <a href="https://www.analyzemath.com/calculus/maxima.html">Maxima and Minima of Functions &mdash; Calculus Tutorial</a>
+  &mdash; worked examples with graphs and classification techniques.
+</div>
+
+<div class="callout">
+  <span class="label">More PYQs to solve</span>
+  <ul>
+    <li><a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">CampusPrep &mdash; BT-102 PYQs (Jun 2022 through Jun 2025)</a></li>
+    <li><a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">RGPV Question Papers &mdash; BT-102 archive with solutions</a></li>
+  </ul>
+</div>
+
+</div><!-- end lesson tab -->
+
+<!-- CHEAT-SHEET TAB -->
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT102 Unit 1</p>
+<h1>Maxima & Minima &mdash; Quick Reference</h1>
+
+<h2>The algorithm (5 steps)</h2>
+<pre><code>1. f<sub>x</sub> = 0, f<sub>y</sub> = 0  &rarr; find stationary points
+2. r = f<sub>xx</sub>, s = f<sub>xy</sub>, t = f<sub>yy</sub>
+3. D = rt &minus; s&sup2;
+4. Classify using the table below
+</code></pre>
+
+<h2>Classification table</h2>
+<table>
+<tr><th>Condition</th><th>Result</th></tr>
+<tr><td>D &gt; 0, r &gt; 0</td><td>Local minimum</td></tr>
+<tr><td>D &gt; 0, r &lt; 0</td><td>Local maximum</td></tr>
+<tr><td>D &lt; 0</td><td>Saddle point</td></tr>
+<tr><td>D = 0</td><td>Inconclusive (need higher-order test)</td></tr>
+</table>
+
+<h2>Common functions &amp; their behavior</h2>
+<table>
+<tr><th>f(x,y)</th><th>Stationary point</th><th>Classification</th></tr>
+<tr><td><code>x&sup2; + y&sup2;</code></td><td>(0, 0)</td><td>Minimum</td></tr>
+<tr><td><code>-x&sup2; - y&sup2;</code></td><td>(0, 0)</td><td>Maximum</td></tr>
+<tr><td><code>x&sup2; - y&sup2;</code></td><td>(0, 0)</td><td>Saddle</td></tr>
+<tr><td><code>xy</code></td><td>(0, 0)</td><td>Saddle</td></tr>
+<tr><td><code>x&sup3; + y&sup3; - 3xy</code></td><td>(0,0), (1,1)</td><td>Saddle, Minimum</td></tr>
+</table>
+
+<h2>Key definitions</h2>
+<ul>
+  <li><strong>Stationary point</strong>: where f<sub>x</sub> = 0 AND f<sub>y</sub> = 0</li>
+  <li><strong>Saddle point</strong>: stationary point that is neither max nor min</li>
+  <li><strong>Discriminant</strong>: D = f<sub>xx</sub>&middot;f<sub>yy</sub> &minus; (f<sub>xy</sub>)&sup2;</li>
+</ul>
+
+<h2>Exam checklist</h2>
+<ul>
+  <li>&#x2610; Did I find BOTH partial derivatives (f_x and f_y)?</li>
+  <li>&#x2610; Did I solve them simultaneously (both = 0)?</li>
+  <li>&#x2610; Did I compute r, s, t at EACH stationary point?</li>
+  <li>&#x2610; Did I use D = rt - s² (not r + t)?</li>
+  <li>&#x2610; Did I classify correctly (check both D and r sign)?</li>
+</ul>
+
+</div><!-- end cheatsheet tab -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt102/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

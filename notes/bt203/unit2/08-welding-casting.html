@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welding, Casting and Patterns &amp;mdash; Joining and Shaping</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit2 $</span> cat 08-welding-casting.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 2 &mdash; Measurement &amp; Production</p>
+<h1>Welding, Casting and Patterns &mdash; Joining and Shaping</h1>
+<p><em>This is the production half of Unit 2, and it appears in 3 of 11 papers with the identical
+stem: <strong>&ldquo;Define welding, classify welding processes, and explain arc welding&rdquo;</strong>
+&mdash; December 2020 asked it as Q6b. Casting and patterns sit beside it. Both are classification
+questions with a sketch, so the marks come from the framework rather than from detail.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>Welding is the process of joining two similar or dissimilar metals by the
+application of heat, pressure, or both, with or without a filler material,
+so that the parts coalesce into one. It is classified into FUSION welding,
+where the joint is melted (gas, arc, thermit, resistance), and PRESSURE or
+solid-state welding, where the joint is not melted but is forced together
+(forge, friction, ultrasonic). Casting is the process of pouring molten metal
+into a mould cavity shaped by a PATTERN, and allowing it to solidify.</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;Welding takes two
+pieces and makes them one; casting takes one pour and makes a complex shape. Both start from the
+same question &mdash; how do you hold the metal while it solidifies?&rdquo;</em></p>
+
+<h2>Welding &mdash; the classification is the answer</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="Welding classified into fusion and pressure welding, with soldering and brazing shown as related but distinct">
+WELDING  =  joining by heat, pressure, or both, with or without a filler
+|
++-- FUSION WELDING  (the joint faces MELT)
+|     +-- gas (oxy-acetylene) ... thin sheets, pipes, repairs
+|     +-- ARC ................... structural steel, shipbuilding
+|     |     +-- SMAW  coated consumable electrode
+|     |     +-- TIG   tungsten electrode + inert gas
+|     |     +-- MIG   consumable wire + inert gas
+|     |     +-- SAW   arc struck under granular flux
+|     +-- thermit ............... rail joints, heavy shafts
+|     +-- resistance ............ car bodies, sheet assemblies
+|
++-- PRESSURE / SOLID-STATE  (no melting, forced together)
+      +-- forge ................. blacksmith work, chains
+      +-- friction .............. dissimilar metals, axles
+      +-- ultrasonic ............ foils, plastics, contacts
+
+  NOT WELDING -- the BASE METAL DOES NOT MELT:
+    SOLDERING  filler melts BELOW 450 C ... electronics, sheet metal
+    BRAZING    filler melts ABOVE 450 C ... pipe joints, tools
+</pre>
+
+<table>
+<thead><tr><th>Class</th><th>Definition</th><th>Processes</th><th>Typical application</th></tr></thead>
+<tbody>
+<tr><td rowspan="4"><strong>Fusion welding</strong></td><td rowspan="4">The joint faces are melted and the parts flow together, with or without a filler; the base metal itself melts</td><td><strong>Gas welding</strong> (oxy-acetylene)</td><td>Thin sheets, pipes, repairs, where precise heat control matters</td></tr>
+<tr><td><strong>Arc welding</strong> (electric)</td><td>Structural steelwork, shipbuilding, pipelines &mdash; the commonest process by far</td></tr>
+<tr><td><strong>Thermit welding</strong></td><td>Rail joints, heavy shafts, repair of large castings</td></tr>
+<tr><td><strong>Resistance welding</strong> (spot, seam, butt)</td><td>Sheet metal assemblies, car bodies, wire mesh &mdash; it uses pressure <em>and</em> heat at the interface</td></tr>
+<tr><td rowspan="3"><strong>Pressure / solid-state welding</strong></td><td rowspan="3">No melting at the joint; coalescence is produced by pressure, sometimes with local heating to make the metal plastic</td><td><strong>Forge welding</strong></td><td>Blacksmith work, chains, small components</td></tr>
+<tr><td><strong>Friction welding</strong></td><td>Joining dissimilar metals, axles, drill bodies</td></tr>
+<tr><td><strong>Ultrasonic welding</strong></td><td>Thin foils, plastics, electrical contacts</td></tr>
+</tbody>
+</table>
+
+<h2>The arc welding family</h2>
+
+<table>
+<thead><tr><th>Process</th><th>How it works</th><th>Where used</th></tr></thead>
+<tbody>
+<tr><td><strong>SMAW</strong> &mdash; shielded metal arc (coated electrode)</td><td>A coated consumable electrode strikes an arc to the work; the coating burns to form a shielding gas and a slag that protects the molten pool</td><td>General fabrication, structural steel, site work &mdash; the workhorse</td></tr>
+<tr><td><strong>TIG</strong> &mdash; tungsten inert gas</td><td>A non-consumable tungsten electrode with a separate filler rod, protected by an inert gas such as argon</td><td>Aerospace, thin sections, stainless and aluminium; the highest quality but the slowest</td></tr>
+<tr><td><strong>MIG</strong> &mdash; metal inert gas</td><td>A continuously fed consumable wire electrode, protected by an inert gas</td><td>Production welding of sheet and plate; fast and easily automated</td></tr>
+<tr><td><strong>SAW</strong> &mdash; submerged arc</td><td>The arc is struck under a blanket of granular flux, so it is invisible and spatter-free</td><td>Long straight seams, pipe manufacture, heavy plate</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>Arc welding is asked by name.</strong> In the December 2020 pattern the
+stem is &ldquo;define, classify, and explain arc welding&rdquo;. So the arc-welding explanation is
+worth preparing separately: <em>an electric arc is struck between a coated consumable electrode and
+the workpiece; the heat of the arc melts both the electrode tip and the parent metal to form a molten
+pool; the electrode coating decomposes to give a shielding gas and a slag which exclude the
+atmosphere; the electrode is fed down as it is consumed, and the pool solidifies behind it into the
+weld.</em> That is the full answer and it carries the process-specific marks.</div>
+
+<h2>Casting and patterns</h2>
+
+<table>
+<thead><tr><th>Step</th><th>What happens</th></tr></thead>
+<tbody>
+<tr><td><strong>1. Pattern making</strong></td><td>A pattern is made slightly larger than the finished casting, to allow for shrinkage and for machining</td></tr>
+<tr><td><strong>2. Moulding</strong></td><td>The pattern is packed in sand; the pattern is withdrawn, leaving a cavity that is the negative of the casting</td></tr>
+<tr><td><strong>3. Core making</strong></td><td>A core is placed in the mould where an internal cavity is wanted</td></tr>
+<tr><td><strong>4. Melting and pouring</strong></td><td>Metal is melted and poured into the mould cavity</td></tr>
+<tr><td><strong>5. Solidification and cooling</strong></td><td>The casting solidifies in the mould; this is where shrinkage occurs</td></tr>
+<tr><td><strong>6. Shakeout and fettling</strong></td><td>The mould is broken up, the casting is removed, and runners, risers and flash are cut off</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Casting sequence from pattern through mould to finished casting, and the pattern allowances">
+   CASTING SEQUENCE
+   ================
+    PATTERN  --->  MOULD (sand packed round it)
+       |                |
+       |                v
+       |           withdraw the pattern
+       |                |
+       |                v
+       |           CAVITY = negative of the casting
+       |                |
+       |                v
+       |           pour MOLTEN METAL
+       |                |
+       |                v
+       |           solidifies + SHRINKS
+       |                |
+       |                v
+       +------>  SHAKEOUT -> FETTLING -> CASTING
+
+   WHY THE PATTERN IS BIGGER THAN THE CASTING
+   ==========================================
+   pattern size = finished size + SHRINKAGE + MACHINING + DRAFT (+ shake)
+
+        SHRINKAGE  : metal contracts on cooling  -> pattern must be
+                     LARGER by about 1 to 2 %
+        MACHINING  : surfaces to be cut later need extra stock
+        DRAFT      : a slight taper so the pattern lifts out cleanly
+        SHAKE      : allowance for the pattern being rapped to free it
+        DISTORTION : allowance for warping of awkward shapes
+
+   The first two are added as LENGTHS; draft is an ANGLE.
+</pre>
+
+<table>
+<thead><tr><th>Pattern type</th><th>Where used</th></tr></thead>
+<tbody>
+<tr><td><strong>Solid pattern</strong></td><td>One piece, for a simple shape made in small numbers</td></tr>
+<tr><td><strong>Split pattern</strong></td><td>In two halves along a parting line, for shapes that could not be withdrawn in one piece</td></tr>
+<tr><td><strong>Match plate pattern</strong></td><td>The two halves mounted on one plate, with gating; for machine moulding in quantity</td></tr>
+<tr><td><strong>Cope and drag pattern</strong></td><td>The two halves mounted on separate plates, so each half is moulded by a different operator or machine</td></tr>
+<tr><td><strong>Loose piece pattern</strong></td><td>Has removable pieces to clear an overhang that would otherwise prevent withdrawal</td></tr>
+<tr><td><strong>Sweep pattern</strong></td><td>A sweep is rotated to generate a surface of revolution, for large symmetrical castings</td></tr>
+<tr><td><strong>Skeleton pattern</strong></td><td>A wooden frame filled in with sand, for very large castings where a solid pattern would be uneconomic</td></tr>
+<tr><td><strong>Shell pattern</strong></td><td>A hollow shell for a shape that is too heavy as a solid pattern</td></tr>
+</tbody>
+</table>
+
+<h2>Numericals in great depth</h2>
+
+<p>Two families of calculation: the welding power and heat input, and the pattern size from its
+allowances.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>P = V I</code></td><td>arc power &mdash; voltage times current</td><td>W</td></tr>
+<tr><td><code>V</code></td><td>arc voltage</td><td>V</td></tr>
+<tr><td><code>I</code></td><td>welding current</td><td>A</td></tr>
+<tr><td><code>H = (V I &times; 60)/(1000 S)</code></td><td>heat input per unit length of weld</td><td>kJ/mm</td></tr>
+<tr><td><code>S</code></td><td>travel speed of the arc along the joint</td><td>mm/min</td></tr>
+<tr><td><code>L<sub>p</sub> = L(1 + s)</code></td><td>pattern length from shrinkage allowance s</td><td>mm</td></tr>
+<tr><td><code>L<sub>p</sub> = L(1 + s) + m</code></td><td>adding the machining allowance m</td><td>mm</td></tr>
+<tr><td><code>draft = h tan &theta;</code></td><td>extra width from a draft angle &theta; over a depth h</td><td>mm</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; welding and casting numerals</span>
+<pre><code>Given:  voltage, current and travel speed; or the finished size,
+        shrinkage percentage and machining allowance
+Find:   arc power, heat input, or the pattern size
+Formula:P = VI ;  H = (VI x 60)/(1000 S) ;  Lp = L(1+s) + m
+Solve:  speed in mm/min, lengths in mm, shrinkage as a decimal
+Check:  a manual arc weld is a few kW and about 1 kJ/mm; a pattern
+        is LARGER than the casting, never smaller</code></pre>
+</div>
+
+<h3>Solved A &mdash; arc power and heat input</h3>
+<p><em>An arc weld is made at 25 V and 150 A, with the arc travelling at 200 mm/min. Find the arc
+power and the heat input per millimetre of weld.</em></p>
+<p><strong>Given:</strong> V = 25 V, I = 150 A, S = 200 mm/min.
+<strong>Find:</strong> P and H. <strong>Formula:</strong> P = VI;
+H = (VI &times; 60)/(1000 S).
+<strong>Solve:</strong></p>
+<pre><code>P = 25 x 150 = 3750 W = 3.75 kW
+
+H = (25 x 150 x 60) / (1000 x 200)
+  = 225000 / 200000
+  = 1.125 kJ/mm
+  = 1125 J/mm</code></pre>
+<p><strong>Answer:</strong> arc power <strong>3.75 kW</strong>, heat input
+<strong>1.125 kJ/mm</strong>.</p>
+<p><strong>Check:</strong> substituting back, 1.125 &times; 1000 &times; 200/60 = 3750 W, recovering the
+arc power from the heat input &mdash; which confirms the 60 and the 1000 are both in the right place.
+Independent magnitude check: a manual arc weld runs at a few kilowatts and delivers roughly 1 kJ per
+millimetre, so both figures sit in the normal band. Note also the sense of the relation: at a fixed
+power a <em>faster</em> travel speed spreads the same heat over more length, so the heat input
+<em>falls</em> &mdash; which is why 300 mm/min would give 0.75 kJ/mm.</p>
+
+<h3>Solved B &mdash; pattern size from shrinkage and machining</h3>
+<p><em>A casting is to finish at 200 mm in length. The shrinkage allowance is 1.5% and a machining
+allowance of 2 mm is required on the length. Find the pattern length.</em></p>
+<p><strong>Given:</strong> L = 200 mm, s = 1.5% = 0.015, m = 2 mm.
+<strong>Find:</strong> L<sub>p</sub>. <strong>Formula:</strong> L<sub>p</sub> = L(1 + s) + m.
+<strong>Solve:</strong></p>
+<pre><code>Lp = 200 x (1 + 0.015) + 2
+   = 200 x 1.015 + 2
+   = 203 + 2
+   = 205 mm</code></pre>
+<p><strong>Answer:</strong> the pattern must be <strong>205 mm</strong> long.</p>
+<p><strong>Check:</strong> reversing the allowance, 205 &minus; 2 = 203 mm and
+203/1.015 = 200.0 mm, recovering the finished size exactly &mdash; so the order of the two allowances
+is right. Second check on direction: a pattern must always be <em>larger</em> than the casting it
+produces, because the metal contracts on cooling and some surface is subsequently machined away; 205
+is larger than 200, as it must be. Had the shrinkage been subtracted the pattern would have come out
+197 mm, and the casting would finish undersize. Third check on order: the shrinkage percentage applies
+to the <em>casting</em> dimension, and the machining allowance is then added as a fixed length, which
+is why they are not simply added together first.</p>
+
+<h3>Solved C &mdash; draft allowance</h3>
+<p><em>A pattern is 50 mm deep and must be given a draft of 1.5&deg; so that it withdraws cleanly.
+Find the extra width required on each side. State what would happen if no draft were
+provided.</em></p>
+<p><strong>Given:</strong> h = 50 mm, &theta; = 1.5&deg;.
+<strong>Find:</strong> the extra width per side.
+<strong>Formula:</strong> extra width = h tan &theta;.
+<strong>Solve:</strong></p>
+<pre><code>extra width = 50 x tan 1.5 deg
+            = 50 x 0.02619
+            = 1.31 mm per side
+
+  so the pattern is 2.62 mm wider overall than the casting
+  at the top of the 50 mm depth</code></pre>
+<p><strong>Answer:</strong> the extra width is <strong>1.31 mm per side</strong> (2.62 mm on the
+width overall).</p>
+<p><strong>Check:</strong> the sense is right &mdash; a draft <em>adds</em> material at the top and
+tapers down, so the pattern is widest at the face from which it is withdrawn. Note also that the
+allowance is an <em>angle</em>, not a length, so it cannot be added to the shrinkage as a fixed number:
+it depends on the depth. Doubling the depth to 100 mm would double the extra width to 2.62 mm per
+side, which is why a deep pattern needs a smaller draft angle for the same clearance. <strong>Without
+draft</strong>, the pattern would drag on the mould walls as it is withdrawn, and the sand would
+collapse into the cavity &mdash; giving a torn mould, a rough and oversize casting, and in the worst
+case a mould that cannot be withdrawn at all.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>Cutting speed against travel speed.</strong> In H = (VI &times; 60)/(1000 S) the S is the
+<em>arc travel speed in mm/min</em>, not a cutting speed in m/min.</li>
+<li><strong>The 60 converts mm/min to mm/s.</strong> Arc power is in joules per second, so the speed
+must be per second for the division to give joules per millimetre.</li>
+<li><strong>Shrinkage is a percentage, machining is a length.</strong> They cannot simply be added;
+apply the percentage to the casting dimension first, then add the fixed allowance.</li>
+<li><strong>A pattern is always larger than the casting.</strong> If your answer is smaller, an
+allowance has been subtracted that should have been added.</li>
+<li><strong>Draft is an angle, not a length.</strong> The extra width is h tan &theta;, so it depends
+on the depth of the pattern.</li>
+<li><strong>Shrinkage values are small and metal-specific</strong> &mdash; about 1% for cast iron, up
+to about 2% for steel and some non-ferrous alloys. Do not invent a large one.</li>
+<li><strong>Higher travel speed means lower heat input.</strong> The relation is inverse, and a
+question that asks what happens when the speed is increased is testing exactly that.</li>
+<li><strong>Soldering and brazing are not fusion welding</strong>, because the base metal does not
+melt. They are filler-based joining processes distinguished by the filler's melting point.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;Welding is the process of joining two similar or
+dissimilar metals by the application of heat, pressure, or both, with or without a filler material,
+so that they coalesce into a single piece.&rdquo;</li>
+<li><strong>Classification line</strong> &mdash; &ldquo;Welding processes are broadly classified into
+fusion welding, in which the joint faces are melted, comprising gas welding, arc welding, thermit
+welding and resistance welding; and pressure or solid-state welding, in which the joint is not melted
+but is forced together, comprising forge welding, friction welding and ultrasonic welding.&rdquo;</li>
+<li><strong>Arc line</strong> &mdash; &ldquo;In arc welding an electric arc is struck between a coated
+consumable electrode and the workpiece; the heat of the arc melts the electrode tip and the parent
+metal to form a molten pool, the coating decomposing to provide a shielding gas and a slag which
+exclude the atmosphere, and the electrode being fed down as it is consumed.&rdquo;</li>
+<li><strong>Soldering line</strong> &mdash; &ldquo;Soldering and brazing are not welding, because the
+base metal does not melt; they are distinguished from each other by the melting point of the filler,
+below and above about 450&deg;C respectively.&rdquo;</li>
+<li><strong>Casting line</strong> &mdash; &ldquo;Casting is the process of pouring molten metal into a
+mould cavity formed by a pattern, and allowing it to solidify; the pattern is made larger than the
+casting to allow for shrinkage, machining, draft and distortion.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence welding and casting are complementary
+production processes: welding builds up a shape by joining, and casting creates it in one piece from
+a mould, and the choice between them turns on the size, complexity and number of the parts
+required.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+  <span class="label">Exam tips</span>
+  <ul>
+    <li><strong>Classify before you explain</strong> &mdash; the two-way split is the framework the rest hangs on</li>
+    <li><strong>Name a process then give its application</strong> &mdash; the mark is in the pairing</li>
+    <li><strong>Sketch the arc weld</strong> &mdash; electrode, arc, molten pool, slag, and the solidified bead</li>
+    <li><strong>For casting, show the sequence</strong> as steps rather than prose</li>
+    <li><strong>Sketch a pattern with its allowances marked</strong> &mdash; it makes the allowance list obvious</li>
+    <li><strong>State the soldering and brazing distinction</strong> &mdash; it is the standard follow-on question</li>
+    <li><strong>Never leave blank</strong> &mdash; the classification plus two applications clears 4 of 7</li>
+  </ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="B" data-explain="Fusion welding melts the joint faces themselves, so the base metal becomes liquid and the parts flow together; gas, arc, thermit and resistance welding all work this way. Pressure or solid-state welding joins the parts without melting them, using force to bring the surfaces into intimate contact, sometimes with local heating to make the metal plastic.">
+<p><strong>Q1. The essential difference between fusion and pressure welding is that:</strong></p>
+<button data-key="A">Fusion welding uses a filler and pressure welding does not</button>
+<button data-key="B">Fusion welding melts the joint faces, pressure welding does not</button>
+<button data-key="C">Pressure welding needs no heat at all</button>
+<button data-key="D">Fusion welding is only used on steel</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="In soldering and brazing the filler metal melts but the base metal does not, so they are not fusion welding at all. They are distinguished from each other by the melting point of the filler: below about 450 degrees Celsius for soldering, above it for brazing.">
+<p><strong>Q2. Soldering and brazing differ from welding because:</strong></p>
+<button data-key="A">They require no filler material</button>
+<button data-key="B">They are always carried out below room temperature</button>
+<button data-key="C">The base metal does not melt; only the filler does</button>
+<button data-key="D">They can only join dissimilar metals</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="The pattern must be larger than the finished casting because the metal contracts as it cools, and because some surface will later be cut away by machining. The shrinkage allowance is applied to the casting dimension as a percentage, and the machining allowance is then added as a fixed length. Subtracting either would produce an undersize casting.">
+<p><strong>Q3. A pattern is made larger than the finished casting because of:</strong></p>
+<button data-key="A">Shrinkage on cooling and the machining allowance</button>
+<button data-key="B">Expansion of the sand during pouring</button>
+<button data-key="C">The weight of the molten metal</button>
+<button data-key="D">The need to reduce the pattern's cost</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="H = (V I x 60)/(1000 S), so the heat input is inversely proportional to the travel speed: the faster the arc moves, the same power is spread over a greater length of weld and the heat input per millimetre falls. At 200 mm/min the heat input is 1.125 kJ/mm, and at 300 mm/min it would be 0.75 kJ/mm.">
+<p><strong>Q4. If the travel speed of an arc weld is increased while the power is held constant, the heat input per millimetre:</strong></p>
+<button data-key="A">Increases</button>
+<button data-key="B">Stays the same</button>
+<button data-key="C">Becomes zero</button>
+<button data-key="D">Decreases</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="A split pattern is made in two halves along the parting line, so that each half can be withdrawn without damaging the mould. A solid pattern would drag on the mould walls if the shape had any overhang, and a loose piece pattern is used when even a split leaves an overhang that cannot be cleared.">
+<p><strong>Q5. A pattern made in two halves along a parting line is called:</strong></p>
+<button data-key="A">A solid pattern</button>
+<button data-key="B">A sweep pattern</button>
+<button data-key="C">A split pattern</button>
+<button data-key="D">A skeleton pattern</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Dec-2020 Q6b, and the recurring stem.</strong> &ldquo;Define welding, classify welding
+processes, and explain arc welding.&rdquo; &rarr; Definition; the fusion against pressure split with
+named processes; then arc welding in full &mdash; electrode, arc, molten pool, coating as shielding
+gas and slag, electrode fed down as consumed.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Types of welding with applications.&rdquo;
+&rarr; A five-row table: gas, arc, resistance, thermit, friction, each with one application.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between soldering, brazing and
+welding.&rdquo; &rarr; A three-column table on filler melting point and whether the base metal
+melts; welding above 450&deg;C base metal melts, brazing above 450&deg;C filler only, soldering below
+450&deg;C filler only.</li>
+<li><strong>Short question.</strong> &ldquo;What is casting? Explain the steps.&rdquo; &rarr; Pattern
+making, moulding, core making, melting and pouring, solidification, shakeout and fettling.</li>
+<li><strong>Short question.</strong> &ldquo;What are pattern allowances?&rdquo; &rarr; Shrinkage,
+machining, draft, shake and distortion, with one line of justification each.</li>
+<li><strong>One-line recall.</strong> &ldquo;Name four pattern types.&rdquo; &rarr; Solid, split,
+match plate, loose piece &mdash; or sweep and skeleton for large work.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="7">
+<li><strong>6 minutes, no notes.</strong> Draw the welding classification tree down to the named
+processes on both branches. Check the top split is fusion against pressure, and that soldering and
+brazing sit outside it.</li>
+<li><strong>4 minutes.</strong> Solved A on paper. Check the arc power is 3.75 kW and the heat input
+1.125 kJ/mm, with both the 60 and the 1000 present.</li>
+<li><strong>4 minutes.</strong> Solved B on paper. Check the pattern is 205 mm and <em>larger</em>
+than the casting, not smaller.</li>
+<li><strong>4 minutes.</strong> Solved C on paper. Check the draft extra is 1.31 mm per side, and that
+it is an angle-dependent figure rather than a fixed allowance.</li>
+<li><strong>5 minutes.</strong> List the six casting steps and the five pattern allowances from
+memory. Check the allowances include both lengths and the draft angle, and that the draft is not
+listed as a length.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 2 Topic 08</p>
+<h1>Welding, Casting and Patterns &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>WELDING
+  Joining two similar or dissimilar metals by heat, pressure, or both,
+  with or without a filler, so that they coalesce.
+
+  FUSION welding  - the joint faces MELT
+      gas (oxy-acetylene), arc (SMAW, TIG, MIG, SAW), thermit,
+      resistance (spot, seam, butt)
+  PRESSURE welding - the joint does NOT melt
+      forge, friction, ultrasonic
+
+  SOLDERING (filler below 450 C) and BRAZING (filler above 450 C) are
+  NOT welding, because the BASE METAL DOES NOT MELT.
+
+CASTING
+  Pouring molten metal into a mould cavity formed by a PATTERN and
+  letting it solidify. Steps: pattern making -> moulding -> core making
+  -> melting and pouring -> solidification -> shakeout and fettling.
+
+  PATTERN ALLOWANCES: shrinkage, machining, draft, shake, distortion.
+  The pattern is ALWAYS LARGER than the casting.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Arc power  -> P = V I                    [watts]
+2. Heat input -> H = (V I x 60)/(1000 S)    [kJ/mm]
+                 S = arc travel speed in mm/min
+3. Pattern    -> Lp = L (1 + s) + m
+                 s = shrinkage as a decimal, m = machining allowance
+4. Draft      -> extra width = h tan(theta)
+                 an ANGLE, so it depends on the pattern depth</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Process</th><th>Class</th><th>Heat source</th><th>Application</th></tr></thead>
+<tbody>
+<tr><td>Gas welding</td><td>Fusion</td><td>Oxy-acetylene flame</td><td>Thin sheets, pipes, repairs</td></tr>
+<tr><td>SMAW (coated electrode)</td><td>Fusion</td><td>Electric arc</td><td>Structural steel, site work &mdash; the workhorse</td></tr>
+<tr><td>TIG</td><td>Fusion</td><td>Arc, tungsten electrode, inert gas</td><td>Aerospace, thin sections, stainless and aluminium</td></tr>
+<tr><td>MIG</td><td>Fusion</td><td>Arc, consumable wire, inert gas</td><td>Production sheet and plate, easily automated</td></tr>
+<tr><td>SAW</td><td>Fusion</td><td>Arc under granular flux</td><td>Long straight seams, heavy plate, pipe</td></tr>
+<tr><td>Thermit</td><td>Fusion</td><td>Exothermic Al + iron oxide reaction</td><td>Rail joints, heavy shafts</td></tr>
+<tr><td>Resistance (spot, seam, butt)</td><td>Fusion (with pressure)</td><td>Resistance heating at the interface</td><td>Car bodies, sheet assemblies, wire mesh</td></tr>
+<tr><td>Forge</td><td>Pressure</td><td>Heat then hammer</td><td>Blacksmith work, chains</td></tr>
+<tr><td>Friction</td><td>Pressure</td><td>Friction between rubbing surfaces</td><td>Dissimilar metals, axles</td></tr>
+<tr><td>Ultrasonic</td><td>Pressure</td><td>Ultrasonic vibration under pressure</td><td>Foils, plastics, contacts</td></tr>
+<tr><td>Soldering</td><td>Not welding</td><td>Filler below 450&deg;C</td><td>Electronics, sheet metal</td></tr>
+<tr><td>Brazing</td><td>Not welding</td><td>Filler above 450&deg;C</td><td>Pipe joints, tools</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Welding</strong> &mdash; the process of joining two similar or dissimilar metals by heat,
+pressure or both, with or without a filler, so that they coalesce into one piece.</li>
+<li><strong>Fusion welding</strong> &mdash; welding in which the joint faces are melted, with or
+without a filler; includes gas, arc, thermit and resistance welding.</li>
+<li><strong>Pressure or solid-state welding</strong> &mdash; welding in which the joint is not melted
+but is forced into intimate contact, sometimes with local heating.</li>
+<li><strong>Arc welding</strong> &mdash; fusion welding in which heat is obtained from an electric arc
+struck between a coated electrode and the workpiece.</li>
+<li><strong>Soldering</strong> &mdash; joining with a filler that melts below about 450&deg;C, the base
+metal remaining solid.</li>
+<li><strong>Brazing</strong> &mdash; joining with a filler that melts above about 450&deg;C, the base
+metal again remaining solid.</li>
+<li><strong>Casting</strong> &mdash; the process of pouring molten metal into a mould cavity and
+allowing it to solidify into the required shape.</li>
+<li><strong>Pattern</strong> &mdash; the replica of the casting, made oversize by the allowances, used
+to form the mould cavity.</li>
+<li><strong>Shrinkage allowance</strong> &mdash; the extra size given to the pattern to compensate for
+the contraction of the metal as it cools, about 1 to 2%.</li>
+<li><strong>Machining allowance</strong> &mdash; extra stock left on surfaces that will be cut after
+casting.</li>
+<li><strong>Draft allowance</strong> &mdash; a slight taper given to the pattern so that it may be
+withdrawn without damaging the mould.</li>
+<li><strong>Core</strong> &mdash; a shaped body placed in the mould to form an internal cavity in the
+casting.</li>
+<li><strong>Fettling</strong> &mdash; the removal of runners, risers, flash and sand from the casting
+after shakeout.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can define welding covering heat, pressure and filler</li>
+<li>[ ] Can draw the classification tree down to the named processes</li>
+<li>[ ] Can explain arc welding in five steps including the role of the coating</li>
+<li>[ ] Can distinguish soldering, brazing and welding by melting point and base metal</li>
+<li>[ ] Can list the six casting steps in order</li>
+<li>[ ] Can name five pattern allowances and justify each</li>
+<li>[ ] Can name four pattern types and say when each is used</li>
+<li>[ ] Can compute arc power and heat input with the 60 and the 1000 in place</li>
+<li>[ ] Can compute a pattern length from shrinkage plus machining allowances</li>
+<li>[ ] Can state that draft is an angle, so its extra width depends on the depth</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Two families.</strong> Welding: P = VI gives a few kilowatts, and
+H = (VI &times; 60)/(1000 S) gives roughly 1 kJ/mm at a normal travel speed &mdash; note the heat input
+falls as the speed rises. Casting: pattern = casting &times; (1 + shrinkage) + machining allowance,
+and draft is h tan &theta; added as width, not as a length. Finish by checking direction: the pattern
+must be larger than the casting, and a faster arc must give a lower heat input.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 2 Topic 08 &middot; Dec-2020 Q6b and the recurring stem</p>
+<h1>Welding, Casting and Patterns &mdash; questionnaire</h1>
+<div class="q-meta">Q6b slot &middot; Dec-2020 asked "define welding, classify, explain arc welding" &rarr; the classification is the framework and arc welding is the explanation</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; 3 papers</span></div>
+<h3>Define welding, classify the welding processes, and explain arc welding with a neat sketch.</h3>
+<p>The December 2020 wording almost exactly. Three parts, and the marks are distributed evenly &mdash; definition, the fusion against pressure classification with named processes, then arc welding in full with a sketch.</p>
+<div class="q-foot"><b>write</b> &mdash; definition covering heat, pressure and filler (1) &rarr; classification into fusion and pressure with named processes under each (3) &rarr; arc welding explained: electrode, arc, molten pool, coating as gas and slag, electrode fed down (2) &rarr; labelled sketch (1).</div>
+<div class="q-foot"><b>check</b> &mdash; listing process names with no class attached loses the classification marks; omitting the role of the electrode coating loses the process-specific detail; a sketch without the molten pool, the slag and the arc labelled scores little; the definition must mention pressure, not only heat.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Differentiate between soldering, brazing and welding. Give one application of each.</h3>
+<p>A three-column comparison, and the whole answer turns on one fact: whether the <em>base metal</em> melts. The filler melting point then separates soldering from brazing.</p>
+<div class="q-foot"><b>write</b> &mdash; welding defined with base metal melting (1) &rarr; brazing: filler above 450&deg;C, base metal solid (1) &rarr; soldering: filler below 450&deg;C, base metal solid (1) &rarr; three applications, one each (2).</div>
+<div class="q-foot"><b>check</b> &mdash; giving only the filler melting point without saying the base metal stays solid misses the essential distinction; the 450&deg;C figure separates brazing from soldering and must appear; applications must be appropriate to each process.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>What is casting? Explain the steps and the pattern allowances. A casting must finish at 200 mm with 1.5% shrinkage and 2 mm machining allowance &mdash; find the pattern length.</h3>
+<p>The sequence, the allowance list, and one numeral that tests whether you understand the direction of the allowances.</p>
+<div class="q-foot"><b>write</b> &mdash; casting defined (1) &rarr; six steps in order (2) &rarr; allowances named: shrinkage, machining, draft, shake, distortion (1) &rarr; numeral: Lp = 200 &times; 1.015 + 2 = 205 mm (1).</div>
+<div class="q-foot"><b>check</b> &mdash; the pattern must be LARGER than the casting, so 205 and not 197; shrinkage is a percentage applied first and machining a length added after, not two lengths summed; draft must be given as an angle and not as a fixed length.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence defining welding across heat, pressure and filler.</li>
+    <li><strong>Visual:</strong> Draw the classification tree, then a labelled arc weld sketch.</li>
+    <li><strong>Table:</strong> Process against class against application, one row each.</li>
+    <li><strong>Close:</strong> The casting steps in order, the allowance list, and the worked pattern numeral.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "Welding is the process of joining two similar or dissimilar metals by the application of heat, pressure, or both, with or without a filler material, so that they coalesce into a single piece."</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; classification tree &rarr; process table with applications &rarr; arc welding explained with a sketch &rarr; soldering and brazing distinguished &rarr; casting steps &rarr; pattern allowances with the worked numeral.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Classify first</strong> &mdash; fusion against pressure is the framework</li>
+    <li><strong>Name a process, then apply it</strong> &mdash; TIG for thin stainless, thermit for rails</li>
+    <li><strong>Sketch the arc weld</strong> with electrode, arc, pool and slag labelled</li>
+    <li><strong>Say the coating does two jobs</strong> &mdash; shielding gas and slag</li>
+    <li><strong>Number the casting steps</strong> &mdash; six, in order</li>
+    <li><strong>Underline keywords</strong> &mdash; coalesce, fusion, solid-state, shrinkage, draft</li>
+    <li><strong>Box the numeral answers</strong> with mm, kW and kJ/mm</li>
+    <li><strong>Never leave blank</strong> &mdash; the classification plus two applications clears 4 of 7</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Define welding, classify the welding processes, and explain arc welding with a neat sketch.</h3>
+<p class="answer-lead">Three parts, evenly marked: the definition, the classification with named processes, and arc welding explained with a labelled sketch.</p>
+<pre class="ascii-diagram" role="img" aria-label="Arc welding in progress showing the electrode, arc, molten pool, slag and solidified weld bead">
+        ELECTRODE (consumable, coated)
+             |
+             |   <- the coating burns to give
+             |      SHIELDING GAS + SLAG
+             v
+        +----+----+
+        |  flux   |  <- slag floats on the pool
+        +---------+
+             |
+          .-~~~-.      <- ARC struck here (the heat source)
+        .'  ARC  '.
+       /-----------\   <- MOLTEN POOL: electrode tip + parent metal
+      /=============\
+     |  PARENT METAL |  <- the workpiece
+     |               |
+     +-------+-------+
+             |
+             v
+   direction of travel --->  the pool solidifies BEHIND the arc
+                             into the WELD BEAD
+
+   The coating does two jobs: it gives off a shielding gas that
+   excludes the atmosphere, and it forms a slag that covers the
+   cooling pool and slows its oxidation.
+</pre>
+<p><strong>Definition.</strong> Welding is the process of joining two similar or dissimilar metals by
+the application of heat, pressure, or both, with or without a filler material, so that the parts
+coalesce into a single piece.</p>
+<table>
+<tr><th>Class</th><th>Processes</th><th>Application</th></tr>
+<tr><td rowspan="4"><strong>Fusion welding</strong> &mdash; the joint faces are melted</td><td>Gas welding (oxy-acetylene)</td><td>Thin sheets, pipes, repairs</td></tr>
+<tr><td>Arc welding (SMAW, TIG, MIG, SAW)</td><td>Structural steelwork, shipbuilding, pipelines</td></tr>
+<tr><td>Thermit welding</td><td>Rail joints, heavy shafts</td></tr>
+<tr><td>Resistance welding (spot, seam, butt)</td><td>Car bodies, sheet metal assemblies, wire mesh</td></tr>
+<tr><td rowspan="3"><strong>Pressure or solid-state welding</strong> &mdash; the joint is not melted</td><td>Forge welding</td><td>Blacksmith work, chains</td></tr>
+<tr><td>Friction welding</td><td>Dissimilar metals, axles</td></tr>
+<tr><td>Ultrasonic welding</td><td>Thin foils, plastics, contacts</td></tr>
+</table>
+<p><strong>Arc welding.</strong> In arc welding, an electric arc is struck between a <strong>coated
+consumable electrode</strong> and the workpiece. The heat of the arc &mdash; at several thousand
+degrees &mdash; melts both the tip of the electrode and the parent metal beneath it, forming a
+<strong>molten pool</strong>. The coating on the electrode performs two functions: it decomposes in
+the heat to release a <strong>shielding gas</strong> that excludes the atmosphere from the pool, and
+it forms a <strong>slag</strong> which floats on the surface of the molten metal and protects it as it
+cools. The electrode is fed downwards as it is consumed, and the arc is moved along the joint, so that
+the molten pool solidifies behind it into the <strong>weld bead</strong>.</p>
+<p>Its advantages are that it needs no gas cylinders, is portable, and works in the open air, which is
+why it dominates structural and site work. Its limitation is that the slag must be chipped away after
+each pass, and the process is slower and less clean than the gas-shielded variants.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the classification of welding turns on
+whether the joint itself is melted, and arc welding belongs to the fusion class, the arc serving as
+the heat source and the electrode coating as the means of excluding the atmosphere from the molten
+pool."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Differentiate between soldering, brazing and welding. Give one application of each.</h3>
+<p class="answer-lead">One fact decides everything: whether the base metal melts. The filler melting point then separates soldering from brazing.</p>
+<pre class="ascii-diagram" role="img" aria-label="Soldering, brazing and welding compared by filler and base metal melting temperature">
+   TEMPERATURE SCALE OF JOINING PROCESSES
+   ======================================
+
+   SOLDERING          BRAZING              WELDING
+   filler < 450 C     filler > 450 C       base metal MELTS
+
+        |                   |                     |
+   -----+-------------------+---------------------+------->  T
+      ~180 C              ~600 C              ~1500 C+
+      tin-lead            silver/copper       steel melts
+      solder              filler              ~1400 C
+
+   BASE METAL          BASE METAL           BASE METAL
+   STAYS SOLID         STAYS SOLID          MELTS
+
+   |<----- NOT WELDING (no base-metal melting) ----->|<-- WELDING -->|
+
+   The 450 C line is the conventional divider between soldering
+   and brazing. Both are filler-based joining processes, and
+   neither melts the parts being joined.
+</pre>
+<table>
+<tr><th>Point</th><th>Soldering</th><th>Brazing</th><th>Welding</th></tr>
+<tr><td>Base metal</td><td>Does not melt</td><td>Does not melt</td><td><strong>Melts</strong></td></tr>
+<tr><td>Filler</td><td>Melts below about 450&deg;C</td><td>Melts above about 450&deg;C</td><td>Filler may or may not be used, and it melts with the parent metal</td></tr>
+<tr><td>Temperature</td><td>Low, typically 180&ndash;250&deg;C</td><td>Moderate, typically 600&ndash;900&deg;C</td><td>High, at the melting point of the metal</td></tr>
+<tr><td>Joint strength</td><td>Lowest</td><td>Intermediate, often comparable to the parent metal</td><td>Highest &mdash; the joint becomes one piece</td></tr>
+<tr><td>Effect on the parts</td><td>Almost none; no distortion or heat treatment effect</td><td>Little; the parts are not melted</td><td>Distortion and metallurgical change occur in a heat-affected zone</td></tr>
+<tr><td>Application</td><td>Electronics, printed circuit boards, sheet-metal joints</td><td>Pipe joints, carbide tool tips, refrigeration tubing</td><td>Structural steelwork, pressure vessels, pipelines</td></tr>
+</table>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the distinction is that welding coalesces
+the parent metal itself, whereas soldering and brazing merely bond the parts through a filler of
+lower melting point, being separated from each other by the conventional figure of 450 degrees
+Celsius."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>What is casting? Explain the steps and the pattern allowances. A casting must finish at 200 mm with 1.5% shrinkage and 2 mm machining allowance &mdash; find the pattern length.</h3>
+<p class="answer-lead">Definition, the six steps in order, the allowance list, then the numeral. The numeral tests direction: the pattern must come out larger than the casting.</p>
+<pre class="ascii-diagram" role="img" aria-label="Casting sequence and the pattern allowances that make the pattern larger than the casting">
+   CASTING SEQUENCE
+   ================
+    PATTERN  --->  MOULD (sand packed round it)
+       |                |
+       |                v
+       |           withdraw the pattern
+       |                |
+       |                v
+       |           CAVITY = negative of the casting
+       |                |
+       |                v
+       |           pour MOLTEN METAL
+       |                |
+       |                v
+       |           solidifies + SHRINKS
+       |                |
+       |                v
+       +------>  SHAKEOUT -> FETTLING -> CASTING
+
+   WHY THE PATTERN IS BIGGER THAN THE CASTING
+   ==========================================
+   pattern size = finished size + SHRINKAGE + MACHINING + DRAFT (+ shake)
+
+    200 mm  casting                     Lp = 200 x 1.015 + 2
+      x 1.015 shrinkage                     = 203 + 2
+      = 203 mm                              = 205 mm  -> the PATTERN
+      + 2 mm  machining
+      = 205 mm                                          205 > 200  OK
+</pre>
+<p><strong>Definition.</strong> Casting is the process of pouring molten metal into a mould cavity
+and allowing it to solidify into the required shape. The cavity is formed by a <strong>pattern</strong>,
+which is a replica of the casting made oversize to allow for contraction and subsequent
+machining.</p>
+<table>
+<tr><th>Step</th><th>What happens</th></tr>
+<tr><td>1. Pattern making</td><td>A pattern is made slightly larger than the finished casting</td></tr>
+<tr><td>2. Moulding</td><td>Sand is packed around the pattern, which is then withdrawn to leave a cavity</td></tr>
+<tr><td>3. Core making</td><td>A core is placed in the mould where an internal cavity is required</td></tr>
+<tr><td>4. Melting and pouring</td><td>Metal is melted and poured into the mould cavity</td></tr>
+<tr><td>5. Solidification</td><td>The casting solidifies and contracts in the mould</td></tr>
+<tr><td>6. Shakeout and fettling</td><td>The mould is broken up and runners, risers and flash are removed</td></tr>
+</table>
+<p><strong>Pattern allowances.</strong> <strong>Shrinkage allowance</strong> compensates for the
+contraction of the metal as it cools, about 1 to 2%. <strong>Machining allowance</strong> leaves extra
+stock on surfaces to be cut later. <strong>Draft allowance</strong> is a slight taper so that the
+pattern may be withdrawn without damaging the mould. <strong>Shake allowance</strong> compensates for
+the pattern being rapped to free it before withdrawal, and <strong>distortion allowance</strong> for
+the warping of awkward shapes on cooling.</p>
+<p><strong>Numeral.</strong> <strong>Given:</strong> L = 200 mm, s = 1.5% = 0.015, m = 2 mm.
+<strong>Find:</strong> the pattern length. <strong>Formula:</strong>
+L<sub>p</sub> = L(1 + s) + m. <strong>Solve:</strong></p>
+<pre><code>Lp = 200 x (1 + 0.015) + 2
+   = 203 + 2
+   = 205 mm</code></pre>
+<p><strong>Answer:</strong> the pattern length is <strong>205 mm</strong>.</p>
+<p><strong>Check:</strong> reversing the allowances, 205 &minus; 2 = 203 and 203/1.015 = 200.0 mm,
+recovering the finished size, so the order of the two allowances is correct. The direction check is
+the important one: a pattern is <strong>always larger</strong> than the casting, because the metal
+contracts and some surface is machined away afterwards &mdash; and 205 is larger than 200. Had the
+shrinkage been subtracted the pattern would have come out 197 mm and every casting from it would
+finish undersize.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the pattern must be larger than the
+casting by the sum of its allowances, and of those the shrinkage is a percentage applied to the
+casting dimension while the machining allowance is a fixed length added after it, giving a pattern of
+205 mm for a 200 mm casting."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203. The MST-1 syllabus page reads
+&ldquo;production energy &mdash; elementary theoretical aspects of production process like casting,
+capacity, welding&rdquo;. Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, in which Q6b asks for the types of
+welding with applications. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference book</strong> (official BT-203 list) &mdash; C. M. Agrawal,
+<em>Basic Mechanical Engineering</em>, Wiley, for the welding, casting and pattern content.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hub and the December 2020 archive support revision and question practice. All
+numerical values were computed rather than quoted: 25 &times; 150 = 3750 W, with
+(25 &times; 150 &times; 60)/(1000 &times; 200) = 1.125 kJ/mm; 200 &times; 1.015 + 2 = 205 mm; and
+50 tan 1.5&deg; = 1.31 mm.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

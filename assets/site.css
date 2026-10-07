@@ -1,0 +1,1852 @@
+/* ==========================================================================
+   zevu.learn — shared site layer
+   Loaded AFTER each note page's own <style>, so it only ever adds chrome.
+   It never restyles lesson content, never touches --ink/--paper values, and
+   never fills a row or card with a warm backdrop.
+   Token values below are the contract from notes/note.md §2. Do not fork them.
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* --- the contract ----------------------------------------------------- */
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #1b1e25;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+
+  /* --- site-only additions ---------------------------------------------
+     Kept separate so the note-page contract above stays byte-identical. */
+  --ink-faint: #6f6b63;
+  --raise: #191c22;
+  --raise-2: #1f232a;
+  --accent-wash: rgba(224, 163, 112, 0.08);
+  --accent-line: rgba(224, 163, 112, 0.34);
+  --mono: "JetBrainsMono Nerd Font", "FiraCode Nerd Font", "Cascadia Code",
+    "SFMono-Regular", Consolas, "Courier New", monospace;
+  --serif: Georgia, "Times New Roman", serif;
+  --rail: 17rem;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   1b. Monospace guarantee for diagrams and derivations
+
+   The note pages style `pre` with a font stack that used to end in
+   `'Segoe UI', system-ui, sans-serif`. Every one of those is proportional.
+   A reader without JetBrains Mono / FiraCode / Cascadia therefore rendered
+   all 63 ASCII diagrams and 138 derivation blocks in a proportional face,
+   which shreds every column: "MMM" measured 39px against "iii" at 12px.
+
+   `ui-monospace` is the generic that maps to a real monospace face on macOS,
+   Windows and Linux, so it is the load-bearing entry. This block re-asserts
+   the whole contract from the shared layer, so a page added later inherits a
+   correct stack even if its own inline <style> forgot one.
+   ========================================================================== */
+
+pre,
+pre > code,
+kbd,
+samp,
+pre.ascii-diagram,
+pre.ascii-diagram > code {
+  /* No !important: this stylesheet is injected after each page's own inline
+     <style>, so equal-specificity rules here simply win on source order, and
+     `pre > code` (0,0,2) already outranks the page's `code` (0,0,1). */
+  font-family: "JetBrainsMono Nerd Font", "FiraCode Nerd Font", "Cascadia Code",
+    ui-monospace, SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono",
+    "Liberation Mono", monospace;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0, "dlig" 0;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  word-spacing: 0;
+}
+
+/* Scroll a too-wide diagram rather than wrapping it. Wrapping silently
+   destroys the right-hand border of every box below the fold point. */
+pre.ascii-diagram {
+  overflow-x: auto;
+  white-space: pre;
+  tab-size: 4;
+  -moz-tab-size: 4;
+}
+
+pre.ascii-diagram::-webkit-scrollbar {
+  height: 9px;
+}
+
+pre.ascii-diagram::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 9px;
+}
+
+pre.ascii-diagram::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   1. Reading progress
+   ========================================================================== */
+
+.zv-progress {
+  position: fixed;
+  inset: 0 auto auto 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  z-index: 2147483000;
+  pointer-events: none;
+  transition: width 0.08s linear;
+}
+
+/* ==========================================================================
+   2. Floating control cluster — the only persistent UI on a note page.
+      Bottom-right so it never collides with the page's own .zevu-header.
+   ========================================================================== */
+
+.zv-fab {
+  position: fixed;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 2147482900;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-end;
+}
+
+.zv-fab button {
+  font: 500 0.7rem/1 var(--mono);
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  background: var(--raise);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition:
+    color 0.15s var(--ease),
+    border-color 0.15s var(--ease),
+    transform 0.15s var(--ease);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.zv-fab button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.zv-fab button kbd {
+  font: inherit;
+  color: var(--ink-faint);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0 0.25rem;
+}
+
+.zv-fab button:hover kbd {
+  color: var(--accent);
+  border-color: var(--accent-line);
+}
+
+.zv-fab .zv-fab-hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+}
+
+@media print {
+  .zv-fab,
+  .zv-progress,
+  .zv-side,
+  .zv-cmdk {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   3. Sidebar drawer
+   ========================================================================== */
+
+.zv-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 9, 12, 0.6);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s var(--ease);
+  z-index: 2147482950;
+}
+
+.zv-scrim[data-open="1"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.zv-side {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: min(var(--rail), 86vw);
+  background: var(--paper);
+  border-right: 1px solid var(--rule);
+  transform: translateX(-102%);
+  transition: transform 0.24s var(--ease);
+  z-index: 2147482960;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+}
+
+.zv-side[data-open="1"] {
+  transform: none;
+}
+
+.zv-side-head {
+  padding: 0.9rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
+
+.zv-side-head .zv-side-title {
+  color: var(--accent);
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zv-side-head .zv-side-user {
+  color: var(--ink-faint);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.zv-side-head button {
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+  padding: 0.3rem 0.45rem;
+}
+
+.zv-side-head button:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.zv-side-body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.75rem 0 2.5rem;
+  flex: 1 1 auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule) transparent;
+}
+
+.zv-side-body::-webkit-scrollbar {
+  width: 9px;
+}
+
+.zv-side-body::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 9px;
+  border: 3px solid var(--paper);
+}
+
+/* tree */
+
+.zv-tree-group {
+  margin-bottom: 0.2rem;
+}
+
+.zv-tree-label {
+  color: var(--ink-faint);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  padding: 0.85rem 1rem 0.3rem;
+}
+
+.zv-tree-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.32rem 1rem 0.32rem 0.9rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  line-height: 1.45;
+}
+
+.zv-tree-link:hover {
+  color: var(--ink);
+  border-left-color: var(--rule);
+}
+
+.zv-tree-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.zv-tree-link[aria-current="page"] {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.zv-tree-link .zv-n {
+  color: var(--ink-faint);
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.zv-tree-link[aria-current="page"] .zv-n {
+  color: var(--accent);
+}
+
+.zv-tree-link .zv-t {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zv-tree-link .zv-badge {
+  margin-left: auto;
+  flex: 0 0 auto;
+  color: var(--ink-faint);
+  font-size: 0.6rem;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0 0.25rem;
+}
+
+.zv-tree-sub {
+  border-left: 1px solid var(--rule);
+  margin-left: 1.35rem;
+}
+
+.zv-tree-caret {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.32rem 0.2rem 0.32rem 0.5rem;
+  flex: 0 0 auto;
+}
+
+.zv-tree-caret:hover {
+  color: var(--accent);
+}
+
+.zv-tree-caret .zv-arrow {
+  display: inline-block;
+  transition: transform 0.18s var(--ease);
+}
+
+.zv-tree-row[data-open="0"] .zv-arrow {
+  transform: rotate(-90deg);
+}
+
+.zv-tree-row {
+  display: flex;
+  align-items: stretch;
+  border-left: 2px solid transparent;
+}
+
+.zv-tree-row:hover {
+  border-left-color: var(--rule);
+}
+
+.zv-tree-row[data-open="0"] + .zv-tree-sub {
+  display: none;
+}
+
+.zv-tree-row:hover > .zv-tree-link {
+  color: var(--ink);
+}
+
+.zv-tree-row:has(.zv-tree-link[aria-current="page"]) {
+  border-left-color: var(--accent);
+}
+
+.zv-side-foot {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--rule);
+  padding: 0.7rem 1rem;
+  color: var(--ink-faint);
+  font-size: 0.62rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.zv-side-foot a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.zv-side-foot a:hover {
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   4. Command palette (Ctrl/Cmd-K)
+   ========================================================================== */
+
+.zv-cmdk {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482990;
+  display: none;
+  padding: 12vh 1rem 1rem;
+  justify-content: center;
+  align-items: flex-start;
+  background: rgba(8, 9, 12, 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.zv-cmdk[data-open="1"] {
+  display: flex;
+}
+
+.zv-cmdk-box {
+  width: min(38rem, 100%);
+  max-height: 74vh;
+  background: var(--raise);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: zv-pop 0.16s var(--ease);
+}
+
+@keyframes zv-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.985);
+  }
+}
+
+.zv-cmdk-input {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  font: 0.85rem var(--mono);
+  color: var(--ink);
+  flex: 0 0 auto;
+}
+
+.zv-cmdk-input .zv-sign {
+  color: var(--accent);
+  flex: 0 0 auto;
+}
+
+.zv-cmdk-input input {
+  flex: 1 1 auto;
+  background: none;
+  border: 0;
+  outline: none;
+  color: var(--ink);
+  font: inherit;
+  min-width: 0;
+}
+
+.zv-cmdk-input input::placeholder {
+  color: var(--ink-faint);
+}
+
+.zv-cmdk-list {
+  overflow-y: auto;
+  padding: 0.35rem;
+  margin: 0;
+  list-style: none;
+  overscroll-behavior: contain;
+}
+
+.zv-cmdk-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 7px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font: 0.78rem/1.4 var(--mono);
+}
+
+.zv-cmdk-item[data-active="1"] {
+  background: var(--raise-2);
+  color: var(--ink);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.zv-cmdk-item .zv-ico {
+  color: var(--accent);
+  flex: 0 0 auto;
+  width: 1.1rem;
+}
+
+.zv-cmdk-item .zv-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zv-cmdk-item .zv-crumb {
+  margin-left: auto;
+  flex: 0 0 auto;
+  color: var(--ink-faint);
+  font-size: 0.65rem;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zv-cmdk-empty {
+  padding: 1.4rem 0.8rem;
+  text-align: center;
+  color: var(--ink-faint);
+  font: 0.75rem var(--mono);
+}
+
+.zv-cmdk-foot {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--rule);
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  gap: 1rem;
+  color: var(--ink-faint);
+  font: 0.62rem var(--mono);
+  flex-wrap: wrap;
+}
+
+.zv-cmdk-foot kbd {
+  font: inherit;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0 0.25rem;
+  margin-right: 0.25rem;
+}
+
+/* ==========================================================================
+   5. Comments (Giscus) — mounted by site.js
+   ========================================================================== */
+
+.zv-comments {
+  max-width: 46rem;
+  margin: 3rem auto 0;
+  padding: 0 1.5rem 5rem;
+  font-family: var(--serif);
+}
+
+.zv-comments summary {
+  font: 0.7rem/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  cursor: pointer;
+  list-style: none;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.zv-comments summary::-webkit-details-marker {
+  display: none;
+}
+
+.zv-comments summary:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.zv-comments summary::after {
+  content: "+";
+  margin-left: auto;
+  color: var(--accent);
+}
+
+.zv-comments[open] summary::after {
+  content: "\2212";
+}
+
+.zv-comments summary .zv-count {
+  color: var(--ink-faint);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0 0.3rem;
+  letter-spacing: 0;
+}
+
+.zv-comments-body {
+  margin-top: 1rem;
+}
+
+/* When Giscus is not configured yet, tell the reader instead of showing a
+   dead embed area. */
+.zv-comments-note {
+  color: var(--ink-faint);
+  font: 0.72rem/1.6 var(--mono);
+  border-left: 2px solid var(--rule);
+  padding-left: 0.9rem;
+  margin-top: 0.8rem;
+}
+
+/* ==========================================================================
+   6. Landing page — terminal chrome
+   ========================================================================== */
+
+body.zv-home {
+  font-family: var(--serif);
+  background: var(--paper);
+}
+
+/* A very soft warm glow behind the fold. Radial only, no hard edges. */
+body.zv-home::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      58rem 32rem at 50% -10rem,
+      rgba(224, 163, 112, 0.07),
+      transparent 70%
+    ),
+    radial-gradient(40rem 24rem at 88% 12%, rgba(110, 130, 190, 0.05), transparent 70%);
+}
+
+.zv-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 6rem;
+}
+
+@media (min-width: 60rem) {
+  .zv-wrap {
+    padding: 3.5rem 2rem 7rem;
+  }
+}
+
+/* --- window frame ------------------------------------------------------ */
+
+.zv-term {
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--raise);
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.zv-term-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  font: 0.68rem var(--mono);
+  color: var(--ink-faint);
+}
+
+.zv-term-bar .zv-dots {
+  display: flex;
+  gap: 0.35rem;
+  flex: 0 0 auto;
+}
+
+.zv-term-bar .zv-dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--rule);
+  display: block;
+}
+
+.zv-term-bar .zv-title {
+  flex: 1 1 auto;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zv-term-bar .zv-right {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.zv-term-bar .zv-right b {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.zv-term-body {
+  padding: 1.4rem 1.2rem 1.6rem;
+  font: 0.8rem/1.85 var(--mono);
+  color: var(--ink-soft);
+  overflow-x: auto;
+}
+
+.zv-term-body .zv-p {
+  color: var(--accent);
+}
+
+.zv-term-body .zv-u {
+  color: var(--ink);
+}
+
+.zv-term-body .zv-d {
+  color: var(--ink-faint);
+}
+
+.zv-term-body .zv-g {
+  color: var(--good);
+}
+
+.zv-caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1.05em;
+  background: var(--accent);
+  vertical-align: text-bottom;
+  animation: zv-blink 1.15s steps(1) infinite;
+}
+
+@keyframes zv-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* --- hero -------------------------------------------------------------- */
+
+.zv-hero {
+  padding: 3.5rem 0 1rem;
+}
+
+.zv-hero .zv-kicker {
+  font: 0.68rem var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 1rem;
+}
+
+.zv-hero h1 {
+  font-family: var(--serif);
+  font-weight: normal;
+  font-size: clamp(2.1rem, 6vw, 3.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0 0 1.1rem;
+  color: var(--ink);
+}
+
+.zv-hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.zv-hero p.zv-lede {
+  font-size: 1.06rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 40rem;
+  margin: 0 0 2rem;
+}
+
+.zv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 1.2rem;
+}
+
+.zv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: 0.78rem/1 var(--mono);
+  letter-spacing: 0.02em;
+  padding: 0.8rem 1.15rem;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--raise);
+  transition:
+    color 0.15s var(--ease),
+    border-color 0.15s var(--ease),
+    transform 0.15s var(--ease);
+}
+
+.zv-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.zv-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.zv-btn-primary {
+  color: var(--paper);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.zv-btn-primary:hover {
+  color: var(--paper);
+  background: #ecb382;
+  border-color: #ecb382;
+}
+
+.zv-hint {
+  font: 0.68rem var(--mono);
+  color: var(--ink-faint);
+}
+
+.zv-hint kbd,
+.zv-term-body kbd {
+  font: inherit;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0 0.3rem;
+  color: var(--ink-soft);
+}
+
+/* --- stats ------------------------------------------------------------- */
+
+.zv-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 2.5rem 0 0;
+}
+
+.zv-stat {
+  background: var(--paper);
+  padding: 1rem 1.1rem;
+}
+
+.zv-stat .zv-n {
+  font: 1.5rem/1.1 var(--serif);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  display: block;
+}
+
+.zv-stat .zv-l {
+  font: 0.6rem var(--mono);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 0.4rem;
+  display: block;
+}
+
+/* --- section headings -------------------------------------------------- */
+
+.zv-h2 {
+  font: 0.7rem var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 4rem 0 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.zv-h2::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--rule);
+}
+
+.zv-h2 span {
+  color: var(--accent);
+}
+
+/* --- subject / topic cards --------------------------------------------- */
+
+.zv-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+@media (min-width: 46rem) {
+  .zv-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.zv-card {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--paper);
+  padding: 1.3rem 1.4rem;
+  text-decoration: none;
+  display: block;
+  color: inherit;
+  transition:
+    border-color 0.16s var(--ease),
+    transform 0.16s var(--ease);
+}
+
+.zv-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.zv-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.zv-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin-bottom: 0.5rem;
+}
+
+.zv-card-code {
+  font: 0.66rem var(--mono);
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  border: 1px solid var(--accent-line);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  flex: 0 0 auto;
+}
+
+.zv-card h3 {
+  font: normal 1.15rem/1.3 var(--serif);
+  margin: 0;
+  color: var(--ink);
+}
+
+.zv-card p {
+  margin: 0 0 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.zv-card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font: 0.62rem var(--mono);
+  color: var(--ink-faint);
+}
+
+.zv-card-foot span {
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0.1rem 0.4rem;
+}
+
+.zv-card-foot span:first-child {
+  color: var(--ink-soft);
+  border-color: var(--accent-line);
+}
+
+/* --- unit rows (ls -la style) ------------------------------------------ */
+
+.zv-ls {
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--paper);
+  font: 0.74rem/1.7 var(--mono);
+}
+
+.zv-ls-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink-soft);
+}
+
+.zv-ls-row:last-child {
+  border-bottom: 0;
+}
+
+.zv-ls-row:hover {
+  color: var(--ink);
+  background: var(--raise);
+}
+
+.zv-ls-row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.zv-ls-row .zv-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zv-ls-row .zv-name b {
+  font-weight: 400;
+  color: var(--accent);
+  margin-right: 0.5rem;
+}
+
+.zv-ls-row .zv-meta {
+  color: var(--ink-faint);
+  font-size: 0.66rem;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.zv-ls-head {
+  background: var(--paper);
+  color: var(--ink-faint);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: default;
+}
+
+.zv-ls-head:hover {
+  color: var(--ink-faint);
+  background: var(--paper);
+}
+
+/* --- Notion-ish callout ------------------------------------------------ */
+
+.zv-callout {
+  display: flex;
+  gap: 0.9rem;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 1.1rem 1.2rem;
+  background: var(--paper);
+  margin: 1.2rem 0;
+}
+
+.zv-callout .zv-ico {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  flex: 0 0 auto;
+}
+
+.zv-callout h3 {
+  font: normal 1.05rem/1.4 var(--serif);
+  margin: 0 0 0.4rem;
+  color: var(--ink);
+}
+
+.zv-callout p {
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.zv-callout p + p {
+  margin-top: 0.6rem;
+}
+
+.zv-callout code,
+.zv-kb {
+  font: 0.85em var(--mono);
+  background: var(--code-bg);
+  color: var(--code-ink);
+  border-radius: 4px;
+  padding: 0.12em 0.35em;
+}
+
+/* --- how it works: 3 numbered steps ------------------------------------ */
+
+.zv-steps {
+  display: grid;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+@media (min-width: 46rem) {
+  .zv-steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.zv-step {
+  background: var(--paper);
+  padding: 1.3rem 1.3rem 1.4rem;
+}
+
+.zv-step .zv-n {
+  font: 0.66rem var(--mono);
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.7rem;
+}
+
+.zv-step h3 {
+  font: normal 1rem/1.35 var(--serif);
+  margin: 0 0 0.45rem;
+  color: var(--ink);
+}
+
+.zv-step p {
+  margin: 0 0 0.6rem;
+  font-size: 0.88rem;
+  line-height: 1.62;
+  color: var(--ink-soft);
+}
+
+.zv-step p:last-child {
+  margin-bottom: 0;
+}
+
+.zv-step a {
+  color: var(--accent);
+  text-decoration-color: var(--accent-line);
+  text-underline-offset: 3px;
+}
+
+.zv-step a:hover {
+  border-bottom: 1px solid var(--accent);
+}
+
+/* --- foot -------------------------------------------------------------- */
+
+.zv-foot {
+  margin-top: 5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  font: 0.7rem/1.8 var(--mono);
+  color: var(--ink-faint);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.5rem;
+  justify-content: space-between;
+}
+
+.zv-foot a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.zv-foot a:hover {
+  color: var(--accent);
+}
+
+.zv-foot .zv-p {
+  color: var(--accent);
+}
+
+/* --- 404 --------------------------------------------------------------- */
+
+body.zv-404 .zv-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.zv-404 .zv-code {
+  font: 0.7rem var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bad);
+  margin-bottom: 1rem;
+}
+
+.zv-404 h1 {
+  font: normal clamp(1.7rem, 5vw, 2.4rem)/1.2 var(--serif);
+  margin: 0 0 0.8rem;
+  color: var(--ink);
+}
+
+/* ==========================================================================
+   7. Study affordances added after the first pass
+
+   Everything here is additive and lives outside the lesson column, so no
+   page's own content is restyled. See .tastemaker/style-lock.md.
+   ========================================================================== */
+
+/* --- section outline -----------------------------------------------------
+   Built from the page's own h2/h3, so it can never drift from the content. */
+
+.zv-outline {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 15rem;
+  background: var(--paper);
+  border-left: 1px solid var(--rule);
+  transform: translateX(101%);
+  transition: transform 0.24s var(--ease);
+  z-index: 2147482850;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.1rem 0.9rem 3rem;
+}
+
+.zv-outline[data-open="1"] {
+  transform: none;
+}
+
+.zv-outline-label {
+  color: var(--ink-faint);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  margin-bottom: 0.8rem;
+}
+
+.zv-outline a {
+  display: block;
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 0.26rem 0.5rem 0.26rem 0.7rem;
+  border-left: 2px solid transparent;
+  line-height: 1.4;
+}
+
+.zv-outline a:hover {
+  color: var(--ink);
+  border-left-color: var(--rule);
+}
+
+.zv-outline a[aria-current="true"] {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.zv-outline a[data-depth="3"] {
+  padding-left: 1.4rem;
+  font-size: 0.66rem;
+  color: var(--ink-faint);
+}
+
+.zv-outline a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Open on a wide screen, the panel used to overlay the lesson and clip the
+   right edge of paragraphs. Push the column instead of covering it, the way
+   GitHub's docs sidebar does. Below the breakpoint there is no room to push,
+   so it stays an overlay and a scrim is not worth the weight. */
+@media (min-width: 70rem) {
+  /* margin, not padding: `main` is a max-width box centred with `margin: 0
+     auto`, so extra right padding only narrows the text column and leaves the
+     box edge where it was, which is what let the panel sit on the prose.
+     Re-centring in the remaining space is what actually moves the column. */
+  body.zv-outline-open main,
+  body.zv-outline-open .zv-comments {
+    margin-right: 15rem;
+  }
+}
+
+.zv-outline .zv-none {
+  color: var(--ink-faint);
+  font-size: 0.66rem;
+  line-height: 1.6;
+}
+
+/* --- copy buttons on code and figures ----------------------------------- */
+
+.zv-copy {
+  position: relative;
+}
+
+.zv-copy-btn {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  z-index: 2;
+  font: 0.6rem/1 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: var(--raise);
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  padding: 0.32rem 0.45rem;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.14s var(--ease),
+    color 0.14s var(--ease),
+    border-color 0.14s var(--ease);
+}
+
+.zv-copy:hover .zv-copy-btn,
+.zv-copy:focus-within .zv-copy-btn {
+  opacity: 1;
+}
+
+.zv-copy-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.zv-copy-btn[data-done="1"] {
+  opacity: 1;
+  color: var(--good);
+  border-color: var(--good);
+}
+
+/* keep the button from covering the first line of a figure */
+.zv-copy pre {
+  padding-top: 0.55rem;
+}
+
+/* --- focus mode ----------------------------------------------------------
+   Hides the chrome so only the lesson remains. The lesson's own header and
+   footer stay, because they are content. */
+
+body.zv-focus .zv-fab,
+body.zv-focus .zv-outline,
+body.zv-focus .zv-side,
+body.zv-focus .zv-progress,
+body.zv-focus .zv-comments {
+  display: none !important;
+}
+
+body.zv-focus main {
+  max-width: 42rem;
+}
+
+body.zv-focus .zevu-header,
+body.zv-focus .zevu-footer {
+  opacity: 0.35;
+  transition: opacity 0.18s var(--ease);
+}
+
+body.zv-focus .zevu-header:hover,
+body.zv-focus .zevu-footer:hover {
+  opacity: 1;
+}
+
+/* --- heading anchors ----------------------------------------------------- */
+
+.zv-anchor {
+  color: var(--ink-faint);
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 0.7em;
+  margin-left: 0.4rem;
+  opacity: 0;
+  transition: opacity 0.14s var(--ease);
+}
+
+h2:hover > .zv-anchor,
+h3:hover > .zv-anchor,
+.zv-anchor:focus-visible {
+  opacity: 1;
+}
+
+.zv-anchor:hover {
+  color: var(--accent);
+}
+
+/* --- scroll target offset, so an anchor jump clears the top ------------- */
+
+:target {
+  scroll-margin-top: 1.5rem;
+}
+
+@media print {
+  .zv-outline,
+  .zv-copy-btn,
+  .zv-anchor {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   8. Notion / Obsidian layer
+
+   Patterns taken, with sources recorded in .tastemaker/reference-board.md:
+     Notion   - block handles in the gutter, "copy link to block", a
+                properties row under the title, backlinks above the title
+     Obsidian - hover link preview (peek), tag pills, outline
+   Everything is additive and reveal-on-hover, so the reading experience of a
+   page with JS off is unchanged.
+   ========================================================================== */
+
+/* --- block handles -------------------------------------------------------
+   Notion gives every block the same gutter affordance: a drag handle that
+   appears on hover, and a plus. The page is read-only here, so the handle
+   does the one action that is useful: copy a link to this block. */
+
+main {
+  --gutter: 1.9rem;
+}
+
+.zv-handle {
+  position: absolute;
+  left: -1.55rem;
+  top: 0.15em;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: none;
+  color: var(--ink-faint);
+  font: 0.7rem/1 var(--mono);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.15s var(--ease),
+    color 0.15s var(--ease),
+    border-color 0.15s var(--ease);
+}
+
+.zv-has-handle {
+  position: relative;
+}
+
+.zv-has-handle:hover > .zv-handle,
+.zv-has-handle:focus-within > .zv-handle {
+  opacity: 1;
+}
+
+.zv-handle:hover {
+  color: var(--accent);
+  border-color: var(--rule);
+}
+
+.zv-handle:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.zv-handle[data-done="1"] {
+  opacity: 1;
+  color: var(--good);
+  border-color: var(--good);
+}
+
+/* the gutter is only usable with a pointer; never reserve space on touch */
+@media (hover: none), (max-width: 60rem) {
+  .zv-handle {
+    display: none;
+  }
+}
+
+/* --- hover link preview (Obsidian "peek") -------------------------------- */
+
+.zv-peek {
+  position: fixed;
+  z-index: 2147482980;
+  width: 22rem;
+  max-width: 88vw;
+  background: var(--raise);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+  padding: 0.85rem 1rem 0.95rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.13s var(--ease),
+    transform 0.13s var(--ease);
+}
+
+.zv-peek[data-open="1"] {
+  opacity: 1;
+  transform: none;
+}
+
+.zv-peek .zv-peek-kicker {
+  color: var(--ink-faint);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  font-size: 0.58rem;
+  margin-bottom: 0.35rem;
+}
+
+.zv-peek .zv-peek-title {
+  color: var(--ink);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  margin-bottom: 0.4rem;
+}
+
+.zv-peek .zv-peek-body {
+  color: var(--ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.zv-peek .zv-peek-foot {
+  margin-top: 0.55rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-faint);
+  font-size: 0.62rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.zv-peek .zv-peek-loading {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* --- properties row (Notion) -------------------------------------------- */
+
+.zv-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.4rem;
+  align-items: center;
+  margin: 0.9rem 0 1.6rem;
+  padding: 0.7rem 0 0.8rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+}
+
+.zv-meta dt {
+  color: var(--ink-faint);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: inline;
+  margin-right: 0.45rem;
+}
+
+.zv-meta dd {
+  display: inline;
+  margin: 0;
+  color: var(--ink);
+}
+
+.zv-meta > div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+/* --- tag pills (Obsidian) ------------------------------------------------ */
+
+.zv-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font: 0.62rem/1 var(--mono);
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+  text-decoration: none;
+  transition:
+    color 0.14s var(--ease),
+    border-color 0.14s var(--ease);
+}
+
+a.zv-tag:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.zv-tag::before {
+  content: "#";
+  color: var(--ink-faint);
+}
+
+.zv-tag:hover::before {
+  color: var(--accent);
+}
+
+/* --- backlinks, as a row of page chips (Notion) ------------------------- */
+
+.zv-backlinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0 0 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+}
+
+.zv-backlinks-label {
+  color: var(--ink-faint);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-right: 0.2rem;
+}
+
+.zv-mention {
+  display: inline-flex;
+  align-items: center;
+  font: 0.66rem/1 var(--mono);
+  color: var(--ink-soft);
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  padding: 0.32rem 0.55rem;
+  text-decoration: none;
+  transition:
+    color 0.14s var(--ease),
+    border-color 0.14s var(--ease);
+}
+
+.zv-mention:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* --- previous / next ----------------------------------------------------- */
+
+.zv-related {
+  display: grid;
+  gap: 0.7rem;
+  margin: 3rem 0 0;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+
+@media (min-width: 44rem) {
+  .zv-related {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.zv-related a {
+  display: block;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 0.75rem 0.95rem;
+  text-decoration: none;
+  color: var(--ink-soft);
+  background: var(--paper);
+  transition:
+    border-color 0.15s var(--ease),
+    color 0.15s var(--ease);
+}
+
+.zv-related a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.zv-related .zv-dir {
+  color: var(--ink-faint);
+  font-size: 0.6rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+/* --- keyboard help sheet ------------------------------------------------- */
+
+.zv-keys {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482995;
+  display: none;
+  padding: 8vh 1rem 1rem;
+  justify-content: center;
+  background: rgba(8, 9, 12, 0.66);
+  backdrop-filter: blur(3px);
+}
+
+.zv-keys[data-open="1"] {
+  display: flex;
+}
+
+.zv-keys-box {
+  width: min(34rem, 100%);
+  max-height: 80vh;
+  overflow-y: auto;
+  background: var(--raise);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  padding: 1.3rem 1.4rem 1.4rem;
+  font-family: var(--mono);
+  animation: zv-pop 0.16s var(--ease);
+}
+
+.zv-keys-box h2 {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.zv-keys-group {
+  margin-bottom: 1.1rem;
+}
+
+.zv-keys-group h3 {
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+  font-weight: normal;
+}
+
+.zv-keys-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.3rem 0;
+  font-size: 0.74rem;
+  color: var(--ink-soft);
+  border-bottom: 1px solid transparent;
+}
+
+.zv-keys-row kbd {
+  font: inherit;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  background: var(--code-bg);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+@media print {
+  .zv-handle,
+  .zv-peek,
+  .zv-keys,
+  .zv-backlinks,
+  .zv-related {
+    display: none !important;
+  }
+}
+
+/* the hero properties strip sits wider than the prose column */
+.zv-hero-meta {
+  max-width: 52rem;
+}
+
+@media (min-width: 60rem) {
+  .zv-hero-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 0.9rem 1.4rem;
+  }
+}
+
+.zv-hero-meta > div {
+  display: block;
+}
+
+.zv-hero-meta dt {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.zv-hero-meta dd {
+  font-size: 0.72rem;
+}

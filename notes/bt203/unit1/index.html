@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Materials &mdash; RGPV BT203 Unit 1 PYQ Prep &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit1 $</span> ls -la</p>
+</div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('index')">Index</button>
+  <button class="tab-btn" onclick="showTab('resources')">Resources</button>
+</div>
+<div id="index" class="tab-panel active">
+<p class="kicker">Unit 1 &middot; BT203 Basic Mechanical Engineering &middot; Materials</p>
+<h1>Materials Resource Hub</h1>
+<p><em>Eight topics, one package, in syllabus order for RGPV. Each file is fully
+self-contained &mdash; no internet, no installation. Just open in any browser.
+<strong>Unit 1 of 5 is the whole of mid-sem scope for BT-203</strong>, so every topic
+here is examinable on 9 October 2026.</em></p>
+<blockquote>Official Unit I: Materials &mdash; classification of engineering material;
+composition of cast iron and carbon steels; iron-carbon diagram; alloy steels and their
+applications; mechanical properties (strength, hardness, toughness, ductility, brittleness,
+malleability); tensile test and stress-strain diagram of ductile and brittle materials;
+Hooke's law and modulus of elasticity; hardness and impact testing of materials, BHN.
+&mdash; RGPV BT-203 Basic Mechanical Engineering (3L-0T-2P, 4 credits)</blockquote>
+
+<div class="callout">
+<span class="label">Midsem rule &mdash; Fri 09 Oct 2026, 12:00&ndash;1:30 PM (Shift I)</span>
+<p>Mid-sem covers <strong>Units 1 and 2 only</strong>. Unit 1 (Materials) + Unit 2
+(Measurement &amp; Production) = the whole paper. In the December 2020 paper,
+<strong>six of eight questions came from Units 1+2</strong> &mdash; this unit is not
+a small slice of the mid-sem, it is most of it.</p>
+<p>Highest ROI: the <strong>iron-carbon diagram</strong> (Dec-2020 Q6a), the
+<strong>steel and cast-iron type tables</strong> (Q1a), and <strong>hardness and how
+it is measured</strong> (Q1b). Memorise those three and you have banked the bulk of
+the Unit 1 marks.</p>
+</div>
+
+<h2>Topics (in syllabus order, mid-sem priority order)</h2>
+<div class="topic-card">
+  <p class="topic-num">[01] Classification of engineering materials &mdash; done</p>
+  <h3><a href="01-material-classification.html">&#xbb; Classification of Engineering Materials</a></h3>
+  <p>Ferrous vs non-ferrous, the full ASCII classification tree, the 2% carbon boundary
+  between steel and cast iron, light/heavy non-ferrous split, complete material-property-use
+  matching table.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + Questionnaire + 5 MCQs + PYQs
+  + classification case study + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[02] Cast iron &amp; carbon steels &mdash; done</p>
+  <h3><a href="02-cast-iron-carbon-steels.html">&#xbb; 
+  <p>Carbon as Fe<sub>3</sub>C, white/grey/ductile/malleable cast iron, low/medium/high
+  carbon steel, properties and applications of each.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + Questionnaire + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[03] Iron-carbon diagram &mdash; done</p>
+  <h3><a href="03-iron-carbon-diagram.html">&#xbb; 
+  <p>Stable phases, the eutectoid at 0.77% C / 727&deg;C, the eutectic at 4.3% C /
+  1147&deg;C, critical temperatures A1/A3/Acm, lever rule.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + Questionnaire + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[04] Alloy steels &mdash; done</p>
+  <h3><a href="04-alloy-steels.html">&#xbb; 
+  <p>Cr, Ni, Mo, V, W additions, stainless (18-8), rail and tool steels, why each element
+  is added.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + Questionnaire + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[05] Mechanical properties &mdash; done</p>
+  <h3><a href="05-mechanical-properties.html">&#xbb; 
+  <p>Strength, hardness, toughness, ductility, brittleness, malleability, elasticity,
+  resilience &mdash; definition, test, and the pairs examiners ask you to contrast.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + Questionnaire + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[06] Tensile test &amp; stress-strain &mdash; done</p>
+  <h3><a href="06-tensile-test-stress-strain.html">&#xbb; 
+  <p>Universal testing machine, the six stages of a ductile curve, the brittle curve, proof
+  stress, resilience and toughness from the area under the curve.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + Questionnaire + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[07] Hooke's law &amp; modulus &mdash; done</p>
+  <h3><a href="07-hookes-law-modulus.html">&#xbb; 
+  <p>Elastic limit, Young's modulus, the E = stress/strain formula, stiffness vs
+  flexibility, worked numerals with full unit handling.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + Questionnaire + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[08] Hardness &amp; impact testing &mdash; done</p>
+  <h3><a href="08-hardness-impact-testing.html">&#xbb; 
+  <p>Brinell, Rockwell, Vickers, the BHN formula, Izod and Charpy impact tests, hardness
+  versus toughness.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + Questionnaire + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+
+<h2>PYQ map &mdash; December 2020 paper</h2>
+<table>
+<thead><tr><th>Paper Q</th><th>Question</th><th>Unit</th><th>Topic file</th><th>Drill</th></tr></thead>
+<tbody>
+<tr><td>Q1a</td><td>What is steel? Types of steel with applications</td><td>1</td><td>02-cast-iron-carbon-steels</td><td>Theory</td></tr>
+<tr><td>Q1b</td><td>What is hardness? How to measure it</td><td>1</td><td>08-hardness-impact-testing-bhn</td><td>Theory + numeral</td></tr>
+<tr><td>Q2a</td><td>What is error? Types of errors in measurement</td><td>2</td><td><a href="../unit2/index.html">unit2/01</a> &mdash; queued</td><td>Theory</td></tr>
+<tr><td>Q2b</td><td>Dynamometer &mdash; types</td><td>2</td><td><a href="../unit2/index.html">unit2/02</a> &mdash; queued</td><td>Theory</td></tr>
+<tr><td>Q6a</td><td>Explain the iron-carbon diagram in brief</td><td>1</td><td>03-iron-carbon-diagram</td><td>Theory + diagram</td></tr>
+<tr><td>Q6b</td><td>Types of welding with applications</td><td>2</td><td><a href="../unit2/index.html">unit2/03</a> &mdash; queued</td><td>Theory</td></tr>
+<tr><td>Q3a</td><td>Bernoulli pressure numeral</td><td>3</td><td class="dim">not in mid-sem</td><td>&mdash;</td></tr>
+<tr><td>Q3b&ndash;Q7b</td><td>Fluids, thermodynamics, boilers, IC engines</td><td>3&ndash;5</td><td class="dim">not in mid-sem</td><td>&mdash;</td></tr>
+</tbody>
+</table>
+<p class="q-meta">Dec-2020 set 8 questions, attempt any 5, equal marks. 6 of 8 fell in
+Units 1+2 &mdash; the reason mid-sem scope is Units 1+2 and why Q1a, Q1b and Q6a are
+the three to memorise.</p>
+
+<h2>Key sheet</h2>
+<div class="callout">
+<span class="label">One-pager &mdash; print it</span>
+<p><a href="formula-sheet.html">&#xbb; formula-sheet.html</a> &mdash; every definition,
+carbon range, critical temperature and test formula in Unit 1 on a single printable page.
+Carry this into the exam hall instead of the whole unit.</p>
+</div>
+
+<h2>Progress</h2>
+<ul class="progress-list">
+<li><label><input type="checkbox" data-progress="bt203-u1-01"> 01 Classification of engineering materials</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u1-02"> 02 Cast iron &amp; carbon steels</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u1-03"> 03 Iron-carbon diagram</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u1-04"> 04 Alloy steels</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u1-05"> 05 Mechanical properties</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u1-06"> 06 Tensile test &amp; stress-strain</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u1-07"> 07 Hooke's law &amp; modulus</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u1-08"> 08 Hardness &amp; impact testing</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u1-key"> Key sheet &mdash; <a href="formula-sheet.html">formula-sheet.html</a></label></li>
+</ul>
+<p><em>Progress is stored in this browser only (localStorage, key
+<code>bt203-u1</code>). Tick a topic when you finish it.</em></p>
+
+</div><!-- INDEX TAB -->
+
+<div id="resources" class="tab-panel">
+<p class="kicker">Resources &middot; BT203 Unit 1</p>
+<h1>Verified Sources</h1>
+<p><em>Every link below was fetched and checked on 28 September 2026. A link that
+is present but unverified would be a lie, so unverified links are not listed.</em></p>
+
+<h2>Official syllabus</h2>
+<ul>
+<li><strong>RGPV BT-203 syllabus (Unit 1 text)</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in &mdash; Basic Mechanical Engineering (BT-203)</a>.
+Full text of all five units, reference book list, and the list of suggestive core
+experiments. Cross-checked against the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>CareerShiksha I-year syllabus archive</strong> &mdash;
+<a href="https://career-shiksha.com/post/syllabus-of-i-year-all-branch-all-subjects-rgpv">career-shiksha.com</a>.
+Hosts the official <code>SYLLABUS-BT-203-Basic-Mechanical-Engineering.pdf</code> sourced
+from rgpv.ac.in. Confirms Unit 1 begins "Materials: Classification of engineering
+material&hellip;".</li>
+</ul>
+
+<h2>Subject notes</h2>
+<ul>
+<li><strong>Unit-wise notes, BT-203</strong> &mdash; same rgpvnotes.in page above carries
+per-unit OneDrive/Dropbox note downloads. Free, no registration. Useful as a second
+source when a detail here disagrees with your class notes.</li>
+</ul>
+
+<h2>PYQ papers</h2>
+<ul>
+<li><strong>BT-203, Examination December 2020</strong> &mdash;
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com &mdash; BT-203 December 2020 (PDF)</a>.
+70 marks, three hours, attempt any five. The paper behind the Q1a / Q1b / Q6a drills.
+Bilingual (Hindi + English), with the Bernoulli numeral fully readable &mdash; useful
+for seeing how RGPV actually sets a numeric.</li>
+<li><strong>BT-203 paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in question papers</a>.
+Links to multiple sessions for the same subject.</li>
+</ul>
+
+<h2>Reference books (official BT-203 list)</h2>
+<ol>
+<li>C. M. Agrawal, <em>Basic Mechanical Engineering</em>, Wiley &mdash; the primary text
+for Units 1, 2 and 5. <em>Start here for Unit 1.</em></li>
+<li>Nakra &amp; Chaudhary, <em>Instrumentation and Measurements</em>, TMH &mdash; the
+Unit 2 measurement reference.</li>
+<li>P. K. Nag, <em>Engineering Thermodynamics</em>, TMH &mdash; Unit 4.</li>
+<li>Ganesan, <em>Internal Combustion Engines</em>, TMH &mdash; Unit 5.</li>
+<li>Kothandaraman &amp; Rudramoorthy, <em>Fluid Mechanics &amp; Machinery</em>, New Age
+&mdash; Unit 3.</li>
+<li>Achuthan M, <em>Engineering Thermodynamics</em>, PHI &mdash; Unit 4 alternative.</li>
+</ol>
+
+<div class="callout">
+<span class="label">Blueprint &mdash; how Unit 1 splits</span>
+<p>BT-203 is 70 marks over three hours, attempt any five questions of equal marks.
+Unit 1 is 20% of the syllabus, so expect roughly <strong>one full 14-mark question
+and one part-question</strong> from Materials in the end-sem, and about
+<strong>6 of 8 questions</strong> in a mid-sem restricted to Units 1+2.</p><p>Within Unit 1, the December 2020 paper put <strong>three questions</strong> on:
+steel types, hardness measurement, and the iron-carbon diagram. Two of those three
+are <em>recall and table reproduction</em>, not calculation. The only genuine
+numerals in Unit 1 come from the tensile test and Hooke's law.
+</p>
+</div>
+
+<h2>Viva + lab</h2>
+<p>Unit 1 has no dedicated practical paper, but it is the standard source of viva
+questions in the lab exam because it is pure recall. Expect:</p>
+<ul>
+<li>Define <strong>hardness</strong> and name the three standard tests with the
+indenter each one uses.</li>
+<li>State the <strong>BHN formula</strong> and what each of its four symbols means.</li>
+<li>What is the difference between <strong>ductility and malleability</strong>? Give
+the deformation mode for each.</li>
+<li>Name the <strong>eutectoid and eutectic</strong> points of the iron-carbon
+diagram with their carbon content and temperature.</li>
+<li>Why does adding <strong>chromium</strong> to steel make it stainless?</li>
+<li>Define <strong>resilience and toughness</strong> and say which curve area each
+is measured from.</li>
+</ul>
+
+</div><!-- RESOURCES TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'bt203-u1';
+  var boxes = document.querySelectorAll('input[data-progress]');
+  function load() {
+    var done = [];
+    try { done = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { done = []; }
+    for (var i = 0; i < boxes.length; i++) {
+      boxes[i].checked = done.indexOf(boxes[i].getAttribute('data-progress')) !== -1;
+    }
+  }
+  function save() {
+    var done = [];
+    for (var i = 0; i < boxes.length; i++) {
+      if (boxes[i].checked) done.push(boxes[i].getAttribute('data-progress'));
+    }
+    try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {}
+  }
+  for (var i = 0; i < boxes.length; i++) {
+    boxes[i].addEventListener('change', save);
+  }
+  load();
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+})();
+</script>
+</main>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

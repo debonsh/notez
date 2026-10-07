@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BT102 Mid-Sem Battle Plan &mdash; Tue 13 Oct 2026 &middot; by Zevu</title>
+<style>
+:root{color-scheme:dark;--ink:#e6e3dc;--ink-soft:#a29d92;--paper:#14161b;--accent:#e0a370;
+--accent-soft:#1b1e25;--rule:#2b2e36;--code-bg:#1b1e25;--code-ink:#dcd7cd;
+--good:#7bc97f;--good-bg:#17251a;--bad:#ef6b68;--bad-bg:#2a1718;--warn:#d8b25a}
+*{box-sizing:border-box}html{font-size:17px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,serif;line-height:1.62}
+main{max-width:52rem;margin:0 auto;padding:2.5rem 1.25rem 6rem}
+h1,h2,h3{font-weight:normal;line-height:1.22}
+h1{font-size:2rem;margin:0 0 .5rem}
+h2{font-size:1.4rem;margin:2.6rem 0 .7rem;border-bottom:1px solid var(--rule);padding-bottom:.3rem}
+h3{font-size:1.08rem;margin:1.7rem 0 .5rem}
+p{margin:.85rem 0}
+a{color:var(--accent);text-underline-offset:3px}
+code{font-family:ui-monospace,monospace;font-size:.85em;background:var(--code-bg);
+padding:.1em .32em;border-radius:4px;color:var(--code-ink)}
+pre{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;
+padding:.9rem 1.1rem;overflow-x:auto;font-family:ui-monospace,monospace}
+blockquote{margin:1.2rem 0;padding:.5rem 1.1rem;border-left:3px solid var(--accent);
+background:var(--code-bg);color:var(--ink-soft)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;margin:1.1rem 0}
+th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.08em;
+text-transform:uppercase;color:var(--ink-soft)}
+tbody tr:hover td{background:rgba(224,163,112,.05)}
+.kicker{font-family:ui-monospace,monospace;font-size:.72rem;letter-spacing:.14em;
+text-transform:uppercase;color:var(--ink-soft);margin-bottom:1rem}
+.zevu-header{margin-bottom:1.4rem;padding-bottom:.5rem;border-bottom:1px solid var(--rule)}
+.zevu-header .prompt{font-family:ui-monospace,monospace;font-size:.82rem;color:var(--ink-soft)}
+.zevu-header .user,.zevu-footer .prompt{color:var(--accent)}
+.zevu-footer{margin-top:3rem;padding-top:.7rem;border-top:1px solid var(--rule);
+font-family:ui-monospace,monospace;font-size:.66rem;color:var(--ink-soft);opacity:.75}
+.callout{background:var(--code-bg);border:1px solid var(--rule);border-left:3px solid var(--accent);
+border-radius:8px;padding:.9rem 1.1rem;margin:1.2rem 0;font-size:.93rem}
+.callout .label{display:block;font-family:ui-monospace,monospace;font-size:.68rem;
+letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.35rem}
+.callout.warn{border-left-color:var(--warn)}
+.callout.good{border-left-color:var(--good)}
+.ascii-diagram{margin:1rem 0;padding:1rem 1.1rem;overflow-x:auto;background:#101217;
+border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:6px;
+font-family:ui-monospace,monospace;font-size:.7rem;line-height:1.38;white-space:pre}
+.tab-bar{display:flex;gap:.4rem;flex-wrap:wrap;margin:1.4rem 0 1.6rem;
+border-bottom:1px solid var(--rule);padding-bottom:.5rem}
+.tab-btn{background:none;border:1px solid var(--rule);color:var(--ink-soft);
+padding:.4rem .85rem;border-radius:6px;cursor:pointer;font-size:.86rem;font-family:ui-monospace,monospace}
+.tab-btn:hover{border-color:var(--accent);color:var(--ink)}
+.tab-btn.active{border-color:var(--accent);color:var(--accent)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.dim{color:var(--ink-soft)}.good-t{color:var(--good)}.bad-t{color:var(--bad)}
+.bar{background:var(--accent);height:.55rem;border-radius:2px;display:block;min-width:2px}
+.barwrap{background:var(--rule);border-radius:2px;width:100%;min-width:90px;overflow:hidden}
+.factgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:.6rem;margin:1.2rem 0}
+.fact{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;padding:.6rem .75rem}
+.fact dt{font-family:ui-monospace,monospace;font-size:.63rem;letter-spacing:.1em;
+text-transform:uppercase;color:var(--ink-soft);margin:0 0 .2rem}
+.fact dd{margin:0;font-size:1.02rem;color:var(--accent)}
+.mcq{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;padding:.85rem 1rem;margin:.9rem 0}
+.mcq .q{font-weight:600;margin-bottom:.55rem}
+.mcq .meta{font-family:ui-monospace,monospace;font-size:.66rem;color:var(--ink-soft);margin-bottom:.5rem}
+.mcq button{display:block;width:100%;text-align:left;background:none;color:var(--ink);
+border:1px solid var(--rule);border-radius:6px;padding:.42rem .6rem;margin-top:.3rem;
+cursor:pointer;font-size:.9rem;font-family:inherit}
+.mcq button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.mcq button:disabled{cursor:default;opacity:.75}
+.mcq button.correct{border-color:var(--good);color:var(--good);background:var(--good-bg)}
+.mcq button.wrong{border-color:var(--bad);color:var(--bad);background:var(--bad-bg)}
+.mcq .fb{margin-top:.6rem;font-size:.86rem;display:none;border-top:1px solid var(--rule);padding-top:.55rem}
+.mcq .fb.show{display:block}
+.mcq .fb b{color:var(--accent)}
+.scorebox{background:var(--code-bg);border:2px solid var(--accent);border-radius:8px;padding:1rem 1.15rem;margin:1.2rem 0}
+.scorebox .big{font-size:2.2rem;color:var(--accent);font-family:ui-monospace,monospace;line-height:1}
+.timerbox{background:var(--code-bg);border:1px solid var(--rule);border-left:3px solid var(--accent);
+border-radius:8px;padding:.9rem 1.1rem;margin:1.2rem 0;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.timerbox .clock{font-family:ui-monospace,monospace;font-size:2rem;color:var(--accent);line-height:1}
+.timerbox button{background:none;border:1px solid var(--rule);color:var(--ink-soft);padding:.35rem .7rem;
+border-radius:6px;cursor:pointer;font-family:ui-monospace,monospace;font-size:.78rem}
+.timerbox button:hover{border-color:var(--accent);color:var(--accent)}
+details{margin:.8rem 0;border:1px solid var(--rule);border-radius:8px;padding:.5rem .8rem;background:var(--code-bg)}
+summary{cursor:pointer;font-weight:600;font-size:.93rem;color:var(--ink)}
+summary:hover{color:var(--accent)}
+details .inner{margin-top:.7rem;padding-top:.7rem;border-top:1px solid var(--rule);font-size:.92rem}
+.qa{display:inline-block;font-family:ui-monospace,monospace;font-size:.68rem;
+border:1px solid var(--rule);border-radius:4px;padding:.05rem .35rem;color:var(--ink-soft)}
+.qa.a{color:var(--good);border-color:var(--good)}.qa.b{color:var(--warn);border-color:var(--warn)}
+.srcgap{font-size:.9rem;color:var(--ink-soft)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media print{:root{color-scheme:light;--ink:#1a1a1a;--ink-soft:#555;--paper:#fff;--rule:#ddd;
+--code-bg:#f5f5f5;--code-ink:#222;--accent:#a05c1e;--good:#1a6b1f;--bad:#a11}
+body{background:#fff}main{padding:0;max-width:100%}
+.tab-panel{display:block!important}
+.zevu-footer,.timerbox button{display:none}
+table tr:hover td{background:transparent}
+details{border-color:#ccc;background:#fafafa}details .inner{display:block}.mcq .fb{display:block}}
+@media (max-width:640px){html{font-size:15px}main{padding:1.5rem .9rem 3rem}table{font-size:.8rem}}
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header">
+<p class="prompt"><span class="user">zevu</span>:~/learn/bt102 $ cat midsem.md</p>
+</div>
+<p class="kicker">BT102 &middot; Mid-Sem &middot; Tue 13 Oct 2026 &middot; Units 1+2 only</p>
+<h1>BT102 Mid-Sem &mdash; Predicted Paper &amp; Battle Plan</h1>
+<p><em>Units 1 and 2 &mdash; Calculus I and Calculus II. Two warnings before you start. First, Unit 2 of this subject is not what the notes folder suggests: Matrices is the most-examined unit in the whole of BT-102 and it is Unit 5, so it is end-sem. Second, BT-102 is the one subject in your set that is <b>almost entirely numerical</b> &mdash; roughly three quarters of every paper is computation, and &ldquo;explain&rdquo; questions are almost absent. You cannot revise this by reading.</em></p>
+<dl class="factgrid"><div class="fact"><dt>Date</dt><dd>Tue 13 Oct 2026</dd></div><div class="fact"><dt>Time</dt><dd>3:00 &ndash; 4:30 PM</dd></div><div class="fact"><dt>Shift</dt><dd>II</dd></div><div class="fact"><dt>Same day</dt><dd>BT-201 at 12:00</dd></div><div class="fact"><dt>Mid-sem marks</dt><dd>10 <span class='dim'>(likely)</span></dd></div><div class="fact"><dt>In scope</dt><dd>Units 1 + 2</dd></div></dl>
+
+<div class="tab-bar">
+<button class="tab-btn active" onclick="showTab('paper')">Paper</button>
+<button class="tab-btn" onclick="showTab('bank')">Bank &amp; analysis</button>
+<button class="tab-btn" onclick="showTab('test')">Self-test</button>
+<button class="tab-btn" onclick="showTab('mock')">Timed mock</button>
+<button class="tab-btn" onclick="showTab('plan')">Plan</button>
+</div>
+
+<div id="paper" class="tab-panel active">
+<p class="kicker">Section 1 &middot; What will actually be on the paper</p>
+<h1>Format, and the assumption that keeps getting made</h1>
+
+<div class="callout warn">
+<span class="label">Read this before you plan the paper</span>
+<p><strong>Every RGPV first-year end-sem paper says the same three things:</strong>
+<em>&ldquo;Attempt any five questions. All questions carry equal marks. In case of any
+doubt the English version is final.&rdquo;</em> It prints 8 questions for 70 marks, so
+each is <strong>14 marks</strong>, normally <strong>(a) 7 + (b) 7</strong>. There is no
+Section A / Section B and no compulsory-versus-choice split.</p>
+<p>Several exam-prep pages claim RGPV papers run as &ldquo;Section A: 5 &times; 2 marks,
+Section B: 2 &times; 5 marks&rdquo;. <strong>That format is not in any RGPV paper.</strong>
+It was checked against 8 real scans across eight papers (May-2019 to Dec-2023).</p>
+</div>
+
+<div class="callout">
+<span class="label">What is actually known about the mid-sem itself</span>
+<p>Confirmed from the official RGPV ordinance and the July 2018 scheme: the
+<b>whole semester mid-sem bucket is 20 marks</b> per theory subject (70 end-sem
++ 20 mid-sem + 10 internal = 100), and RGPV requires <b>at least two mid-term tests</b>.
+So MST-1 is most likely <b>10 marks</b>.</p>
+<p>Two things nobody can confirm, because RGPV publishes no mid-sem papers and the
+Board of Studies sets the detail locally: whether MST-1 is 10 or 20 marks, and the
+paper's duration and section layout.</p>
+<p>One real data point survives: an ITM Gwalior <em>BT-204 Mid Term 1</em> paper
+circulates online and its instruction line reads <b>&ldquo;Attempt all
+questions.&rdquo;</b> No choice at all &mdash; a small question count, all compulsory,
+equal marks, which is the end-sem pattern scaled down.</p>
+</div>
+
+<h2>How to plan for a paper nobody has seen</h2>
+<p>Do not memorise a layout. Memorise the <em>topics</em> &mdash; they transfer between
+any layout. Then when the paper lands, read the marks against each question and spend
+your time proportionally. The predicted paper below is written in the end-sem format
+because that is the house style RGPV reuses.</p>
+
+<p class="kicker">Section 2 &middot; Predicted paper</p>
+<h1>BT102 &mdash; Units 1+2 only, predicted</h1>
+<blockquote>RGPV end-sem house format (8 printed, attempt any 5, 14 each). The Jun-2020 and Dec-2020 papers print &lt;b&gt;7&lt;/b&gt; against every (a) and (b) part explicitly, so the 7+7 split is read off the paper, not assumed.</blockquote>
+<div class="callout"><span class="label">Q1 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> State Rolle's theorem and verify it for a given function on a stated interval.</p><p><b>(b)</b> Expand log x in powers of (x&minus;1) by Taylor's theorem and hence evaluate log 1.1 correct to four decimal places.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Rolle 5 of 8 papers, the log expansion 6 of 8. Both are recall-and-substitute, and the log one is the most reliable numerical in Unit 1. <b>Prep:</b> <a href="unit1/01-rolles-theorem.html">unit1/01-rolles-theorem.html</a></p></div>
+<div class="callout"><span class="label">Q2 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> Verify Lagrange's mean value theorem for f(x) = 2x&sup2; &minus; 7x + 10 on the interval [2, 5].</p><p><b>(b)</b> Find the maximum and minimum of a function of two variables, showing the classification.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Lagrange 5 of 8, maxima/minima 6 of 8. The same function f(x)=2x&amp;sup2;&amp;minus;7x+10 has appeared verbatim in more than one paper. <b>Prep:</b> <a href="unit1/02-lagranges-mvt.html">unit1/02-lagranges-mvt.html</a></p></div>
+<div class="callout"><span class="label">Q3 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> Show that &part;u/&part;x + &part;u/&part;y + &part;u/&part;z = 0 when u = f(y&minus;z, z&minus;x, x&minus;y).</p><p><b>(b)</b> Discuss the maximum or minimum of f(x, y) = x&sup3; &minus; 4xy + 2y&sup2;.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> The cyclic-partials identity appeared in May-19 and Jun-20. The cubic max-min is an exact repeat &amp;mdash; Nov-19 Q2b and Jun-20 Q4b. <b>Prep:</b> <a href="unit1/04-maxima-minima.html">unit1/04-maxima-minima.html</a></p></div>
+<div class="callout"><span class="label">Q4 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> Change the order of integration in the given double integral and hence evaluate it.</p><p><b>(b)</b> Evaluate a double integral over a specified region.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Change of order in 5 of 8 papers, double/triple integrals in 6. Unit 2 is numerical almost throughout, so these are pure practice items. <b>Prep:</b> <span class="dim">unit2/01-definite-integrals.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q5 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> Evaluate the limit as n tends to infinity of the given sum, expressing it as a definite integral.</p><p><b>(b)</b> Prove the Beta-Gamma relationship &beta;(m, n) = (m&minus;1)!(n&minus;1)!/(m+n&minus;2)!.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Limit-of-a-sum in 3 papers, Beta-Gamma in 3. Dec-2020 asked the Beta-Gamma identity in its factorial form; write both forms. <b>Prep:</b> <span class="dim">unit2/03-beta-gamma.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q6 &middot; U1 &middot; 7 + 7 marks</span><p><b>(a)</b> Expand log(1 + sin x) by Maclaurin's theorem, first four terms.</p><p><b>(b)</b> Find the first six terms of the expansion of a given function in a Taylor series about the origin.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Maclaurin/Taylor expansions are the most common Unit 1 numerical. Four to six terms, then stop &amp;mdash; do not compute more than asked. <b>Prep:</b> <a href="unit1/03-taylors-maclaurins.html">unit1/03-taylors-maclaurins.html</a></p></div>
+<div class="callout"><span class="label">Q7 &middot; U2 &middot; 7 + 7 marks</span><p><b>(a)</b> Find the area lying between the given pair of curves.</p><p><b>(b)</b> Evaluate the area of the region bounded by x = 0, y = 0 and the given curve.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> Applications of definite integrals to area. Two papers ask this almost exactly. Sketch the region first &amp;mdash; the sketch is a mark. <b>Prep:</b> <span class="dim">unit2/01-definite-integrals.html (not built yet)</span></p></div>
+<div class="callout"><span class="label">Q8 &middot; any &middot; 14 (7 x 2) marks</span><p><b>(a)</b> Short note 1: Lagrange multipliers.</p><p><b>(b)</b> Short note 2: Taylor's theorem for a function of two variables.</p><p class="dim" style="font-size:.88rem"><b>Why:</b> The short-notes question is unit-flexible in every paper. Both of these are Unit 1, so they are safe picks in a mid-sem restricted to Units 1+2. <b>Prep:</b> <a href="unit1/04-maxima-minima.html">unit1/04-maxima-minima.html</a></p></div>
+<h2>Where the marks go</h2>
+<table><thead><tr><th>Paper slot</th><th>Unit</th><th>Expected topic</th><th>Confidence</th></tr></thead><tbody><tr><td><b>Q1</b></td><td>U1</td><td>Rolle + Taylor log expansion</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q2</b></td><td>U1</td><td>Lagrange MVT + max/min</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q3</b></td><td>U1</td><td>Cyclic partials + max/min</td><td style="color:var(--warn)"><b>B</b></td></tr><tr><td><b>Q4</b></td><td>U2</td><td>Change of order + double integral</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q5</b></td><td>U2</td><td>Limit of a sum + Beta-Gamma</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q6</b></td><td>U1</td><td>Maclaurin / Taylor expansions</td><td style="color:var(--good)"><b>A</b></td></tr><tr><td><b>Q7</b></td><td>U2</td><td>Area under / between curves</td><td style="color:var(--warn)"><b>B</b></td></tr><tr><td><b>Q8</b></td><td>any</td><td>Short notes, unit-flexible</td><td style="color:var(--bad)"><b>C</b></td></tr></tbody></table>
+<div class="callout good">
+<span class="label">The single highest-value fact on this page</span>
+<p>Consistency of a system of linear equations appeared in <b>8 of 8 papers</b> and Cauchy-Hamilton in 6, eigen values in 7 &mdash; but all three are <b>Matrices, which is Unit 5 and therefore NOT in your mid-sem</b>. For your actual scope the priorities are: <b>Maxima and minima of two variables</b> (6 of 8 papers), <b>Taylor/Maclaurin expansion of log x</b> (6 of 8), and <b>Rolle's and Lagrange's theorems</b> (5 of 8 each). Those are the mid-sem.</p>
+</div>
+</div>
+
+<div id="bank" class="tab-panel">
+<p class="kicker">Section 3 &middot; Evidence</p>
+<h1>What the last eight papers (May-2019 to Dec-2023) of real papers actually ask</h1>
+<p>Eight BT-102 papers (May-2019, Nov-2019, Jun-2020, Dec-2020, Jun-2022, Nov-2022, Jun-2023, Dec-2023) were read and 111 sub-questions classified into units. A Jun-2025 paper was checked for recency. <b>There are no 2021 papers in any archive</b> &mdash; the sequence jumps from Dec-2020 straight to Jun-2022, consistent with those exams not being held.</p>
+<h2>Unit weight &mdash; measured, not assumed</h2>
+<p>Syllabus share per unit is 20% because there are five units. What follows is where
+the marks <em>actually went</em> in 8 papers.</p>
+<table><thead><tr><th>Unit</th><th>Share of marks asked</th><th>%</th><th>Items</th><th>Read</th></tr></thead><tbody><tr><td><b>U1</b> Calculus I</td><td class="barwrap"><span class="bar" style="width:86%"></span></td><td class="good-t"><b>25%</b></td><td>28</td><td class="dim">in scope &amp;mdash; 28 of the marks to learn</td></tr><tr><td><b>U2</b> Calculus II</td><td class="barwrap"><span class="bar" style="width:69%"></span></td><td class=""><b>20%</b></td><td>22</td><td class="dim">in scope &amp;mdash; integrals, Beta-Gamma, change of order</td></tr><tr><td><b>U3</b> Sequences &amp; Fourier</td><td class="barwrap"><span class="bar" style="width:48%"></span></td><td class="bad-t"><b>14%</b></td><td>15</td><td class="dim">end-sem only</td></tr><tr><td><b>U4</b> Vector Spaces</td><td class="barwrap"><span class="bar" style="width:45%"></span></td><td class="bad-t"><b>13%</b></td><td>14</td><td class="dim">end-sem only</td></tr><tr><td><b>U5</b> Matrices</td><td class="barwrap"><span class="bar" style="width:100%"></span></td><td class="good-t"><b>29%</b></td><td>32</td><td class="dim">end-sem &amp;mdash; but the single most-asked unit. Skipped this time.</td></tr></tbody></table>
+<h2>The repeat list &mdash; this is the exam</h2>
+<p>RGPV re-uses question stems verbatim across years. A stem appearing in six sittings
+has a far higher chance of appearing in the seventh than any new question does.</p>
+<table><thead><tr><th>#</th><th>Question stem, recurring across sessions</th><th>Times</th><th>Unit</th><th>Sessions</th></tr></thead><tbody><tr><td>1</td><td>Consistency of a system of linear equations, and solve it</td><td><span class="qa a">8x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">every single paper</td></tr><tr><td>2</td><td>Eigen values and eigen vectors of a matrix</td><td><span class="qa a">7x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">May-19 through Jun-23</td></tr><tr><td>3</td><td>Maxima and minima of a function of two variables</td><td><span class="qa a">6x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Jun-23, Dec-23, May-19</td></tr><tr><td>4</td><td>Expand log x in powers of (x&amp;minus;1), hence evaluate log 1.1</td><td><span class="qa a">6x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">May-19, Nov-19, Jun-20, Dec-20, Jun-23</td></tr><tr><td>5</td><td>Rank of a matrix / reduce to normal form</td><td><span class="qa a">6x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">May-19, Nov-19, Jun-20, Jun-23, Dec-23</td></tr><tr><td>6</td><td>Verify Cauchy-Hamilton theorem for a given matrix</td><td><span class="qa a">6x</span></td><td>U5</td><td class="dim" style="font-size:.82rem">May-19, Jun-23, Dec-23</td></tr><tr><td>7</td><td>Fourier series of a given function</td><td><span class="qa a">6x</span></td><td>U3</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-22, Nov-22, Jun-23, Dec-23, Jun-25</td></tr><tr><td>8</td><td>Verify Rolle's theorem for a function on an interval</td><td><span class="qa a">5x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-22, Jun-23, Dec-23</td></tr><tr><td>9</td><td>Verify Lagrange's mean value theorem for a function on an interval</td><td><span class="qa a">5x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">May-19, Jun-20, Jun-22, Dec-23</td></tr><tr><td>10</td><td>Change the order of integration and evaluate</td><td><span class="qa a">5x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Jun-23, Dec-23</td></tr><tr><td>11</td><td>Double or triple integral over a given region</td><td><span class="qa a">6x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Nov-19, Jun-20, Jun-22, Jun-23, Dec-23</td></tr><tr><td>12</td><td>Test for convergence of a series</td><td><span class="qa a">5x</span></td><td>U3</td><td class="dim" style="font-size:.82rem">May-19, Nov-19, Jun-23, Dec-23</td></tr><tr><td>13</td><td>Beta-Gamma relationship</td><td><span class="qa b">3x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Jun-20, Dec-20, Jun-22</td></tr><tr><td>14</td><td>Limit of a sum expressed as a definite integral</td><td><span class="qa b">3x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">May-19, Nov-19, Jun-20</td></tr><tr><td>15</td><td>Euler's formula for x^x; Cauchy MVT applied</td><td><span class="qa c">2x</span></td><td>U1</td><td class="dim" style="font-size:.82rem">Jun-22, Nov-22</td></tr><tr><td>16</td><td>Area between two curves / under a curve</td><td><span class="qa c">2x</span></td><td>U2</td><td class="dim" style="font-size:.82rem">Dec-20, May-19</td></tr></tbody></table>
+<h2>Marks-wise shortlist &mdash; memorise these on the train</h2>
+<table><thead><tr><th>#</th><th>Question they ask</th><th>Answer in one line</th><th>Add this to earn the last mark</th></tr></thead><tbody><tr><td>1</td><td>Rolle's theorem, three conditions</td><td><b>f continuous on [a,b], differentiable on (a,b), and f(a) = f(b)</b></td><td class="dim" style="font-size:.85rem">State all three, then check them in order for the given function &mdash; the checks are the marks</td></tr><tr><td>2</td><td>Lagrange MVT</td><td><b>f continuous on [a,b], differentiable on (a,b), then f'(c) = [f(b)&minus;f(a)]/(b&minus;a) for some c</b></td><td class="dim" style="font-size:.85rem">The one extra hypothesis over Rolle is that f(a) and f(b) need not be equal</td></tr><tr><td>3</td><td>Taylor about x = a</td><td><b>f(x) = f(a) + (x&minus;a)f'(a) + (x&minus;a)&sup2;/2! f''(a) + &hellip;</b></td><td class="dim" style="font-size:.85rem">Say how many terms are needed for the required accuracy, then verify with the next term</td></tr><tr><td>4</td><td>Maclaurin of log(1+x)</td><td><b>x &minus; x&sup2;/2 + x&sup3;/3 &minus; x&#8308;/4 + &hellip;</b></td><td class="dim" style="font-size:.85rem">log 1.1 needs four decimal places, so keep terms until the next term is below 5&times;10&#8315;&#8310;</td></tr><tr><td>5</td><td>Maxima/minima of f(x,y)</td><td><b>Put u=f, then (a) f_x = 0 and f_y = 0, (b) r = f_xx&middot;f_yy &minus; (f_xy)&sup2;, (c) r &gt; 0 min, r &lt; 0 max, r = 0 inconclusive</b></td><td class="dim" style="font-size:.85rem">For two variables you must show the stationary point <em>is</em> a max or min &mdash; r=0 alone earns nothing</td></tr><tr><td>6</td><td>Lagrange multiplier</td><td><b>Set &nabla;f = &lambda; &nabla;g, solve, then substitute into f to compare candidates</b></td><td class="dim" style="font-size:.85rem">Compare every stationary point; the largest and smallest of the answers are the max and min</td></tr><tr><td>7</td><td>Change of order of integration</td><td><b>Sketch the region, rewrite the limits to match the region, then integrate the inner one</b></td><td class="dim" style="font-size:.85rem">The sketch is worth a mark on its own &mdash; draw it before writing anything</td></tr><tr><td>8</td><td>Beta-Gamma link</td><td><b>B(m,n) = &Gamma;(m)&Gamma;(n)/&Gamma;(m+n)</b></td><td class="dim" style="font-size:.85rem">For integers this reduces to (m&minus;1)!(n&minus;1)!/(m+n&minus;2)! &mdash; knowing both forms is the mark</td></tr><tr><td>9</td><td>Limit of a sum to a definite integral</td><td><b>&int;<sub>a</sub><sup>b</sup> f(x)dx = lim<sub>n&rarr;&infin;</sub> &Sigma; (b&minus;a)/n &middot; f(a + k(b&minus;a)/n)</b></td><td class="dim" style="font-size:.85rem">Rewrite the sum in exactly this shape, identify the function, then integrate</td></tr><tr><td>10</td><td>Taylor for two variables</td><td><b>f(x,y) = f(a,b) + f_x(x&minus;a) + f_y(y&minus;b) + higher-order terms</b></td><td class="dim" style="font-size:.85rem">Expand about the point given, not about the origin, unless it says origin</td></tr></tbody></table>
+<h2>Two facts to be careful about</h2>
+<div class="callout warn">
+<span class="label">Traps in the data</span>
+<ul>
+<li><strong>The short-notes question is unit-flexible.</strong> In almost every paper the
+final question offers three to five options drawn from two to four units and you pick
+any two. It is excluded from the unit counts, which means the real distribution varies
+more than the table shows &mdash; and that you can never be examined on an unpopular unit
+through it.</li>
+<li><strong>Older papers are not a good proxy.</strong> Two cautions on this dataset. First, <b>there are no 2021 papers anywhere in the archives</b> &mdash; the sequence jumps Dec-2020 straight to Jun-2022 &mdash; so the frequency counts skip a year. Second, most of these papers are OCR-derived, and OCR on mathematical notation is unreliable: the English question wording is sound, but exponents, integrals and matrix entries may be misread. The question <em>topics</em> and the frequencies are trustworthy; the exact formulas should be checked against the PDFs if you intend to memorise a specific numerical.</li>
+</ul>
+</div>
+</div>
+
+<div id="test" class="tab-panel">
+<p class="kicker">Section 4 &middot; Self-test</p>
+<h1>12-question short-answer bank</h1>
+<p>Every question here comes from a stem that has appeared in a real RGPV paper, with
+the frequency it has appeared. Click an option to see whether you had it. The score
+lands at the bottom, and the gaps link to the file that closes them.</p>
+<div class="scorebox">
+<p class="big" id="score-live">0 / 0 answered, 0 correct</p>
+<div class="barwrap" style="height:.55rem;margin:.7rem 0"><span class="bar" id="meter-fill" style="width:0%"></span></div>
+<p class="dim" style="font-size:.88rem">Work top to bottom without scrolling back up after
+each answer. The point is to find the gap while the question is still fresh.</p>
+</div>
+<div class="mcq" data-answer="B" data-topic="Rolle's theorem" data-file="unit1/01-rolles-theorem.html"><p class="meta">01 &middot; U1 &amp;middot; 5 of 8 papers &middot; &times;5 in past papers</p><p class="q">Rolle's theorem applies to f on [a,b] provided:</p><button data-key="A">f is differentiable and f'(c)=0 somewhere</button><button data-key="B">f is continuous on [a,b], differentiable on (a,b), and f(a)=f(b)</button><button data-key="C">f is twice differentiable and convex</button><button data-key="D">f(a)=0 and f(b)=0 only</button><p class="fb" data-text="All three conditions must be stated, then each checked in order for the given function. Option D is the degenerate special case and is not the theorem."></p></div>
+<div class="mcq" data-answer="B" data-topic="Lagrange MVT" data-file="unit1/02-lagranges-mvt.html"><p class="meta">02 &middot; U1 &amp;middot; 5 of 8 papers &middot; &times;5 in past papers</p><p class="q">Lagrange's mean value theorem states that f'(c) equals:</p><button data-key="A">0 for some c in (a,b)</button><button data-key="B">[f(b)&amp;minus;f(a)]/(b&amp;minus;a) for some c in (a,b)</button><button data-key="C">[f(a)+f(b)]/2</button><button data-key="D">f(0)</button><p class="fb" data-text="The theorem removes the assumption f(a)=f(b) that Rolle carries, and guarantees some c where the derivative equals the average slope of the chord. The continuity and differentiability hypotheses still have to be checked first."></p></div>
+<div class="mcq" data-answer="A" data-topic="Maxima and minima" data-file="unit1/04-maxima-minima.html"><p class="meta">03 &middot; U1 &amp;middot; 6 of 8 papers &middot; &times;6 in past papers</p><p class="q">For f(x,y), the standard test for a stationary point uses:</p><button data-key="A">r = f_xx&amp;middot;f_yy &amp;minus; (f_xy)&amp;sup2;; r&amp;gt;0 minimum, r&amp;lt;0 maximum</button><button data-key="B">r = f_xx + f_yy; r &amp;gt; 0 always maximum</button><button data-key="C">Only f_x = 0 and f_y = 0 are needed</button><button data-key="D">The Hessian determinant must be zero</button><p class="fb" data-text="The stationary conditions f_x=0, f_y=0 only find candidates. Classification needs r = f_xx&amp;middot;f_yy &amp;minus; (f_xy)&amp;sup2;, where r&amp;gt;0 is a minimum, r&amp;lt;0 a maximum, and r=0 is inconclusive and needs a second derivative test. Skipping the classification loses the last mark."></p></div>
+<div class="mcq" data-answer="B" data-topic="Taylor and Maclaurin" data-file="unit1/03-taylors-maclaurins.html"><p class="meta">04 &middot; U1 &amp;middot; 6 of 8 papers &middot; &times;6 in past papers</p><p class="q">The Maclaurin expansion of log(1+x) is:</p><button data-key="A">1 &amp;minus; x + x&amp;sup2;/2 &amp;minus; x&amp;sup3;/3 + &amp;hellip;</button><button data-key="B">x &amp;minus; x&amp;sup2;/2 + x&amp;sup3;/3 &amp;minus; x&amp;#8308;/4 + &amp;hellip;</button><button data-key="C">x + x&amp;sup2;/2 + x&amp;sup3;/6 + &amp;hellip;</button><button data-key="D">x &amp;minus; x&amp;sup3;/3 + x&amp;#8310;/5 &amp;minus; &amp;hellip;</button><p class="fb" data-text="log(1+x) alternates with a 1/n denominator. Option C is the exponential series, D is the arctangent series, A is the geometric series. To evaluate log 1.1 to four places, keep terms until the next term falls below 5&amp;times;10&amp;#8315;&amp;#8310;."></p></div>
+<div class="mcq" data-answer="A" data-topic="Taylor and Maclaurin" data-file="unit1/03-taylors-maclaurins.html"><p class="meta">05 &middot; U1 &amp;middot; the standing question &middot; &times;6 in past papers</p><p class="q">The value of log 1.1 correct to four decimal places is:</p><button data-key="A">0.0953</button><button data-key="B">0.1054</button><button data-key="C">0.1100</button><button data-key="D">0.0954</button><p class="fb" data-text="log 1.1 = 0.0953102, so 0.0953. The distractor 0.1054 is the series truncated one term early. This exact question has appeared in more than one RGPV paper &amp;mdash; it is worth memorising the answer alongside the method."></p></div>
+<div class="mcq" data-answer="B" data-topic="Change of order" data-file="!unit2/01-definite-integrals.html"><p class="meta">06 &middot; U2 &amp;middot; 5 of 8 papers &middot; &times;5 in past papers</p><p class="q">To change the order of integration you must first:</p><button data-key="A">Integrate the inner integral symbolically</button><button data-key="B">Sketch the region and rewrite the limits to match it</button><button data-key="C">Differentiate with respect to x</button><button data-key="D">Convert to polar coordinates</button><p class="fb" data-text="The limits, not the integrand, are what change. Sketching the region first and identifying which curve is outer and which is inner is the method mark; many papers award a mark for the sketch alone."></p></div>
+<div class="mcq" data-answer="B" data-topic="Beta and Gamma" data-file="!unit2/03-beta-gamma.html"><p class="meta">07 &middot; U2 &amp;middot; 3 of 8 papers &middot; &times;3 in past papers</p><p class="q">The relation between the Beta and Gamma functions is:</p><button data-key="A">B(m,n) = &amp;Gamma;(m+n) / [&amp;Gamma;(m)&amp;Gamma;(n)]</button><button data-key="B">B(m,n) = &amp;Gamma;(m)&amp;Gamma;(n) / &amp;Gamma;(m+n)</button><button data-key="C">B(m,n) = &amp;Gamma;(m) + &amp;Gamma;(n)</button><button data-key="D">B(m,n) = &amp;Gamma;(m) &amp;middot; &amp;Gamma;(n)</button><p class="fb" data-text="&amp;Gamma;(m+n) goes in the denominator. For integer m, n this reduces to (m&amp;minus;1)!(n&amp;minus;1)!/(m+n&amp;minus;2)!, and RGPV has asked the factorial form directly &amp;mdash; write both."></p></div>
+<div class="mcq" data-answer="A" data-topic="Limit of a sum" data-file="!unit2/02-limit-of-sums.html"><p class="meta">08 &middot; U2 &amp;middot; 3 of 8 papers &middot; &times;3 in past papers</p><p class="q">A limit of the form lim (1/n)&amp;Sigma; f(k/n) as n tends to infinity is:</p><button data-key="A">A Riemann sum, equal to &amp;int;&lt;sub&gt;0&lt;/sub&gt;&lt;sup&gt;1&lt;/sup&gt; f(x) dx</button><button data-key="B">A Taylor series of f at 0</button><button data-key="C">A Fourier coefficient of f</button><button data-key="D">Always divergent</button><p class="fb" data-text="A sum of f at equally spaced points on [0,1] with width 1/n is a Riemann sum, which converges to the integral of f over [0,1]. Identify the function and the interval, write the integral, then evaluate it."></p></div>
+<div class="mcq" data-answer="A" data-topic="Lagrange multipliers" data-file="unit1/04-maxima-minima.html"><p class="meta">09 &middot; U1 &amp;middot; 3 of 8 papers &middot; &times;3 in past papers</p><p class="q">Lagrange's multiplier method is used to:</p><button data-key="A">Find extrema of a function subject to a constraint</button><button data-key="B">Factor a polynomial</button><button data-key="C">Expand a series</button><button data-key="D">Solve a differential equation</button><p class="fb" data-text="Set &amp;nabla;f = &amp;lambda; &amp;nabla;g, solve the system, substitute each candidate back into f, and compare. The max and min are the largest and smallest candidate values &amp;mdash; the comparison step is the mark usually dropped."></p></div>
+<div class="mcq" data-answer="A" data-topic="Taylor and Maclaurin" data-file="unit1/03-taylors-maclaurins.html"><p class="meta">10 &middot; U1 &amp;middot; the method &middot; &times;6 in past papers</p><p class="q">Taylor's theorem about x = a writes f(x) as:</p><button data-key="A">f(a) + (x&amp;minus;a)f'(a) + (x&amp;minus;a)&amp;sup2;/2! f''(a) + &amp;hellip;</button><button data-key="B">f(0) + x f'(0) + x&amp;sup2;/2! f''(0) + &amp;hellip; only</button><button data-key="C">A + Bx only</button><button data-key="D">&amp;int; f(x) dx</button><p class="fb" data-text="Taylor is about an arbitrary a; Maclaurin is the special case a = 0. The examiner's trap is expanding about the origin when the question says a particular point. Read the point before you start."></p></div>
+<div class="mcq" data-answer="A" data-topic="Maxima and minima" data-file="unit1/04-maxima-minima.html"><p class="meta">11 &middot; U1 &amp;middot; step 1 of 3 &middot; &times;6 in past papers</p><p class="q">To find maxima and minima of a function of two variables you first find the stationary points by:</p><button data-key="A">Setting f_x = 0 and f_y = 0 simultaneously</button><button data-key="B">Setting f = 0</button><button data-key="C">Differentiating twice</button><button data-key="D">Finding where f is undefined</button><p class="fb" data-text="Stationary points come from the two partial derivatives vanishing at once. That only gives candidates &amp;mdash; the classification via the Hessian determinant is a separate, separately-marked step."></p></div>
+<div class="mcq" data-answer="A" data-topic="Partial differentiation" data-file="unit1/04-maxima-minima.html"><p class="meta">12 &middot; U1 &amp;middot; appeared twice verbatim &middot; &times;2 in past papers</p><p class="q">When u = f(y&amp;minus;z, z&amp;minus;x, x&amp;minus;y), the identity proved is:</p><button data-key="A">&amp;part;u/&amp;part;x + &amp;part;u/&amp;part;y + &amp;part;u/&amp;part;z = 0</button><button data-key="B">&amp;part;u/&amp;part;x = &amp;part;u/&amp;part;y = &amp;part;u/&amp;part;z</button><button data-key="C">u = 0</button><button data-key="D">&amp;part;&amp;sup2;u/&amp;part;x&amp;sup2; = 0</button><p class="fb" data-text="The three arguments sum to zero, so the cyclic partial derivatives cancel. This is a standard two-line proof using the chain rule, and RGPV has set it twice in three years."></p></div>
+<div id="score-final"></div>
+</div>
+
+<div id="mock" class="tab-panel">
+<p class="kicker">Section 5 &middot; Timed mock</p>
+<h1>90-minute closed-book run</h1>
+<p>Set the timer, then close every other tab. Answer on paper. The point of the mock is
+not the score &mdash; it is finding out whether you can write full answers and still have
+ten minutes to check.</p>
+<div class="timerbox">
+<span class="clock" id="clock" data-minutes="90">90:00</span>
+<button id="tstart">start</button>
+<button id="treset" disabled>reset</button>
+<span class="dim" style="font-size:.85rem">90 minutes &mdash; matches your
+12:00&ndash;1:30 slot at 50 minutes/question if the paper is 8 printed.</span>
+</div>
+<div class="callout">
+<span class="label">The mock, as you will actually face it</span>
+<p>Attempt <b>any five</b> of the eight. All questions equal marks. <b>(a) 7 + (b) 7.</b></p>
+</div>
+<ol>
+<li><b>2 min</b> read the whole paper once. Rank the eight questions
+easiest-to-hardest. Do not start writing yet.</li>
+<li><b>5 min</b> per (a) part, <b>9 min</b> per (b) part. Fourteen marks in fourteen
+minutes is the real per-question budget, and it is why questions get abandoned.</li>
+<li><b>Definition first, always.</b> One line before any diagram. A guaranteed mark for
+fifteen seconds.</li>
+<li><b>Diagram or table before prose.</b> Examiners scan visuals. A labelled diagram is
+half the answer and it is the part you cannot write badly.</li>
+<li><b>Underline the command word</b> (define, explain, differentiate, classify, derive,
+list) and <b>box the final answer</b>.</li>
+<li><b>Never leave a question blank.</b> A definition plus a labelled diagram is about
+40% of any question, and it is free.</li>
+<li><b>Reserve the last 10 minutes</b> to add the closing significance line to every
+answer. That line is where the last mark per question lives.</li>
+</ol>
+<h2>Mark it honestly</h2>
+<p>Mark your own paper against the marking structure in each topic file's Questionnaire.
+If you scored under 12/20 on a question, you did not learn it &mdash; read the file, then
+re-run the mock in three days.</p>
+</div>
+
+<div id="plan" class="tab-panel">
+<p class="kicker">Section 6 &middot; Plan</p>
+<h1>Tue 13 Oct 2026 &mdash; how to get there</h1>
+<pre><code>BT-102 is Tue 13 Oct, 3:00-4:30 PM. It shares the day with
+BT-201 at 12:00. You get the morning of the 13th for BT-201 and
+roughly the gap between them for BT-102, so BT-102 has to be
+done on the 12th and earlier, not on the morning of the 13th.
+
+  THE ONE STRUCTURAL FACT
+  75% of this paper is calculation. Reading BT-102 notes is
+  close to worthless. You have to write problems with a pen.
+
+  PHASE 1  ROLL THE NUMERICALS (before 8 Oct if you can)
+    15 full past questions from Unit 1 under a 30-minute timer each.
+    You do not need the notes. You need a pen and a wrong answer.
+    Mark them yourself against the worked solution afterwards.
+
+  PHASE 2  THE FIVE STANDING ITEMS (U1, 25% of the paper)
+    Rolle's verification     x3 different functions
+    Lagrange MVT              x3
+    Taylor log expansion -&gt; log 1.1   (memorise 0.0953)
+    Max/min of two variables x3, with the r classification
+    Maclaurin expansions      x3
+
+  PHASE 3  UNIT 2 NUMERICALS (20%)
+    Change of order of integration   x4   (sketch every region first)
+    Double and triple integrals      x4
+    Limit of a sum as an integral    x3
+    Beta-Gamma                       x2
+
+  PHASE 4  SKIP MATRICES ENTIRELY
+    It is 29% of a full paper and 8-of-8 appearance for consistency.
+    It is Unit 5. It is not in your mid-sem. Do not open it.
+
+  MON 12 OCT EVE  (after BT-205, 45 min max)
+    Redo two Rolle verifications and one max/min, timed.
+    Read the Taylor log derivation once, cold.
+
+  TUE 13 OCT
+    AM   BT-201 revision only.
+    Between the two papers, ~30 min: one change-of-order problem.
+    Do not attempt anything new.</code></pre>
+<div class="callout good">
+<span class="label">Your whole week, so nothing collides</span>
+<b>Tue 13 Oct &mdash; BT-201 at 12:00&ndash;1:30 PM, BT-102 at 3:00&ndash;4:30 PM.</b> Two papers, one day, with a ninety-minute gap.<br><br>This is the heaviest day of your week and it is the last one. Plan BT-102 to be finished before the 13th arrives &mdash; you will not have usable study time on the day itself.<br><br>The real risk on the 13th is fatigue, not knowledge. If you revise nothing on the 12th night you will still write the paper; if you revise heavily at 1 AM you will not.
+</div>
+<h2>Hall tactics that actually move the score</h2>
+<ul>
+<li><strong>Read the command word and obey it.</strong> &ldquo;Differentiate&rdquo; wants
+a table with four rows. &ldquo;Explain&rdquo; wants prose plus a diagram. All-prose for a
+differentiate question is the most common way to lose a full mark.</li>
+<li><strong>Answer the asked question, not the topic.</strong> If it asks for
+<em>applications</em>, the mark is in the application, not the definition.</li>
+<li><strong>Two-column tables beat paragraphs.</strong> A comparison scored on four pairs
+is four marks; the same four facts in prose often scores two.</li>
+<li><strong>Know more than the count they ask for.</strong> RGPV asks for &ldquo;any
+four&rdquo; or &ldquo;any two&rdquo;. Choose the ones you can define.</li>
+<li><strong>Write the units and the formula even when you cannot finish.</strong> A
+correctly written formula with a substituted value earns method marks that a blank line
+does not.</li>
+<li><strong>Leave a mark of space between questions.</strong> Examiners mark sequentially;
+a cramped boundary invites marks to migrate to the wrong answer.</li>
+</ul>
+</div>
+
+<div class="callout" style="margin-top:3rem">
+<span class="label">Method, sources and confidence</span>
+<p><strong>How this page was built.</strong> Eight real RGPV BT-102 papers were downloaded from rgpvonline.com and read; every sub-question was classified into one of the five syllabus units. 111 sub-questions were classified, with about 17 set aside as OCR-illegible formulas. A Jun-2025 paper was checked for recency and does not change the ranking.</p>
+<p><strong>Papers read:</strong> May-2019, Nov-2019, Jun-2020, Dec-2020, Jun-2022, Nov-2022, Jun-2023, Dec-2023. Jun-2020 and Dec-2020 have real text layers; the rest are OCR-derived from scans. Jun-2020 and Dec-2020 print explicit 7-mark allocations against each part.</p>
+<p><strong>Syllabus source:</strong> <a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/mathematics-i-bt-102">RGPV Notes &amp;mdash; BT-102 Mathematics-I (full text of all 5 units)</a>
+&mdash; full unit text for all five units, cross-checked against the RGPV AICTE
+flexible-curricula scheme of July 2018.</p>
+<p><strong>Marks-format source:</strong> RGPV Ordinance 04(A) for B.E. (CBGS)
+&sect;5.3&ndash;5.5 and the New Scheme of Examination W.E.F. July 2018, both from
+rgpv.ac.in.</p>
+<p class="srcgap"><strong>What is confirmed vs inferred on this page.</strong> The
+20-mark mid-sem bucket, the 70/20/10 split, the &ldquo;attempt any five, equal marks&rdquo;
+end-sem format, and the 14-marks-per-question split all come from official RGPV
+documents or real scanned papers. The paper <em>pattern</em> for the mid-sem, the exact
+MST-1 mark value, and the duration are <strong>inferred</strong> &mdash; RGPV publishes no
+mid-sem papers and defers the detail to each Board of Studies. Treat the predicted
+questions as high-probability, not certain.</p>
+<p class="srcgap"><em>Notes checked 28 September 2026. The paper list was read directly
+from the scans; the unit assignment of each question is my own mapping from the syllabus,
+and a few borderline items are judgement calls I have flagged where they matter.</em></p>
+</div>
+
+<div class="zevu-footer">
+<p class="prompt">zevu:~/learn/bt102 $ <span style="color:var(--ink-soft)">
+# shared via zevu &middot; built with ART (zevu psa) &middot; <a href="unit1/index.html">unit1/index.html</a></span></p>
+</div>
+</main>
+<script>
+(function(){
+'use strict';
+window.showTab=function(name){
+  var p=document.querySelectorAll('.tab-panel'),b=document.querySelectorAll('.tab-btn');
+  for(var i=0;i<p.length;i++)p[i].classList.remove('active');
+  for(var j=0;j<b.length;j++)b[j].classList.remove('active');
+  var el=document.getElementById(name);
+  if(el)el.classList.add('active');
+  if(typeof event!=='undefined'&&event&&event.target)event.target.classList.add('active');
+};
+document.addEventListener('DOMContentLoaded',function(){
+  var boxes=[].slice.call(document.querySelectorAll('.mcq'));
+  var total=boxes.length,done=0,right=0,missed=[];
+  boxes.forEach(function(box){
+    var btns=[].slice.call(box.querySelectorAll('button'));
+    var ans=box.getAttribute('data-answer');
+    var fb=box.querySelector('.fb');
+    btns.forEach(function(btn){
+      btn.addEventListener('click',function(){
+        if(box.getAttribute('data-done'))return;
+        box.setAttribute('data-done','1');
+        var mine=btn.getAttribute('data-key');
+        var ok=mine===ans;
+        btns.forEach(function(b){b.disabled=true;});
+        btn.classList.add(ok?'correct':'wrong');
+        if(!ok){
+          btns.forEach(function(b){if(b.getAttribute('data-key')===ans)b.classList.add('correct');});
+          var t=box.getAttribute('data-topic');
+          if(t)missed.push({topic:t,file:box.getAttribute('data-file')||''});
+        }
+        if(fb){fb.classList.add('show');
+          fb.innerHTML='<b>'+(ok?'Correct.':'Not quite.')+'</b> '+(fb.getAttribute('data-text')||'');}
+        done++; if(ok)right++;
+        var d=document.getElementById('score-live');
+        if(d)d.textContent=right+' / '+done+' answered, '+right+' correct';
+        var pEl=document.getElementById('meter-fill');
+        if(pEl)pEl.style.width=Math.round(done/total*100)+'%';
+        if(done===total)finish();
+      });
+    });
+  });
+  function finish(){
+    var pct=Math.round(right/total*100);
+    var out=document.getElementById('score-final');
+    if(!out)return;
+    var band=pct>=85?'Exam-ready on this list. Go to the timed mock next.'
+      :pct>=65?'Solid. The gaps below are your marks; read those files before the mock.'
+      :pct>=40?'Half the bank is missing. Do not attempt a mock yet - read the missed files first.'
+      :'This bank is unfamiliar. Start with the top 5 repeat items, then come back.';
+    var uniq={};
+    missed.forEach(function(m){if(!uniq[m.topic])uniq[m.topic]=m;});
+    var keys=Object.keys(uniq);
+    var h='<div class="scorebox"><div class="big">'+right+' / '+total+' &nbsp;('+pct+'%)</div><p>'+band+'</p>';
+    if(keys.length){
+      h+='<p class="dim" style="font-size:.9rem">Revisit these '+keys.length+' topic'+(keys.length>1?'s':'')+':</p><ul>';
+      keys.forEach(function(k){
+        var f=uniq[k].file||'',link='';
+        if(f.charAt(0)==='!'){link=' <span class="dim">(note not built yet)</span>';}
+        else if(f){link=' &mdash; <a href="'+f+'">open the file</a>';}
+        h+='<li>'+k+link+'</li>';
+      });
+      h+='</ul>';
+    }else{
+      h+='<p class="good-t">Full marks. Nothing in the must-memorise bank was missed.</p>';
+    }
+    h+='<p class="dim" style="font-size:.85rem">This scores the short-answer bank only. '
+      +'It does not test your diagrams, your formulas, or your timing.</p></div>';
+    out.innerHTML=h;
+  }
+  var disp=document.getElementById('clock');
+  if(disp){
+    var mins=parseInt(disp.getAttribute('data-minutes'),10)||90,left=mins*60,tick=null;
+    function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+    function run(){disp.textContent=fmt(left);left--;
+      if(left<0){left=0;clearInterval(tick);disp.textContent='00:00';
+        disp.style.color='var(--bad)';}}
+    document.getElementById('tstart').addEventListener('click',function(){
+      if(tick)return;tick=setInterval(run,1000);run();
+      this.textContent='running';this.disabled=true;
+      document.getElementById('treset').disabled=false;});
+    document.getElementById('treset').addEventListener('click',function(){
+      clearInterval(tick);tick=null;left=mins*60;disp.textContent=fmt(left);disp.style.color='';
+      var s=document.getElementById('tstart');s.textContent='start';s.disabled=false;});
+  }
+});
+})();
+</script>
+
+<script src="../../assets/nav.js"></script>
+<script src="../../assets/site.js" defer></script>
+</body>
+</html>

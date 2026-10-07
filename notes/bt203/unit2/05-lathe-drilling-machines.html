@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lathe and Drilling Machines &amp;mdash; Parts, Operations, and the Two Numericals</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit2 $</span> cat 05-lathe-drilling-machines.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 2 &mdash; Measurement &amp; Production</p>
+<h1>Lathe and Drilling Machines &mdash; Parts, Operations, and the Two Numericals</h1>
+<p><em>RGPV asks these as a pair in 4 papers each, always in the same shape: <strong>name the main
+parts and give the operations</strong>. The marks come from a labelled sketch and a list of
+operations with what each is for. Only two calculations ever appear &mdash; spindle speed from
+cutting speed, and machining time &mdash; so once the parts are drawn, the topic is finished.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>The lathe is a machine tool that produces a cylindrical surface by rotating
+the work against a single-point cutting tool; the drilling machine produces a
+hole by rotating the tool against a stationary work. On the lathe the WORK
+turns; on the drilling machine the TOOL turns -- and that inversion is the
+distinction every question is testing.</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;Both machines do the
+same thing &mdash; bring a rotating edge against material &mdash; and they differ only in
+<strong>which of the two rotates</strong>. That single difference is why a lathe makes round
+<em>outside</em> surfaces and a drill makes round <em>inside</em> ones.</em>&rdquo;</p>
+
+<h2>Lathe &mdash; the main parts</h2>
+
+<table>
+<thead><tr><th>Part</th><th>Job</th></tr></thead>
+<tbody>
+<tr><td><strong>Bed</strong></td><td>The heavy cast-iron base with guideways (V and flat) on which the carriage and tailstock slide; it is the backbone and damps vibration</td></tr>
+<tr><td><strong>Headstock</strong></td><td>Houses the spindle and the gear train; the spindle carries the chuck or faceplate and rotates the work</td></tr>
+<tr><td><strong>Tailstock</strong></td><td>Slides on the bed at the far end; supports the free end of a long workpiece with a dead or live centre, and holds a drill for axial holes</td></tr>
+<tr><td><strong>Carriage</strong></td><td>The sliding assembly between headstock and tailstock; it carries and moves the tool</td></tr>
+<tr><td><strong>Saddle</strong></td><td>The H-shaped part of the carriage that slides along the bed guideways</td></tr>
+<tr><td><strong>Cross-slide</strong></td><td>Mounted on the saddle, moves the tool <strong>perpendicular</strong> to the lathe axis, giving the depth of cut</td></tr>
+<tr><td><strong>Compound rest</strong></td><td>Sits on the cross-slide, rotates about a vertical axis to any angle; used for <strong>short taper turning</strong> and chamfering</td></tr>
+<tr><td><strong>Tool post</strong></td><td>Clamps the cutting tool on the compound rest</td></tr>
+<tr><td><strong>Apron</strong></td><td>Hangs at the front of the saddle; contains the handwheel and the gearing that drives the carriage from the feed rod or lead screw</td></tr>
+<tr><td><strong>Feed rod and lead screw</strong></td><td>Transmit power from the headstock gearbox; the <strong>feed rod</strong> drives ordinary turning, the <strong>lead screw</strong> drives thread cutting</td></tr>
+<tr><td><strong>Quick-change gearbox</strong></td><td>Selects the feed or thread pitch without changing gears by hand</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Labelled lathe showing headstock, bed, carriage, cross-slide, compound rest, tool post, tailstock and lead screw">
+   HEADSTOCK                                                 TAILSTOCK
+   +--------+                                                 +-------+
+   |  SPINDLE|                                                |  quill|--->
+   |   o     |                                                |  centre|
+   |  CHUCK  |                                                +-------+
+   +----+----+                                                     |
+        |                                                          |
+   =====+===========================================================+=====
+        |                     BED (guideways)                          |
+   =====+===========================================================+=====
+        |                                                          |
+        |   +----------------+                                     |
+        |   |   CARRIAGE     |                                     |
+        |   |  +----------+  |   <- saddle slides along the bed   |
+        |   |  | CROSS-   |  |                                    |
+        |   |  | SLIDE    |  |   moves perpendicular = depth of cut|
+        |   |  +----------+  |                                    |
+        |   |   | COMPOUND |  |   rotates to any angle = taper    |
+        |   |   |  REST    |  |                                    |
+        |   |   +----------+  |                                   |
+        |   |    |TOOL POST|  |   holds the single-point tool     |
+        |   |    +---------+  |                                   |
+        |   +--------+--------+                                   |
+        |            |                                          |
+        |          APRON (handwheel + gearing)                    |
+        |            |                                          |
+   -----+------------+------------------------------------------+--------
+        FEED ROD (turning)      LEAD SCREW (thread cutting)
+
+   The WORK rotates in the chuck.  The TOOL does not rotate.
+   All motion is either along the bed (longitudinal) or
+   perpendicular to it (cross), plus the compound's angle.
+</pre>
+
+<h2>Lathe operations</h2>
+
+<table>
+<thead><tr><th>Operation</th><th>What it does</th><th>How</th></tr></thead>
+<tbody>
+<tr><td><strong>Turning</strong></td><td>Reduces the diameter &mdash; the basic cylindrical cut</td><td>Tool fed <em>longitudinally</em> along the bed</td></tr>
+<tr><td><strong>Facing</strong></td><td>Produces a flat end face square to the axis</td><td>Tool fed <em>crosswise</em> from centre outwards</td></tr>
+<tr><td><strong>Chamfering</strong></td><td>Bevels a sharp corner, usually 45&deg;</td><td>Compound rest set to the angle</td></tr>
+<tr><td><strong>Knurling</strong></td><td>Presses a rough diamond pattern for grip &mdash; it is <em>forming</em>, not cutting</td><td>Knurling tool pressed into the work</td></tr>
+<tr><td><strong>Thread cutting</strong></td><td>Cuts an external or internal screw thread</td><td>Carriage driven by the <strong>lead screw</strong>, tool ground to the thread form</td></tr>
+<tr><td><strong>Drilling</strong></td><td>Produces an axial hole</td><td>Drill held in the tailstock, fed by hand</td></tr>
+<tr><td><strong>Boring</strong></td><td>Enlarges and trues an existing hole to size</td><td>Single-point boring tool on the carriage</td></tr>
+<tr><td><strong>Taper turning</strong></td><td>Produces a conical surface</td><td>Compound rest swivel, or tailstock set-over, or a taper attachment</td></tr>
+<tr><td><strong>Grooving / parting off</strong></td><td>Cuts a narrow recess, or severs the finished part</td><td>Narrow tool fed crosswise</td></tr>
+<tr><td><strong>Forming</strong></td><td>Reproduces a shape on the work</td><td>Tool ground to the required profile</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>Knurling is not cutting.</strong> Every other operation in that table
+removes metal. Knurling <em>displaces</em> it &mdash; the tool presses a pattern into the surface, so
+the diameter grows slightly rather than shrinking. Naming knurling as a forming operation rather than
+a cutting one is a reliable extra mark.</div>
+
+<h2>Drilling machine &mdash; the main parts</h2>
+
+<table>
+<thead><tr><th>Part</th><th>Job</th></tr></thead>
+<tbody>
+<tr><td><strong>Base</strong></td><td>The heavy foundation that carries the column and, on a sensitive machine, the work table; bolted to the floor</td></tr>
+<tr><td><strong>Column (pillar)</strong></td><td>The vertical support that carries the head at the top; the table slides on it</td></tr>
+<tr><td><strong>Table</strong></td><td>Supports and clamps the work; can be raised, lowered and swivelled, and is drilled with T-slots for clamping</td></tr>
+<tr><td><strong>Head</strong></td><td>Houses the spindle drive and the gearing, and slides on the column to set the height</td></tr>
+<tr><td><strong>Spindle and quill</strong></td><td>The spindle rotates the drill; the quill is the sleeve that carries it and allows axial feed</td></tr>
+<tr><td><strong>Feed mechanism</strong></td><td>Advances the drill into the work, by hand lever on a sensitive machine or by power feed on a heavy one</td></tr>
+<tr><td><strong>Motor and belt drive</strong></td><td>Supplies the rotational drive and, through stepped pulleys, the spindle speed</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Labelled drilling machine showing base, column, table, head, spindle and drill">
+              MOTOR / BELT DRIVE
+                     |
+              +------+-------+
+              |     HEAD     |
+              +------+-------+
+                     |
+                  SPINDLE        <- rotates the DRILL
+                     |              QUILL allows the axial feed
+                     v
+                  |DRILL|        <- the TOOL turns
+                     |
+   ==================+==================
+            WORK  (clamped, stays still)
+   ==================+==================
+                     |
+                   TABLE         raises / lowers / swivels
+                     |
+                  COLUMN         vertical support
+                     |
+                   BASE          bolted to the floor
+
+   Contrast with the lathe: here the TOOL rotates and the work is static.
+</pre>
+
+<h2>Drilling machine operations</h2>
+
+<table>
+<thead><tr><th>Operation</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td><strong>Drilling</strong></td><td>Produces a hole with a twist drill</td></tr>
+<tr><td><strong>Reaming</strong></td><td>Sizes and finishes an existing hole to a close tolerance with a multi-edge reamer</td></tr>
+<tr><td><strong>Boring</strong></td><td>Enlarges a hole to an accurate size, correcting position and straightness</td></tr>
+<tr><td><strong>Counterboring</strong></td><td>Cuts a flat-bottomed recess so a bolt head can sit flush</td></tr>
+<tr><td><strong>Countersinking</strong></td><td>Cuts a conical recess for a countersunk screw head</td></tr>
+<tr><td><strong>Spot facing</strong></td><td>Produces a flat seating surface around a hole on a rough casting</td></tr>
+<tr><td><strong>Tapping</strong></td><td>Cuts an internal thread, using a tap held in the spindle</td></tr>
+<tr><td><strong>Trepanning</strong></td><td>Cuts a large hole by removing an annular ring, leaving a core</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Counterbore against countersink</span>
+<p>Both seat a fastener head, and they are the pair examiners contrast. A
+<strong>counterbore</strong> is a <em>flat-bottomed cylindrical</em> recess for a socket-head cap screw,
+which needs a flat seat. A <strong>countersink</strong> is a <em>conical</em> recess for a
+countersunk screw, whose head is itself conical. Square recess for a square-shouldered head, taper
+recess for a taper head &mdash; the geometry of the head dictates the geometry of the recess.</p>
+</div>
+
+<h2>Numericals in great depth</h2>
+
+<p>Only two calculations appear on these machines, and both are on the lathe. Spindle speed comes
+from the cutting speed; machining time comes from the feed and the speed.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>V</code></td><td>cutting speed &mdash; surface speed of the work past the tool</td><td>m/min</td></tr>
+<tr><td><code>D</code></td><td>diameter of the work (lathe) or of the drill (drilling machine)</td><td>mm</td></tr>
+<tr><td><code>N</code></td><td>spindle speed</td><td>rpm</td></tr>
+<tr><td><code>N = 1000 V / (&pi; D)</code></td><td>spindle speed from cutting speed &mdash; the 1000 converts mm to m</td><td>rpm</td></tr>
+<tr><td><code>f</code></td><td>feed per revolution</td><td>mm/rev</td></tr>
+<tr><td><code>T = L / (f N)</code></td><td>machining time for a longitudinal cut of length L</td><td>min</td></tr>
+<tr><td><code>S = L (D<sub>1</sub> &minus; D<sub>2</sub>) / (2 l)</code></td><td>tailstock set-over for taper turning</td><td>mm</td></tr>
+<tr><td><code>tan &alpha; = (D<sub>1</sub> &minus; D<sub>2</sub>) / (2 l)</code></td><td>half-angle of the taper</td><td>&mdash;</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; machine numerals</span>
+<pre><code>Given:  diameter in mm, cutting speed in m/min, feed in mm/rev
+Find:   spindle speed N, or machining time T, or the set-over S
+Formula:N = 1000 V / (pi D) ;  T = L / (f N) ;  S = L(D1-D2)/(2l)
+Solve:  keep the 1000 in place, cancel the units, state rpm or min
+Check:  N must come out in the low hundreds for steel; if it is in
+        the thousands the 1000 has been dropped</code></pre>
+</div>
+
+<h3>Solved A &mdash; spindle speed from cutting speed</h3>
+<p><em>A mild steel bar of 50 mm diameter is to be turned at a cutting speed of 30 m/min. Find the
+spindle speed.</em></p>
+<p><strong>Given:</strong> D = 50 mm, V = 30 m/min.
+<strong>Find:</strong> N. <strong>Formula:</strong> N = 1000 V / (&pi; D).
+<strong>Solve:</strong></p>
+<pre><code>N = 1000 x 30 / (pi x 50)
+  = 30000 / 157.08
+  = 190.99 rpm
+  ~ 191 rpm</code></pre>
+<p><strong>Answer:</strong> the spindle speed is approximately <strong>191 rpm</strong>.</p>
+<p><strong>Check:</strong> substituting back, &pi; &times; 50 &times; 191 / 1000 = 30.0 m/min, returning
+the stated cutting speed. Independent magnitude check: 191 rpm is a normal speed for a 50 mm bar in
+mild steel. Had the 1000 been dropped, the answer would have been 0.19 rpm, which no machine runs at
+&mdash; so the placement of the 1000 is the thing to verify, and the sanity band for steel is a few
+hundred rpm, not a few thousand.</p>
+
+<h3>Solved B &mdash; tailstock set-over for taper turning</h3>
+<p><em>A taper is to be turned on a workpiece 200 mm long, the tapered portion being 100 mm long with
+diameters 40 mm and 30 mm at its two ends. Find the tailstock set-over required, and the half-angle
+of the taper.</em></p>
+<p>The set-over is applied over the <em>whole</em> length of the work, but the taper is cut over only
+part of it &mdash; which is why two different lengths appear in the formula.</p>
+<p><strong>Given:</strong> L = 200 mm (total work), l = 100 mm (tapered length), D<sub>1</sub> =
+40 mm, D<sub>2</sub> = 30 mm.
+<strong>Find:</strong> set-over S and half-angle &alpha;.
+<strong>Formula:</strong> S = L (D<sub>1</sub> &minus; D<sub>2</sub>) / (2 l); tan &alpha; =
+(D<sub>1</sub> &minus; D<sub>2</sub>) / (2 l).
+<strong>Solve:</strong></p>
+<pre><code>S = 200 x (40 - 30) / (2 x 100)
+  = 200 x 10 / 200
+  = 10.00 mm
+
+tan(alpha) = (40 - 30) / (2 x 100)
+           = 10 / 200 = 0.05
+alpha      = tan^-1 (0.05)
+           = 2.862 deg          <- HALF angle</code></pre>
+<p><strong>Answer:</strong> the tailstock must be set over by <strong>10.00 mm</strong>, and the
+half-angle of the taper is <strong>2.86&deg;</strong>, giving an included angle of
+<strong>5.72&deg;</strong>.</p>
+<p><strong>Check:</strong> substituting back, L &times; tan &alpha; = 200 &times; 0.05 = 10.00 mm,
+recovering the set-over exactly. Second check on the two lengths: if the tapered portion had been the
+full 200 mm, the set-over would have been 200 &times; 10 / 400 = 5.00 mm, only half as much &mdash;
+so using the total length in place of the tapered length doubles the answer, which is the standard
+error on this numeral. Note also that 2.86&deg; is a small angle, as a 10 mm difference over a
+100 mm taper should be.</p>
+
+<h3>Solved C &mdash; machining time, drilling</h3>
+<p><em>A 40 mm deep hole is drilled at a spindle speed of 500 rpm with a feed of 0.2 mm per
+revolution. Find the machining time.</em></p>
+<p><strong>Given:</strong> depth L = 40 mm, f = 0.2 mm/rev, N = 500 rpm.
+<strong>Find:</strong> T. <strong>Formula:</strong> T = L / (f N).
+<strong>Solve:</strong></p>
+<pre><code>feed rate = f x N = 0.2 x 500 = 100 mm/min
+
+T = 40 / 100
+  = 0.40 min
+  = 24 seconds</code></pre>
+<p><strong>Answer:</strong> the machining time is <strong>0.40 min</strong>, that is
+<strong>24 seconds</strong>.</p>
+<p><strong>Check:</strong> substituting back, 100 mm/min &times; 0.4 min = 40 mm, recovering the hole
+depth. Independent second check on sense: at 0.2 mm per revolution and 500 revolutions per minute the
+tool advances 100 mm each minute, so a 40 mm hole is a little under half a minute &mdash; and 24
+seconds is indeed a little under thirty. Note the commonest error here: dividing L by f alone gives
+200 min, and dividing by N alone gives 0.08 min. Both leave an obvious mismatch with the physical
+sense of a drilling operation, which is what the check is for.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>The 1000 in N = 1000 V/(&pi;D) converts mm to m.</strong> Drop it and the speed comes out
+a thousand times too small.</li>
+<li><strong>D is in millimetres, V in metres per minute.</strong> Mixing them is what the 1000
+exists to prevent.</li>
+<li><strong>Set-over uses the TOTAL work length and the TAPERED length, not the same length
+twice.</strong> S = L(D<sub>1</sub>&minus;D<sub>2</sub>)/(2l) with L the whole job and l the tapered
+part.</li>
+<li><strong>The taper angle is the half-angle.</strong> Doubling it gives the included angle &mdash;
+same trap as the sine bar in topic 04.</li>
+<li><strong>Machining time divides by the product f N</strong>, not by f alone or N alone. The feed
+rate in mm/min is f &times; N.</li>
+<li><strong>Keep the units consistent.</strong> Feed in mm/rev and speed in rev/min give a feed rate
+in mm/min; a depth in mm then gives a time in minutes.</li>
+<li><strong>Spindle speed for steel is a few hundred rpm</strong>, not a few thousand. Use that band
+to catch a dropped 1000.</li>
+<li><strong>Knurling is not a cutting operation.</strong> It displaces metal rather than removing
+it.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;A lathe is a machine tool which produces a
+cylindrical surface by rotating the workpiece against a single-point cutting tool, while a drilling
+machine produces a hole by rotating the drill against a stationary workpiece.&rdquo;</li>
+<li><strong>Distinguishing line</strong> &mdash; &ldquo;In the lathe the work rotates and the tool is
+stationary; in the drilling machine the tool rotates and the work is stationary, and that inversion
+is the essential difference between the two machines.&rdquo;</li>
+<li><strong>Parts line</strong> &mdash; &ldquo;The principal parts of a lathe are the bed,
+headstock, tailstock, carriage with its saddle, cross-slide, compound rest and tool post, and the
+apron with the feed rod and lead screw.&rdquo;</li>
+<li><strong>Operation line</strong> &mdash; &ldquo;The common lathe operations are turning, facing,
+chamfering, knurling, thread cutting, drilling, boring, taper turning and parting off; the common
+drilling machine operations are drilling, reaming, boring, counterboring, countersinking, spot facing
+and tapping.&rdquo;</li>
+<li><strong>Formula line</strong> &mdash; &ldquo;The spindle speed follows from the cutting speed as
+N = 1000 V/(&pi;D), and the machining time from the feed and speed as T = L/(fN).&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence the two machines are complementary rather than
+alternative: the lathe generates a cylindrical surface outside or inside the work, and the drilling
+machine originates the hole that the lathe may then bore to size.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Sketch both machines</strong> &mdash; two labelled diagrams, lathe and drill, cover most
+of the question</li>
+<li><strong>Put the rotation arrow on the work for the lathe and on the tool for the drill</strong>
+&mdash; that one annotational difference makes the contrast visible</li>
+<li><strong>Give operations as a table</strong> with a one-line purpose for each, not a bare list</li>
+<li><strong>Name the lead screw for thread cutting and the feed rod for turning</strong> &mdash; it is
+the detail that separates a good answer</li>
+<li><strong>State the two formulas</strong> even if the question asks for parts only; it costs a line
+and can earn a mark</li>
+<li><strong>Box the answer with its unit</strong> &mdash; rpm for speed, mm for set-over, min for
+time</li>
+<li><strong>Never leave blank</strong> &mdash; the part labels alone clear 4 of 7</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="B" data-explain="In a lathe the workpiece is rotated in the chuck and the cutting tool is stationary; the tool is then fed along or across the work. In a drilling machine the arrangement is reversed, with the drill rotating and the work clamped stationary to the table.">
+<p><strong>Q1. The essential difference between a lathe and a drilling machine is that:</strong></p>
+<button data-key="A">The lathe uses a multi-point tool and the drill a single-point tool</button>
+<button data-key="B">In the lathe the work rotates, in the drilling machine the tool rotates</button>
+<button data-key="C">The lathe cannot produce a hole</button>
+<button data-key="D">The drilling machine has no feed mechanism</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="The compound rest sits on the cross-slide and can be swivelled about a vertical axis to any angle, which is what allows it to turn a short taper or a chamfer. The cross-slide itself only moves perpendicular to the lathe axis, and the tailstock carries the centre or a drill.">
+<p><strong>Q2. Which lathe part is swivelled to turn a short taper?</strong></p>
+<button data-key="A">The compound rest</button>
+<button data-key="B">The cross-slide</button>
+<button data-key="C">The tailstock</button>
+<button data-key="D">The apron</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="N = 1000 V / (pi D) = 1000 x 30 / (pi x 50) = 30000/157.08 = 191 rpm. The 1000 converts the diameter from millimetres to metres so that it matches the cutting speed in metres per minute. Dropping it gives a value a thousand times too small.">
+<p><strong>Q3. A 50 mm bar is turned at a cutting speed of 30 m/min. The spindle speed is about:</strong></p>
+<button data-key="A">19 rpm</button>
+<button data-key="B">1910 rpm</button>
+<button data-key="C">191 rpm</button>
+<button data-key="D">0.19 rpm</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="Knurling is a forming operation: the knurling tool presses a diamond pattern into the surface, displacing metal rather than removing it, so the diameter grows slightly. Every other operation listed removes material. That distinction is a reliable extra mark.">
+<p><strong>Q4. Which lathe operation does NOT remove metal?</strong></p>
+<button data-key="A">Facing</button>
+<button data-key="B">Parting off</button>
+<button data-key="C">Boring</button>
+<button data-key="D">Knurling</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="A counterbore cuts a flat-bottomed cylindrical recess so that a socket-head cap screw can seat, matching its square shoulder. A countersink cuts a conical recess for a countersunk screw, whose head is itself conical. The shape of the recess matches the shape of the head.">
+<p><strong>Q5. A flat-bottomed cylindrical recess for a socket-head screw is produced by:</strong></p>
+<button data-key="A">Counterboring</button>
+<button data-key="B">Countersinking</button>
+<button data-key="C">Spot facing</button>
+<button data-key="D">Reaming</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring, 4 of 11 papers.</strong> &ldquo;Draw a neat sketch of a lathe and explain its
+main parts and any four operations.&rdquo; &rarr; Labelled sketch with bed, headstock, tailstock,
+carriage, cross-slide, compound rest, tool post and apron; then turning, facing, thread cutting and
+taper turning with a purpose for each.</li>
+<li><strong>Recurring, 4 of 11 papers.</strong> &ldquo;Explain the main parts of a drilling machine
+and any two operations.&rdquo; &rarr; Base, column, table, head, spindle and quill, feed mechanism;
+then drilling and reaming, or drilling and counterboring.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between a lathe and a drilling
+machine.&rdquo; &rarr; The rotation inversion first, then the consequence: cylindrical surfaces
+against originating holes.</li>
+<li><strong>Recurring short question.</strong> &ldquo;How is a taper turned on a lathe?&rdquo; &rarr;
+Three methods &mdash; compound rest swivel for short tapers, tailstock set-over for long ones, and a
+taper attachment for production.</li>
+<li><strong>One-line recall.</strong> &ldquo;Which lathe component is driven for thread
+cutting?&rdquo; &rarr; The lead screw, whereas ordinary turning uses the feed rod.</li>
+<li><strong>One-line recall.</strong> &ldquo;Distinguish counterboring from countersinking.&rdquo;
+&rarr; Flat cylindrical recess for a square-shouldered head against conical recess for a conical
+head.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="7">
+<li><strong>10 minutes, no notes.</strong> Draw both machines side by side and put the rotation arrow
+in the right place on each. Check the arrow is on the work for the lathe and on the tool for the
+drill.</li>
+<li><strong>4 minutes.</strong> Solved A on paper. Check the answer is in the hundreds of rpm, and
+that the 1000 is present in the working.</li>
+<li><strong>5 minutes.</strong> Solved B on paper. Check the set-over uses 200 mm as L and 100 mm as
+l, and that the half-angle 2.86&deg; is doubled to 5.72&deg; for the included angle.</li>
+<li><strong>4 minutes.</strong> Solved C on paper. Check the feed rate is 100 mm/min and the time
+0.40 min, not 200 min and not 0.08 min.</li>
+<li><strong>6 minutes.</strong> List six lathe operations and six drilling machine operations from
+memory. Check knurling is listed as forming, not cutting.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 2 Topic 05</p>
+<h1>Lathe and Drilling Machines &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>LATHE
+  A machine tool producing a cylindrical surface by rotating the WORK
+  against a single-point cutting tool.
+  Parts: bed, headstock, tailstock, carriage (saddle, cross-slide,
+  compound rest, tool post), apron, feed rod, lead screw.
+  Operations: turning, facing, chamfering, knurling, thread cutting,
+  drilling, boring, taper turning, grooving, parting off, forming.
+
+DRILLING MACHINE
+  A machine tool producing a hole by rotating the TOOL against a
+  stationary workpiece.
+  Parts: base, column, table, head, spindle and quill, feed mechanism.
+  Operations: drilling, reaming, boring, counterboring, countersinking,
+  spot facing, tapping, trepanning.
+
+THE DIFFERENCE
+  In the lathe the WORK rotates; in the drilling machine the TOOL
+  rotates. Hence the lathe generates round surfaces and the drill
+  originates holes.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Cutting speed -> surface speed of work past the tool, V m/min
+                    circumference = pi D, so
+                    N = 1000 V / (pi D)        [1000 converts mm to m]
+2. Feed rate    -> f mm/rev x N rev/min = f N mm/min
+3. Machining time-> T = L / (f N)                  [L in mm, T in min]
+4. Taper        -> S = L (D1 - D2) / (2 l)     [L total, l tapered]
+                    tan(alpha) = (D1-D2)/(2l) -> alpha is the HALF angle</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Lathe</th><th>Drilling machine</th></tr></thead>
+<tbody>
+<tr><td>What rotates</td><td>The work</td><td>The tool</td></tr>
+<tr><td>What is stationary</td><td>The tool</td><td>The work, clamped to the table</td></tr>
+<tr><td>Produces</td><td>Cylindrical and conical surfaces, threads, flat faces</td><td>Holes, and the finishing of holes</td></tr>
+<tr><td>Cutting tool</td><td>Single point (except drills, reamers, taps)</td><td>Multi-point (twist drill, reamer, tap)</td></tr>
+<tr><td>Work holding</td><td>Chuck, faceplate, between centres</td><td>Vice, clamps, angle plate on the table</td></tr>
+<tr><td>Key components</td><td>Bed, headstock, tailstock, carriage, apron</td><td>Base, column, table, head, spindle, quill</td></tr>
+<tr><td>Speed formula</td><td>N = 1000 V/(&pi;D), D is the work diameter</td><td>N = 1000 V/(&pi;D), D is the drill diameter</td></tr>
+</tbody>
+</table>
+
+<p><strong>Operations quick list.</strong> Lathe: turning, facing, chamfering, knurling, thread
+cutting, drilling, boring, taper turning, grooving, parting off, forming. Drilling machine: drilling,
+reaming, boring, counterboring, countersinking, spot facing, tapping, trepanning.</p>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Lathe</strong> &mdash; a machine tool that removes metal by rotating the work against a
+single-point cutting tool, producing cylindrical, conical and threaded surfaces.</li>
+<li><strong>Bed</strong> &mdash; the cast-iron base with guideways on which the carriage and tailstock
+slide.</li>
+<li><strong>Headstock</strong> &mdash; the housing containing the spindle and gear train, which rotates
+the work.</li>
+<li><strong>Tailstock</strong> &mdash; the sliding unit at the far end that supports long work on a
+centre or holds a drill for axial holes.</li>
+<li><strong>Carriage</strong> &mdash; the assembly that holds and moves the tool, comprising the
+saddle, cross-slide, compound rest and tool post.</li>
+<li><strong>Compound rest</strong> &mdash; the part that swivels to any angle about a vertical axis,
+used for short taper turning and chamfering.</li>
+<li><strong>Lead screw</strong> &mdash; the threaded shaft that drives the carriage for thread
+cutting, as distinct from the feed rod used for ordinary turning.</li>
+<li><strong>Knurling</strong> &mdash; a forming operation in which a patterned tool presses a rough
+grip into the surface without removing metal.</li>
+<li><strong>Counterboring</strong> &mdash; producing a flat-bottomed cylindrical recess so that a
+bolt or screw head may sit flush.</li>
+<li><strong>Countersinking</strong> &mdash; producing a conical recess to suit a countersunk screw
+head.</li>
+<li><strong>Reaming</strong> &mdash; finishing an existing hole to an accurate size with a
+multi-edge reamer.</li>
+<li><strong>Spot facing</strong> &mdash; producing a flat seating surface around a hole on a rough
+casting.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can sketch both machines and label at least eight lathe parts and six drill parts</li>
+<li>[ ] Can state the rotation inversion in one sentence</li>
+<li>[ ] Can list ten lathe operations and eight drilling machine operations</li>
+<li>[ ] Can say what the compound rest does and what the tailstock does</li>
+<li>[ ] Can name the lead screw for thread cutting and the feed rod for turning</li>
+<li>[ ] Can write N = 1000 V/(&pi;D) and explain what the 1000 is for</li>
+<li>[ ] Can compute machining time as T = L/(fN) without dividing by f or N alone</li>
+<li>[ ] Can compute the tailstock set-over and state that the angle is the half-angle</li>
+<li>[ ] Can distinguish counterboring from countersinking</li>
+<li>[ ] Can state that knurling is a forming operation, not a cutting one</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Three relations.</strong> Speed: N = 1000 V/(&pi;D) &mdash; keep the
+1000, and expect a few hundred rpm for steel. Time: T = L/(fN), where fN is the feed rate in
+mm/min. Taper: S = L(D<sub>1</sub>&minus;D<sub>2</sub>)/(2l) with L the total length and l the
+tapered length, and remember the angle it gives is the half-angle. Finish by substituting back and
+checking the magnitude is physically sensible.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 2 Topic 05 &middot; 4 of 11 papers each, asked as a pair</p>
+<h1>Lathe and Drilling Machines &mdash; questionnaire</h1>
+<div class="q-meta">Q5 slot &middot; recurring pattern &middot; "main parts of a lathe / drilling machine plus operations" &rarr; a labelled sketch and a purpose for each part</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; 4 papers</span></div>
+<h3>Draw a neat sketch of a lathe machine and explain its main parts and any four operations.</h3>
+<p>The marks are in the sketch and in attaching a job to each part. A list of part names with no function scores about half, and a sketch without labels scores nothing.</p>
+<div class="q-foot"><b>write</b> &mdash; labelled sketch: bed, headstock, tailstock, carriage, cross-slide, compound rest, tool post, apron (3) &rarr; one-line job for each part (2) &rarr; four operations with their purpose: turning, facing, thread cutting, taper turning (2).</div>
+<div class="q-foot"><b>check</b> &mdash; naming parts without their function is the commonest lost mark; omitting the compound rest loses the taper link; thread cutting must be attributed to the lead screw and ordinary turning to the feed rod; a sketch with no guideways or no carriage is incomplete.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733;&#9733; 4 papers</span></div>
+<h3>Explain the main parts of a drilling machine and any two operations performed on it.</h3>
+<p>Asked as the partner of Q1. Same method: a labelled sketch, a function per part, then two operations with a line each. The table, the column and the quill are the parts most often left out.</p>
+<div class="q-foot"><b>write</b> &mdash; labelled sketch: base, column, table, head, spindle, quill (2) &rarr; function of each part (2) &rarr; two operations such as reaming and counterboring with their purpose (1).</div>
+<div class="q-foot"><b>check</b> &mdash; omitting the quill or the feed mechanism loses a part mark; listing operations with no purpose scores half; confusing counterboring with countersinking is a standard error and the contrast should be stated.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>A 50 mm bar is turned at 30 m/min and a 40 mm deep hole is drilled at 500 rpm with a 0.2 mm/rev feed. Find the spindle speed for turning and the machining time for drilling.</h3>
+<p>Two numerals from the two machines, which is how the pair is examined numerically. Both are one-line substitutions, so the marks are in the steps and the units.</p>
+<div class="q-foot"><b>write</b> &mdash; stated given values with units (1) &rarr; N = 1000 &times; 30/(&pi; &times; 50) = 191 rpm (2) &rarr; feed rate fN = 100 mm/min (1) &rarr; T = 40/100 = 0.40 min or 24 s (1).</div>
+<div class="q-foot"><b>check</b> &mdash; dropping the 1000 gives 0.19 rpm instead of 191; dividing the depth by the feed alone gives 200 min and dividing by the speed alone gives 0.08 min, both physically absurd; the unit must be given as rpm for speed and min or s for time.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence giving the rotation inversion between the two machines.</li>
+    <li><strong>Visual:</strong> Draw both machines, with the rotation arrow on the work for the lathe and on the tool for the drill.</li>
+    <li><strong>Table:</strong> Part against job, one row each, for both machines.</li>
+    <li><strong>Close:</strong> Four lathe operations and two drill operations, each with its purpose, plus the two formulas.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "A lathe is a machine tool which produces a cylindrical surface by rotating the workpiece against a single-point cutting tool, while a drilling machine produces a hole by rotating the drill against a stationary workpiece."</p>
+  <p class="answer-close"><strong>For this topic:</strong> rotation inversion &rarr; labelled lathe sketch &rarr; part-and-job table &rarr; lathe operations &rarr; labelled drill sketch &rarr; drill operations &rarr; the two formulas with a worked substitution &rarr; boxed answers.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Two sketches</strong> &mdash; lathe and drill, both labelled</li>
+    <li><strong>Mark the rotating member</strong> on each figure &mdash; that is the contrast made visible</li>
+    <li><strong>Part against job</strong> &mdash; never a bare list of names</li>
+    <li><strong>Operations as a table</strong> with a purpose in each row</li>
+    <li><strong>Name the lead screw</strong> for threading and the feed rod for turning</li>
+    <li><strong>Underline keywords</strong> &mdash; compound rest, quill, reaming, counterboring</li>
+    <li><strong>Box the answers</strong> with rpm, mm and min</li>
+    <li><strong>Never leave blank</strong> &mdash; part labels alone clear 4 of 7</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Draw a neat sketch of a lathe machine and explain its main parts and any four operations.</h3>
+<p class="answer-lead">Sketch, then a part-and-job table, then four operations. Each part needs its function, not just its name.</p>
+<pre class="ascii-diagram" role="img" aria-label="Labelled lathe showing headstock, bed, carriage, cross-slide, compound rest, tool post, tailstock and lead screw">
+   HEADSTOCK                                                 TAILSTOCK
+   +--------+                                                 +-------+
+   |  SPINDLE|                                                |  quill|--->
+   |   o     |                                                |  centre|
+   |  CHUCK  |                                                +-------+
+   +----+----+                                                     |
+        |                                                          |
+   =====+===========================================================+=====
+        |                     BED (guideways)                          |
+   =====+===========================================================+=====
+        |                                                          |
+        |   +----------------+                                     |
+        |   |   CARRIAGE     |                                     |
+        |   |  +----------+  |   <- saddle slides along the bed   |
+        |   |  | CROSS-   |  |                                    |
+        |   |  | SLIDE    |  |   moves perpendicular = depth of cut|
+        |   |  +----------+  |                                    |
+        |   |   | COMPOUND |  |   rotates to any angle = taper    |
+        |   |   |  REST    |  |                                    |
+        |   |   +----------+  |                                   |
+        |   |    |TOOL POST|  |   holds the single-point tool     |
+        |   |    +---------+  |                                   |
+        |   +--------+--------+                                   |
+        |            |                                          |
+        |          APRON (handwheel + gearing)                    |
+        |            |                                          |
+   -----+------------+------------------------------------------+--------
+        FEED ROD (turning)      LEAD SCREW (thread cutting)
+
+   The WORK rotates in the chuck.  The TOOL does not rotate.
+   All motion is either along the bed (longitudinal) or
+   perpendicular to it (cross), plus the compound's angle.
+</pre>
+<table>
+<tr><th>Part</th><th>Function</th></tr>
+<tr><td>Bed</td><td>Cast-iron base with guideways on which the carriage and tailstock slide; provides rigidity and damps vibration</td></tr>
+<tr><td>Headstock</td><td>Houses the spindle and gear train; rotates the work through the chuck or faceplate</td></tr>
+<tr><td>Tailstock</td><td>Supports the far end of long work on a centre, and holds a drill for axial holes</td></tr>
+<tr><td>Carriage</td><td>Carries and moves the tool; comprises the saddle, cross-slide, compound rest and tool post</td></tr>
+<tr><td>Cross-slide</td><td>Moves the tool perpendicular to the lathe axis, setting the depth of cut</td></tr>
+<tr><td>Compound rest</td><td>Swivels to any angle about a vertical axis; used for short taper turning and chamfering</td></tr>
+<tr><td>Tool post</td><td>Clamps the cutting tool on the compound rest</td></tr>
+<tr><td>Apron</td><td>Contains the handwheel and gearing that move the carriage from the feed rod or lead screw</td></tr>
+<tr><td>Feed rod / lead screw</td><td>Transmit power from the headstock gearbox; the feed rod drives turning and the lead screw drives thread cutting</td></tr>
+</table>
+<p><strong>Operations.</strong> <strong>Turning</strong> reduces the diameter, the tool being fed
+longitudinally along the bed. <strong>Facing</strong> produces a flat end face square to the axis, the
+tool being fed crosswise from the centre outwards. <strong>Thread cutting</strong> cuts an external or
+internal screw thread, the carriage being driven by the lead screw with the tool ground to the thread
+form. <strong>Taper turning</strong> produces a conical surface, either by swivelling the compound
+rest for a short taper or by setting over the tailstock for a long one.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the lathe generates all its surfaces by
+rotating the work against a stationary single-point tool, which is why it produces cylindrical,
+conical and threaded forms rather than originating holes &mdash; and the two numerical relations that
+govern it are the spindle speed N = 1000V/(&pi;D) and the machining time T = L/(fN)."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Explain the main parts of a drilling machine and any two operations performed on it.</h3>
+<p class="answer-lead">Sketch, part-and-job table, then two operations with a genuine purpose. The quill and the feed mechanism are the parts most often omitted.</p>
+<pre class="ascii-diagram" role="img" aria-label="Labelled drilling machine showing base, column, table, head, spindle and drill">
+              MOTOR / BELT DRIVE
+                     |
+              +------+-------+
+              |     HEAD     |
+              +------+-------+
+                     |
+                  SPINDLE        <- rotates the DRILL
+                     |              QUILL allows the axial feed
+                     v
+                  |DRILL|        <- the TOOL turns
+                     |
+   ==================+==================
+            WORK  (clamped, stays still)
+   ==================+==================
+                     |
+                   TABLE         raises / lowers / swivels
+                     |
+                  COLUMN         vertical support
+                     |
+                   BASE          bolted to the floor
+
+   Contrast with the lathe: here the TOOL rotates and the work is static.
+</pre>
+<table>
+<tr><th>Part</th><th>Function</th></tr>
+<tr><td>Base</td><td>Heavy foundation carrying the column, bolted to the floor</td></tr>
+<tr><td>Column</td><td>Vertical support carrying the head at the top; the table slides on it</td></tr>
+<tr><td>Table</td><td>Supports and clamps the work; can be raised, lowered and swivelled, and carries T-slots</td></tr>
+<tr><td>Head</td><td>Houses the spindle drive and gearing, and slides on the column to set the height</td></tr>
+<tr><td>Spindle and quill</td><td>The spindle rotates the drill while the quill carries it and allows axial feed</td></tr>
+<tr><td>Feed mechanism</td><td>Advances the drill into the work, by hand lever or by power feed</td></tr>
+</table>
+<p><strong>Operation 1 &mdash; reaming.</strong> An existing hole is finished to an accurate size and a
+smooth bore by a multi-edge reamer held in the spindle. Drilling leaves a hole slightly oversize and
+rough, and reaming corrects both; it removes very little material and cannot originate a hole.</p>
+<p><strong>Operation 2 &mdash; counterboring.</strong> A flat-bottomed cylindrical recess is cut at the
+mouth of an existing hole so that a bolt or socket-head screw head can sit below the surface. Its
+flat bottom matches the square shoulder of the head, which is why the recess is cylindrical rather
+than conical &mdash; the contrast with countersinking, which cuts a cone for a conical head.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the drilling machine is the complement of
+the lathe: it originates and finishes holes by rotating the tool against a stationary workpiece, so
+its operations are all hole operations &mdash; drilling, reaming, boring, counterboring,
+countersinking, spot facing and tapping."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>A 50 mm bar is turned at 30 m/min and a 40 mm deep hole is drilled at 500 rpm with a 0.2 mm/rev feed. Find the spindle speed for turning and the machining time for drilling.</h3>
+<p class="answer-lead">Two numerals from the two machines. Both are single substitutions, so the marks are in stating the formula, keeping the units and finishing with a magnitude check.</p>
+<pre class="ascii-diagram" role="img" aria-label="The two machine relations, spindle speed from cutting speed and machining time from feed and speed">
+   SPINDLE SPEED                    MACHINING TIME
+   from cutting speed               from feed and speed
+   =================                =================
+   N = 1000 V / (pi D)              feed rate = f x N
+                                    T = L / (f x N)
+   V in m/min  ->  x 1000
+   D in mm     ->  the 1000            L in mm
+                   reconciles them    f in mm/rev
+                                      N in rev/min
+   N = 1000 x 30 / (pi x 50)          feed rate = 0.2 x 500
+     = 30000 / 157.08                   = 100 mm/min
+     = 190.99 rpm                       T = 40 / 100
+     ~ 191 rpm                            = 0.40 min
+                                          = 24 seconds
+
+   SANITY BAND: steel turns at a few hundred      SANITY: at 100 mm/min a
+   rpm. 0.19 or 1910 means the 1000 slipped.      40 mm hole is under a minute
+</pre>
+<p><strong>Part one &mdash; spindle speed.</strong> <strong>Given:</strong> D = 50 mm,
+V = 30 m/min. <strong>Find:</strong> N. <strong>Formula:</strong> N = 1000 V/(&pi;D).
+<strong>Solve:</strong></p>
+<pre><code>N = 1000 x 30 / (pi x 50)
+  = 30000 / 157.08
+  = 190.99 rpm ~ 191 rpm</code></pre>
+<p><strong>Part two &mdash; machining time.</strong> <strong>Given:</strong> L = 40 mm,
+f = 0.2 mm/rev, N = 500 rpm. <strong>Find:</strong> T. <strong>Formula:</strong> T = L/(fN).
+<strong>Solve:</strong></p>
+<pre><code>feed rate = f x N = 0.2 x 500 = 100 mm/min
+T = 40 / 100 = 0.40 min = 24 seconds</code></pre>
+<p><strong>Answer:</strong> spindle speed <strong>191 rpm</strong>; machining time
+<strong>0.40 min</strong> (24 s).</p>
+<p><strong>Check:</strong> both substitute back. For the speed, &pi; &times; 50 &times; 191/1000 =
+30.0 m/min, the stated cutting speed; and 191 rpm sits in the few-hundred band expected for steel, so
+the 1000 is in the right place. For the time, 100 mm/min &times; 0.40 min = 40 mm, recovering the
+depth; and a feed rate of 100 mm/min means a 40 mm hole takes a little under half a minute, which
+0.40 min is. Had the working given 200 min or 0.08 min, the feed rate would have been divided by f or
+by N alone instead of by their product.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the spindle speed follows from the
+cutting speed by N = 1000V/(&pi;D), the 1000 reconciling millimetres with metres, and the machining
+time from the feed rate fN, so that the two numbers reported are 191 rpm and 0.40 minute."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203. The MST-1 syllabus page reads &ldquo;intro
+to lathe and drilling machine and their various operations&rdquo;, and the Dec-2020 paper examined
+both machines. Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, for the lathe and drilling questions
+this page drills. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference book</strong> (official BT-203 list) &mdash; C. M. Agrawal,
+<em>Basic Mechanical Engineering</em>, Wiley, for the machine tool content.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hubs and the December 2020 archive support revision and question practice. All
+numerical values were computed rather than quoted: 1000 &times; 30/(&pi; &times; 50) = 190.99 rpm,
+200 &times; 10/200 = 10.00 mm set-over with tan<sup>&minus;1</sup> 0.05 = 2.862&deg;, and
+40/100 = 0.40 min.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

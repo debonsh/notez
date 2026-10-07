@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building Materials &amp;mdash; Stones, Bricks, Cement and the Workability of Concrete</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt204/unit1 $</span> cat 01-building-materials.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT204 Unit 1 &mdash; Building Materials &amp; Construction</p>
+<h1>Building Materials &mdash; Stones, Bricks, Cement and the Workability of Concrete</h1>
+<p><em>This is the biggest unit in BT-204 and the one with the most repeated question in the whole
+subject: <strong>&ldquo;Explain the workability of concrete and the factors affecting it&rdquo; has
+appeared in 6 of the last 10 papers</strong>. Stones (3), brick bonds (4), brick tests (3) and
+cement (3) rotate around it. Everything here is definition-and-property work with a handful of
+quantity numerals, so the marks come from naming the right properties and the right tests.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>Building materials are the materials used in the construction of a structure,
+classified as natural (stone, timber, lime, clay) and artificial (bricks,
+cement, steel, concrete, glass). The three that carry the marks are stone --
+chosen for strength, durability and appearance; brick -- a burnt clay unit of
+standard size, tested for compressive strength, water absorption and
+efflorescence; and cement -- a calcareous and argillaceous mixture burnt to
+clinker and ground to a powder, which sets and hardens by hydration. Concrete
+is cement, fine aggregate, coarse aggregate and water, and its WORKABILITY is
+the property that determines how easily the fresh mix can be mixed, placed,
+compacted and finished without segregation or bleeding.</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;Every one of these
+materials is judged by the same three questions &mdash; what is it made of, what does it do well, and
+how do you test that it does it?&rdquo;</em></p>
+
+<h2>Classification of building materials</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="Building materials classified into natural and artificial with the named materials under each">
+BUILDING MATERIALS
+|
++-- NATURAL  (found ready in nature, at most cut and dressed)
+|     +-- stone ......... granite, sandstone, limestone, marble, slate
+|     +-- timber ........ teak, sal, deodar, shisham
+|     +-- clay .......... for bricks, tiles, terracotta
+|     +-- lime .......... limestone burnt to quicklime
+|     +-- sand .......... river, pit, sea
+|
++-- ARTIFICIAL  (manufactured from the natural ones)
+      +-- bricks, tiles, terracotta ...... from clay
+      +-- cement ......................... from lime + clay, burnt
+      +-- concrete, RCC .................. cement + aggregate + water (+ steel)
+      +-- glass, plastics, paints .........
+      +-- steel, aluminium, iron ......... metals
+
+  THE ORDER OF IMPORTANCE: stone and brick carry the structure,
+  cement binds it, concrete and steel make it modern.
+</pre>
+
+<h2>Stone &mdash; classification, properties and tests</h2>
+
+<table>
+<thead><tr><th>Stone</th><th>Class</th><th>Properties</th><th>Use</th></tr></thead>
+<tbody>
+<tr><td><strong>Granite</strong></td><td>Igneous</td><td>Hard, heavy, non-porous, durable, takes a polish; costly and hard to work</td><td>Steps, flooring, columns, bridges, monuments</td></tr>
+<tr><td><strong>Trap / basalt</strong></td><td>Igneous</td><td>Hard, tough, dark; good wear resistance</td><td>Road metal, concrete aggregate</td></tr>
+<tr><td><strong>Sandstone</strong></td><td>Sedimentary</td><td>Porous, easy to dress, moderate strength; varies widely</td><td>Walls, paving, general masonry</td></tr>
+<tr><td><strong>Limestone</strong></td><td>Sedimentary</td><td>Soft, easily worked, porous; attacked by acids</td><td>Wall stone, lime and cement manufacture</td></tr>
+<tr><td><strong>Marble</strong></td><td>Metamorphic</td><td>Soft, takes a very high polish; unsuitable outdoors in polluted air</td><td>Interior flooring, cladding, decorative work</td></tr>
+<tr><td><strong>Laterite</strong></td><td>Sedimentary, formed by weathering</td><td>Soft and porous when freshly cut, hardens on exposure; cheap</td><td>Boundary walls, low-cost masonry</td></tr>
+</tbody>
+</table>
+
+<p><strong>The properties a question asks for:</strong> strength, hardness, durability, porosity and
+the appearance that follows from them. The five standard <strong>laboratory tests</strong> on stone
+are:</p>
+
+<table>
+<thead><tr><th>Test</th><th>What it measures</th></tr></thead>
+<tbody>
+<tr><td><strong>Crushing test</strong></td><td>Compressive strength &mdash; the single most important property for a structural stone</td></tr>
+<tr><td><strong>Water absorption test</strong></td><td>Porosity, and hence durability: a stone absorbing more than about 5% of its dry weight is suspect</td></tr>
+<tr><td><strong>Attrition test</strong></td><td>Rate of wear &mdash; for road stone</td></tr>
+<tr><td><strong>Impact test</strong></td><td>Toughness &mdash; resistance to sudden shock</td></tr>
+<tr><td><strong>Acid test</strong></td><td>Whether the stone is calcareous (attacked by acid, so unfit near a coast or in polluted air)</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>Granite against laterite, in one line.</strong> Granite is
+<em>hard</em>, <em>heavy</em>, <strong>non-porous</strong> and <strong>costly</strong>. Laterite is
+<em>soft</em>, <em>light</em>, <strong>porous</strong> and <strong>cheap</strong>, and it hardens on
+exposure. The examiner almost always wants the contrast rather than either definition alone.</div>
+
+<h2>Brick &mdash; standard size, properties and tests</h2>
+
+<p>A brick is a burnt clay unit. Its <strong>standard nominal size is 200 &times; 100 &times; 100 mm
+with the mortar joint</strong>, that is a 190 &times; 90 &times; 90 mm brick plus a 10 mm joint.</p>
+
+<table>
+<thead><tr><th>Property</th><th>What good brick should have</th></tr></thead>
+<tbody>
+<tr><td>Colour</td><td>Uniform, deep red or cherry &mdash; a pale or bloated colour means under-burning</td></tr>
+<tr><td>Shape and size</td><td>Sharp edges, square corners, flat faces, uniform size</td></tr>
+<tr><td>Strength</td><td>Compressive strength of a first-class brick is at least about 10 N/mm<sup>2</sup></td></tr>
+<tr><td>Water absorption</td><td>First-class brick should absorb <strong>not more than about 20%</strong> of its weight; 12&ndash;15% is good</td></tr>
+<tr><td>Soundness</td><td>A clear metallic ringing when struck &mdash; a dull thud means a crack</td></tr>
+<tr><td>Efflorescence</td><td>None. White patches after soaking mean soluble salts, which will spoil the plaster</td></tr>
+</tbody>
+</table>
+
+<table>
+<thead><tr><th>Field test</th><th>What it shows</th></tr></thead>
+<tbody>
+<tr><td><strong>Water absorption</strong></td><td>Soak for 24 hours and weigh; the gain gives the porosity</td></tr>
+<tr><td><strong>Compressive strength</strong></td><td>Test on a mortar-capped specimen; gives the structural class</td></tr>
+<tr><td><strong>Efflorescence</strong></td><td>Soak and dry repeatedly; visible salt deposit means rejection</td></tr>
+<tr><td><strong>Soundness</strong></td><td>Two bricks struck together should ring clearly</td></tr>
+<tr><td><strong>Hardness and impact</strong></td><td>A scratch with a fingernail should leave no mark</td></tr>
+</tbody>
+</table>
+
+<h2>Cement &mdash; composition and setting</h2>
+
+<p>Portland cement is made by burning a <strong>calcareous</strong> material (limestone or chalk) with
+an <strong>argillaceous</strong> one (clay or shale) to a clinker and grinding it with a little
+gypsum.</p>
+
+<table>
+<thead><tr><th>Ingredient</th><th>Source</th><th>Function</th></tr></thead>
+<tbody>
+<tr><td><strong>Lime (CaO)</strong></td><td>Limestone, chalk</td><td>Gives strength and soundness</td></tr>
+<tr><td><strong>Silica (SiO<sub>2</sub>)</strong></td><td>Clay, shale</td><td>Gives the strength that develops on setting</td></tr>
+<tr><td><strong>Alumina (Al<sub>2</sub>O<sub>3</sub>)</strong></td><td>Clay, shale</td><td>Gives quick setting &mdash; too much weakens the cement</td></tr>
+<tr><td><strong>Gypsum (CaSO<sub>4</sub>)</strong></td><td>Added at grinding</td><td><strong>Retards</strong> setting so the cement can be worked</td></tr>
+</tbody>
+</table>
+
+<table>
+<thead><tr><th>Setting stage</th><th>Meaning</th><th>Typical time</th></tr></thead>
+<tbody>
+<tr><td><strong>Initial setting time</strong></td><td>The time from adding water until the paste begins to stiffen and loses its plasticity &mdash; the window in which it may still be placed and compacted</td><td>Not less than <strong>30 minutes</strong></td></tr>
+<tr><td><strong>Final setting time</strong></td><td>The time until the paste has hardened completely and will bear load</td><td>Not more than <strong>10 hours</strong> (600 minutes)</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>The gypsum mark.</strong> Gypsum is added to <em>retard</em> the
+setting &mdash; that is, to make it <em>slower</em>. Without it, the cement would flash-set as soon as
+water touched it and could never be placed. Candidates who say &ldquo;gypsum accelerates
+setting&rdquo; lose the mark, and it is asked often because the answer is counter-intuitive.</div>
+
+<h2>Concrete and the workability of concrete</h2>
+
+<p><strong>Concrete is cement, fine aggregate (sand), coarse aggregate (crushed stone or gravel) and
+water.</strong> Its two properties in the fresh state and the hardened state are examined
+separately.</p>
+
+<p><strong>Workability is the property that determines how easily fresh concrete can be mixed,
+placed, compacted and finished without segregation or bleeding.</strong> That is the definition the
+6-of-10-papers question asks for.</p>
+
+<table>
+<thead><tr><th>Factor affecting workability</th><th>How it acts</th></tr></thead>
+<tbody>
+<tr><td><strong>Water content</strong></td><td>More water means more workable but less strong &mdash; the central trade-off of concrete</td></tr>
+<tr><td><strong>Aggregate shape</strong></td><td>Rounded and smooth particles flow more easily than angular or flaky ones</td></tr>
+<tr><td><strong>Aggregate grading</strong></td><td>Well-graded (mixed sizes) fills voids and needs less paste, so it is more workable than single-size aggregate</td></tr>
+<tr><td><strong>Aggregate/cement ratio</strong></td><td>More aggregate per unit of paste means a harsher, less workable mix</td></tr>
+<tr><td><strong>Cement content</strong></td><td>More cement paste lubricates the mix</td></tr>
+<tr><td><strong>Admixtures</strong></td><td>Plasticisers and air-entraining agents raise workability without adding water</td></tr>
+<tr><td><strong>Time since mixing</strong></td><td>Workability <em>falls</em> with time as hydration begins and water evaporates</td></tr>
+<tr><td><strong>Temperature</strong></td><td>Hot weather accelerates hydration and water loss, so workability drops faster</td></tr>
+</tbody>
+</table>
+
+<table>
+<thead><tr><th>Workability test</th><th>What it measures</th></tr></thead>
+<tbody>
+<tr><td><strong>Slump test</strong></td><td>The fall of a moulded concrete cone when the mould is lifted &mdash; the commonest site test</td></tr>
+<tr><td><strong>Compacting factor test</strong></td><td>The ratio of the weight of concrete actually compacted to the weight if fully compacted &mdash; the laboratory test for low-workability mixes</td></tr>
+<tr><td><strong>Vee-Bee consistometer</strong></td><td>The time for a cone of concrete to remould into a cylinder under vibration</td></tr>
+<tr><td><strong>Flow test</strong></td><td>The spread of a concrete disc under a standard number of jolts</td></tr>
+</tbody>
+</table>
+
+<h2>Numericals in great depth</h2>
+
+<p>Three quantity calculations appear: the number of bricks for a wall, the cement content of a
+concrete mix, and the water from the water-cement ratio.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>V = L &times; H &times; t</code></td><td>volume of a wall or slab</td><td>m<sup>3</sup></td></tr>
+<tr><td><code>v = 0.20 &times; 0.10 &times; 0.10</code></td><td>volume of one brick <em>with its mortar joint</em></td><td>0.002 m<sup>3</sup></td></tr>
+<tr><td><code>N = V / v</code></td><td>number of bricks, before wastage</td><td>&mdash;</td></tr>
+<tr><td><code>V<sub>dry</sub> = 1.52 V<sub>wet</sub></code></td><td>dry volume of concrete from wet volume</td><td>m<sup>3</sup></td></tr>
+<tr><td><code>V<sub>c</sub> = V<sub>dry</sub> / &Sigma;parts</code></td><td>volume of cement in the mix</td><td>m<sup>3</sup></td></tr>
+<tr><td><code>&rho;<sub>c</sub> = 1440</code></td><td>bulk density of cement</td><td>kg/m<sup>3</sup></td></tr>
+<tr><td><code>w = (w/c) &times; C</code></td><td>water from the water-cement ratio</td><td>kg, or litres</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; quantity numerals</span>
+<pre><code>Given:  the wall or slab dimensions, or the mix proportion and grade
+Find:   number of bricks, cement content, or water content
+Formula:N = V/v ;  Vc = 1.52 V / (sum of parts) ;  w = (w/c) x C
+Solve:  keep every dimension in METRES, add wastage as a percentage
+Check:  M20 comes to about 400 kg of cement per m3 -- use that as
+        the anchor for any concrete quantity answer</code></pre>
+</div>
+
+<h3>Solved A &mdash; number of bricks for a wall</h3>
+<p><em>A brick wall is 10 m long, 3 m high and 230 mm thick. Find the number of bricks required,
+allowing 5% for wastage. Take a brick with its mortar joint as 200 &times; 100 &times; 100 mm.</em></p>
+<p><strong>Given:</strong> L = 10 m, H = 3 m, t = 230 mm = 0.23 m; brick with mortar
+200 &times; 100 &times; 100 mm; wastage 5%.
+<strong>Find:</strong> the number of bricks. <strong>Formula:</strong> V = LHt; v = 0.20 &times; 0.10
+&times; 0.10; N = V/v, then add wastage.
+<strong>Solve:</strong></p>
+<pre><code>V = 10 x 3 x 0.23 = 6.90 m3
+
+v = 0.20 x 0.10 x 0.10 = 0.002 m3
+
+N = 6.90 / 0.002 = 3450 bricks
+
+with 5% wastage:  3450 x 1.05 = 3622.5
+                  ~ 3623 bricks</code></pre>
+<p><strong>Answer:</strong> <strong>3450 bricks</strong> are needed before wastage, and
+<strong>3623</strong> should be ordered.</p>
+<p><strong>Check:</strong> substituting back, 3450 &times; 0.002 = 6.90 m<sup>3</sup>, exactly the wall
+volume, so the division is consistent. Independent magnitude check: 3450 bricks in 6.9 m<sup>3</sup>
+is about 500 bricks per cubic metre, which is the standard figure a mason carries. Note the commonest
+error: using the <em>actual</em> brick size of 190 &times; 90 &times; 90 mm instead of the nominal size
+<em>with</em> the mortar joint. That gives 0.001539 m<sup>3</sup> and 4483 bricks &mdash; about 30%
+too many, because it forgets the 10 mm of mortar the brick does not occupy.</p>
+
+<h3>Solved B &mdash; cement content of a concrete mix</h3>
+<p><em>Find the quantity of cement required for 1 m<sup>3</sup> of M20 concrete in the proportion
+1 : 1.5 : 3 by volume, taking the dry volume factor as 1.52 and the bulk density of cement as
+1440 kg/m<sup>3</sup>.</em></p>
+<p><strong>Given:</strong> V<sub>wet</sub> = 1 m<sup>3</sup>; mix 1 : 1.5 : 3; dry volume factor 1.52;
+&rho;<sub>c</sub> = 1440 kg/m<sup>3</sup>.
+<strong>Find:</strong> the mass of cement. <strong>Formula:</strong>
+V<sub>dry</sub> = 1.52 V<sub>wet</sub>; V<sub>c</sub> = V<sub>dry</sub> / &Sigma;parts;
+C = V<sub>c</sub> &rho;<sub>c</sub>.
+<strong>Solve:</strong></p>
+<pre><code>V_dry = 1.52 x 1 = 1.52 m3
+
+sum of parts = 1 + 1.5 + 3 = 5.5
+
+V_c = 1.52 / 5.5 = 0.2764 m3
+
+C = 0.2764 x 1440 = 398.0 kg</code></pre>
+<p><strong>Answer:</strong> the cement required is <strong>398 kg</strong>, that is about
+<strong>8 bags</strong> of 50 kg.</p>
+<p><strong>Check:</strong> substituting back, 398/1440 = 0.2764 m<sup>3</sup>, and
+0.2764 &times; 5.5 = 1.52 m<sup>3</sup>, recovering the dry volume. The independent check is the one
+worth carrying: <strong>M20 concrete takes about 400 kg of cement per cubic metre</strong>, and 398 is
+within 0.5% of that. Had the dry volume factor been omitted, the answer would have been 262 kg, which
+is well below any M20 specification and would be caught immediately by that same anchor.</p>
+
+<h3>Solved C &mdash; water content and the water-cement ratio</h3>
+<p><em>The M20 mix above is to be made with a water-cement ratio of 0.5. Find the quantity of water
+required, and state what happens to the strength and to the workability if the ratio is raised to
+0.6.</em></p>
+<p><strong>Given:</strong> cement C = 398.0 kg; w/c = 0.5.
+<strong>Find:</strong> the water, and the effect of raising the ratio.
+<strong>Formula:</strong> w = (w/c) &times; C.
+<strong>Solve:</strong></p>
+<pre><code>w = 0.5 x 398.0 = 199.0 kg  = 199 litres
+
+  (1 litre of water weighs 1 kg, so the mass figure is also
+   the volume -- a useful shortcut in every concrete numeral)
+
+if w/c rises to 0.6:
+   w = 0.6 x 398.0 = 238.8 kg
+   extra water = 39.8 kg per m3 of concrete</code></pre>
+<p><strong>Answer:</strong> the water required is <strong>199 kg</strong>, that is
+<strong>199 litres</strong>. Raising the ratio to 0.6 adds about <strong>40 litres</strong> per cubic
+metre.</p>
+<p><strong>Check:</strong> substituting back, 199.0/398.0 = 0.5, recovering the stated ratio.
+Independent sense check: 199 litres of water in 1 m<sup>3</sup> of concrete is about a fifth of the
+volume, which is the right order for a plastic mix. <strong>On the effect:</strong> raising the
+water-cement ratio <em>increases</em> workability, because the extra water lubricates the mix and the
+particles slide past one another more easily. It <em>decreases</em> strength, because the surplus
+water occupies space that would otherwise be filled by hydration products, and it leaves capillary
+voids as it evaporates. That single trade-off is what the workability question is really testing, and
+the usual figure quoted is that strength falls roughly 10% for every 0.05 rise in the ratio beyond
+the optimum.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>Use the nominal brick size with the mortar joint</strong> &mdash; 200 &times; 100 &times;
+100 mm, not the 190 &times; 90 &times; 90 mm the brick is actually made at. Using the moulded size
+overstates the brick count by about 30%.</li>
+<li><strong>Keep every dimension in metres.</strong> A wall thickness given as 230 mm is 0.23 m; a
+brick dimension given in mm must be converted before multiplying.</li>
+<li><strong>The dry volume factor is about 1.52</strong> for concrete (1.33 for mortar). Omitting it
+understates the cement by a third.</li>
+<li><strong>Divide by the SUM of the parts</strong>, not by the cement part alone. For 1 : 1.5 : 3 the
+divisor is 5.5.</li>
+<li><strong>1 litre of water weighs 1 kg</strong>, so the mass and volume figures for water are the
+same number. Do not convert twice.</li>
+<li><strong>Wastage is added on top</strong>, not deducted: multiply by 1.05 for 5%, never by
+0.95.</li>
+<li><strong>More water means more workable AND weaker.</strong> Either half of that statement alone
+is wrong, and the pair is what the question is scored on.</li>
+<li><strong>Water absorption of a good brick is under about 20%</strong>, and of a good stone under
+about 5%. The two figures are different and are easily swapped.</li>
+<li><strong>Gypsum retards setting.</strong> It is not an accelerator, however much it sounds like
+one.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;Building materials are those materials which are
+used for the construction of a structure, and they are broadly classified into natural materials such
+as stone, timber, clay and lime, and artificial materials such as bricks, cement, concrete, glass and
+steel.&rdquo;</li>
+<li><strong>Workability line</strong> &mdash; &ldquo;Workability of concrete is that property which
+determines the ease with which the fresh concrete can be mixed, placed, compacted and finished without
+segregation or bleeding.&rdquo;</li>
+<li><strong>Factors line</strong> &mdash; &ldquo;Workability depends upon the water content, the shape
+and grading of the aggregate, the aggregate-cement ratio, the cement content, any admixture used, the
+time since mixing and the temperature.&rdquo;</li>
+<li><strong>Trade-off line</strong> &mdash; &ldquo;An increase in the water content increases the
+workability but decreases the strength and durability, because the surplus water leaves capillary
+voids on evaporation, so the water-cement ratio is the central compromise in concrete
+design.&rdquo;</li>
+<li><strong>Stone line</strong> &mdash; &ldquo;The principal properties of a good building stone are
+strength, hardness, durability, and a low porosity; the laboratory tests used to establish them are
+the crushing test, the water absorption test, the attrition test, the impact test and the acid
+test.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence the selection of a building material is
+governed by the property that the particular element demands &mdash; strength for a structural
+member, and durability and appearance for a face exposed to weather.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Workability first</strong> &mdash; it is the most-repeated question in the subject, and
+it is a definition plus a list of factors</li>
+<li><strong>Give the factors as a table</strong> with the direction of the effect, not a bare
+list</li>
+<li><strong>Always pair the trade-off</strong> &mdash; water up, workability up, strength down</li>
+<li><strong>Name the tests</strong> for whichever material is asked about; a property with no test
+scores half</li>
+<li><strong>Draw one diagram</strong> &mdash; the classification tree, or a labelled brick with its
+nominal size marked</li>
+<li><strong>Underline keywords</strong> &mdash; segregation, bleeding, calcareous, argillaceous,
+hydration, efflorescence</li>
+<li><strong>Never leave blank</strong> &mdash; the definition plus four factors clears 4 of 7</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="C" data-explain="Workability of concrete is the property that determines how easily the fresh concrete can be mixed, placed, compacted and finished without segregation or bleeding. It is not a strength property; it is a handling property of the fresh mix, which is why it is measured by the slump test rather than by a cube test.">
+<p><strong>Q1. Workability of concrete is the property that determines:</strong></p>
+<button data-key="A">Its compressive strength after 28 days</button>
+<button data-key="B">Its resistance to attack by sulphates</button>
+<button data-key="C">How easily the fresh concrete can be mixed, placed, compacted and finished without segregation or bleeding</button>
+<button data-key="D">Its thermal conductivity</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="An increase in water content raises the workability, because more water lubricates the mix, but it lowers the strength, because the surplus water occupies space that hydration products would otherwise fill and leaves capillary voids when it evaporates. That trade-off is the central compromise of concrete mix design.">
+<p><strong>Q2. If the water content of a concrete mix is increased:</strong></p>
+<button data-key="A">Workability increases and strength decreases</button>
+<button data-key="B">Workability decreases and strength increases</button>
+<button data-key="C">Both workability and strength increase</button>
+<button data-key="D">Both workability and strength decrease</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="Granite is hard, heavy, non-porous and costly, and it takes a polish, which is why it is used for steps, flooring and monuments. Laterite is its opposite: soft and porous when freshly cut, cheap, and hardening on exposure. The examiner normally asks for that contrast rather than either stone alone.">
+<p><strong>Q3. Which stone is hard, non-porous and suitable for flooring and monuments?</strong></p>
+<button data-key="A">Laterite</button>
+<button data-key="B">Granite</button>
+<button data-key="C">Sandstone</button>
+<button data-key="D">Lime stone</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="Gypsum is added to cement clinker at the grinding stage to retard the setting, that is, to make it slower. Without it the cement would flash-set as soon as water was added and could never be placed and compacted. The answer is counter-intuitive, which is exactly why it is asked.">
+<p><strong>Q4. Gypsum is added to cement in order to:</strong></p>
+<button data-key="A">Accelerate the setting so the concrete hardens sooner</button>
+<button data-key="B">Increase the compressive strength of the hardened concrete</button>
+<button data-key="C">Give the cement its grey colour</button>
+<button data-key="D">Retard the setting so the cement remains workable long enough to be placed</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="A brick is 190 x 90 x 90 mm as moulded, and the nominal size used for quantity calculations is 200 x 100 x 100 mm because the 10 mm mortar joint is included. Using the moulded size omits the mortar the brick does not occupy and overstates the number of bricks by about 30%.">
+<p><strong>Q5. For calculating the number of bricks in a wall, the brick size used is:</strong></p>
+<button data-key="A">190 &times; 90 &times; 90 mm, the moulded size</button>
+<button data-key="B">230 &times; 110 &times; 70 mm, the traditional size</button>
+<button data-key="C">200 &times; 100 &times; 100 mm, the nominal size including the mortar joint</button>
+<button data-key="D">The actual measured size of the bricks delivered</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>The most-repeated question in BT-204, 6 of 10 papers.</strong> &ldquo;Explain the
+workability of concrete and the factors affecting it.&rdquo; &rarr; Definition &mdash; mixed, placed,
+compacted, finished without segregation or bleeding &mdash; then a table of the factors with the
+direction of each effect, closing on the water trade-off.</li>
+<li><strong>Recurring, 4 of 10 papers.</strong> &ldquo;Explain the types of staircases used in
+building construction with their suitability.&rdquo; &rarr; Straight, dog-legged, open-newel, quarter
+turn, spiral, bifurcated; a one-line suitability for each. Dog-legged is the commonest domestic
+type.</li>
+<li><strong>Recurring, 3 of 10 papers.</strong> &ldquo;Explain the types of stone used in
+construction, with their properties and testing.&rdquo; &rarr; The six-stone table, then the five
+laboratory tests, closing on the granite-against-laterite contrast.</li>
+<li><strong>Recurring, 4 of 10 papers.</strong> &ldquo;Explain the types of brick bonds used in
+brick masonry.&rdquo; &rarr; Stretcher, header, English, Flemish, rat-trap; one line on the
+arrangement and the thickness each gives.</li>
+<li><strong>Recurring, 3 of 10 papers.</strong> &ldquo;Explain the laboratory tests on
+bricks.&rdquo; &rarr; Water absorption, compressive strength, efflorescence, soundness, hardness;
+with the acceptance figure for each.</li>
+<li><strong>One-line recall.</strong> &ldquo;What are the initial and final setting times of ordinary
+Portland cement?&rdquo; &rarr; Initial not less than 30 minutes; final not more than 10 hours. Gypsum
+retards setting.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="7">
+<li><strong>6 minutes, no notes.</strong> Write the workability definition and eight factors from
+memory, with the direction of each. Check the water trade-off is stated as a <em>pair</em>.</li>
+<li><strong>5 minutes.</strong> Solved A on paper. Check the brick size is 0.002 m<sup>3</sup> with
+the mortar joint, and the answer is about 3450 bricks before wastage.</li>
+<li><strong>5 minutes.</strong> Solved B on paper. Check the cement is about 400 kg per
+m<sup>3</sup> &mdash; the anchor value for any M20 question.</li>
+<li><strong>4 minutes.</strong> Solved C on paper. Check the water is 199 litres and that 1 litre
+weighs 1 kg.</li>
+<li><strong>4 minutes.</strong> Draw the classification tree of building materials from memory.
+Check natural and artificial are the top split, with five materials named under each.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT204 Unit 1 Topic 01</p>
+<h1>Building Materials &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>Building materials are those used for the construction of a structure,
+classified into NATURAL (stone, timber, clay, lime, sand) and ARTIFICIAL
+(bricks, cement, concrete, glass, steel).
+
+WORKABILITY OF CONCRETE -- the most repeated question in the subject:
+  "the property that determines the ease with which fresh concrete can be
+   mixed, placed, compacted and finished without segregation or bleeding."
+  Factors: water content, aggregate shape, aggregate grading,
+           aggregate/cement ratio, cement content, admixtures,
+           time since mixing, temperature.
+  THE TRADE-OFF: more water -> workable up, strength DOWN.
+
+STONE: principal properties strength, hardness, durability, low porosity.
+  Tests: crushing, water absorption, attrition, impact, acid.
+BRICK: nominal size 200 x 100 x 100 mm WITH the mortar joint.
+  Tests: water absorption, compressive strength, efflorescence,
+         soundness, hardness. Absorption of a good brick < 20%.
+CEMENT: calcareous + argillaceous, burnt to clinker, ground with gypsum.
+  Initial set >= 30 min.   Final set <= 10 hours.
+  GYPSUM RETARDS SETTING.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Brickwork  -> V = L x H x t          (metres)
+                 v = 0.20 x 0.10 x 0.10 = 0.002 m3   (WITH mortar)
+                 N = V / v,  then x 1.05 for 5% wastage
+2. Concrete   -> Vdry = 1.52 x Vwet
+                 Vcement = Vdry / (sum of mix parts)
+                 C = Vcement x 1440        (kg)
+3. Water      -> w = (w/c ratio) x C       (kg = litres)
+4. Mortar     -> Vdry = 1.33 x Vwet for plaster</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Material</th><th>Key property</th><th>Acceptance figure</th><th>Test</th></tr></thead>
+<tbody>
+<tr><td>Granite</td><td>Hard, non-porous, takes a polish</td><td>Costly; heavy</td><td>Crushing, absorption</td></tr>
+<tr><td>Laterite</td><td>Soft and porous when cut, hardens on exposure</td><td>Cheap</td><td>Absorption</td></tr>
+<tr><td>Sandstone</td><td>Porous, easy to dress</td><td>Moderate strength</td><td>Crushing</td></tr>
+<tr><td>Limestone</td><td>Soft, attacked by acid</td><td>Calcareous</td><td>Acid test</td></tr>
+<tr><td>Good building stone</td><td>Low porosity</td><td>Absorption under about 5%</td><td>Water absorption</td></tr>
+<tr><td>First-class brick</td><td>Strength, no efflorescence</td><td>Absorption under about 20%; crushing about 10 N/mm<sup>2</sup></td><td>Absorption, crushing, efflorescence</td></tr>
+<tr><td>OPC &mdash; initial set</td><td>Begins to stiffen</td><td>Not less than 30 minutes</td><td>Vicat apparatus</td></tr>
+<tr><td>OPC &mdash; final set</td><td>Hardened completely</td><td>Not more than 10 hours</td><td>Vicat apparatus</td></tr>
+<tr><td>M20 concrete</td><td>Cement content</td><td>About 400 kg/m<sup>3</sup></td><td>Mix design</td></tr>
+<tr><td>Moulded brick</td><td>Size</td><td>190 &times; 90 &times; 90 mm</td><td>Measurement</td></tr>
+<tr><td>Nominal brick</td><td>Size for quantities</td><td>200 &times; 100 &times; 100 mm</td><td>&mdash;</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Workability of concrete</strong> &mdash; the property determining the ease with which
+fresh concrete can be mixed, placed, compacted and finished without segregation or bleeding.</li>
+<li><strong>Segregation</strong> &mdash; the separation of the coarse aggregate from the mortar,
+leaving a honeycombed and weak concrete.</li>
+<li><strong>Bleeding</strong> &mdash; the rise of water to the surface of freshly placed concrete,
+which weakens the top layer.</li>
+<li><strong>Slump test</strong> &mdash; the workability test measuring the fall of a moulded cone of
+concrete when the mould is lifted.</li>
+<li><strong>Compacting factor</strong> &mdash; the ratio of the weight of concrete actually compacted
+to the weight it would have if fully compacted.</li>
+<li><strong>Calcareous material</strong> &mdash; one containing lime, such as limestone or chalk; in
+cement manufacture it supplies the CaO.</li>
+<li><strong>Argillaceous material</strong> &mdash; one containing clay or shale; in cement
+manufacture it supplies the silica and alumina.</li>
+<li><strong>Initial setting time</strong> &mdash; the time from adding water until the paste begins
+to stiffen and lose plasticity; not less than 30 minutes.</li>
+<li><strong>Final setting time</strong> &mdash; the time until the paste has hardened completely and
+will bear load; not more than 10 hours.</li>
+<li><strong>Efflorescence</strong> &mdash; a white salt deposit appearing on the surface of bricks or
+plaster as soluble salts migrate and crystallise.</li>
+<li><strong>Bulking of sand</strong> &mdash; the increase in the volume of moist sand due to films
+of water around the particles, which must be allowed for in volume batching.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can write the workability definition word for word</li>
+<li>[ ] Can name eight factors affecting workability with the direction of each</li>
+<li>[ ] Can state the water trade-off as a pair &mdash; workability up, strength down</li>
+<li>[ ] Can name four workability tests and what each measures</li>
+<li>[ ] Can classify building materials into natural and artificial with five examples each</li>
+<li>[ ] Can contrast granite with laterite without hesitating</li>
+<li>[ ] Can name the five stone tests</li>
+<li>[ ] Can give the nominal and moulded brick sizes and say why they differ</li>
+<li>[ ] Can state the cement ingredients and the role of gypsum</li>
+<li>[ ] Can give the initial and final setting times</li>
+<li>[ ] Can compute bricks for a wall, cement content and water content</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Three relations.</strong> Brickwork: volume of the wall divided by
+0.002 m<sup>3</sup> per brick <em>with its mortar joint</em>, then add wastage. Concrete: dry volume
+= 1.52 &times; wet, cement volume = dry divided by the sum of the parts, mass = volume &times; 1440
+&mdash; and M20 should land near <strong>400 kg/m<sup>3</sup></strong>, which is the anchor that
+catches every slip. Water: mass = ratio &times; cement, and 1 litre weighs 1 kg. Keep everything in
+metres.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT204 Unit 1 Topic 01 &middot; workability in 6 of 10 papers &mdash; the most-repeated question in BT-204</p>
+<h1>Building Materials &mdash; questionnaire</h1>
+<div class="q-meta">Q1 slot &middot; &ldquo;explain the workability of concrete and the factors affecting it&rdquo; &rarr; a definition plus a factor table with the direction of each effect</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; 6 papers</span></div>
+<h3>Explain the workability of concrete and the factors affecting it.</h3>
+<p>The single most repeated question in the subject. A definition in one sentence, then a table of factors each with the direction in which it acts, closing on the water trade-off. No calculation at all.</p>
+<div class="q-foot"><b>write</b> &mdash; definition naming mixed, placed, compacted and finished, without segregation or bleeding (2) &rarr; a factor table with the direction of each effect (4) &rarr; the water trade-off as a pair, workability up and strength down (1).</div>
+<div class="q-foot"><b>check</b> &mdash; a bare list of factors with no direction scores half; omitting the definition loses the opening marks; giving the trade-off as only one half, and forgetting that strength falls, is the standard error on this question.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; 3 papers</span></div>
+<h3>Explain the types of stone used in construction, with their properties and testing.</h3>
+<p>A property table plus a test list. The marks are in naming the stone, giving a genuine property, and pairing it with a use &mdash; and in the granite-against-laterite contrast, which is nearly always what the examiner is checking.</p>
+<div class="q-foot"><b>write</b> &mdash; six stones named with class: granite, trap, sandstone, limestone, marble, laterite (3) &rarr; properties and a use for each (3) &rarr; the five laboratory tests named (1).</div>
+<div class="q-foot"><b>check</b> &mdash; listing stone names with no property scores half; giving a use that does not follow from the property breaks the logic; omitting the tests loses the third part of the question entirely.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>A brick wall is 10 m long, 3 m high and 230 mm thick. Find the number of bricks, allowing 5% for wastage. Find also the cement for 1 m&sup3; of M20 concrete in the proportion 1 : 1.5 : 3.</h3>
+<p>Two quantity numerals from the two halves of the topic. Both hinge on a factor the candidate tends to forget: the mortar joint for the bricks, and the dry volume factor for the concrete.</p>
+<div class="q-foot"><b>write</b> &mdash; wall volume 10 &times; 3 &times; 0.23 = 6.90 m<sup>3</sup> (1) &rarr; brick volume 0.002 m<sup>3</sup> with the joint, giving 3450 bricks and 3623 with wastage (2) &rarr; dry volume 1.52 m<sup>3</sup> and sum of parts 5.5 (1) &rarr; cement 398 kg (1).</div>
+<div class="q-foot"><b>check</b> &mdash; using 190 &times; 90 &times; 90 mm gives 4483 bricks, about 30% too many; omitting the 1.52 dry factor gives 262 kg of cement, well below any M20 specification; the answer should land near 400 kg/m<sup>3</sup>, which is the anchor that catches both slips.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> The workability definition in one sentence, verbatim.</li>
+    <li><strong>Visual:</strong> Draw the classification tree of building materials, or a labelled brick with its nominal size.</li>
+    <li><strong>Table:</strong> Factor against direction of effect &mdash; eight rows for workability.</li>
+    <li><strong>Close:</strong> The water trade-off as a pair, and the acceptance figure for whichever material is asked about.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> &ldquo;Workability of concrete is that property which determines the ease with which the fresh concrete can be mixed, placed, compacted and finished without segregation or bleeding.&rdquo;</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; eight-factor table with direction &rarr; four workability tests &rarr; the water trade-off &rarr; for a materials question, the six-stone table and the five tests &rarr; boxed quantities.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Definition verbatim</strong> &mdash; four verbs and the two failure modes</li>
+    <li><strong>Table, not prose</strong> &mdash; factor against direction</li>
+    <li><strong>Name the tests</strong> for any property claimed</li>
+    <li><strong>Give the acceptance figure</strong> &mdash; 20% absorption for a brick, 5% for a stone</li>
+    <li><strong>Underline keywords</strong> &mdash; segregation, bleeding, calcareous, argillaceous, hydration</li>
+    <li><strong>Box the numbers</strong> with m<sup>3</sup>, kg and the brick count</li>
+    <li><strong>Attempt order</strong> &mdash; workability first; it is recall and it is the most repeated</li>
+    <li><strong>Never leave blank</strong> &mdash; the definition plus four factors clears 4 of 7</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Explain the workability of concrete and the factors affecting it.</h3>
+<p class="answer-lead">Definition, then a factor table with the direction of each effect, then the water trade-off. The direction column is what separates a full answer from a list.</p>
+<pre class="ascii-diagram" role="img" aria-label="Workability of concrete and the water trade-off between workability and strength">
+   WORKABILITY = ease of
+     MIXING -> PLACING -> COMPACTING -> FINISHING
+   without SEGREGATION (aggregate separating out)
+   or    BLEEDING    (water rising to the surface)
+
+WATER CONTENT
+|
++-- WORKABILITY RISES
+|     the mix flows and compacts easily
+|     |
+|     +-- because the extra water lubricates the particles
+|           so they slide past one another
+|
++-- STRENGTH FALLS
+      voids are left when the surplus water evaporates,
+      and shrinkage and bleeding both increase
+      |
+      +-- roughly 10% strength lost per 0.05 rise in w/c
+            beyond the optimum
+
+                THE CENTRAL COMPROMISE
+                of concrete mix design:
+                enough water to place and compact it,
+                not so much that it is weak
+</pre>
+<p><strong>Definition.</strong> Workability of concrete is that property which determines the ease
+with which the fresh concrete can be <strong>mixed, placed, compacted and finished</strong> without
+<strong>segregation</strong> or <strong>bleeding</strong>. Segregation is the separation of the
+coarse aggregate from the mortar, and bleeding is the rise of water to the surface; both leave a
+honeycombed and weak concrete.</p>
+<table>
+<tr><th>Factor</th><th>How it affects workability</th></tr>
+<tr><td>Water content</td><td>More water gives greater workability &mdash; the dominant factor</td></tr>
+<tr><td>Aggregate shape</td><td>Rounded and smooth particles are more workable than angular, flaky or elongated ones</td></tr>
+<tr><td>Aggregate grading</td><td>Well-graded aggregate, with mixed sizes, fills voids and is more workable than single-size aggregate</td></tr>
+<tr><td>Aggregate/cement ratio</td><td>A higher ratio, that is more aggregate per unit of paste, makes the mix harsher and less workable</td></tr>
+<tr><td>Cement content</td><td>More cement paste lubricates the mix and raises workability</td></tr>
+<tr><td>Admixtures</td><td>Plasticisers and air-entraining agents raise workability without adding water</td></tr>
+<tr><td>Time since mixing</td><td>Workability <strong>falls</strong> with time as hydration begins and water evaporates</td></tr>
+<tr><td>Temperature</td><td>Hot weather accelerates hydration and evaporation, so workability falls faster</td></tr>
+</table>
+<p><strong>The trade-off, stated as a pair.</strong> An increase in water content
+<strong>increases</strong> the workability, because the extra water lubricates the particles so they
+slide past one another more easily. At the same time it <strong>decreases</strong> the strength and
+durability, because the surplus water occupies space that hydration products would otherwise fill and
+leaves capillary voids when it evaporates. It also increases shrinkage and the risk of bleeding. The
+usual figure quoted is that the strength falls by roughly 10% for every 0.05 increase in the
+water-cement ratio beyond the optimum, which is why the ratio is the central compromise of mix
+design.</p>
+<p class="answer-close"><strong>Exam close:</strong> &ldquo;Hence workability and strength pull in
+opposite directions with respect to water, so a concrete mix is designed to have just enough water to
+be placed and compacted properly and no more &mdash; which is why admixtures are used when further
+workability is needed without adding water.&rdquo;</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Explain the types of stone used in construction, with their properties and testing.</h3>
+<p class="answer-lead">A six-row table carrying class, property and use, then the five tests. The granite-against-laterite contrast is nearly always what the examiner is checking.</p>
+<pre class="ascii-diagram" role="img" aria-label="Stones classified by geological origin with their properties and uses">
+   STONES BY ORIGIN
+   |
+   +-- IGNEOUS  (cooled from molten rock -- hard, non-porous)
+   |     +-- GRANITE ... hard, heavy, non-porous, takes a polish
+   |     |               steps, flooring, columns, monuments (COSTLY)
+   |     +-- TRAP / basalt ... hard, tough, dark, wear resistant
+   |                     road metal, concrete aggregate
+   |
+   +-- SEDIMENTARY  (deposited in layers -- softer, porous)
+   |     +-- SANDSTONE ... porous, easy to dress, moderate strength
+   |     |                 walls, paving
+   |     +-- LIMESTONE ... soft, workable, ATTACKED BY ACID
+   |     |                 wall stone, lime and cement manufacture
+   |     +-- LATERITE .... soft and porous when cut, HARDENS on
+   |                       exposure, cheap -> boundary walls
+   |
+   +-- METAMORPHIC  (altered by heat and pressure)
+         +-- MARBLE ...... soft, takes a very high polish, but
+                           unsuitable outdoors in polluted air
+                           interior flooring, cladding
+
+   THE CONTRAST THE EXAMINER WANTS:
+     GRANITE  hard, heavy, NON-POROUS, costly
+     LATERITE soft, light, POROUS,     cheap
+</pre>
+<table>
+<tr><th>Stone</th><th>Class</th><th>Properties</th><th>Use</th></tr>
+<tr><td>Granite</td><td>Igneous</td><td>Hard, heavy, non-porous, durable, takes a polish; costly and difficult to work</td><td>Steps, flooring, columns, bridges, monuments</td></tr>
+<tr><td>Trap or basalt</td><td>Igneous</td><td>Hard, tough, dark, good wear resistance</td><td>Road metal, concrete aggregate</td></tr>
+<tr><td>Sandstone</td><td>Sedimentary</td><td>Porous, easy to dress, moderate and variable strength</td><td>Walls, paving, general masonry</td></tr>
+<tr><td>Limestone</td><td>Sedimentary</td><td>Soft, easily worked, porous, attacked by acids</td><td>Wall stone, and the raw material for lime and cement</td></tr>
+<tr><td>Marble</td><td>Metamorphic</td><td>Soft, takes a very high polish; unsuitable outdoors in polluted air</td><td>Interior flooring, cladding, decorative work</td></tr>
+<tr><td>Laterite</td><td>Sedimentary, by weathering</td><td>Soft and porous when freshly cut, hardens on exposure, cheap</td><td>Boundary walls, low-cost masonry</td></tr>
+</table>
+<p><strong>The properties that matter.</strong> Strength, hardness, durability, porosity, and the
+appearance that follows from the surface finish. Porosity is the one that governs the others: a
+porous stone absorbs water, water freezes and expands in cold weather, and the stone splits &mdash;
+which is why the water absorption test is the durability test.</p>
+<table>
+<tr><th>Laboratory test</th><th>What it establishes</th></tr>
+<tr><td>Crushing test</td><td>Compressive strength &mdash; the most important structural property</td></tr>
+<tr><td>Water absorption test</td><td>Porosity and hence durability; a good stone absorbs under about 5% of its dry weight</td></tr>
+<tr><td>Attrition test</td><td>Rate of wear &mdash; for road stone</td></tr>
+<tr><td>Impact test</td><td>Toughness, the resistance to sudden shock</td></tr>
+<tr><td>Acid test</td><td>Whether the stone is calcareous, and therefore unfit near a coast or in polluted air</td></tr>
+</table>
+<p class="answer-close"><strong>Exam close:</strong> &ldquo;Hence the choice of stone is governed by
+where it will be used &mdash; a hard non-porous stone such as granite for a structural or exposed
+position, and a cheap porous one such as laterite for a boundary wall &mdash; and each of those
+properties is established by a specific laboratory test.&rdquo;</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>A brick wall is 10 m long, 3 m high and 230 mm thick. Find the number of bricks, allowing 5% for wastage. Find also the cement for 1 m&sup3; of M20 concrete in the proportion 1 : 1.5 : 3.</h3>
+<p class="answer-lead">Two numerals, each with one factor that must not be forgotten: the mortar joint for the bricks and the dry volume factor for the concrete.</p>
+<pre class="ascii-diagram" role="img" aria-label="Brickwork and concrete quantity calculations worked through">
+   PART 1 - BRICKWORK                  PART 2 - CONCRETE
+   ==================                  =================
+
+   wall 10 x 3 x 0.23                  M20 = 1 : 1.5 : 3
+        = 6.90 m3                      sum of parts = 5.5
+
+   brick WITH MORTAR JOINTS            Vdry = 1.52 x 1
+     200 x 100 x 100 mm                     = 1.52 m3
+        = 0.20 x 0.10 x 0.10
+        = 0.002 m3                     Vcement = 1.52 / 5.5
+                                                = 0.2764 m3
+   N = 6.90 / 0.002
+     = 3450 bricks                    C = 0.2764 x 1440
+                                          = 398.0 kg
+   +5% wastage
+     = 3450 x 1.05                     ANCHOR: M20 needs about
+     = 3622.5  ~ 3623 bricks                 400 kg per m3
+                                          -> 398 confirms it
+
+   THE MORTAR JOINT is the 10 mm the brick does NOT occupy.
+   Using the moulded 190 x 90 x 90 mm gives 4483 bricks -- 30% too many.
+
+   THE DRY VOLUME FACTOR 1.52 accounts for the voids in the aggregate.
+   Omitting it gives 262 kg -- below any M20 specification.
+</pre>
+<p><strong>Part one &mdash; brickwork.</strong> <strong>Given:</strong> L = 10 m, H = 3 m,
+t = 230 mm = 0.23 m; nominal brick 200 &times; 100 &times; 100 mm; wastage 5%.
+<strong>Find:</strong> the number of bricks. <strong>Formula:</strong> V = LHt; v = 0.20 &times; 0.10
+&times; 0.10; N = V/v. <strong>Solve:</strong></p>
+<pre><code>V = 10 x 3 x 0.23 = 6.90 m3
+v = 0.20 x 0.10 x 0.10 = 0.002 m3
+N = 6.90 / 0.002 = 3450 bricks
+with 5% wastage = 3450 x 1.05 = 3623 bricks</code></pre>
+<p><strong>Part two &mdash; cement content.</strong> <strong>Given:</strong> 1 m<sup>3</sup> of M20,
+mix 1 : 1.5 : 3, dry factor 1.52, &rho;<sub>c</sub> = 1440 kg/m<sup>3</sup>.
+<strong>Find:</strong> the mass of cement. <strong>Formula:</strong>
+V<sub>dry</sub> = 1.52 V<sub>wet</sub>; V<sub>c</sub> = V<sub>dry</sub>/&Sigma;parts;
+C = V<sub>c</sub>&rho;<sub>c</sub>. <strong>Solve:</strong></p>
+<pre><code>Vdry = 1.52 m3
+sum of parts = 1 + 1.5 + 3 = 5.5
+Vc = 1.52 / 5.5 = 0.2764 m3
+C  = 0.2764 x 1440 = 398.0 kg</code></pre>
+<p><strong>Answer:</strong> <strong>3450 bricks</strong> before wastage and
+<strong>3623</strong> to order; <strong>398 kg</strong> of cement per cubic metre of M20, which is
+about 8 bags.</p>
+<p><strong>Check:</strong> part one substitutes back &mdash; 3450 &times; 0.002 = 6.90 m<sup>3</sup>,
+the wall volume &mdash; and 3450 bricks in 6.9 m<sup>3</sup> is about 500 bricks per cubic metre,
+the figure a mason carries. Part two substitutes back &mdash; 398/1440 = 0.2764 m<sup>3</sup> and
+0.2764 &times; 5.5 = 1.52 m<sup>3</sup> &mdash; and independently <strong>M20 takes about 400 kg of
+cement per cubic metre</strong>, so 398 is within 0.5%. Each answer has one characteristic error that
+the anchor catches: using the moulded brick size gives 4483 bricks, about 30% too many, and omitting
+the dry volume factor gives 262 kg, far too little for M20.</p>
+<p class="answer-close"><strong>Exam close:</strong> &ldquo;Hence the brickwork quantity is the wall
+volume divided by the volume of one brick <em>together with its mortar joint</em>, and the cement
+quantity is the dry volume divided by the sum of the mix proportions &mdash; the two factors that
+between them account for every mark lost on this question.&rdquo;</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-204 Unit 1, &ldquo;Building Materials &amp;
+Construction&rdquo;. The MST-1 syllabus page lists stones, bricks, cement, lime and timber with their
+properties, uses and tests; the workability and strength properties of concrete; and the elements of
+building construction. Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-civil-engineering-bt-204">RGPV Notes &mdash; BT-204 Basic Civil Engineering &amp; Mechanics</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-204 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-civil-engineering-bt-204">rgpvnotes.in BT-204 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ corpus</strong> &mdash; ten BT-204 papers (Nov-2019 to Dec-2025) were read for the
+mid-term battle plan, and the frequency figures quoted on this page are counts from that corpus
+rather than estimates.</li>
+<li><strong>Reference books</strong> &mdash; B. C. Punmia, <em>Building Construction</em>, Laxmi
+Publications, and S. K. Duggal, <em>Building Materials</em>, New Age International, for the
+properties, tests and acceptance figures.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hub and the paper corpus support revision and question practice. All numerical
+values were computed rather than quoted: 10 &times; 3 &times; 0.23 = 6.90 m<sup>3</sup> over 0.002
+m<sup>3</sup> = 3450 bricks; 1.52/5.5 &times; 1440 = 398.0 kg; and 0.5 &times; 398 = 199 litres of
+water. The acceptance figures for absorption and setting time follow the standard IS ranges and are
+given as approximate, since the exact limits depend on the grade specified.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

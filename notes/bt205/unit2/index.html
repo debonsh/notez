@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 2 Algorithms &amp; C++ &mdash; RGPV BT205 Resource Hub &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.6rem 1.2rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1rem 0; transition: all 0.15s; }
+.topic-card:hover { border-color: var(--accent); background: var(--paper); }
+.topic-card .topic-num { font-family: monospace; color: var(--accent); font-size: 0.7rem; }
+.topic-card h3 { margin: 0.3rem 0 0.5rem; font-size: 1.2rem; }
+.topic-card p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+.topic-card .topic-links { margin-top: 0.5rem; font-family: monospace; font-size: 0.65rem; color: var(--ink-soft); }
+.topic-card a { font-family: monospace; font-size: 0.7rem; }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+table tr:hover td { background: transparent; }
+.topic-card { background: var(--code-bg); }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-btn:hover:not(.active), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.topic-card { background: var(--paper); transition: border-color .15s ease, transform .15s ease; }
+.topic-card:hover { transform: translateY(-1px); }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.concept-flow { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem; margin: 1.2rem 0; }
+.concept-flow .step { flex: 1 1 8rem; min-width: 7rem; padding: .75rem .8rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--code-bg); text-align: center; }
+.concept-flow .arrow { color: var(--accent); font-family: monospace; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit2 $ ls -la</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('index')">Index</button>
+  <button class="tab-btn" onclick="showTab('resources')">Resources</button>
+</div>
+<div id="index" class="tab-panel active">
+<p class="kicker">Unit 2 &middot; BT205 Basic Computer Engineering &middot; Algorithms &amp; C++</p>
+<h1>Algorithms &amp; C++ Resource Hub</h1>
+<p><em>Midsem scope = Units 1+2. Unit 1 is theory; Unit 2 is where programs score. Every C++ snippet here is compile-verified. Predicted paper: <a href="../midsem.html">../midsem.html</a>.</em></p>
+<blockquote>Official Unit II: algorithms, complexities, flowchart; programming intro, language categories, program design, paradigms, OOP concepts, POP vs OOP; C++: character set, tokens, precedence/associativity, program structure, data types, variables, operators, expressions, statements/control structures, I/O, arrays, functions. &mdash; RGPV BT205</blockquote>
+<h2>Topics (in syllabus order)</h2>
+<div class="topic-card">
+  <p class="topic-num">[01] Algorithms, complexity &amp; flowcharts — done</p>
+  <h3><a href="01-algorithms-complexity-flowchart.html">&#xbb; Algorithms, Complexities &amp; Flowcharts</a></h3>
+  <p>5 characteristics, Big-O intuition, 6 flowchart symbols + 4 worked charts with dry runs.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + dry runs + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[02] Languages, paradigms &amp; OOP — done</p>
+  <h3><a href="02-languages-paradigms-oop.html">&#xbb; Languages, Paradigms &amp; POP vs OOP</a></h3>
+  <p>Machine/assembly/high-level, design steps, 4 OOP pillars, POP vs OOP table.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep examples + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[03] C++ tokens &amp; data types — done</p>
+  <h3><a href="03-cpp-tokens-datatypes.html">&#xbb; Character Set, Tokens, Data Types &amp; Variables</a></h3>
+  <p>5 tokens, type table with sizes, identifier rules, constants, first program anatomy.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + verified code + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[04] Operators, expressions &amp; I/O — done</p>
+  <h3><a href="04-operators-expressions-io.html">&#xbb; Operators, Precedence &amp; cin/cout</a></h3>
+  <p>6 operator families, precedence ladder, associativity traps, dry-run expressions.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + dry runs + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[05] Control structures — done</p>
+  <h3><a href="05-control-structures.html">&#xbb; if/switch &amp; Loops</a></h3>
+  <p>if-else ladder vs switch, for/while/do-while, break/continue, pattern + number programs.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + verified programs + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[06] Arrays &amp; functions — done</p>
+  <h3><a href="06-arrays-functions.html">&#xbb; Arrays &amp; Functions (swap program inside)</a></h3>
+  <p>1D/2D arrays, max/search/matrix, function anatomy, Dec-2020 swap program verified.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + verified programs + extra-marks tips + Questionnaire — done</p>
+</div>
+<h2>Progress (saved in this browser)</h2>
+<div id="progress">
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u2" value="01-algorithms-complexity-flowchart.html"> 01 Algorithms — <a href="01-algorithms-complexity-flowchart.html">01-*.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u2" value="02-languages-paradigms-oop.html"> 02 Languages — <a href="02-languages-paradigms-oop.html">02-*.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u2" value="03-cpp-tokens-datatypes.html"> 03 Tokens — <a href="03-cpp-tokens-datatypes.html">03-*.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u2" value="04-operators-expressions-io.html"> 04 Operators — <a href="04-operators-expressions-io.html">04-*.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u2" value="05-control-structures.html"> 05 Control — <a href="05-control-structures.html">05-*.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u2" value="06-arrays-functions.html"> 06 Arrays — <a href="06-arrays-functions.html">06-*.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u2" value="formula-sheet.html"> Key-sheet — <a href="formula-sheet.html">formula-sheet.html</a></label>
+</div>
+<script>
+(function () {
+  try {
+    var key = 'progress-bt205u2';
+    var saved = JSON.parse(localStorage.getItem(key) || '[]');
+    document.querySelectorAll('#progress input[type="checkbox"]').forEach(function (cb) {
+      if (saved.indexOf(cb.value) !== -1) cb.checked = true;
+      cb.addEventListener('change', function () {
+        var vals = [];
+        document.querySelectorAll('#progress input[type="checkbox"]:checked').forEach(function (c) { vals.push(c.value); });
+        try { localStorage.setItem(key, JSON.stringify(vals)); } catch (e) {}
+      });
+    });
+  } catch (e) {}
+})();
+</script>
+<h2>PYQ map — where each topic is drilled</h2>
+<table>
+<tr><th>Topic</th><th>In-file drill</th><th>Archive</th></tr>
+<tr><td>01 Algorithms</td><td><code>01-*.html</code> Drill A+B</td><td><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT-205</a></td></tr>
+<tr><td>02 Paradigms</td><td><code>02-*.html</code> Drill A+B</td><td><a href="https://career-shiksha.com/post/important-rgpv-question-bt-205-basic-computer-engineering-1st-year/">Important-Qs Unit-2</a></td></tr>
+<tr><td>03–06 C++</td><td><code>03–06 *.html</code> drills</td><td><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2024.html">RGPVOnline Jun-2024</a></td></tr>
+<tr><td>Predicted paper</td><td><code>../midsem.html</code> (Units 1+2)</td><td>—</td></tr>
+<tr><td>Key-sheet</td><td><code>formula-sheet.html</code> (print)</td><td>—</td></tr>
+</table>
+<h2>How to study this unit</h2>
+<div class="concept-flow" aria-label="Unit 2 study flow">
+  <div class="step"><strong>Read</strong><br>01 → 06 in order</div>
+  <span class="arrow" aria-hidden="true">→</span>
+  <div class="step"><strong>Trace</strong><br>dry-run every program</div>
+  <span class="arrow" aria-hidden="true">→</span>
+  <div class="step"><strong>Write</strong><br>logic, code, output</div>
+  <span class="arrow" aria-hidden="true">→</span>
+  <div class="step"><strong>Review</strong><br>key sheet + paper</div>
+</div>
+<p class="exam-note"><strong>Best loop:</strong> learn the idea, predict the output by hand, compile or trace the program, then write a topper-style answer using the Questionnaire tab.</p>
+<div class="callout">
+  <span class="label">Midsem rule (20 marks)</span>
+  Typical MST: 5 shorts × 2 (=10) + 2 longs × 5 (=10) from Units 1+2. Shorts love: characteristics, POP vs OOP, tokens, precedence, loop differences. Longs love: flowchart + dry run, one full C++ program (swap/factorial/prime), OS functions or classification. Full predicted paper: <a href="../midsem.html">../midsem.html</a>.
+</div>
+<div class="callout">
+  <span class="label">Fast recall</span>
+  <pre>algorithm: input → steps → output (finite, definite, effective)
+O(1) &lt; O(log n) &lt; O(n) &lt; O(n²); flowchart: oval→parallelogram→rectangle→diamond
+POP: functions+data apart · OOP: object binds both (4 pillars: E-I-P-A)
+C++: #include&lt;bits&gt; int main(){...} · cin&gt;&gt; · cout&lt;&lt; · ; every line
+precedence: () ! * / % + - &lt; == &amp;&amp; || = ; loops: for(counted) while(tested) do(once+)</pre>
+</div>
+</div>
+<div id="resources" class="tab-panel">
+<p class="kicker">Appendix &middot; RGPV Resources (all fetched &amp; verified)</p>
+<h1>BT205 Unit 2 &mdash; All Sources</h1>
+<p><em>Official syllabus, RGPV-aligned notes, PYQs. Fetched 2026-09-24.</em></p>
+<h2>Official syllabus</h2>
+<ul>
+  <li><strong>RGPV official scheme WEF July 2022 PDF</strong> &mdash;
+    <a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">rgpv.ac.in — BT205 Units 1–5 + 18 experiments</a>
+    &mdash; Unit 2 = algorithms through functions (Exp 08–10 map here).</li>
+  <li><strong>RGPVOnline BT205 syllabus PDF</strong> &mdash;
+    <a href="https://www.rgpvonline.com/answer/basic-computer-engineering/basic-computer-engineering-syllabus.pdf">BT205 syllabus PDF</a></li>
+</ul>
+<h2>Subject notes (RGPV-aligned, verified)</h2>
+<ul>
+  <li><strong>rgpvnotes.in — BT-205 hub (Units 1–5, OneDrive + Dropbox)</strong> &mdash;
+    <a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">Unit 2 View/Download hub</a> &mdash; free, no registration.</li>
+  <li><strong>Scribd — BT205 BCE Notes Unit I–II</strong> &mdash;
+    <a href="https://www.scribd.com/document/905427083/47901b8754284066a5d381d0ee8effd2-BT205-BCE-Notes-Unit-I-II-1-1">Dept. ESH Unit I–II notes</a> &mdash; algorithm + C++ sections.</li>
+</ul>
+<h2>PYQ Papers (solve under timer)</h2>
+<ul>
+  <li><strong>CareerShiksha BT-205 archive</strong> &mdash;
+    <a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">Dec-2025 back to May-2019</a>
+    &mdash; Q3/Q4 = Unit-2 zone (algorithm, POP/OOP, functions).</li>
+  <li><strong>Important-Qs Unit-2 list</strong> &mdash;
+    <a href="https://career-shiksha.com/post/important-rgpv-question-bt-205-basic-computer-engineering-1st-year/">BT-205 important questions</a></li>
+  <li><strong>RGPVOnline PDFs</strong> &mdash;
+    <a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2024.html">Jun-2024</a> &middot;
+    <a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">Jun-2022</a> &middot;
+    <a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-dec-2023.html">Dec-2023</a></li>
+</ul>
+<h2>Topic-wise weight &amp; strategy</h2>
+<table>
+<tr><th>Topic</th><th>Pattern</th><th>Marks</th><th>Priority</th></tr>
+<tr><td>Algorithm + flowchart + dry run</td><td>Short + long, every cycle</td><td>2–5</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>POP vs OOP + pillars</td><td>Short/table, every cycle</td><td>2–5</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>One full C++ program</td><td>swap/factorial/prime/array-max</td><td>5</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>Operators/precedence/output-tracing</td><td>Short dry runs</td><td>2</td><td>&#x2713;&#x2713;</td></tr>
+<tr><td>Loops/arrays/functions theory</td><td>Distinctions (1–2 lines each)</td><td>2</td><td>&#x2713;</td></tr>
+</table>
+<div class="callout">
+  <span class="label">Exam blueprint</span>
+  Unit 2 ≈ half the midsem (10/20). Highest ROI: one flowchart with dry run + POP-vs-OOP table + one memorized program (swap) + precedence ladder. Those four cover ~8 marks alone.
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt205/unit2 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 Fundamentals &amp; OS &mdash; RGPV BT205 Resource Hub &middot; by Zevu</title>
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #1b1e25;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+}
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; }
+h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.6rem 1.2rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1rem 0; transition: all 0.15s; }
+.topic-card:hover { border-color: var(--accent); background: var(--paper); }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; color: var(--accent); font-size: 0.7rem; }
+.topic-card h3 { margin: 0.3rem 0 0.5rem; font-size: 1.2rem; }
+.topic-card p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+.topic-card .topic-links { margin-top: 0.5rem; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.65rem; color: var(--ink-soft); }
+.topic-card a { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+table tr:hover td { background: transparent; }
+.topic-card { background: var(--code-bg); }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-btn:hover:not(.active), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.topic-card { background: var(--paper); transition: border-color .15s ease, transform .15s ease; }
+.topic-card:hover { transform: translateY(-1px); }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.concept-flow { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem; margin: 1.2rem 0; }
+.concept-flow .step { flex: 1 1 8rem; min-width: 7rem; padding: .75rem .8rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--code-bg); text-align: center; }
+.concept-flow .arrow { color: var(--accent); font-family: monospace; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit1 $ ls -la</p>
+</div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('index')">Index</button>
+  <button class="tab-btn" onclick="showTab('resources')">Resources</button>
+</div>
+<div id="index" class="tab-panel active">
+<p class="kicker">Unit 1 &middot; BT205 Basic Computer Engineering &middot; Fundamentals &amp; Operating Systems</p>
+<h1>Fundamentals &amp; OS Resource Hub</h1>
+<p><em>Six topics, one package. Built in syllabus order for RGPV. Each file is fully self-contained &mdash; no internet, no installation. Just open in any browser.</em></p>
+<blockquote>Official Unit I: Computer definition, classification, organization (CPU, register, bus, instruction set), memory &amp; storage, I/O devices, system &amp; application software. Applications: e-Business, bio-informatics, health care, RS &amp; GIS, meteorology, gaming, multimedia. OS: definition, function, types, file/process/memory management. MS Word, PowerPoint, Excel. &mdash; RGPV BT205 (3L-0T-2P, 4 credits)</blockquote>
+<h2>Topics (in syllabus order)</h2>
+<div class="topic-card">
+  <p class="topic-num">[01] Computer definition &amp; classification — done</p>
+  <h3><a href="01-computer-definition-classification.html">&#xbb; Computer: Definition, Characteristics, Generations &amp; Classification</a></h3>
+  <p>IPO cycle, 6 characteristics, 5 generations, analog/digital/hybrid + micro/mini/mainframe/super.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep solved examples + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[02] CPU, registers, bus &amp; instruction set — done</p>
+  <h3><a href="02-cpu-registers-bus-instruction.html">&#xbb; CPU Organization, Registers, Bus &amp; Instruction Set</a></h3>
+  <p>ALU + CU, 8 registers, data/address/control bus, instruction format, fetch-decode-execute.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep solved examples + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[03] Memory, storage &amp; I/O — done</p>
+  <h3><a href="03-memory-storage-io.html">&#xbb; Memory, Storage Systems &amp; I/O Devices</a></h3>
+  <p>Hierarchy pyramid, RAM/ROM/cache, HDD/SSD/optical, 1024 ladder, 2^n addressing, input/output devices.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[04] Software &amp; applications — done</p>
+  <h3><a href="04-software-and-applications.html">&#xbb; System vs Application Software + 8 Application Domains</a></h3>
+  <p>OS/translator/utility vs apps, 8 domains with 2 points each: e-business to animation.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep solved examples + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[05] Operating system — done</p>
+  <h3><a href="05-operating-system.html">&#xbb; Operating System: Functions, Types &amp; Management</a></h3>
+  <p>Definition, 6 functions, batch/multiprogramming/time-sharing/real-time, file/process/memory management.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep solved examples + extra-marks tips + Questionnaire — done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[06] MS Office — done</p>
+  <h3><a href="06-ms-office.html">&#xbb; MS Word, PowerPoint &amp; Excel</a></h3>
+  <p>Formatting + alignments + RTF, slide anatomy, Excel cell/references/functions + 3 practicals.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep practicals + extra-marks tips + Questionnaire — done</p>
+</div>
+<h2>Progress (saved in this browser)</h2>
+<div id="progress">
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u1" value="01-computer-definition-classification.html"> 01 Definition — <a href="01-computer-definition-classification.html">01-computer-definition-classification.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u1" value="02-cpu-registers-bus-instruction.html"> 02 CPU — <a href="02-cpu-registers-bus-instruction.html">02-cpu-registers-bus-instruction.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u1" value="03-memory-storage-io.html"> 03 Memory — <a href="03-memory-storage-io.html">03-memory-storage-io.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u1" value="04-software-and-applications.html"> 04 Software — <a href="04-software-and-applications.html">04-software-and-applications.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u1" value="05-operating-system.html"> 05 OS — <a href="05-operating-system.html">05-operating-system.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u1" value="06-ms-office.html"> 06 Office — <a href="06-ms-office.html">06-ms-office.html</a></label>
+  <label style="display:block;margin:0.3rem 0;"><input type="checkbox" data-pkey="bt205u1" value="formula-sheet.html"> Key-sheet — <a href="formula-sheet.html">formula-sheet.html</a></label>
+</div>
+<script>
+(function () {
+  try {
+    var key = 'progress-bt205u1';
+    var saved = JSON.parse(localStorage.getItem(key) || '[]');
+    document.querySelectorAll('#progress input[type="checkbox"]').forEach(function (cb) {
+      if (saved.indexOf(cb.value) !== -1) cb.checked = true;
+      cb.addEventListener('change', function () {
+        var vals = [];
+        document.querySelectorAll('#progress input[type="checkbox"]:checked').forEach(function (c) { vals.push(c.value); });
+        try { localStorage.setItem(key, JSON.stringify(vals)); } catch (e) {}
+      });
+    });
+  } catch (e) {}
+})();
+</script>
+<h2>PYQ map — where each topic is drilled</h2>
+<table>
+<tr><th>Topic</th><th>In-file drill</th><th>Archive</th></tr>
+<tr><td>01 Definition</td><td><code>01-*.html</code> Drill A+B</td><td><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT-205</a></td></tr>
+<tr><td>02 CPU/Bus</td><td><code>02-*.html</code> Drill A+B</td><td><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2024.html">RGPVOnline Jun-2024</a></td></tr>
+<tr><td>03 Memory/IO</td><td><code>03-*.html</code> Drill A+B</td><td><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">RGPVOnline Jun-2022</a></td></tr>
+<tr><td>04 Software</td><td><code>04-*.html</code> Drill A+B</td><td><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT-205</a></td></tr>
+<tr><td>05 OS</td><td><code>05-*.html</code> Drill A+B</td><td><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-dec-2023.html">RGPVOnline Dec-2023</a></td></tr>
+<tr><td>06 Office</td><td><code>06-*.html</code> Drill A+B</td><td><a href="https://career-shiksha.com/post/important-rgpv-question-bt-205-basic-computer-engineering-1st-year/">Important-Qs Unit-1</a></td></tr>
+<tr><td>Key-sheet</td><td><code>formula-sheet.html</code> (print)</td><td>—</td></tr>
+</table>
+<h2>How to study this unit</h2>
+<div class="concept-flow" aria-label="Unit 1 study flow">
+  <div class="step"><strong>Read</strong><br>01 → 06 in order</div>
+  <span class="arrow" aria-hidden="true">→</span>
+  <div class="step"><strong>Recall</strong><br>5 MCQs per topic</div>
+  <span class="arrow" aria-hidden="true">→</span>
+  <div class="step"><strong>Write</strong><br>PYQ drills on paper</div>
+  <span class="arrow" aria-hidden="true">→</span>
+  <div class="step"><strong>Review</strong><br>Cheat-Sheet + key sheet</div>
+</div>
+<p class="exam-note"><strong>Best loop:</strong> read one topic, close the page and explain it aloud, solve the five MCQs, then write the longest question from the Questionnaire tab before checking the sources.</p>
+<div class="callout">
+  <span class="label">Midsem 12 Oct — Units 1+2</span>
+  Midsem scope = this unit + <a href="../unit2/index.html">Unit 2 (Algorithms &amp; C++)</a>.
+  Predicted 20-mark paper + 2-day battle plan: <a href="../midsem.html">../midsem.html</a>.
+  Typical MST: 5 shorts × 2 (=10) + 2 longs × 5 (=10).
+</div>
+<div class="callout">
+  <span class="label">Quality rule</span>
+  One topic at a time. Finish <code>01-*.html</code> fully before starting 02.
+  Each file: Lesson + Cheat-Sheet + 5 MCQs + PYQ drill.
+</div>
+<div class="callout">
+  <span class="label">Fast recall</span>
+  <pre>IPO: Input -&gt; Process -&gt; Output (+ Storage)
+CPU = ALU + CU (+ registers); buses: data / address / control
+memory: 8 bit = 1 B; 1024 B = 1 KB; 1024 KB = 1 MB; 1024 MB = 1 GB
+address lines n -&gt; 2^n locations (16 lines -&gt; 64K)
+OS = interface + resource manager; file / process / memory mgmt
+Word: formatting + 4 alignments; Excel: =SUM() =AVERAGE() =IF()</pre>
+</div>
+</div>
+<div id="resources" class="tab-panel">
+<p class="kicker">Appendix &middot; RGPV Resources (all fetched &amp; verified)</p>
+<h1>BT205 Unit 1 &mdash; All Sources</h1>
+<p><em>Official syllabus, RGPV-aligned notes, PYQs. Fetched 2026-09-24.</em></p>
+<h2>Official syllabus</h2>
+<ul>
+  <li><strong>RGPV official scheme WEF July 2022 PDF</strong> &mdash;
+    <a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">rgpv.ac.in — BT205 Units 1–5 + 18 experiments</a>
+    &mdash; Unit 1 = Computer + OS + MS Office. Books: Balagurusamy, Silakari/Shukla, Rajaraman; ref: Norton, Galvin, Tanenbaum, Korth.</li>
+  <li><strong>RGPVOnline BT205 syllabus PDF</strong> &mdash;
+    <a href="https://www.rgpvonline.com/answer/basic-computer-engineering/basic-computer-engineering-syllabus.pdf">BT205 syllabus PDF</a>
+    &mdash; clean Unit 1–5 text version.</li>
+</ul>
+<h2>Subject notes (RGPV-aligned, verified)</h2>
+<ul>
+  <li><strong>rgpvnotes.in — BT-205 hub (Units 1–5, OneDrive + Dropbox)</strong> &mdash;
+    <a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">Unit 1 View/Download hub</a>
+    &mdash; free, no registration. Backbone for our 01–06.</li>
+  <li><strong>Scribd — Dept. of ESH BT205 Unit-I notes (CSE/IT II Sem)</strong> &mdash;
+    <a href="https://www.scribd.com/document/905427083/47901b8754284066a5d381d0ee8effd2-BT205-BCE-Notes-Unit-I-II-1-1">BT205 BCE Notes Unit I</a>
+    &mdash; CPU, bus, memory, software, OS file/process/memory management. Used for 02/03/05 depth.</li>
+  <li><strong>Slideshare — Unit 1 Basic Computer Engineering (rgpvnotes.in PDF)</strong> &mdash;
+    <a href="https://www.slideshare.net/slideshow/unit-1-basic-computer-engineering-www-rgpvnotes-in-1-pdf/272397147">Unit-1 slide notes</a>
+    &mdash; IPO, classification charts, OS types pages 18–19. Used for 01/05.</li>
+</ul>
+<h2>PYQ Papers (solve under timer)</h2>
+<ul>
+  <li><strong>CareerShiksha BT-205 archive (scanned images)</strong> &mdash;
+    <a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">BT-205 PYQ Dec-2025 back to May-2019</a>
+    &mdash; 10 sessions verified. Unit 1 repeats: classification, OS functions, Word formatting + RTF.</li>
+  <li><strong>RGPVOnline PDFs</strong> &mdash;
+    <a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2024.html">Jun-2024 PDF</a> &middot;
+    <a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">Jun-2022 PDF</a> &middot;
+    <a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-dec-2023.html">Dec-2023 PDF</a>
+    &mdash; downloadable PDFs with solutions.</li>
+  <li><strong>Dec-2020 paper pattern (CourseHero scan)</strong> &mdash;
+    Q1a health+education application, Q1b parts of computer, Q2a OS functions, Q2b Word formatting + RTF — folded into drills of 01/04/05/06.</li>
+</ul>
+<h2>Topic-wise PYQ frequency &amp; exam strategy</h2>
+<table>
+<tr><th>Topic</th><th>Pattern</th><th>Marks</th><th>Priority</th></tr>
+<tr><td>OS functions + types + management</td><td>Almost every session (Q2a Dec-2020 pattern)</td><td>7</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>Classification + parts of computer</td><td>Every alternate session (Q1 pattern)</td><td>7</td><td>&#x2713;&#x2713;&#x2713;</td></tr>
+<tr><td>Memory hierarchy + storage + I/O</td><td>Frequent 7-marker + short notes</td><td>7</td><td>&#x2713;&#x2713;</td></tr>
+<tr><td>MS Word / Excel / PPT</td><td>Short + practical (formatting, alignments, RTF)</td><td>7</td><td>&#x2713;&#x2713;</td></tr>
+<tr><td>Applications (health, education, GIS...)</td><td>Short note / Q1a pattern</td><td>7</td><td>&#x2713;</td></tr>
+</table>
+<h2>Viva + lab (BT205 practicals)</h2>
+<p>Unit 1 maps to Experiments 01–06: DOS commands, Linux commands (ls/cp/mv/rm/chmod/kill/ps), Windows folder ops, Word, Excel, PowerPoint. Viva loves:</p>
+<ul>
+  <li>Define computer + IPO cycle + 4 characteristics.</li>
+  <li>CPU = ? Buses = ? Registers = ? (PC, IR, MAR, MDR).</li>
+  <li>RAM vs ROM, 1 KB = ? bytes, HDD vs SSD.</li>
+  <li>System vs application software with 2 examples each.</li>
+  <li>OS definition + 4 functions + batch vs multiprogramming.</li>
+  <li>Word alignments (4), Excel =SUM() demo, PPT slide types.</li>
+</ul>
+<div class="callout">
+  <span class="label">Exam blueprint</span>
+  Unit 1 ≈ 1× 7-mark + 1× 7-mark (Q1+Q2 in Dec-2020 pattern) guaranteed. Highest ROI: OS functions + classification chart + memory pyramid + one Word/Excel practical. Master those four and Unit 1 is covered.
+</div>
+</div>
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt205/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

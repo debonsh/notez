@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Micrometer, Dial Gauge and Slip Gauge &amp;mdash; The Instruments That Read 0.01 mm</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit2 $</span> cat 02-micrometer-dial-slip.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 2 &mdash; Measurement &amp; Production</p>
+<h1>Micrometer, Dial Gauge and Slip Gauge &mdash; The Instruments That Read 0.01 mm</h1>
+<p><em>This is the single most-repeated question in BT-203: <strong>&ldquo;Explain the working of a
+micrometer&rdquo; appears in 6 of 11 papers</strong> &mdash; and RGPV asks it as a labelled sketch
+with its working, least count and range. All three instruments here resolve 0.01 mm, which is why
+they are examined as a set. Learn the screw&rsquo;s arithmetic properly and the sketch writes itself;
+get it wrong and every part of the answer collapses.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>A micrometer (micrometer screw gauge) measures a length by converting the
+rotation of a screw of 0.5 mm pitch, divided into 50 divisions, into a
+distance on the graduated sleeve and the thimble. Least count = 0.5 / 50
+= 0.01 mm; range 0 to 25 mm (or 0 to 50 mm or 0 to 100 mm). The dial
+gauge reads the same 0.01 mm but as a comparator; a slip gauge builds a
+known length by stacking gauges.</code></pre>
+
+<p>Then the framing sentence that makes the rest of the page logical: <em>&ldquo;All three read
+0.01 mm, and they differ in <strong>what they compare against</strong> &mdash; a screw thread, a
+reference setting, or a standard of length.</em>&rdquo;</p>
+
+<h2>Why the least count is 0.01 mm</h2>
+
+<p>This is the number the examiner is checking. Do not memorise it &mdash; derive it, in two
+lines.</p>
+
+<pre><code>Pitch of the screw      p = 0.5 mm   (given, by the screw standard)
+Number of divisions     N = 50      (marked on the thimble)
+Least count   LC = p / N = 0.5 / 50 = 0.01 mm   = 10 micron</code></pre>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Value</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>p</code></td><td>pitch of the screw &mdash; axial travel per full turn</td><td>0.5</td><td>mm</td></tr>
+<tr><td><code>N</code></td><td>number of circumferential divisions on the thimble</td><td>50</td><td>&mdash;</td></tr>
+<tr><td><code>LC = p / N</code></td><td>least count &mdash; smallest measurable change</td><td>0.01</td><td>mm</td></tr>
+<tr><td><code>d</code></td><td>length of the spindle &mdash; it fixes the range, not the LC</td><td>given</td><td>mm</td></tr>
+<tr><td><code>range = d</code></td><td>range &mdash; 0 to the spindle length, e.g. a 25 mm spindle gives 0&ndash;25 mm</td><td>25</td><td>mm</td></tr>
+<tr><td><code>travel = 10 d</code></td><td><strong>total travel</strong> over many turns &mdash; <em>not</em> the range</td><td>250</td><td>mm</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Pitch 0.5 mm, not 1 mm &mdash; the fact everyone gets wrong</span>
+<p>A standard metric micrometer screw has a pitch of <strong>0.5 mm</strong>, not 1 mm. This is
+because 0.5 mm is exactly divisible by both the 50-division thimble (giving 0.01 mm) and the
+100-division thimble (giving 0.005 mm), so either thimble gives an exact decimal. If a question
+says the pitch is 1 mm, use the 1 mm it gives you &mdash; but the <em>default</em>, assumed
+when nothing is stated, is 0.5 mm.</p>
+<p>So: <strong>LC = 0.5 / 50 = 0.01 mm</strong>, and <strong>range = the spindle length</strong> &mdash; a
+25 mm spindle gives a 0&ndash;25 mm instrument, a 50 mm spindle gives 0&ndash;50 mm. The number
+<strong>10 x spindle</strong> also appears, but it is the <em>total travel</em>, not the range.</p>
+</div>
+
+<h2>Working of the micrometer</h2>
+
+<table>
+<thead><tr><th>Part</th><th>Job</th></tr></thead>
+<tbody>
+<tr><td><strong>Frame</strong></td><td>Carries everything; the U-shaped bow joining the two other parts</td></tr>
+<tr><td><strong>Anvil</strong></td><td>The fixed hardened face the work is measured against</td></tr>
+<tr><td><strong>Spindle</strong></td><td>The moving face; translates screw rotation into axial motion</td></tr>
+<tr><td><strong>Sleeve</strong></td><td>The graduated barrel. Its horizontal scale reads <strong>thimble-edge position</strong> in 0.5 mm steps; its vertical scale marks the datum line</td></tr>
+<tr><td><strong>Thimble</strong></td><td>The rotating drum. Its bevelled edge carries <strong>50 divisions</strong>, one line coinciding with the sleeve datum line</td></tr>
+<tr><td><strong>Ratchet stop</strong></td><td>A slip device; it lets the spindle apply a <em>constant</em> pressure, which is why a standard micrometer must not be held with its ratchet</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Labelled micrometer with sleeve main scale divisions and thimble divisions">
+                    ANVIL  (fixed face)
+                      | |
+                      |_|           .--.        <- .--.
+                      | |         .'    '.        |    |
+              ________|_|________/________\_______|____|____
+             |        frame                          |
+             |   SPINDLE (moving face)               |
+             |                                       |
+             |   |====|  THIMBLE  (50 divisions)      |
+             |   |====|  rotating bevelled edge      |
+             |___|____|                             |
+                |    |                              |
+             .--+----+--.                            |
+            |  SLEEVE    |  <- main scale, 0.5 mm   |
+            |  0 .5 1 1.5|     steps, datum line ----+--- horizontal
+            |     |||    |                           |
+             '---+----+--'                           |
+                |    |                               |
+                |    |  RATCHET STOP (slip)          |
+                |    |                               |
+                '----'                               |
+                                                    v
+                                             the two readings are
+                                             ADDED, never subtracted:
+                                             sleeve reading (main scale)
+                                               + thimble reading (CS)
+                                             = measured diameter
+</pre>
+
+<h2>Reading a micrometer &mdash; three rules</h2>
+
+<ol>
+<li><strong>Main scale reading.</strong> Read the last graduation on the sleeve that is
+<em>visible to the left of the thimble edge</em>. The sleeve is graduated in 0.5 mm steps, so this
+contributes 0, 0.5, 1.0, 1.5&hellip;</li>
+<li><strong>Thimble reading (circular scale).</strong> The thimble divisions are numbered 0, 5,
+10&hellip;50 (0 and 50 are the same line). Read the division that coincides with the sleeve datum
+line, i.e. <strong>the CS</strong>.</li>
+<li><strong>Add them.</strong> Measured value = main scale reading + CS. Then apply any zero
+correction from the box.</li>
+</ol>
+
+<pre class="ascii-diagram" role="img" aria-label="Worked example of reading a micrometer, adding sleeve and thimble readings">
+  SLEEVE (main scale, 0.5 mm steps)      THIMBLE (50 divisions)
+  graduated                             numbered 0,5,...,50
+      |      |      |      |      |          45 . 46 . 47 . 48 . 49 . 0
+      0     1.0    2.0    2.5    3.0        /--/---/---/---/---/--/
+      |      |      |      |      |       .-'  .-'  .-'  .-'  .'
+      |      |      |      |      |    .-'   .-'   .-'   .-'   .'
+  --------------------------          /-----/-----/-----/-----/----/  <- datum line
+        thimble edge -->    |                    ^
+      |                     |              division 47 coincides
+      +---------------------+
+
+  main scale reading = 2.5 mm   (last visible graduation = 2.5)
+  thimble (CS)       = 0.47 mm  (division 47 on the datum line)
+  ---------------------------------------------------------------
+  MEASURED VALUE     = 2.5 + 0.47 = 2.97 mm
+  correct units, box the answer, and state the LC used
+</pre>
+
+<h2>Zero error and zero correction</h2>
+
+<table>
+<thead><tr><th>Condition</th><th>Zero error</th><th>Correction</th><th>Applied how</th></tr></thead>
+<tbody>
+<tr><td>Jaws closed and the zero lines <strong>coincide</strong></td><td>zero</td><td>none</td><td>&mdash;</td></tr>
+<tr><td>Jaws closed and the zero line is <strong>below</strong> the datum (gap between thimble zero and datum)</td><td><strong>negative</strong></td><td><strong>positive</strong></td><td>measured value <strong>+ correction</strong></td></tr>
+<tr><td>Jaws closed and the zero line is <strong>above</strong> the datum</td><td><strong>positive</strong></td><td><strong>negative</strong></td><td>measured value <strong>&minus; correction</strong></td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">The rule, in one line</span>
+<p><strong>Correction is always the opposite sign to the error, and you always add the correction.</strong>
+So a micrometer that reads <em>high</em> with the jaws closed (positive zero error) has a
+<em>negative</em> correction, which you subtract. Memorise the paired signs, not the story: the
+exam asks &ldquo;what is the correction&rdquo; and wants a signed number.</p>
+</div>
+
+<h2>Dial gauge &mdash; a comparator, not a ruler</h2>
+
+<p>The dial gauge has the <strong>same 0.01 mm least count</strong>, but a completely different job. It
+has no spindle to set against an absolute datum; instead the plunger is always pressed against
+something, and you <em>set the dial to zero on the master</em> and then read how far the work
+deviates from it.</p>
+
+<table>
+<thead><tr><th>Feature</th><th>Micrometer</th><th>Dial gauge</th></tr></thead>
+<tbody>
+<tr><td>Least count</td><td>0.01 mm</td><td>0.01 mm</td></tr>
+<tr><td>Reads</td><td>An absolute dimension</td><td>A <strong>deviation from a setting</strong></td></tr>
+<tr><td>Zero</td><td>Found by closing the jaws</td><td>Set by a <strong>master</strong> (a gauge block or a setting standard)</td></tr>
+<tr><td>Typical range</td><td>0&ndash;25, 0&ndash;50, 0&ndash;100 mm, fixed</td><td>Travel typically 10 mm, with any amount of <strong>pre-compression</strong> or extension available</td></tr>
+<tr><td>Read by</td><td>Main scale + thimble, added</td><td>One circular dial read directly</td></tr>
+<tr><td>Used for</td><td>Outside or inside diameter of a shaft, bore or plate</td><td>Checking flatness, eccentricity, run-out, clearance, hole size against a master</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Comparison of micrometer and dial gauge in use, showing absolute reading against comparator deviation">
+   MICROMETER: absolute reading            DIAL GAUGE: comparator
+
+        |ANVIL|                              MASTER (gauge block)
+        |    |  <- work held between         |#######|  set to zero
+        |    |     the two faces              |#######|
+        +----+                               ++-----+
+     sleeve 2.5                              \  |  /
+     thimble 0.47                            \ | /   plunger presses on
+     ----------                               \|/    the work
+       = 2.97 mm                                v
+                                          WORK (shaft)
+     ONE number, printed on the instrument  if dial reads +0.03,
+     straight off the scale                  the work is 0.03 BIGGER
+                                             than the master;
+                                             if it reads -0.02, smaller.
+                                             The dial itself never
+                                             says what the size is.
+</pre>
+
+<div class="exam-note"><strong>Why RGPV pairs them.</strong> Both resolve 0.01 mm, which is the
+detail the question is usually testing &mdash; candidates routinely give two different least counts
+for the pair. The <strong>second</strong> mark is the distinction: micrometer reads a size, dial
+gauge reads a deviation from a set master. Add that sentence and the answer is complete.</div>
+
+<h2>Slip gauge &mdash; length built by stacking</h2>
+
+<p>A slip gauge (or gauge block) is a rectangular block of hardened steel, lapped flat on two
+opposite faces to an accuracy of a fraction of a micron. Individual gauges have standard sizes
+(more below), and <strong>any required length is built by stacking them</strong>.</p>
+
+<table>
+<thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><strong>Gauge number</strong></td><td>The nominal length of one gauge, so it can be identified without measuring it</td></tr>
+<tr><td><strong>Gauge series A, B, C</strong></td><td>Different sets of standard sizes. <strong>Series A</strong> is a set of decimal gauges for any decimal length; <strong>Series B</strong> gives binary and digit combinations; <strong>Series C</strong> is a smaller supplementary set</td></tr>
+<tr><td><strong>Differential gauge</strong></td><td>A thinner block so you can <em>remove</em> length as well as add it</td></tr>
+<tr><td><strong>Roller gauge</strong></td><td>A long slim block used for slenderness and for guarding large gauges</td></tr>
+</tbody>
+</table>
+
+<pre class="ascii-diagram" role="img" aria-label="Slip gauge stack built to a required length, and the two-stage micrometer reading it back">
+     BUILD A LENGTH BY STACKING
+     ================================================
+      REQUIRED: 35.20 mm
+
+      35 mm      (one gauge from the decimal set)
+       0.2 mm    (one small gauge)
+       -----
+      35.20 mm   = 35 + 0.2      -> the stack IS the length
+
+      The gauges are wrung together (thin film of oil,
+      or a light sliding motion). A wrung stack of N
+      gauges carries N-1 separate interfaces, and its
+      length is exactly the sum of the individuals.
+
+     MEASURE IT BACK with the two-piece method
+     ================================================
+     1. Measure the 35 mm gauge ALONE with the
+        micrometer  -> x
+     2. Measure the WHOLE stack (35 + 0.2) -> y
+     3. size of the 0.2 gauge = y - x
+        (this is how a worn or suspect small gauge
+         is actually certified)
+
+     Differential gauge = the one you subtract
+     to come DOWN to size, e.g. 35.20 - 0.05 = 35.15
+</pre>
+
+<div class="exam-note"><strong>The two-piece method.</strong> This is how a gauge block is certified
+and it is the single most likely short question on slip gauges: <em>measure the large gauge alone,
+measure the stack, subtract to find the size of the small gauge.</em> Writing that sentence with a
+sketch of a stack is a full answer.</div>
+
+<h2>Combination set</h2>
+
+<p>A <strong>combination set</strong> is the standard group of gauges with which <em>any</em> length
+from 1 to 1000 mm can be built. It contains 81 pieces in nine groups &mdash; an 81-piece set
+carries gauges for 1.000&ndash;9.000 in 0.001 steps, 10.00&ndash;100.0 in 0.01 steps, and so on up to
+100&ndash;1000 in 0.1 steps, plus the differential and roller gauges. You always select
+<strong>three gauges</strong> to build a length.</p>
+
+<h2>Numericals in great depth</h2>
+
+<p>Two kinds appear here: reading a micrometer, and building a slip gauge length. Both are short,
+and both are lost by unit slips rather than by wrong method.</p>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>MSR</code></td><td>main scale reading &mdash; last visible sleeve graduation</td><td>mm</td></tr>
+<tr><td><code>CS</code></td><td>circular scale reading &mdash; coincident thimble division</td><td>mm</td></tr>
+<tr><td><code>z</code></td><td>zero error, signed</td><td>mm</td></tr>
+<tr><td><code>MV = MSR + CS</code></td><td>measured value, before correction</td><td>mm</td></tr>
+<tr><td><code>TV = MV &plusmn; correction</code></td><td>true value after zero correction</td><td>mm</td></tr>
+<tr><td><code>LC = p / N</code></td><td>least count</td><td>mm</td></tr>
+<tr><td><code>T = 10 d</code></td><td>range from spindle diameter d</td><td>mm</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; micrometer numerals</span>
+<pre><code>Given:  the observation, including zero error and instrument range
+Find:   least count, true value, or the required instrument
+Formula:LC = p/N ;  MV = MSR + CS ;  TV = MV - zero error (with sign)
+Solve:  substitute, keep the sign of the zero error, write mm everywhere
+Check:  subtract the correction and confirm you recover the true value</code></pre>
+</div>
+
+<h3>Solved A &mdash; reading a micrometer with a zero error</h3>
+<p><em>A 0&ndash;25 mm micrometer has a pitch of 0.5 mm and 50 thimble divisions. With the jaws
+closed the thimble zero lies 0.02 mm <em>above</em> the sleeve datum line. A shaft is measured and
+the observation is: main scale reading 2.5 mm, thimble division 47 coinciding with the datum.
+Find the least count, the range, the zero error, and the true diameter.</em></p>
+<p><strong>Given:</strong> p = 0.5 mm, N = 50, spindle dia 25 mm; zero 0.02 mm above datum; MSR =
+2.5 mm, CS = 47.
+<strong>Find:</strong> LC, range, zero error and its sign, true diameter.
+<strong>Formula:</strong> LC = p/N; range = d; TV = MSR + CS &minus; z with the sign of z read from
+the statement.
+<strong>Solve:</strong></p>
+<pre><code>LC    = 0.5 / 50 = 0.01 mm
+
+range = 0 to 25 mm
+        (the instrument opens to the spindle diameter 25 mm;
+         total travel over many turns = 10 x 25 = 250 mm,
+         but the RANGE is only what it can read in one setup)
+
+zero lies ABOVE the datum -> positive zero error
+z = +0.02 mm
+
+MV = 2.5 + 0.47 = 2.97 mm
+TV = 2.97 - 0.02 = 2.95 mm</code></pre>
+<p><strong>Answer:</strong> least count <strong>0.01 mm</strong>, range <strong>0&ndash;25 mm</strong>,
+zero error <strong>+0.02 mm</strong> (correction &minus;0.02 mm), true diameter
+<strong>2.95 mm</strong>.</p>
+<p><strong>Check:</strong> adding the correction back recovers the measured value exactly,
+2.95 + 0.02 = 2.97 mm, so the sign of the correction is right &mdash; an instrument reading high with
+its jaws closed needs its reading reduced. Independent second check on the main scale: the sleeve is
+graduated in 0.5 mm steps and the last visible mark was 2.5 mm, so the value must lie between 2.50
+and 2.99 mm. 2.95 sits inside that band; had the thimble read, say, 57 the sum would have fallen
+outside it, which flags a misread. Note also that 2.95 is <em>not</em> a multiple of 0.01 from 2.97
+by accident &mdash; the 0.02 correction is an exact two divisions, so the final figure is legitimately
+a two-decimal millimetre value. <strong>On the range:</strong> 25 mm is both the spindle diameter and
+the instrument's range, because a spindle that long can open to its own diameter and no further. The
+figure 250 mm is the <em>total travel</em>, the distance the spindle would move through many turns,
+and writing it as the range is the classic error &mdash; which is why it is listed as a trap
+below.</p>
+
+<h3>Solved B &mdash; least count and range of a different spindle</h3>
+<p><em>A micrometer has a screw of pitch 0.5 mm, 100 divisions on the thimble and a spindle of
+diameter 50 mm. Find its least count, its range, and the reading it gives when the main scale shows
+1.5 mm and thimble division 23 coincides with the datum, assuming no zero error.</em></p>
+<p><strong>Given:</strong> p = 0.5 mm, N = 100, d = 50 mm; MSR = 1.5 mm, CS = 23.
+<strong>Find:</strong> LC, range, reading. <strong>Formula:</strong> LC = p/N; range = d; MV = MSR + CS.
+<strong>Solve:</strong></p>
+<pre><code>LC = 0.5 / 100 = 0.005 mm        <- finer than the standard 50-division
+                                  thimble, because N is larger
+
+range = 0 to 50 mm
+        (spindle is 50 mm long, so it opens to its own diameter;
+         total travel = 10 x 50 = 500 mm over many turns)
+
+MV = 1.5 + 0.23 = 1.73 mm</code></pre>
+<p><strong>Answer:</strong> least count <strong>0.005 mm</strong>, range <strong>0&ndash;50 mm</strong>,
+reading <strong>1.73 mm</strong>.</p>
+<p><strong>Check:</strong> the least count comes out as an exact decimal because 0.5 divides
+evenly by 100 &mdash; that is precisely why the screw pitch is 0.5 mm rather than 1 mm, and it is the
+reason the check on the pitch is worth remembering. On the range: a 50 mm spindle cannot open past
+50 mm, so the instrument reads from 0 to 50 mm even though the spindle would travel 500 mm through
+many turns; this distinction (range versus total travel) is worth one line in the answer. On the
+reading: 1.73 mm is a multiple of 0.005 &mdash; it is 346 divisions of the thimble &mdash; as it must
+be for a 0.005 mm instrument. A value like 1.735 would not be readable on this instrument.</p>
+
+<h3>Solved C &mdash; building a length from slip gauges</h3>
+<p><em>Construct a length of 83.425 mm from an 81-piece combination set, stating the three gauges
+used. Then state how you would verify the size of the smallest gauge used.</em></p>
+<p><strong>Given:</strong> required length 83.425 mm; standard combination set.
+<strong>Find:</strong> the three gauges. <strong>Formula:</strong> decimal decomposition &mdash;
+thousands, then hundreds/tens/units, then the decimal part; the last component comes from the
+differential.
+<strong>Solve:</strong></p>
+<pre><code>83.425 mm  =  80 mm  +  3 mm  +  0.425 mm
+              (gauge)   (gauge)    (differential)
+
+the 0.425 must be reached in smaller steps:
+  0.425 = 0.4 + 0.025        -> 4th group gives 0.400
+  0.025 -> 0.02 + 0.005     -> 5th group gives 0.020
+   the remainder 0.005       -> differential gauge
+
+so the stack is three or four gauges selected across groups:
+   80.000 (group 3) + 3.000 (group 2) + 0.425 assembled from the
+   small gauges / differential</code></pre>
+<p><strong>Answer:</strong> the length is built by <strong>stacking</strong>, never by cutting:
+decompose the number by decimal place &mdash; <strong>83.000</strong> from the large gauges,
+<strong>0.400</strong> and <strong>0.020</strong> from the smaller groups, and the final
+<strong>0.005</strong> from the <strong>differential gauge</strong>. The exact selection depends on
+which gauges the set contains; the method &mdash; split by decimal place, three or four gauges, finish
+with the differential &mdash; is what earns the mark.</p>
+<p><strong>Check:</strong> the components must sum exactly to the target: 83.000 + 0.400 + 0.020 +
+0.005 = 83.425 mm. Independent second check: a combination set can build any length in its range,
+so if your chosen pieces do not sum to the target the selection is wrong, not the method. Third
+check on the digit count: 83.425 has three whole-number digits and three decimal digits, so you
+need one gauge per decimal place plus a differential &mdash; four pieces, which matches.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>Pitch is 0.5 mm, not 1 mm.</strong> LC = 0.5/50 = 0.01 mm. Dividing 1 by 50 gives 0.02
+mm, which is the most common wrong answer on this topic.</li>
+<li><strong>Range is the spindle length, not ten times it.</strong> A 25 mm spindle gives
+0&ndash;25 mm. The figure 250 mm is the <em>total travel</em>, a different quantity entirely.</li>
+<li><strong>Add the two scale readings; never subtract them.</strong> Main scale gives the whole
+0.5 mm steps, thimble gives the fraction below that step.</li>
+<li><strong>Read the last division <em>visible</em> to the left of the thimble edge</strong> &mdash;
+not the one the edge is touching, and not the next one.</li>
+<li><strong>Zero error sign: above the datum is positive</strong>, below is negative. And the
+correction always carries the opposite sign.</li>
+<li><strong>Do not confuse the micrometer&rsquo;s 0&ndash;25 mm range with its 250 mm total
+travel.</strong> The range is what it can measure in one setup.</li>
+<li><strong>Dial gauge reads a deviation, not a size.</strong> It must be set to zero against a
+master; without that setting it has no absolute meaning.</li>
+<li><strong>Slip gauges are stacked, not combined by subtraction of size.</strong> The sum of the
+pieces is the length; the differential is the one piece you subtract.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;A micrometer is a screw-gauge instrument that
+converts the rotation of a screw of 0.5 mm pitch divided into 50 circumferential divisions into a
+measurable distance, and it is used to measure small internal or external dimensions to an accuracy
+of 0.01 mm.&rdquo;</li>
+<li><strong>Least-count line</strong> &mdash; &ldquo;The least count is pitch divided by the number
+of divisions, that is 0.5/50 = <strong>0.01 mm</strong>, and the range equals the length of the
+spindle.&rdquo;</li>
+<li><strong>Method line</strong> &mdash; &ldquo;The measurement is the sum of the main scale
+reading on the sleeve and the circular scale reading on the thimble, corrected for any zero
+error.&rdquo;</li>
+<li><strong>Dial gauge line</strong> &mdash; &ldquo;The dial gauge has the same 0.01 mm least count
+but is a comparator: it is set to zero against a master and reads only the deviation of the work
+from that master.&rdquo;</li>
+<li><strong>Slip gauge line</strong> &mdash; &ldquo;A slip gauge is a hardened block lapped to a
+standard length; any required length is built by wringing several gauges together, and the size of
+a single small gauge is verified by measuring it alone and then measuring the stack, subtracting
+one from the other.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence all three instruments resolve 0.01 mm, and
+they are distinguished by the reference they are read against &mdash; a screw thread, a set master,
+or a stacked standard.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Sketch before prose</strong> &mdash; a labelled micrometer diagram is half of a 7-mark
+answer and it is the half you cannot write badly</li>
+<li><strong>Derive the least count on the page</strong> &mdash; write 0.5/50 = 0.01 mm rather than
+just asserting it; the derivation is what is marked</li>
+<li><strong>Name every part with its job</strong> &mdash; &ldquo;spindle: moving face&rdquo; scores
+where a bare list of part names does not</li>
+<li><strong>Always give the range with the instrument</strong> &mdash; 0&ndash;25 mm, from 10 x the
+25 mm spindle</li>
+<li><strong>Underline and box</strong> &mdash; box the final measured value and the least count</li>
+<li><strong>Attempt this early</strong> &mdash; it is the most-asked item in the subject, and the
+diagram carries it</li>
+<li><strong>Never leave blank</strong> &mdash; a labelled sketch plus the least count clears 4 of 7</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="C" data-explain="Least count is pitch divided by the number of circumferential divisions: 0.5 / 50 = 0.01 mm. Dividing 1 by 50 gives 0.02 mm, which is the standard wrong answer. The pitch of a metric micrometer screw is 0.5 mm precisely because it divides evenly by both 50 and 100.">
+<p><strong>Q1. The least count of a standard metric micrometer screw gauge is:</strong></p>
+<button data-key="A">0.5 mm</button>
+<button data-key="B">0.02 mm</button>
+<button data-key="C">0.01 mm</button>
+<button data-key="D">0.001 mm</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="The range is the spindle length: a 25 mm spindle opens to 25 mm, so the instrument reads 0-25 mm. It is NOT ten times that. 250 mm is the total travel of the spindle over many turns, a different quantity. Confusing the two is the usual slip on this question.">
+<p><strong>Q2. A micrometer with a spindle of 25 mm diameter has a range of:</strong></p>
+<button data-key="A">0 to 25 mm</button>
+<button data-key="B">0 to 250 mm</button>
+<button data-key="C">0 to 10 mm</button>
+<button data-key="D">25 to 50 mm</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="The reading is the sum of the main scale reading on the sleeve (2.5 mm) and the circular scale reading on the thimble (0.47 mm), giving 2.97 mm. They are never subtracted: the sleeve carries the whole 0.5 mm steps and the thimble carries the fraction below the last visible step.">
+<p><strong>Q3. A micrometer observation gives main scale 2.5 mm and thimble division 47 on the datum line. The reading is:</strong></p>
+<button data-key="A">2.03 mm</button>
+<button data-key="B">2.97 mm</button>
+<button data-key="C">2.50 mm</button>
+<button data-key="D">2.47 mm</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="The dial gauge has the same 0.01 mm least count but is a comparator: it is zeroed against a master or gauge block and then reads only the deviation of the work from that master. It never reports an absolute size on its own, which is the distinction RGPV is testing when it pairs the two instruments.">
+<p><strong>Q4. A dial gauge differs from a micrometer chiefly in that it:</strong></p>
+<button data-key="A">Has a coarser least count of 0.1 mm</button>
+<button data-key="B">Can measure internal dimensions directly</button>
+<button data-key="C">Must be held against the work by hand</button>
+<button data-key="D">Reads a deviation from a set master rather than an absolute size</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="A slip gauge is a hardened block lapped flat to a standard length, and a required length is built by wringing several gauges together. A differential gauge is the one piece that is subtracted, and the size of a suspect small gauge is found by measuring it alone, measuring the stack, and subtracting.">
+<p><strong>Q5. A length that is not an available gauge size is obtained by:</strong></p>
+<button data-key="A">Turning the work to size on the lathe</button>
+<button data-key="B">Stacking and wringing several slip gauges together</button>
+<button data-key="C">Heating the block and bending it</button>
+<button data-key="D">Measuring with a dial gauge only</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Top of the corpus, 6 of 11 papers.</strong> &ldquo;Explain the working of a micrometer
+with a neat sketch. State its least count and range.&rdquo; &rarr; Labelled sketch with the sleeve
+datum line and the 50-division thimble; least count derived as 0.5/50 = 0.01 mm; range 10 x
+spindle.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What is a dial gauge? How does it
+work?&rdquo; &rarr; Definition as a comparator; set to zero against a master; reads deviation;
+give two uses &mdash; flatness and eccentricity.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What is a slip gauge? How is a length
+formed from it?&rdquo; &rarr; Definition; series A, B, C; stacking and wringing; the differential
+gauge; the two-piece method of verifying a gauge.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between a micrometer and a dial
+gauge.&rdquo; &rarr; Same least count, different reference; absolute size against deviation;
+against a master against found by closing the jaws.</li>
+<li><strong>One-line recall.</strong> &ldquo;Why is the screw pitch of a micrometer 0.5 mm and not
+1 mm?&rdquo; &rarr; Because 0.5 divides evenly into both 50 and 100 divisions, so either thimble
+gives an exact decimal least count.</li>
+<li><strong>One-line recall.</strong> &ldquo;What is the role of the ratchet stop?&rdquo; &rarr; It
+slips at a constant pressure so the reading does not depend on how hard the spindle is closed on
+the work.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="7">
+<li><strong>10 minutes, no notes.</strong> Draw the micrometer from memory and label six parts
+with one job each. Then write the least-count derivation under it. Check the thimble count is 50 and
+the pitch is 0.5, not 1.</li>
+<li><strong>5 minutes.</strong> Solved A on paper. Check the zero error is <em>positive</em> (the
+zero is above the datum), so the correction is subtracted, giving 2.95 mm and not 2.99.</li>
+<li><strong>4 minutes.</strong> Solved B on paper. Check the range is 0&ndash;50 mm from the 50 mm
+spindle even though the total travel is 500 mm.</li>
+<li><strong>5 minutes.</strong> Explain the two-piece method for verifying a slip gauge, and name
+the gauge used to come down in size. Check the differential gauge is named.</li>
+<li><strong>4 minutes.</strong> Write the micrometer-versus-dial-gauge differentiation in a
+four-row table. Check that row one carries &ldquo;both 0.01 mm&rdquo; &mdash; that shared least count
+is what the question usually turns on.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 2 Topic 02</p>
+<h1>Micrometer, Dial Gauge and Slip Gauge &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>MICROMETER
+  A micrometer (micrometer screw gauge) measures a length by converting
+  the rotation of a screw of 0.5 mm pitch, divided into 50 circumferential
+  divisions, into a distance on the graduated sleeve and the thimble.
+  Least count = 0.5/50 = 0.01 mm.  Range = the spindle length.
+  READING = main scale reading + circular scale reading.
+
+DIAL GAUGE
+  A comparator with the same 0.01 mm least count. Set to zero against a
+  master, it reads only the DEVIATION of the work from that master.
+
+SLIP GAUGE
+  A hardened block lapped to a standard length. Any length is built by
+  wringing gauges together; a differential gauge is subtracted. A single
+  gauge is verified by the two-piece method: measure it alone, measure
+  the stack, subtract.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Least count  -> LC = pitch / thimble divisions
+                   LC  = 0.5 / 50 = 0.01 mm
+2. Range        -> range = length of the spindle
+                   25 mm spindle -> 0 to 25 mm
+                   (10 x spindle = TOTAL TRAVEL, not the range)
+3. Reading      -> MV = main scale reading + circular scale reading
+                   (ADD, never subtract)
+4. True value   -> TV = MV with the correction applied, whose sign is
+                   always opposite to the zero error</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Instrument</th><th>Least count</th><th>Range</th><th>Zero found by</th><th>Reads</th></tr></thead>
+<tbody>
+<tr><td>Micrometer 0&ndash;25</td><td>0.01 mm</td><td>0&ndash;25 mm</td><td>Closing the jaws</td><td>Absolute size</td></tr>
+<tr><td>Micrometer 0&ndash;50</td><td>0.01 mm</td><td>0&ndash;50 mm</td><td>Closing the jaws</td><td>Absolute size</td></tr>
+<tr><td>Micrometer 0&ndash;100</td><td>0.01 mm</td><td>0&ndash;100 mm</td><td>Closing the jaws</td><td>Absolute size</td></tr>
+<tr><td>Dial gauge</td><td>0.01 mm</td><td>10 mm travel, any pre-compression</td><td>A master or gauge block</td><td>Deviation from the master</td></tr>
+<tr><td>Slip gauge</td><td>microns, by calibration</td><td>Each gauge one fixed length</td><td>Not applicable &mdash; it IS the standard</td><td>Built length by stacking</td></tr>
+<tr><td>Vernier calliper</td><td>0.02 mm (50-division vernier)</td><td>0&ndash;150 / 0&ndash;300 mm</td><td>Closing the jaws</td><td>Absolute size (topic 03)</td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Micrometer</strong> &mdash; an instrument measuring small dimensions by converting screw
+rotation into linear displacement, using a 0.5 mm pitch screw with a 50-division thimble.</li>
+<li><strong>Pitch</strong> &mdash; the axial distance the spindle advances in one full turn of the
+screw; 0.5 mm in a standard metric micrometer.</li>
+<li><strong>Least count</strong> &mdash; the smallest change the instrument can measure; here
+pitch divided by thimble divisions, 0.01 mm.</li>
+<li><strong>Zero error</strong> &mdash; the reading obtained with the jaws closed against each other
+when it should be zero; positive when the zero lies above the datum line.</li>
+<li><strong>Zero correction</strong> &mdash; the negative of the zero error; always applied, with
+the sign opposite to the error.</li>
+<li><strong>Dial gauge</strong> &mdash; a comparator of 0.01 mm least count, zeroed against a
+master, reading the deviation of the work from that master.</li>
+<li><strong>Slip gauge or gauge block</strong> &mdash; a hardened steel block lapped flat on two
+opposite faces to a highly accurate standard length.</li>
+<li><strong>Combination set</strong> &mdash; the 81-piece group of gauges from which any length from
+1 to 1000 mm can be built, selecting three gauges.</li>
+<li><strong>Differential gauge</strong> &mdash; the thinnest gauge, used to bring a stack
+<em>down</em> in size rather than up.</li>
+<li><strong>Roller gauge</strong> &mdash; a long slim gauge used for slenderness and to guard the
+smaller gauges.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can draw the micrometer from memory and label six parts with a job for each</li>
+<li>[ ] Can derive 0.5/50 = 0.01 mm on the page rather than asserting it</li>
+<li>[ ] Can state the range for a 25 mm, 50 mm and 100 mm spindle</li>
+<li>[ ] Can read an observation correctly, adding the two scale readings</li>
+<li>[ ] Can state the sign rule for zero error and zero correction</li>
+<li>[ ] Can explain why the dial gauge is a comparator, in one sentence</li>
+<li>[ ] Can name the slip gauge series A, B and C and what the differential does</li>
+<li>[ ] Can describe the two-piece method for verifying a gauge</li>
+<li>[ ] Can solve a least-count-and-range numeral and a micrometer reading numeral</li>
+<li>[ ] Can decompose an arbitrary length into slip gauges by decimal place</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Three moves.</strong> Least count: pitch divided by divisions &mdash;
+0.5/50 = 0.01. Range: the spindle length. Reading: add the sleeve reading to the thimble
+reading, then apply the zero correction with the sign opposite to the zero error. Always finish by
+writing the unit and checking the value is a multiple of 0.01 mm &mdash; an answer that is not a
+multiple of the least count has been misread.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 2 Topic 02 &middot; 6 of 11 papers &mdash; the most-repeated item in BT-203</p>
+<h1>Micrometer, Dial Gauge and Slip Gauge &mdash; questionnaire</h1>
+<div class="q-meta">Recurring 6x &middot; "explain the working of a micrometer" &rarr; a labelled sketch plus the least count and range carries the whole answer</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; 6 papers</span></div>
+<h3>Explain the working of a micrometer with a neat sketch. State its least count and range.</h3>
+<p>The most-repeated question in the subject. The sketch is not decoration &mdash; it is worth at least half the marks, and the examiner expects the sleeve datum line and the numbered thimble divisions to be identifiable. Then derive the least count rather than quoting it.</p>
+<div class="q-foot"><b>write</b> &mdash; labelled sketch with anvil, spindle, sleeve, thimble, ratchet, frame (2) &rarr; working in three sentences, screw rotation to linear displacement (2) &rarr; least count 0.5/50 = 0.01 mm with the derivation shown (2) &rarr; range equal to the spindle length (1).</div>
+<div class="q-foot"><b>check</b> &mdash; quoting 0.01 mm without the derivation loses the working marks; a pitch of 1 mm gives the wrong least count and is the standard error; omitting the range costs the last mark; a sketch with no job attached to each part scores half the diagram.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; 4 papers</span></div>
+<h3>What is a dial gauge? Explain its working and state its applications.</h3>
+<p>The second half of the instrument pair. The whole mark is in one sentence &mdash; it is a comparator, zeroed against a master, so it reads a deviation and never an absolute size &mdash; followed by applications that are genuinely checking operations rather than general measuring.</p>
+<div class="q-foot"><b>write</b> &mdash; definition as a comparator of 0.01 mm least count (1) &rarr; set to zero against a master (1) &rarr; plunger compresses and the dial reads deviation (1) &rarr; two applications: flatness and eccentricity or run-out (2).</div>
+<div class="q-foot"><b>check</b> &mdash; describing it as measuring an absolute size loses the distinction mark; giving the same least count as the micrometer is expected and must be stated; "used for accuracy" is too vague to earn the application marks.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; 3 papers</span></div>
+<h3>What is a slip gauge? How is a required length formed from it, and how is a single gauge verified?</h3>
+<p>Three parts. The third is the one most often missed and it is a full answer in a sentence: measure the gauge alone, measure the stack, subtract. That two-piece method is the standard technique and examiners ask for it directly.</p>
+<div class="q-foot"><b>write</b> &mdash; definition: hardened block lapped flat to a standard length (1) &rarr; series A, B and C named briefly (1) &rarr; stacking and wringing to build a length (1) &rarr; differential gauge subtracts (1) &rarr; two-piece method for verification (1).</div>
+<div class="q-foot"><b>check</b> &mdash; describing the set as adjustable or sliding is wrong &mdash; the blocks are fixed and are stacked; omitting the differential loses a mark; skipping the verification method costs the final mark on this question.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence defining the micrometer and its 0.01 mm accuracy.</li>
+    <li><strong>Visual:</strong> Draw the labelled instrument before any prose &mdash; six parts, each with a job.</li>
+    <li><strong>Derive:</strong> Write the least count as 0.5/50 on the page, then give the range as the spindle length.</li>
+    <li><strong>Close:</strong> Box the least count and the range, and add the one-line distinction from the dial gauge.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "A micrometer is a screw-gauge instrument that converts the rotation of a screw of 0.5 mm pitch divided into 50 circumferential divisions into a measurable distance, and it measures small internal or external dimensions to an accuracy of 0.01 mm."</p>
+  <p class="answer-close"><strong>For this topic:</strong> labelled sketch &rarr; working in three sentences &rarr; derived least count &rarr; range &rarr; zero error and its correction &rarr; reading rule (add the two scales) &rarr; dial gauge as comparator &rarr; slip gauge with the two-piece method &rarr; boxed least count and range.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Sketch first</strong> &mdash; the diagram is half the marks and it is the easy half</li>
+    <li><strong>Derive, do not quote</strong> &mdash; 0.5/50 = 0.01 mm written out</li>
+    <li><strong>Each part named with its job</strong> &mdash; "spindle: the moving face"</li>
+    <li><strong>Underline keywords</strong> &mdash; pitch, divisions, comparator, deviation, wrung</li>
+    <li><strong>Box the numbers</strong> &mdash; 0.01 mm and 0&ndash;25 mm</li>
+    <li><strong>Attempt order</strong> &mdash; first instrument question of the paper; the diagram carries it</li>
+    <li><strong>Never leave blank</strong> &mdash; sketch plus least count clears 4 of 7</li>
+    <li><strong>Close every answer</strong> &mdash; boxed answer plus one significance line</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Explain the working of a micrometer with a neat sketch. State its least count and range.</h3>
+<p class="answer-lead">Sketch, then working, then the two numbers with their derivations. The pitch of 0.5 mm is the fact the whole answer rests on, so show it.</p>
+<pre class="ascii-diagram" role="img" aria-label="Labelled micrometer with sleeve main scale divisions and thimble divisions">
+                    ANVIL  (fixed face)
+                      | |
+                      |_|           .--.        <- .--.
+                      | |         .'    '.        |    |
+              ________|_|________/________\_______|____|____
+             |        frame                          |
+             |   SPINDLE (moving face)               |
+             |                                       |
+             |   |====|  THIMBLE  (50 divisions)      |
+             |   |====|  rotating bevelled edge      |
+             |___|____|                             |
+                |    |                              |
+             .--+----+--.                            |
+            |  SLEEVE    |  <- main scale, 0.5 mm   |
+            |  0 .5 1 1.5|     steps, datum line ----+--- horizontal
+            |     |||    |                           |
+             '---+----+--'                           |
+                |    |                               |
+                |    |  RATCHET STOP (slip)          |
+                |    |                               |
+                '----'                               |
+                                                    v
+                                             the two readings are
+                                             ADDED, never subtracted:
+                                             sleeve reading (main scale)
+                                               + thimble reading (CS)
+                                             = measured diameter
+</pre>
+<p><strong>Construction.</strong> A micrometer consists of a U-shaped <strong>frame</strong>, an
+<strong>anvil</strong> which is the fixed measuring face, a <strong>spindle</strong> which is the
+moving face, a graduated <strong>sleeve</strong> bearing the main scale and the datum line, and a
+<strong>thimble</strong> bearing 50 circumferential divisions on its bevelled edge. A
+<strong>ratchet stop</strong> at the end of the spindle provides a constant measuring pressure.</p>
+<p><strong>Working.</strong> The work is held between the anvil and the spindle. The spindle is
+carried by a screw of 0.5 mm pitch, so one complete turn moves it 0.5 mm axially &mdash; and the
+axial movement is what is read, not the rotation. The sleeve's horizontal main scale is graduated
+in steps of 0.5 mm and records the thimble-edge position; the thimble is divided into 50 equal
+parts, so each division is 0.5/50 = 0.01 mm. The reading is the sum of the last main scale division
+visible to the left of the thimble edge and the thimble division coinciding with the sleeve datum
+line. The ratchet stop is operated so that the spindle is applied to the work at a constant
+pressure; a micrometer fitted with a ratchet must therefore not be held by turning the thimble
+directly.</p>
+<table>
+<tr><th>Quantity</th><th>Derivation</th><th>Value</th></tr>
+<tr><td>Least count</td><td>pitch / thimble divisions = 0.5 / 50</td><td><strong>0.01 mm</strong></td></tr>
+<tr><td>Range (25 mm spindle)</td><td>equal to the spindle length; 10 x 25 = 250 mm is the total travel, not the range</td><td><strong>0 to 25 mm</strong></td></tr>
+</table>
+<p><strong>Zero error.</strong> With the jaws closed the zero of the thimble should coincide with
+the sleeve datum line. If it lies above the datum the zero error is <strong>positive</strong> and
+the correction is <strong>negative</strong>; if it lies below, the reverse. The correction always
+carries the sign opposite to the error and is applied to every reading.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence a micrometer reads to 0.01 mm by
+converting screw rotation into axial motion, the pitch of 0.5 mm divided into 50 thimble divisions
+giving the least count, and its range being the length of the spindle &mdash; which is why a
+0&ndash;25 mm instrument is the commonest form."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>What is a dial gauge? Explain its working and state its applications.</h3>
+<p class="answer-lead">One sentence carries the whole distinction: it is a comparator. Everything after that is working detail and applications that are genuinely checking operations.</p>
+<pre class="ascii-diagram" role="img" aria-label="Comparison of micrometer and dial gauge in use, showing absolute reading against comparator deviation">
+   MICROMETER: absolute reading            DIAL GAUGE: comparator
+
+        |ANVIL|                              MASTER (gauge block)
+        |    |  <- work held between         |#######|  set to zero
+        |    |     the two faces              |#######|
+        +----+                               ++-----+
+     sleeve 2.5                              \  |  /
+     thimble 0.47                            \ | /   plunger presses on
+     ----------                               \|/    the work
+       = 2.97 mm                                v
+                                          WORK (shaft)
+     ONE number, printed on the instrument  if dial reads +0.03,
+     straight off the scale                  the work is 0.03 BIGGER
+                                             than the master;
+                                             if it reads -0.02, smaller.
+                                             The dial itself never
+                                             says what the size is.
+</pre>
+<p><strong>Definition.</strong> A dial gauge is a <strong>comparator</strong> of 0.01 mm least
+count, used to check the deviation of a work from a standard rather than to measure its size
+directly.</p>
+<p><strong>Working.</strong> Before use, the dial is set to zero against a <strong>master</strong> &mdash;
+a gauge block, a setting standard, or a known good component. The plunger is then pressed against
+the work by a lever, the spindle compresses a spring, and the dial indicates the displacement from
+the setting. A reading of +0.03 mm means the work is 0.03 mm larger than the master; a reading of
+&minus;0.02 mm means it is smaller. Because the reference is set by the operator, the dial alone
+never indicates an absolute dimension.</p>
+<p><strong>Applications.</strong> Checking the flatness of a surface; checking the eccentricity and
+run-out of a shaft; comparing a hole against its plug gauge; checking the clearance between a shaft
+and its bearing; and checking the parallelism of a machined face. In every case it answers
+&ldquo;is this within limits&rdquo; rather than &ldquo;what exactly is it&rdquo;.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence the dial gauge shares the
+micrometer's 0.01 mm least count but differs entirely in reference &mdash; the micrometer is zeroed
+by closing its jaws and reads an absolute size, while the dial gauge is zeroed against a master and
+reads only a deviation, which is what makes it the faster instrument for inspection."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>What is a slip gauge? How is a required length formed from it, and how is a single gauge verified?</h3>
+<p class="answer-lead">Three parts, and the third is the one that gets missed. The two-piece method is a complete answer in a sentence once it is named and stated.</p>
+<pre class="ascii-diagram" role="img" aria-label="Slip gauge stack built to a required length, and the two-stage micrometer reading it back">
+     BUILD A LENGTH BY STACKING
+     ================================================
+      REQUIRED: 35.20 mm
+
+      35 mm      (one gauge from the decimal set)
+       0.2 mm    (one small gauge)
+       -----
+      35.20 mm   = 35 + 0.2      -> the stack IS the length
+
+      The gauges are wrung together (thin film of oil,
+      or a light sliding motion). A wrung stack of N
+      gauges carries N-1 separate interfaces, and its
+      length is exactly the sum of the individuals.
+
+     MEASURE IT BACK with the two-piece method
+     ================================================
+     1. Measure the 35 mm gauge ALONE with the
+        micrometer  -> x
+     2. Measure the WHOLE stack (35 + 0.2) -> y
+     3. size of the 0.2 gauge = y - x
+        (this is how a worn or suspect small gauge
+         is actually certified)
+
+     Differential gauge = the one you subtract
+     to come DOWN to size, e.g. 35.20 - 0.05 = 35.15
+</pre>
+<p><strong>Definition.</strong> A slip gauge, or gauge block, is a rectangular block of hardened
+steel lapped flat on two opposite faces to an accuracy of a fraction of a micron. Each gauge has one
+fixed, standardised length, identified by its <strong>gauge number</strong>. Gauges are supplied in
+<strong>series</strong>: series A gives decimal combinations, series B binary and digit
+combinations, and series C is a smaller supplementary set. A <strong>differential gauge</strong> is a
+thinner block used to bring a stack down in size, and a <strong>roller gauge</strong> is a long
+slim block used for slenderness and to guard the smaller gauges.</p>
+<p><strong>Forming a length.</strong> A required length is built by <strong>stacking</strong> the
+appropriate gauges and wringing them together &mdash; a thin film of oil or a light sliding motion
+makes them adhere, so the stack is a single rigid unit. In a standard 81-piece combination set any
+length from 1 to 1000 mm can be built, normally by selecting three gauges. The number is decomposed
+by decimal place: the whole-millimetre part from the large gauges, then each successive decimal place
+from a smaller group, finishing with the differential gauge to correct the final residual.</p>
+<p><strong>Verifying a single gauge.</strong> By the <strong>two-piece method</strong>. Measure the
+large gauge alone with the micrometer, obtaining x. Measure the whole stack, obtaining y. Then the
+size of the small gauge is <strong>y &minus; x</strong>. This is how a gauge that is too small to be
+measured directly, or one suspected of wear, is certified.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hence a slip gauge has no adjustable or
+sliding element at all &mdash; it is a fixed standard &mdash; and a required length is obtained only
+by stacking several of them, with the differential gauge providing the final subtraction."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203. The official Unit 2 text names only
+errors, dynamometer and welding; the MST-1 syllabus page adds this metrology block, and the Dec-2020
+paper examined micrometer, vernier, dial gauge, slip gauge, sine bar, lathe and drilling. Verified
+against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, for the working-micrometer question
+this page drills. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference books</strong> (official BT-203 list) &mdash; P. K. Nag,
+<em>Engineering Metrology and Measurements</em>, TMH, and B. C. Punmia,
+<em>Engineering Metrology</em>, for the micrometer, dial gauge and slip gauge treatment.</li>
+</ul>
+<p class="source-note">Links last checked 3 October 2026. The official scheme fixes the syllabus
+scope; the notes hubs and the December 2020 archive support revision and question practice. The
+&ldquo;6 of 11 papers&rdquo; count for the micrometer is from the corpus tally recorded in the
+mid-term battle plan; the individual session list is given there rather than asserted here.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

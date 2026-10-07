@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lagrange's Mean Value Theorem &mdash; RGPV BT102 PYQ Prep &middot; by Zevu</title>
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #e6e3dc;
+  --ink-soft: #a29d92;
+  --paper: #14161b;
+  --accent: #e0a370;
+  --accent-soft: #26201a;
+  --rule: #2b2e36;
+  --code-bg: #1b1e25;
+  --code-ink: #dcd7cd;
+  --good: #7bc97f;
+  --good-bg: #17251a;
+  --bad: #ef6b68;
+  --bad-bg: #2a1718;
+  --zevu-purple: #8b5cf6;
+}
+
+* { box-sizing: border-box; }
+html { font-size: 18px; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, 'Times New Roman', serif;
+  line-height: 1.65;
+}
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 6rem;
+}
+
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; }
+h2 {
+  font-size: 1.45rem;
+  margin: 2.8rem 0 0.8rem;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.35rem;
+}
+h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { background: var(--accent-soft); }
+
+.kicker {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+
+code {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace;
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+  color: var(--code-ink);
+  font-variant-ligatures: contextual;
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+  line-height: 1.5;
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+}
+pre code { background: none; padding: 0; }
+
+blockquote {
+  margin: 1.4rem 0;
+  padding: 0.4rem 1.2rem;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--ink-soft);
+}
+
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+/* Tab navigation */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--rule);
+  margin-bottom: 0;
+}
+
+.tab-btn {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.5rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  color: var(--ink-soft);
+  cursor: pointer;
+  margin-right: 0.25rem;
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  background: var(--code-bg);
+  border-color: var(--accent);
+}
+
+.tab-btn:hover:not(.active) {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Quiz engine */
+.quiz {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.1rem 1.3rem;
+  margin: 1.6rem 0;
+}
+
+.quiz .q {
+  font-weight: bold;
+  margin-top: 0;
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+}
+
+.quiz button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 0.45rem 0;
+  padding: 0.55rem 0.9rem;
+  font: inherit;
+  cursor: pointer;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  color: var(--ink);
+}
+
+.quiz button:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback {
+  display: none;
+  margin: 0.7rem 0 0;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+.quiz .feedback.show { display: block; }
+
+/* Callout */
+.callout {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 1.4rem 0;
+  font-size: 0.95rem;
+}
+
+.callout .label {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* Table */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+  margin: 1.2rem 0;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+th {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Terminal diagram container */
+.terminal-diagram {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin: 1.4rem 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.terminal-diagram .highlight { color: var(--accent); }
+.terminal-diagram .axis { color: var(--good); }
+
+/* Zevu branding (minimal terminal style) */
+.zevu-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.zevu-header .prompt {
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  opacity: 0.85;
+}
+
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+
+.zevu-footer {
+  margin-top: 3.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.65rem;
+  color: var(--ink-soft);
+  opacity: 0.6;
+}
+
+.zevu-footer .prompt { color: var(--accent); }
+
+@media print {
+  :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff;
+          --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; }
+  body { padding: 0; background: #fff; }
+  a { color: inherit; }
+  .tab-bar, .zevu-footer { display: none; }
+  .tab-panel { display: block !important; }
+  .zevu-header { border-bottom-color: #ddd; }
+}
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+
+<!-- ZEVU BRANDING HEADER -->
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt102 $</span> cat lagranges-mvt.md</p>
+</div>
+
+<!-- TAB NAVIGATION -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+</div>
+
+<!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT102 Mathematics-I</p>
+<h1>Lagrange's Mean Value Theorem &mdash; The Generalization of Rolle's</h1>
+<p><em>You've nailed Rolle's. Now it's time to level up. Lagrange's Mean Value Theorem (LMVT) is
+Rolle's big brother &mdash; it drops the f(a)=f(b) restriction and works for ANY continuous,
+differentiable function. It's a guaranteed 5&ndash;7 mark question in RGPV BT102, and it builds
+directly on what you already know.</em></p>
+
+<h2>The statement</h2>
+<p>Let <code>f(x)</code> be a real-valued function defined on <code>[a, b]</code>.
+<strong>If</strong> these two conditions hold:</p>
+
+<table>
+<tr><th>#</th><th>Condition</th><th>What to check</th></tr>
+<tr><td>1</td><td><code>f</code> is continuous on <strong>[a, b]</strong></td><td>No breaks, jumps, or asymptotes</td></tr>
+<tr><td>2</td><td><code>f</code> is differentiable on <strong>(a, b)</strong></td><td>No sharp corners or cusps</td></tr>
+</table>
+
+<p><strong>Then</strong> there exists at least one point <code>c &isin; (a, b)</code> such that</p>
+
+<p style="text-align:center; font-size: 1.3rem;"><strong>f&prime;(c) = <span style="border-bottom: 2px solid var(--accent); padding-bottom: 2px;">f(b) &minus; f(a)</span> / <span style="border-top: 2px solid var(--accent); padding-top: 2px;">b &minus; a</span></strong></p>
+
+<div class="callout">
+  <span class="label">The one-second intuition</span>
+  Somewhere on the curve, the tangent is parallel to the secant line connecting
+  (a, f(a)) and (b, f(b)). The slope of that secant = average rate of change.
+  LMVT says: "there's at least one instant where the instantaneous rate equals the average rate."
+</div>
+
+<div class="callout">
+  <span class="label">Why this generalizes Rolle's</span>
+  Rolle's theorem is just LMVT where f(a) = f(b). When endpoints are equal, the secant slope
+  is zero, and LMVT becomes "f'(c) = 0" &mdash; exactly Rolle's conclusion. LMVT removes that
+  restriction and works for ANY endpoints.
+</div>
+
+<h2>The verification recipe (5 steps, 7 marks)</h2>
+<pre><code>Step 1: Identify [a, b]
+Step 2: Confirm continuity on [a, b]
+Step 3: Confirm differentiability on (a, b)
+Step 4: Compute secant slope = (f(b) - f(a)) / (b - a)
+Step 5: Set f'(c) = secant slope, solve for c, verify c &isin; (a, b)</code></pre>
+
+<h2>Example 1 &mdash; the classic PYQ (x&sup2; on [1, 3])</h2>
+<p><strong>Q:</strong> Verify Lagrange's MVT for <code>f(x) = x&sup2</code> on <code>[1, 3]</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>[a, b] = [1, 3]</code></td></tr>
+<tr><td>2</td><td>Polynomial &rarr; continuous on <code>[1, 3]</code></td></tr>
+<tr><td>3</td><td>Polynomial &rarr; differentiable on <code>(1, 3)</code></td></tr>
+<tr><td>4</td><td><code>f(1) = 1</code>, <code>f(3) = 9</code>; secant slope = (9&minus;1)/(3&minus;1) = <strong>4</strong></td></tr>
+<tr><td>5</td><td><code>f'(x) = 2x</code>; <code>2c = 4</code> &rarr; <code>c = 2 &isin; (1, 3)</code> &rarr; <strong>Verified</strong></td></tr>
+</table>
+
+<pre class="terminal-diagram">  <span class="highlight">f(x) = x&sup2;</span>  on  [1, 3]
+
+  9 ┤                              ● <span class="axis">(3, f(3)=9)</span>
+    │                            ╱ │
+  7 ┤                          ╱   │
+    │                        ╱     │  &larr; secant line
+  5 ┤                      ╱       │     slope = 4
+    │                    ╱         │
+  3 ┤                  ╱           │
+    │                ╱   &uarr;        │
+  1 ┤──────────●────╱───────────────── &rarr; x
+    │      (1,1)  <span class="highlight">c=2</span>
+    │            f'(2)=4
+    │            (tangent ∥ secant)
+    └─ secant slope = 4  &rarr;  f'(c) = 2c = 4  &rarr;  <span class="ok">c = 2 VERIFIED</span></pre>
+
+
+<div class="callout">
+  <span class="label">Diagram — LMVT picture (secant ∥ tangent)</span>
+  <svg viewBox="0 0 400 180" width="100%" role="img" aria-label="Secant line parallel to tangent at c">
+    <rect x="0" y="0" width="400" height="180" fill="#000000" rx="8"/>
+    <path d="M 60 140 Q 200 130 330 40" fill="none" stroke="#e0a370" stroke-width="2.5"/>
+    <line x1="60" y1="140" x2="330" y2="40" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <circle cx="60" cy="140" r="4" fill="#e0a370"/><circle cx="330" cy="40" r="4" fill="#e0a370"/>
+    <text x="50" y="158" fill="#a29d92" font-size="12">a</text><text x="326" y="30" fill="#a29d92" font-size="12">b</text>
+    <line x1="160" y1="118" x2="240" y2="92" stroke="#7bc97f" stroke-width="2.5"/>
+    <circle cx="200" cy="105" r="4" fill="#7bc97f"/>
+    <text x="185" y="135" fill="#7bc97f" font-size="12">c</text>
+    <text x="230" y="60" fill="#a29d92" font-size="11">secant ∥ tangent</text>
+  </svg>
+</div>
+
+<h2>Example 2 &mdash; cubic (x&sup3; on [0, 2])</h2>
+<p><strong>Q:</strong> Verify LMVT for <code>f(x) = x&sup3</code> on <code>[0, 2]</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>1</td><td><code>[a, b] = [0, 2]</code></td></tr>
+<tr><td>2, 3</td><td>Polynomial &rarr; continuous &amp; differentiable</td></tr>
+<tr><td>4</td><td><code>f(0) = 0</code>, <code>f(2) = 8</code>; secant slope = (8&minus;0)/(2&minus;0) = <strong>4</strong></td></tr>
+<tr><td>5</td><td><code>f'(x) = 3x&sup2;</code>; <code>3c&sup2; = 4</code> &rarr; <code>c = 2/&radic;3 &approx; 1.15 &isin; (0, 2)</code> &rarr; <strong>Verified</strong></td></tr>
+</table>
+
+<h2>Example 3 &mdash; trigonometric (sin x on [0, &pi;/2])</h2>
+<p><strong>Q:</strong> Verify LMVT for <code>f(x) = sin x</code> on <code>[0, &pi;/2]</code>.</p>
+
+<table>
+<tr><th>Step</th><th>Work</th></tr>
+<tr><td>2, 3</td><td>sin x is continuous &amp; differentiable everywhere</td></tr>
+<tr><td>4</td><td><code>f(0) = 0</code>, <code>f(&pi;/2) = 1</code>; secant slope = (1&minus;0)/(&pi;/2&minus;0) = <strong>2/&pi;</strong></td></tr>
+<tr><td>5</td><td><code>f'(x) = cos x</code>; <code>cos c = 2/&pi;</code> &rarr; <code>c = arccos(2/&pi;) &approx; 0.88 &isin; (0, &pi;/2)</code> &rarr; <strong>Verified</strong></td></tr>
+</table>
+
+<div class="callout">
+  <span class="label">Pattern to notice</span>
+  LMVT loves <code>x&sup2;</code>, <code>x&sup3;</code>, and <code>sin x</code> on simple intervals.
+  The key skill: computing the secant slope correctly and solving f'(c) = that value.
+  Unlike Rolle's, c is RARELY a clean integer &mdash; expect fractions or trig inverses.
+</div>
+
+<h2>Rolle's vs Lagrange's &mdash; the comparison table</h2>
+<table>
+<tr><th>Property</th><th>Rolle's Theorem</th><th>Lagrange's MVT</th></tr>
+<tr><td>Conditions</td><td>3 (cont + diff + f(a)=f(b))</td><td>2 (cont + diff only)</td></tr>
+<tr><td>Conclusion</td><td>f'(c) = 0</td><td>f'(c) = (f(b)-f(a))/(b-a)</td></tr>
+<tr><td>Secant slope</td><td>Always zero</td><td>Any value</td></tr>
+<tr><td>Relationship</td><td>Special case of LMVT</td><td>Generalization of Rolle's</td></tr>
+<tr><td>Difficulty</td><td>Easier</td><td>Moderate</td></tr>
+</table>
+
+<h2>Retrieval practice &mdash; MCQs from PYQ patterns</h2>
+
+<div class="quiz"
+     data-answer="b"
+     data-explain="Lagrange's MVT requires continuity on [a,b] AND differentiability on (a,b). Unlike Rolle's, it does NOT require f(a)=f(b). That condition was unique to Rolle's. This is a common MCQ trap — students assume f(a)=f(b) is always needed.">
+  <p class="q">Lagrange's Mean Value Theorem requires which conditions?</p>
+  <button data-key="a">Continuity, differentiability, AND f(a) must equal f(b)</button>
+  <button data-key="b">Continuity on [a,b] and differentiability on (a,b) only</button>
+  <button data-key="c">Only differentiability, continuity is not required at all</button>
+  <button data-key="d">The function must be strictly increasing on the interval</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="c"
+     data-explain="Secant slope = (f(b)-f(a))/(b-a). For f(x)=x&sup2; on [0,4]: f(0)=0, f(4)=16. Slope = (16-0)/(4-0) = 4. Then f'(x)=2x; 2c=4 gives c=2. This is the most common LMVT verification in RGPV — it's Rolle's 'sister problem'.">
+  <p class="q">For f(x) = x&sup2; on [0, 4], what value of c satisfies Lagrange's MVT?</p>
+  <button data-key="a">c = 0</button>
+  <button data-key="b">c = 4</button>
+  <button data-key="c">c = 2</button>
+  <button data-key="d">c = 8</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="a"
+     data-explain="LMVT conclusion: f'(c) = (f(b)-f(a))/(b-a). This is the secant slope — the average rate of change over the interval. Rolle's is the special case where this equals zero. Geometric meaning: tangent at c is parallel to the secant through (a,f(a)) and (b,f(b)).">
+  <p class="q">Lagrange's MVT concludes that f'(c) equals what expression?</p>
+  <button data-key="a">(f(b) - f(a)) divided by (b - a)</button>
+  <button data-key="b">(f(b) + f(a)) divided by (b - a)</button>
+  <button data-key="c">f(b) minus f(a) with no denominator</button>
+  <button data-key="d">Always zero like Rolle's theorem</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="d"
+     data-explain="If f(a) = f(b), then (f(b)-f(a))/(b-a) = 0, and LMVT becomes f'(c) = 0 — which is exactly Rolle's theorem. So Rolle's is a special case of LMVT. This relationship is frequently asked in 2-markers.">
+  <p class="q">Rolle's theorem is a special case of Lagrange's MVT when...?</p>
+  <button data-key="a">The function is always increasing on the interval</button>
+  <button data-key="b">The derivative is zero everywhere in the domain</button>
+  <button data-key="c">The secant line is tangent to the function</button>
+  <button data-key="d">The endpoints satisfy f(a) equal to f(b)</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="quiz"
+     data-answer="c"
+     data-explain="For f(x) = x&sup3; - 3x on [0, &radic;3]: f(0)=0, f(&radic;3)=3&radic;3-3&radic;3=0. Since f(0)=f(&radic;3), both Rolle's AND LMVT apply. This is a trick question testing whether you recognize that LMVT always applies when Rolle's does (but not vice versa).">
+  <p class="q">Which statement about LMVT is TRUE?</p>
+  <button data-key="a">It requires f(a) = f(b) just like Rolle's theorem</button>
+  <button data-key="b">It only applies to polynomial functions in domain</button>
+  <button data-key="c">It applies to any continuous and differentiable function</button>
+  <button data-key="d">The point c must always equal the midpoint a plus b over 2</button>
+  <p class="feedback"></p>
+</div>
+
+<h2>PYQ drill &mdash; 5 high-probability RGPV questions</h2>
+<p>Work these under timer (12 min total).</p>
+
+<div class="callout">
+  <span class="label">Drill set A &mdash; Verification</span>
+  <ol>
+    <li>Verify LMVT for <code>f(x) = x&sup2;</code> on <code>[0, 4]</code>. <em>(Jun 2023)</em></li>
+    <li>Verify LMVT for <code>f(x) = x&sup3;</code> on <code>[1, 3]</code>. <em>(Dec 2023)</em></li>
+    <li>Verify LMVT for <code>f(x) = sin x</code> on <code>[0, &pi;]</code>. <em>(Jun 2024)</em></li>
+    <li>Verify LMVT for <code>f(x) = x&sup2; + 2x + 1</code> on <code>[1, 3]</code>. <em>(Dec 2024)</em></li>
+    <li>Verify LMVT for <code>f(x) = 2x&sup2; + 3x + 1</code> on <code>[0, 2]</code>. <em>(Jun 2025)</em></li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Drill set B &mdash; Conceptual + MCQ patterns</span>
+  <ol start="6">
+    <li>State the geometrical meaning of LMVT in one sentence.</li>
+    <li>Explain why Rolle's theorem is a special case of LMVT.</li>
+    <li>Find c for <code>f(x) = x&sup3;</code> on <code>[0, 1]</code>.</li>
+    <li>Can LMVT apply to <code>f(x) = |x|</code> on <code>[-1, 1]</code>? Why or why not?</li>
+    <li>Compare Rolle's and LMVT in a table (conditions, conclusion, relationship).</li>
+  </ol>
+</div>
+
+<div class="callout">
+  <span class="label">Primary source &mdash; do this next</span>
+  <a href="https://www.analyzemath.com/calculus/MeanValueTheorem/MeanValueTheorem.html">
+    Mean Value Theorem &mdash; Calculus Tutorial</a>
+  &mdash; worked LMVT problems with graphs and step-by-step solutions.
+</div>
+
+<div class="callout">
+  <span class="label">More PYQs to solve</span>
+  <ul>
+    <li><a href="https://campusprep.in/rgpv/ece/sem-1/bt-102/previous-year-papers/">CampusPrep &mdash; BT-102 PYQs (Jun 2022 through Jun 2025)</a></li>
+    <li><a href="https://rgpvquestionpapers.in/be/all-semesters/mathematics-i-bt-102">RGPV Question Papers &mdash; BT-102 archive with solutions</a></li>
+  </ul>
+</div>
+
+</div><!-- end lesson tab -->
+
+<!-- CHEAT-SHEET TAB -->
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT102 Mathematics-I</p>
+<h1>Lagrange's MVT &mdash; Quick Reference</h1>
+<p><em>Print this. Use as a 2-minute refresher before exams.</em></p>
+
+<h2>The statement</h2>
+<p>Let <code>f : [a,b] &rarr; &real;</code> satisfy:</p>
+<ol>
+  <li><code>f</code> continuous on <code>[a, b]</code></li>
+  <li><code>f</code> differentiable on <code>(a, b)</code></li>
+</ol>
+<p>Then <big><strong>&#x2203; c &isin; (a,b) such that f'(c) = (f(b) &minus; f(a)) / (b &minus; a)</strong></big>.</p>
+
+<h2>Verification recipe (5 steps, 7 marks)</h2>
+<table>
+<tr><th>Step</th><th>Action</th><th>Marks</th></tr>
+<tr><td>1</td><td>State <code>[a, b]</code></td><td>&mdash;</td></tr>
+<tr><td>2</td><td>Argue continuity</td><td>1</td></tr>
+<tr><td>3</td><td>Argue differentiability</td><td>1</td></tr>
+<tr><td>4</td><td>Compute secant slope = <code>(f(b)-f(a))/(b-a)</code></td><td>2</td></tr>
+<tr><td>5</td><td>Set f'(c) = secant, solve, verify c &isin; (a,b)</td><td>3</td></tr>
+</table>
+
+<h2>Rolle's vs Lagrange's</h2>
+<table>
+<tr><th>Property</th><th>Rolle's</th><th>Lagrange's MVT</th></tr>
+<tr><td>Conditions</td><td>3 (cont + diff + f(a)=f(b))</td><td>2 (cont + diff)</td></tr>
+<tr><td>f'(c) equals</td><td>0</td><td>(f(b)-f(a))/(b-a)</td></tr>
+<tr><td>When it applies</td><td>Only if f(a)=f(b)</td><td>Any endpoints</td></tr>
+<tr><td>Relationship</td><td>Special case</td><td>General case</td></tr>
+</table>
+
+<h2>Must-memorize function &rarr; c values</h2>
+<table>
+<tr><th>f(x)</th><th>[a, b]</th><th>Secant slope</th><th>c</th></tr>
+<tr><td><code>x&sup2;</code></td><td><code>[0, 4]</code></td><td>4</td><td>2</td></tr>
+<tr><td><code>x&sup2;</code></td><td><code>[1, 3]</code></td><td>4</td><td>2</td></tr>
+<tr><td><code>x&sup3;</code></td><td><code>[0, 2]</code></td><td>4</td><td>2/&radic;3</td></tr>
+<tr><td><code>x&sup3;</code></td><td><code>[1, 3]</code></td><td>13</td><td>&radic;(13/3)</td></tr>
+<tr><td><code>sin x</code></td><td><code>[0, &pi;]</code></td><td>0</td><td>&pi;/2</td></tr>
+<tr><td><code>cos x</code></td><td><code>[0, &pi;]</code></td><td>&minus;2/&pi;</td><td>arccos(&minus;2/&pi;)</td></tr>
+<tr><td><code>x&sup2; + 2x</code></td><td><code>[0, 2]</code></td><td>4</td><td>1</td></tr>
+</table>
+
+<h2>Geometric meaning</h2>
+<ul>
+  <li>There's at least one point where the tangent is <strong>parallel to the secant</strong>.</li>
+  <li>Slope of secant = average rate of change over [a,b].</li>
+  <li>Slope of tangent at c = instantaneous rate at c.</li>
+  <li>LMVT: "at some instant, instantaneous rate = average rate."</li>
+</ul>
+
+<h2>Viva questions</h2>
+<table>
+<tr><th>Question</th><th>Answer</th></tr>
+<tr><td>Who is it named after?</td><td>Joseph-Louis Lagrange</td></tr>
+<tr><td>How does it differ from Rolle's?</td><td>No f(a)=f(b) requirement; secant slope is general</td></tr>
+<tr><td>Relation to Rolle's?</td><td>Rolle's is special case when secant slope = 0</td></tr>
+<tr><td>Geometric meaning?</td><td>Tangent parallel to secant line</td></tr>
+<tr><td>Can c be an endpoint?</td><td>No &mdash; c must be strictly inside (a,b)</td></tr>
+</table>
+
+<h2>Exam-day checklist</h2>
+<ul>
+  <li>&#x2610; Did I check continuity AND differentiability?</li>
+  <li>&#x2610; Did I compute (f(b)-f(a))/(b-a) correctly?</li>
+  <li>&#x2610; Did I set f'(c) equal to the secant slope (not zero)?</li>
+  <li>&#x2610; Is c actually inside (a,b)?</li>
+  <li>&#x2610; Did I write "Hence LMVT is verified"?</li>
+</ul>
+
+</div><!-- end cheatsheet tab -->
+
+<!-- ZEVU FOOTER -->
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt102 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<!-- QUIZ + TAB ENGINE -->
+<script>
+(function () {
+  'use strict';
+
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var activePanel = document.getElementById(name);
+    if (activePanel) activePanel.classList.add('active');
+    event.target.classList.add('active');
+  };
+
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var feedback = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+            var right = q.querySelector('button[data-key="' + answer + '"]');
+            if (right) right.classList.add('correct');
+          }
+          if (feedback) { feedback.textContent = explain; feedback.classList.add('show'); }
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initQuizzes);
+  } else {
+    initQuizzes();
+  }
+})();
+</script>
+
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

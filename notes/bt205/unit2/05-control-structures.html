@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Control Structures — if, switch &amp; Loops &mdash; RGPV BT205 &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit2 $ cat 05-control-structures.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT205 Unit 2 &mdash; Control Flow</p>
+<h1>Statements &amp; Control Structures — if, switch, Loops</h1>
+<p><em>"Statements and control structures" is syllabus-verbatim. Branching picks paths; loops repeat work. Every program from here on is if + loop + array — learn the three loop shapes cold and pattern/number programs write themselves.</em></p>
+<h2>Statements (the sentence types of C++)</h2>
+<table>
+<tr><th>Statement</th><th>Example</th></tr>
+<tr><td>Declaration</td><td><code>int n;</code></td></tr>
+<tr><td>Assignment/expression</td><td><code>n = 5; sum += i;</code></td></tr>
+<tr><td>Input/output</td><td><code>cin &gt;&gt; n; cout &lt;&lt; n;</code></td></tr>
+<tr><td>Branching</td><td><code>if / else / switch</code></td></tr>
+<tr><td>Looping</td><td><code>for / while / do-while</code></td></tr>
+<tr><td>Jump</td><td><code>break / continue / return / goto (avoid)</code></td></tr>
+</table>
+<h2>Branching — if ladder vs switch (when to use which)</h2>
+<pre><code>if (marks &gt;= 90)        grade = 'A';      // single choice
+else if (marks &gt;= 75)   grade = 'B';      // ladder: first true wins
+else                    grade = 'C';
+
+switch (day) {                             // menu on ONE integer/char
+  case 1: cout &lt;&lt; "Mon"; break;            // break or it FALLS through!
+  case 2: cout &lt;&lt; "Tue"; break;
+  default: cout &lt;&lt; "??";                  // catches the rest
+}</code></pre>
+<p>Rule: ranges/conditions → if-ladder; fixed menu values → switch. Switch tests only <code>int/char</code> (no float, no ranges) — common viva trap.</p>
+<div class="callout">
+<span class="label">Diagram — branch vs loop (draw this)</span>
+<pre class="ascii-diagram" role="img" aria-label="Branch chooses one path; loop tests, runs a body, and repeats">BRANCH: one test, one path
+  +------------------+
+  |    Condition?    |
+  +-----+--------+---+
+        | yes    | no
+        v        v
+     Action A   Action B
+
+LOOP: test before each round
+    +-----+-----------+------------+---------+
+    |       Test condition                   |
+    +-----+-----------+------------+---------+
+          | no        |            | yes
+          v           ^            v
+   +------+-----+     |            +-------+--------+
+   |   Exit     |     |            | Loop body        |
+   +------------+     |            +-------+--------+
+                      |                    |
+                      |                    v
+                      |            +-------+--------+
+                      |            | Next item        |
+                      |            +-------+--------+
+                      |                    |
+                      +--------------------+</pre>
+</div>
+<h2>3 loops — shapes + when (memorize as table)</h2>
+<table>
+<tr><th>Loop</th><th>Shape</th><th>Runs</th><th>Use when</th></tr>
+<tr><td><code>for</code></td><td><code>for (i=1; i&lt;=n; i++)</code></td><td>0+ times</td><td>Count known (arrays, patterns, tables)</td></tr>
+<tr><td><code>while</code></td><td><code>while (n &gt; 0) {…}</code></td><td>0+ times</td><td>Count unknown (digits, validation)</td></tr>
+<tr><td><code>do-while</code></td><td><code>do {…} while (x);</code></td><td>1+ times (always once!)</td><td>Menus (show first, ask after)</td></tr>
+</table>
+<pre><code>break;     // exits the loop immediately (prime-test finds divisor → break)
+continue;  // skips rest of THIS round, starts next (skip negatives in sum)</code></pre>
+<h2>Verified programs (g++ checked — memorize 3, derive the rest)</h2>
+<pre><code>// P1: factorial (for) — input 5 → 120
+int n = 5, f = 1;
+for (int i = 1; i &lt;= n; i++) f *= i;   // 1·1·2·3·4·5
+
+// P2: prime test (for + break) — input 17 → Prime
+int p = 17, prime = 1;
+for (int i = 2; i * i &lt;= p; i++)
+    if (p % i == 0) { prime = 0; break; }  // divisor found → stop early
+
+// P3: fibonacci (while) — first 6 → 0 1 1 2 3 5
+int a = 0, b = 1, c = 0;
+while (c &lt; 6) { cout &lt;&lt; a &lt;&lt; " "; int t = a + b; a = b; b = t; c++; }
+
+// P4: star triangle (nested for) — rows 4:
+// *  / **  / ***  / ****
+for (int r = 1; r &lt;= 4; r++) {
+    for (int s = 1; s &lt;= r; s++) cout &lt;&lt; "*";
+    cout &lt;&lt; "\n";
+}
+// OUTPUTS: 120 · Prime · 0 1 1 2 3 5 · triangle above</code></pre>
+<div class="exam-note"><strong>Loop picker:</strong> use <code>for</code> when the count is known, <code>while</code> when it is unknown, and <code>do-while</code> when the body must run once. Use <code>break</code> to leave a loop early and <code>continue</code> to skip one iteration.</div>
+<div class="exam-note"><strong>Pattern trace:</strong> for three rows, the outer loop selects row <code>r</code>; the inner loop prints <code>s</code> stars while <code>s ≤ r</code>. The result is one star, two stars, then three stars.</div>
+<h2>Solved examples in great depth</h2>
+<h3>Solved A — trace P4 for rows = 3 (nested-loop tracing short)</h3>
+<table>
+<tr><th>r</th><th>inner s</th><th>prints</th></tr>
+<tr><td>1</td><td>1</td><td><code>*</code></td></tr>
+<tr><td>2</td><td>1, 2</td><td><code>**</code></td></tr>
+<tr><td>3</td><td>1, 2, 3</td><td><code>***</code></td></tr>
+</table>
+<p>Rule: outer = rows, inner = columns; <code>s &lt;= r</code> grows the triangle. Flip to <code>s &lt;= 4-r+1</code> for inverted.</p>
+<h3>Solved B — sum of digits (while classic): n = 472 → 13</h3>
+<pre><code>sum = 0; while (n &gt; 0) { sum += n % 10; n /= 10; }
+// 472: 2+0→2, n=47 → 7+2=9, n=4 → 4+9=13, n=0 stop ✓</code></pre>
+<h3>Solved C — do-while menu (runs-once proof)</h3>
+<pre><code>int ch; do { cout &lt;&lt; "1.Add 2.Exit: "; cin &gt;&gt; ch; /* act */ } while (ch != 2);
+// menu prints even if user instantly picks 2 — while() alone couldn't promise that</code></pre>
+<div class="callout"><span class="label">Loop traps</span>
+<ul>
+<li><strong>Missing <code>break</code> in switch:</strong> execution falls into the next case — most-demonstrated bug in class.</li>
+<li><strong><code>;</code> after for/while:</strong> <code>for(...); { }</code> loops nothing, block runs once. Silent killer.</li>
+<li><strong>do-while ends with <code>;</code>:</strong> <code>} while (x);</code> — the one place a trailing semicolon is REQUIRED.</li>
+<li><strong>Prime loop bound:</strong> test divisors only while <code>i*i &lt;= p</code> — full 2..p−1 works but wastes; write the smart bound.</li>
+</ul></div>
+<div class="callout"><span class="label">Special lines for extra marks</span>
+<ul>
+<li><em>"for counts what is known, while guards what is unknown, do-while guarantees the first run."</em></li>
+<li><em>"break abandons the search; continue forgives one round — both keep loops honest."</em></li>
+<li><em>"Nested loops multiply: r rows × s columns traces = rectangular thinking."</em></li>
+<li>End program answers with <strong>sample input → traced values → boxed output</strong>.</li>
+</ul></div>
+<div class="callout"><span class="label">Exam tips</span>
+<ul>
+<li>Loop-difference 2-marker: <strong>table (shape/runs/use) + one example each</strong>.</li>
+<li>Program 5-marker skeleton: <strong>logic line (1) + code (2) + trace table (1) + output (1)</strong>.</li>
+<li>Pattern program: always state <strong>outer=rows, inner=columns</strong> before code.</li>
+</ul></div>
+<h2>Retrieval practice &mdash; MCQs</h2>
+<div class="quiz" data-answer="c" data-explain="do-while tests AFTER the body, so it always runs once. for/while may run zero times."><p class="q">Which loop runs at least once...?</p><button data-key="a">for</button><button data-key="b">while</button><button data-key="c">do-while</button><button data-key="d">None</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="No break → fall-through: case 1 prints then case 2 prints too. break seals each case."><p class="q">Missing break in switch causes...?</p><button data-key="a">Compile error always</button><button data-key="b">Fall-through to next case</button><button data-key="c">Infinite loop</button><button data-key="d">Program deletes itself</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="a" data-explain="break exits the loop (prime divisor found → stop); continue skips one round (skip negatives)."><p class="q">break vs continue...?</p><button data-key="a">Exit loop vs skip one round</button><button data-key="b">Same thing</button><button data-key="c">Both exit program</button><button data-key="d">Both skip input</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="d" data-explain="472: 2→9→13 as n shrinks 47→4→0. %10 peels last digit, /10 drops it."><p class="q">Digit-sum of 472 is...?</p><button data-key="a">11</button><button data-key="b">18</button><button data-key="c">7</button><button data-key="d">13</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="switch works on int/char constants only — no float, no ranges, no strings (classic C++)."><p class="q">switch CANNOT test...?</p><button data-key="a">int choice</button><button data-key="b">float marks ranges</button><button data-key="c">char grade</button><button data-key="d">int day</button><p class="feedback"></p></div>
+<h2>PYQ drill</h2>
+<div class="callout"><span class="label">Drill set A &mdash; Theory</span>
+<ol>
+<li>Explain if-else ladder vs switch with examples. When is switch preferred? <em>(Midsem short)</em></li>
+<li>Compare for, while, do-while with example each. <em>(Every-cycle 2–5 marks)</em></li>
+<li>What do break and continue do? Show inside a prime test. <em>(Midsem short)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Drill set B &mdash; Programs</span>
+<ol start="4">
+<li>Factorial (n=6) + trace → <code>720</code>. Prime test (29) → <code>Prime</code>. <em>(Exp 08–09)</em></li>
+<li>Star triangle rows=5 + trace table. Fibonacci first 8 → <code>0 1 1 2 3 5 8 13</code>. <em>(common pattern question)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Primary source — read next</span>
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">rgpvnotes.in — BT-205 Unit 2 hub</a> &mdash; control-structure pages.
+</div>
+<div class="callout"><span class="label">More PYQs to solve</span>
+<ul>
+<li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha — BT-205 PYQ archive</a></li>
+<li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">RGPVOnline — Jun-2022 PDF</a></li>
+</ul></div>
+</div>
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT205 Unit 2</p>
+<h1>Control Flow — Quick Reference</h1>
+<h2>Branches</h2>
+<pre><code>ranges → if-ladder · menu(int/char) → switch (+break! +default)</code></pre>
+<h2>Loops</h2>
+<pre><code>for(counted, 0+) · while(tested, 0+) · do(menu, 1+)
+break=exit · continue=skip-round · do ends with ;</code></pre>
+<h2>4 programs</h2>
+<pre><code>fact: f*=i · prime: % + break (i*i&lt;=p) · fibo: a,b shift
+triangle: outer rows, inner s&lt;=r · digits: %10 + /10</code></pre>
+<h2>Key definitions</h2>
+<ul><li><strong>Fall-through:</strong> missing break runs next case</li><li><strong>Nested:</strong> loops multiply (rows×cols)</li><li><strong>do-while:</strong> tests last, runs once</li></ul>
+<h2>Exam checklist</h2>
+<ul><li>&#x2610; Loop table (shape/runs/use)?</li><li>&#x2610; break in every case?</li><li>&#x2610; No stray ; after for?</li><li>&#x2610; Trace + boxed output?</li></ul>
+<h2>Picker</h2>
+<pre><code>known→for · unknown→while · once→do · found→break · bad→continue</code></pre>
+</div>
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT205 Unit 2 &middot; from 10 PYQ sessions + Dec-2020 paper</p>
+<h1>Control Structures — questionnaire</h1>
+<div class="q-meta">loop-compare is the standing 2–5 marker · one full program is the program slot · switch fall-through is the demo trap</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">3–5 marks · 10 min</span><span class="q-freq">★★★ recurring</span></div>
+<h3>for vs while vs do-while</h3>
+<p>Shape/runs/use table + one example each: for = counted arrays; while = unknown digits; do-while = runs-once menu with mandatory trailing semicolon. break-vs-continue line with prime-test context.</p>
+<div class="q-foot"><b>write</b> — table (3) → break/continue (1) → loop-picker close (1). "Tests last, runs once" verbatim.</div>
+<div class="q-foot"><b>check</b> — do-while's trailing semicolon mentioned; example per loop.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks · 15 min</span><span class="q-freq">★★★ program slot</span></div>
+<h3>Program: factorial / prime / pattern</h3>
+<p>Logic line first, then code, trace table, boxed output. Prime uses the smart bound i*i&lt;=p + break. Pattern states outer = rows, inner s&lt;=r before code. Verified outputs: 120, Prime, triangle.</p>
+<div class="q-foot"><b>write</b> — logic sentence opens, trace closes. Never code-first.</div>
+<div class="q-foot"><b>check</b> — trace table on tiny input proves it works; box the output, underline break/continue.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">3 marks · 6 min</span><span class="q-freq">★★ frequent</span></div>
+<h3>if-ladder vs switch</h3>
+<p>Ranges → if, menu (int/char) → switch. Switch needs break per case (fall-through demo) + default. Switch can't test float or ranges.</p>
+<div class="q-foot"><b>write</b> — when-table (1) → fall-through demo (1) → limitation line (1).</div>
+<div class="q-foot"><b>check</b> — logic → code → trace → box; branch-vs-loop sketch where possible.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> State the control-flow rule or loop choice in one line.</li>
+    <li><strong>Visual:</strong> Draw the branch/loop path and label the exit condition.</li>
+    <li><strong>Reason:</strong> Write the logic, then the code, then trace a tiny input step by step.</li>
+    <li><strong>Close:</strong> Box the output and name the role of break, continue, or switch.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> “Control structures determine which statements execute next and how many times a repeated task runs.”</p>
+  <p class="answer-close"><strong>For this topic:</strong> rule → branch/loop diagram → code → trace table → verified output and one trap avoided.</p>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer · 3–5 marks</span>
+<h3>for vs while vs do-while</h3>
+<p class="answer-lead">Choose the loop from the control condition, not from habit.</p>
+<pre class="ascii-diagram" role="img" aria-label="For while and do while control paths">FOR: pre-test, runs 0+ times
+                        +-------+--------+
+                        |  Init: i = 1   |
+                        +------+---------+
+                               |
+                                v
+     +--------------------------+-----------------+
+     |             Test: i at most n              |
+     +---+---------+------------+-----------------+
+         | no      |            | yes
+         v         ^            v
+   +-----+------+  |            +------+---------+
+   |    Exit    |  |            |  Body: f *= i  |
+   +------------+  |            +------+---------+
+                   |                   |
+                   |                   v
+                   |            +------+---------+
+                   |            |  Update: i++   |
+                   |            +------+---------+
+                   |                   |
+                   +-------------------+
+
+WHILE: pre-test, runs 0+ times
+     +--------------------------------------------+
+     |                Test: n > 0                 |
+     +---+---------+------------+-----------------+
+         | no      |            | yes
+         v         ^            v
+   +-----+------+  |            +------+---------+
+   |    Exit    |  |            |   Loop body    |
+   +------------+  |            +------+---------+
+                   |                   |
+                   |                   v
+                   |            +------+---------+
+                   |            |   Next item    |
+                   |            +------+---------+
+                   |                   |
+                   +-------------------+
+
+DO-WHILE: post-test, runs at least once
++----------------+
+|   Show menu    |
++------+---------+
+       |         ^                               |
+       v         +-------------------------------+
+    +--+-----------------------------------+
+    |          Test: ch is not 2           |
+    +--------------------------------------+
+       | no                                | yes |
+       v                                   +-----+
++------+---------+                               |
+|      Exit      |                               |
++----------------+                               |  next round</pre>
+<ol class="answer-steps">
+<li><code>for</code> is used when the number of iterations is known, such as array traversal.</li>
+<li><code>while</code> is used when the number of iterations is unknown, such as digit processing.</li>
+<li><code>do-while</code> tests after the body, so it runs at least once and requires the final semicolon.</li>
+<li><code>break</code> exits a loop; <code>continue</code> skips the remaining statements in the current round.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> state “tests last, runs once” for do-while and give one example for each loop.</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer · 5 marks</span>
+<h3>Program: factorial / prime / pattern</h3>
+<p class="answer-lead">A topper writes the logic sentence first, then code, then a trace, then the output.</p>
+<pre class="ascii-diagram" role="img" aria-label="Factorial and prime loop control paths with traces">FACTORIAL n=5: for, runs 0+ times
+             +----------------+
+             | Init: f=1, i=1 |
+             +-------+--------+
+                     |
+                     v
++-----------------------------------+
+|         Test: i at most n?        |
++------+-------+----------+---------+
+       | no    |          | yes
+       v       ^          v
+ +-----+-----+ |          +-------+--------+
+ | Print 120 | |          | Body: f *= i   |
+ +-----------+ |          +-------+--------+
+               |                  |
+               |                  v
+               |          +-------+--------+
+               |          | Update: i++    |
+               |          +-------+--------+
+               |                  |
+               +------------------+
+TRACE (i, f): (1,1) -> (2,2) -> (3,6) -> (4,24) -> (5,120)
+STOP: i = 6 is over n; output f = 120
+
+PRIME p=29: bounded for + break
+    +---------------------------+------------+
+    | Init: prime = 1, i = 2                 |
+    +---------------------------+------------+
+                                |
+                                v
+    +----------------------------------------+
+    |         Test: i * i at most p?          |
+    +-----+-----------+------------+---------+
+          | no        |            | yes
+          v           ^            v
+     +----+--------+  |            +----+---------+----+
+     | Exit: Prime  | |            | p % i == 0?       |
+     +--------------+ |            +----+---------+----+
+                      |                 | no      | yes
+                      |                 v         v----> prime=0; break -> Not prime
+                      |            +----+---------+----+
+                      |            | i = i + 1         |
+                      |            +----+---------+----+
+                      |                 |
+                      +-----------------+
+TRACE p=29: test i=2,3,4,5; no divisor; then 6*6 is over 29
+TRIANGLE rows=3: r=1 -> *; r=2 -> **; r=3 -> ***</pre>
+<ol class="answer-steps">
+<li>State the algorithm in one line before writing code.</li>
+<li>Use a bounded prime loop (<code>i * i &lt;= p</code>) and <code>break</code> when a divisor is found.</li>
+<li>Trace a tiny input in a table, showing loop variables and the running result.</li>
+<li>Box the exact output and state complexity when relevant.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> code without a trace is incomplete; the trace is the proof that the logic works.</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer · 3 marks</span>
+<h3>if-ladder vs switch</h3>
+<p class="answer-lead">Use <code>if</code> for ranges and conditions; use <code>switch</code> for fixed integer or character menu values.</p>
+<pre class="ascii-diagram" role="img" aria-label="If ladder and switch decision paths">IF-LADDER: first true test wins
++--------------------------------------+
+|       Test: marks 90 or more?        |
++-----+--------------------------------+
+      | no                             | yes -> Grade A
+      v
++-----+--------------------------------+
+|       Test: marks 75 or more?        |
++-----+--------------------------------+
+      | no -> Grade C                  | yes -> Grade B
+
+SWITCH: one case is selected; break controls fall-through
++--------------------------------------+
+|   switch(day): match case 1 or 2?    |
++-----+------------------+-------------+
+      | no               | yes
+      v                  v
+default: Unknown -> End  v
+    +--------------------+-----+
+    |     First case body      |
+    +--------------------+-----+
+                         v
++------------------------+-------------+
+|            break present?            |
++-----+------------------+-------------+
+      | no               | yes -> End  ^
+      v                                |
+    +-+------------------------+       |
+    |      Next case body      |       |
+    +--------------------------+       |
+                               |       | next round
+                               +-------+
+No break falls into the next case body; a last case with no break exits.</pre>
+<ol class="answer-steps">
+<li>An <code>if</code>-ladder checks conditions in order and the first true branch wins.</li>
+<li>A <code>switch</code> selects one fixed <code>int</code> or <code>char</code> value and uses <code>break</code> to prevent fall-through.</li>
+<li><code>switch</code> does not directly test floating-point ranges; <code>default</code> handles unmatched values.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> state the use case, draw both exits, and mention the missing-<code>break</code> trap.</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT205 scheme</a> — syllabus scope and course structure.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">RGPV Notes BT205 hub</a> — aligned Unit 1 and Unit 2 notes.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT205 PYQ archive</a> — previous-year question index.</li>
+    <li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">RGPVOnline BT205 paper archive</a> — downloadable paper and solution page.</li>
+  </ul>
+  <p class="source-note">Checked 25 September 2026. The official scheme sets scope; the notes and paper archive support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt205/unit2 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

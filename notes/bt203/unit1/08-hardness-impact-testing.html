@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hardness and Impact Testing (BHN) &amp;mdash; Two Tests That Answer Different Questions</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit1 $</span> cat 08-hardness-impact-testing.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 1 &mdash; Materials</p>
+<h1>Hardness and Impact Testing (BHN) &mdash; Two Tests That Answer Different Questions</h1>
+<p><em>Dec-2020 Q1b asked &ldquo;What is hardness? How is it measured?&rdquo; and it is one of the
+most examinable questions in Unit 1, because it has a definition, three named tests, one formula
+and a trap that catches everyone. The trap is that hardness and toughness are <em>not</em> the
+same thing, and impact testing is the test that measures the second one.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>Hardness is the resistance of a material to indentation, scratching,
+abrasion or cutting. It is measured by forcing a standard indenter
+into the surface under a known load and reading the depth of penetration,
+giving a hardness number such as BHN, Rockwell or VHN.</code></pre>
+
+<p>And the second sentence, which is what the Q1b half of the question wants: <em>&ldquo;Hardness
+must not be confused with toughness, which is the ability to absorb impact energy and is measured
+by the Izod or Charpy test.&rdquo;</em></p>
+
+<h2>The Brinell hardness test</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="Brinell hardness test showing the ball indenter, test piece, specimen holder and microscope measuring the indentation diameter">
+                    APPLIED LOAD P
+                    (ball of steel or
+                     tungsten carbide)
+                          |
+                          v
+                    +-----+
+                    |  B  |   ball indenter, diameter D
+                    +-----+
+                          |
+                          v
+        ================================
+        |      TEST PIECE (surface)     |
+        |                               |
+        |              .----.           |
+        |            .'      '.         |
+        |           /          \        |
+        |          |<-  d  ->  |       |   indentation of
+        |           \          /        |   diameter d
+        |            '.      .'         |
+        |              '----'           |
+        |                               |
+        ================================
+        |     SPECIMEN HOLDER            |
+        ================================
+                          |
+                          v
+                  +---------------+
+                  |   MICROSCOPE  |   reads d to 0.02 mm
+                  +---------------+
+</pre>
+
+<p>A steel ball &mdash; or a tungsten carbide ball for hard materials &mdash; of known diameter
+D is pressed into the surface with a known load P for a standard time, usually 10 to 15 seconds. A
+microscope measures the diameter d of the indentation. The hardness number is:</p>
+
+<pre><code>  BHN = 2P
+        ---------
+        pi . D . (D - d)
+
+  P = applied load       [kgf]
+  D = ball diameter      [mm]
+  d = indentation dia.   [mm]
+
+  Standard conditions:  P = 3000 kgf, D = 10 mm  ->  BHN up to ~600
+                       P = 500 kgf,  D = 10 mm  ->  BHN up to ~200</code></pre>
+
+<h2>The three standard hardness tests</h2>
+
+<table>
+<thead><tr><th>Test</th><th>Indenter</th><th>Load</th><th>Reading</th><th>Used for</th></tr></thead>
+<tbody>
+<tr><td>Brinell (BHN)</td><td>10 mm steel or tungsten carbide ball</td><td>3000 or 500 kgf</td><td>Indentation diameter d, scale</td><td>Cast iron, steel, non-ferrous &mdash; coarse materials</td></tr>
+<tr><td>Rockwell (HRB, HRC)</td><td>1.5875 mm ball, or 120&deg; diamond cone</td><td>100 kgf (HRB) / 150 kgf (HRC)</td><td>Depth of penetration, on a scale</td><td>Thin sheets and case-hardened parts</td></tr>
+<tr><td>Vickers (VHN)</td><td>Diamond pyramid, 136&deg; included angle</td><td>1 to 30 kgf</td><td>Diagonal of the indentation, scale</td><td>Very hard and thin materials, research</td></tr>
+<tr><td>Mohs (for comparison)</td><td>Scratched by reference minerals</td><td>&mdash;</td><td>Scratch number 1 to 10</td><td>Non-metallic minerals only</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>How to choose in one line.</strong> Coarse, rough surface and
+moderate hardness &rarr; <strong>Brinell</strong>. Thin sheet or a hardened case needing a
+shallow indentation &rarr; <strong>Rockwell</strong>. Very hard material, a thin layer, or a
+research measurement &rarr; <strong>Vickers</strong>. Choosing wrongly costs the application
+mark.</div>
+
+<h2>Impact testing: Izod and Charpy</h2>
+
+<p>Hardness measures surface resistance to slow penetration. It tells you nothing about how a
+material behaves under a <em>sudden</em> load &mdash; and that is exactly what fails a railway
+coupler or a crankshaft. Impact testing fills the gap.</p>
+
+<pre class="ascii-diagram" role="img" aria-label="Comparison of the Izod test with a vertical notched specimen and the Charpy test with a horizontal notched specimen">
+   IZOD TEST                              CHARPY TEST
+   specimen held VERTICALLY               specimen held HORIZONTALLY
+   notch faces UP, load hits               notch faces DOWN,
+   the TOP                                 pendulum swings DOWN
+                                          through the notch
+
+        |  release                            o----------o
+        |  45 deg <                            \        /
+        v      pendulum falls                 | notch  |  \  swing
+   +----+                                     +--------+   \
+   |XXXX|  <- notch on the SIDE             XXXXXXXXXX <- notch
+   |    |                                       on the
+   |    |                                       UNDERSIDE
+   |    |                                       (fractured
+   |    |                                       in bending)
+   |    |
+   |    |
+   +----+
+        |
+     fixed in a vice, notch facing the
+     direction of the blow -> shear +
+     bending -> MOST BRITTLE, lowest
+     energy
+</pre>
+
+<table>
+<thead><tr><th></th><th>Izod</th><th>Charpy</th></tr></thead>
+<tbody>
+<tr><td>Specimen orientation</td><td>Vertical, notch facing the blow</td><td>Horizontal, notch on the underside</td></tr>
+<tr><td>Type of loading</td><td>Shear plus bending &mdash; severe</td><td>Bending only &mdash; less severe</td></tr>
+<tr><td>Energy absorbed</td><td>Lower, so it ranks materials more harshly</td><td>Higher, and less dependent on test orientation</td></tr>
+<tr><td>Result reported as</td><td>Energy in joules, or energy per unit area</td><td>Energy in joules, standard 55 J for many steels</td></tr>
+<tr><td>Typical use</td><td>Comparing steels, especially with low carbon</td><td>Standard acceptance testing, ductile to brittle transition</td></tr>
+</tbody>
+</table>
+
+<p>The <strong>ductile-to-brittle transition temperature</strong> is read by plotting impact energy
+against temperature: above the transition the material is ductile and absorbs high energy; below it
+it is brittle and absorbs very little. Rail steels and pressure vessels are tested for exactly this
+temperature, because a structure that is ductile in summer must not be brittle in winter.</p>
+
+<h2>Hardness versus toughness, one last time</h2>
+<div class="exam-note"><strong>This is the trap the topic is built around.</strong> A highly
+hardened steel is <em>hard</em> and usually <em>not tough</em>. Increasing hardness by quenching
+and tempering lowers toughness, so a very hard tool is deliberately made slightly less hard when
+it must also survive shock. If a question asks &ldquo;why is a steel quenched from 800&deg;C
+hard but brittle?&rdquo; the answer is exactly this trade.</div>
+
+<h2>Numericals in great depth</h2>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>P</code></td><td>applied load</td><td>kgf</td></tr>
+<tr><td><code>D</code></td><td>ball diameter</td><td>mm</td></tr>
+<tr><td><code>d</code></td><td>diameter of the indentation</td><td>mm</td></tr>
+<tr><td><code>BHN = 2P / (&pi; D (D &minus; d))</code></td><td>Brinell hardness number</td><td>dimensionless</td></tr>
+<tr><td><code>Energy per unit area = E / A</code></td><td>impact energy density</td><td>J/cm<sup>2</sup></td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; every hardness numeral</span>
+<pre><code>Given:  load P, ball diameter D, indentation diameter d
+Find:   the Brinell hardness number
+Formula:BHN = 2P / (pi . D . (D - d))
+Solve:  evaluate D - d first, then pi . D . (D - d), then divide
+Check:  the answer is dimensionless; check it against the 3000 kgf / 10 mm standard</code></pre>
+</div>
+
+<h3>Solved A &mdash; the Brinell hardness number</h3>
+<p><em>A steel specimen is tested with a 10 mm ball under a load of 6000 kgf, producing an
+indentation of 0.6 mm diameter. Calculate the Brinell hardness number.</em></p>
+<p><strong>Given:</strong> P = 6000 kgf, D = 10 mm, d = 0.6 mm.
+<strong>Find:</strong> BHN. <strong>Formula:</strong> BHN = 2P / (&pi; D (D &minus; d)).
+<strong>Solve:</strong></p>
+<pre><code>D - d   = 10 - 0.6 = 9.4 mm
+pi . D . (D - d) = 3.1416 x 10 x 9.4 = 295.31
+
+BHN = 2 x 6000 / 295.31
+    = 12000 / 295.31
+    = 40.64</code></pre>
+<p><strong>Answer:</strong> <strong>BHN = 40.6</strong> (about 41).</p>
+<p><strong>Check:</strong> the answer must be dimensionless, since P, D and d all share a
+compatible set of units &mdash; and it is, which confirms no unit error. Physical check: with
+d/D = 0.06 the indentation is very shallow, and a shallow indentation under a heavy load means a
+<em>soft</em> material. BHN 40 is in the range of mild steel or soft brass, well below the 200 to 300
+of a hardened steel, so the number and the geometry tell the same story. Note the load here is
+twice the standard 3000 kgf, so this specimen is outside the normal Brinell range and the reading
+should be quoted with that caveat.</p>
+
+<h3>Solved B &mdash; impact energy density</h3>
+<p><em>An Izod test on a notched steel specimen absorbs 75 J. The cross-section at the notch is
+5 cm<sup>2</sup>. Calculate the energy absorbed per unit area and comment on the material.</em></p>
+<p><strong>Given:</strong> E = 75 J, A = 5 cm<sup>2</sup>.
+<strong>Find:</strong> energy per unit area. <strong>Formula:</strong> e = E / A. <strong>Solve:</strong></p>
+<pre><code>e = 75 / 5 = 15 J/cm^2</code></pre>
+<p><strong>Answer:</strong> <strong>15 J per cm<sup>2</sup></strong>. For a steel, a value in this
+range indicates a tough material able to withstand shock, which is what is wanted for a coupling, a
+crankshaft or a wagon underframe.</p>
+<p><strong>Check:</strong> the units are joules per cm<sup>2</sup>, which is a strength of impact
+and not a total energy, so the answer must be smaller than 75 &mdash; and 15 is. Second check by
+reciprocation: 75 J over 5 cm<sup>2</sup> means each square centimetre of notch absorbed 15 J;
+if the area had been 15 cm<sup>2</sup> the answer would be 5 J/cm<sup>2</sup>, so the figure scales
+inversely with area as it must.</p>
+
+<h3>Solved C &mdash; solving backwards for the indentation</h3>
+<p><em>A material is tested with a 10 mm ball under 4000 kgf and gives a hardness of 220 BHN. Find
+the diameter of the indentation.</em></p>
+<p>This is the Brinell formula run in reverse, and it is the version examiners like because
+rearranging the formula is the skill being tested.</p>
+<p><strong>Given:</strong> P = 4000 kgf, D = 10 mm, BHN = 220.
+<strong>Find:</strong> d. <strong>Formula:</strong> from BHN = 2P / (&pi; D (D &minus; d)), we get
+D &minus; d = 2P / (&pi; D &times; BHN), so d = D &minus; 2P / (&pi; D &times; BHN).
+<strong>Solve:</strong></p>
+<pre><code>2P / (pi . D . BHN) = 8000 / (3.1416 x 10 x 220)
+                    = 8000 / 6911.5
+                    = 1.1575 mm
+
+d = D - 1.1575 = 10 - 1.1575 = 8.8425 mm</code></pre>
+<p><strong>Answer:</strong> the indentation diameter is <strong>8.84 mm</strong>.</p>
+<p><strong>Check:</strong> substitute back into the Brinell formula: 2 &times; 4000 /
+(&pi; &times; 10 &times; (10 &minus; 8.8425)) = 8000 / (&pi; &times; 10 &times; 1.1575) = 8000 / 36.366
+= 219.99, which is the required 220 to within rounding. Independent physical check: d/D =
+8.8425 / 10 = 0.884, a broad indentation, and a broad indentation under load is exactly what a
+<em>hard</em> material produces &mdash; the opposite of Solved A's 0.06 ratio. The two problems
+bracket the normal range: ratio 0.06 gives BHN 41, ratio 0.88 gives BHN 220.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>D minus d, not D plus d.</strong> The formula is 2P / (&pi; D (D &minus; d)). Using
+D + d gives a hardness roughly a fifth of the correct value.</li>
+<li><strong>Use the standard load.</strong> BHN is defined for 3000 kgf with a 10 mm ball; the
+500 kgf variant is used only below about 200 BHN. A 6000 kgf reading like Solved A's is outside the
+normal range and should be flagged.</li>
+<li><strong>kgf, not kN.</strong> The classical Brinell formula takes the load in kilograms-force.
+Substituting newtons gives a number a thousand times too large.</li>
+<li><strong>Indenter choice.</strong> Steel ball for soft and medium materials, tungsten carbide
+for hardened steel; the number is not comparable across different ball materials.</li>
+<li><strong>Do not confuse the two tests.</strong> If the question mentions a pendulum and a notch,
+it is impact energy, not hardness; there is no indenter involved at all.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;Hardness is the resistance of a material to
+indentation, scratching, abrasion or cutting, and it is measured by forcing a standard indenter
+into the surface under a known load and measuring the depth of penetration.&rdquo;</li>
+<li><strong>Significance line</strong> &mdash; &ldquo;Hardness is a <em>surface</em> property
+whereas toughness is a <em>bulk</em> property, so a surface-hardened part can be very hard and
+still have a soft, shock-absorbing core underneath.&rdquo;</li>
+<li><strong>Method line</strong> &mdash; &ldquo;The Brinell number is
+<strong>BHN = 2P / (&pi; D (D &minus; d))</strong>, evaluated for the standard 10 mm ball under
+3000 kgf, and the impact energy is read directly from the machine in joules.&rdquo;</li>
+<li><strong>Limitation line</strong> &mdash; &ldquo;Because the tests rank materials only against
+each other, a hardness number cannot be compared between different indenters or across different
+loads.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence a hardened steel is
+<strong>hard but not necessarily tough</strong>, and the ductile-to-brittle transition temperature
+found by the Charpy test is what decides whether it is safe to use at low temperature.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Definition, then formula, then the three tests</strong> &mdash; in that order; it maps
+onto the marks.</li>
+<li><strong>Name the indenter for each test</strong> &mdash; ball, diamond cone, diamond pyramid;
+this is the mark most often lost.</li>
+<li><strong>State the load for each test</strong> &mdash; 3000 kgf Brinell, 150 kgf Rockwell C,
+1 to 30 kgf Vickers.</li>
+<li><strong>Underline the keywords</strong> &mdash; hardness, toughness, Brinell, Rockwell, Vickers,
+Izod, Charpy.</li>
+<li><strong>Close with the hardness/toughness distinction</strong> &mdash; it is the part
+examiners ask for by name.</li>
+<li><strong>Never leave blank</strong> &mdash; a definition plus three test names clears 3 of 7.</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="B" data-explain="BHN = 2P/(pi D (D-d)) = 12000/(3.1416 x 10 x 9.4) = 12000/295.31 = 40.64. The formula has D minus d; using D plus d would give roughly a fifth of this value.">
+<p><strong>Q1. A 10 mm ball under 6000 kgf gives a 0.6 mm indentation. The BHN is:</strong></p>
+<button data-key="A">8.1</button>
+<button data-key="B">40.6</button>
+<button data-key="C">203</button>
+<button data-key="D">406</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="Brinell uses a 10 mm ball (or tungsten carbide) under 3000 kgf and suits coarse, rough surfaces. Rockwell uses a 1.5875 mm ball or a 120 deg diamond cone under 100 to 150 kgf and suits thin or case-hardened parts. Vickers uses a diamond pyramid under 1 to 30 kgf for very hard and thin materials.">
+<p><strong>Q2. Which indenter belongs to the Brinell test?</strong></p>
+<button data-key="A">A 120&deg; diamond cone</button>
+<button data-key="B">A diamond pyramid</button>
+<button data-key="C">A sharp steel stylus</button>
+<button data-key="D">A 10 mm steel or tungsten carbide ball</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="In an Izod test the specimen is held vertically with the notch facing the direction of the blow, so the load puts it in shear plus bending, which is severe and gives the lowest energy readings. In the Charpy test the specimen is horizontal with the notch on the underside and is loaded in bending only.">
+<p><strong>Q3. The specimen in an Izod test is:</strong></p>
+<button data-key="A">Horizontal with the notch on the underside</button>
+<button data-key="B">Horizontal with the notch facing upwards</button>
+<button data-key="C">Vertical with the notch facing the blow</button>
+<button data-key="D">Circular and un-notched</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="The Charpy or Izod test measures the energy absorbed up to fracture, which is toughness. Brinell, Rockwell and Vickers measure resistance to surface indentation, which is hardness; Mohs measures scratch resistance and is for non-metallic minerals.">
+<p><strong>Q4. The energy absorbed in breaking a notched specimen is measured by:</strong></p>
+<button data-key="A">A Charpy or Izod impact test</button>
+<button data-key="B">A Brinell test</button>
+<button data-key="C">A Rockwell test</button>
+<button data-key="D">A Mohs scratch test</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="d = D - 2P/(pi . D . BHN) = 10 - 8000/(3.1416 x 10 x 220) = 10 - 1.1575 = 8.8425 mm. Substituting back into the Brinell formula returns 220, confirming the rearrangement.">
+<p><strong>Q5. A 10 mm ball under 4000 kgf gives 220 BHN. The indentation diameter is:</strong></p>
+<button data-key="A">1.16 mm</button>
+<button data-key="B">8.84 mm</button>
+<button data-key="C">2.32 mm</button>
+<button data-key="D">9.60 mm</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Dec-2020 Q1b (7 marks).</strong> &ldquo;What is hardness? How is it measured?&rdquo;
+&rarr; Definition, then the Brinell test with its formula and the three indenter/load pairs, then
+the hardness-versus-toughness paragraph. <em>Model answer in the Questionnaire tab.</em></li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between the Brinell, Rockwell
+and Vickers tests.&rdquo; &rarr; Indenter, load and application, three rows.</li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between Izod and Charpy
+tests.&rdquo; &rarr; Orientation, type of loading, energy value, and use.</li>
+<li><strong>One-line recall.</strong> &ldquo;What is the ductile-to-brittle transition
+temperature?&rdquo; &rarr; The temperature above which a steel absorbs high impact energy and below
+which it fractures in a brittle manner.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="5">
+<li><strong>4 minutes, no notes.</strong> Write the Brinell formula with all three symbols defined
+and their units. Check the load is in kgf.</li>
+<li><strong>3 minutes.</strong> Write the three hardness tests with indenter, load and application.
+Check the 10 mm ball / 3000 kgf pair is attached to Brinell.</li>
+<li><strong>6 minutes.</strong> Solved C on paper from memory. Check the formula is rearranged
+rather than the numbers guessed, and substitute back to confirm 220.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 1 Topic 08</p>
+<h1>Hardness and Impact Testing &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>Hardness is the resistance of a material to indentation, scratching,
+abrasion or cutting. It is measured by forcing a standard indenter into
+the surface under a known load and reading the depth of penetration.
+
+Hardness is NOT toughness: hardness is a surface property, while
+toughness is the ability to absorb impact energy, measured by the
+Izod or Charpy test.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Press the indenter  -&gt; ball of diameter D under load P, for 10-15 s
+2. Measure the dent    -&gt; indentation diameter d, by microscope
+3. Substitute          -&gt; BHN = 2P / (pi . D . (D - d))
+4. Choose the test     -&gt; Brinell coarse | Rockwell thin/hardened | Vickers very hard</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Value</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td>Brinell formula</td><td>BHN = 2P / (&pi; D (D &minus; d))</td><td>The one formula in this topic</td></tr>
+<tr><td>Standard Brinell load</td><td>3000 kgf, D = 10 mm</td><td>Valid range to about 600 BHN</td></tr>
+<tr><td>Low-load Brinell</td><td>500 kgf, D = 10 mm</td><td>Used below about 200 BHN</td></tr>
+<tr><td>Brinell indenter</td><td>steel or tungsten carbide ball, 10 mm</td><td>Carbide for hard materials</td></tr>
+<tr><td>Rockwell B / C</td><td>1.5875 mm ball / 120&deg; diamond cone, 100 / 150 kgf</td><td>Thin and case-hardened parts</td></tr>
+<tr><td>Vickers</td><td>diamond pyramid 136&deg;, 1 - 30 kgf</td><td>Very hard and thin materials</td></tr>
+<tr><td>Mohs</td><td>scratch scale 1 - 10</td><td>Non-metallic minerals only</td></tr>
+<tr><td>Izod specimen</td><td>vertical, notch facing the blow</td><td>Shear plus bending, severe</td></tr>
+<tr><td>Charpy specimen</td><td>horizontal, notch on the underside</td><td>Bending only, ~55 J standard</td></tr>
+<tr><td>Impact energy density</td><td>e = E / A</td><td>J per cm<sup>2</sup></td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Hardness</strong> &mdash; resistance to indentation, scratching, abrasion or cutting; a
+surface property.</li>
+<li><strong>Brinell hardness number</strong> &mdash; 2P / (&pi; D (D &minus; d)), with P in kgf and D
+and d in mm.</li>
+<li><strong>Toughness</strong> &mdash; the ability to absorb energy up to fracture; a bulk property
+measured by the Charpy or Izod test.</li>
+<li><strong>Impact energy</strong> &mdash; the energy in joules absorbed in breaking a notched
+specimen in a single blow.</li>
+<li><strong>Ductile-to-brittle transition temperature</strong> &mdash; the temperature above which
+a steel absorbs high impact energy and below which it fractures in a brittle manner.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can write the Brinell formula and define P, D and d with units</li>
+<li>[ ] Can state the standard load as 3000 kgf with a 10 mm ball</li>
+<li>[ ] Can name indenter, load and application for Brinell, Rockwell and Vickers</li>
+<li>[ ] Can distinguish an Izod specimen from a Charpy specimen by orientation</li>
+<li>[ ] Can state hardness versus toughness in one sentence with an example</li>
+<li>[ ] Can rearrange the Brinell formula to solve for d</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>The whole topic is one formula.</strong>
+BHN = 2P / (&pi; D (D &minus; d)). Compute D &minus; d first, then the denominator, then divide. Use
+kgf, not newtons. To go the other way, D &minus; d = 2P / (&pi; D &times; BHN), then subtract from D.
+Always substitute back, and use a shallow indentation for a soft material and a broad one for a
+hard one as your physical check.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 1 Topic 08 &middot; from 10 PYQ sessions (Dec-2023 &rarr; Jun-2025)</p>
+<h1>Hardness and Impact Testing &mdash; questionnaire</h1>
+<div class="q-meta">Q1/Q3 slot &middot; recurring pattern &middot; "what is hardness / how is it measured" &rarr; definition, one formula, one table of three tests, then the toughness distinction</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>What is hardness? How is it measured?</h3>
+<p>Dec-2020 Q1b, verbatim. Definition first, then the Brinell test with its formula, then a three-row table of the standard tests with indenter and load, then the hardness-versus-toughness paragraph that separates a 5 from a 7.</p>
+<div class="q-foot"><b>write</b> &mdash; definition (1) &rarr; Brinell test with the BHN formula and symbol definitions (2) &rarr; Rockwell and Vickers with indenter and load (2) &rarr; hardness versus toughness distinction (2).</div>
+<div class="q-foot"><b>check</b> &mdash; omitting the toughness distinction loses the last two marks, since it is what the question tests by naming hardness first; naming the tests without their indenters costs the table; forgetting that the Brinell load is 3000 kgf loses the standard-condition mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Differentiate between the Brinell, Rockwell and Vickers hardness tests.</h3>
+<p>A three-row table with indenter, load and application, then one closing sentence on the choice rule. The choice rule is the mark that separates a table-copy from an answer.</p>
+<div class="q-foot"><b>write</b> &mdash; three-row table with indenter, load and application (4) &rarr; the selection rule as a closing line (1).</div>
+<div class="q-foot"><b>check</b> &mdash; the loads must be exact: 3000 kgf, 100/150 kgf, 1-30 kgf; swapping the diamond cone onto Vickers or the ball onto Rockwell loses marks; the closing rule must name what each test is chosen for.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Differentiate between the Izod and Charpy impact tests, and explain the ductile-to-brittle transition.</h3>
+<p>Orientations and loading first, then the transition paragraph. Draw both specimen set-ups, because the orientation is the whole difference and a sentence about it is easy to misread.</p>
+<div class="q-foot"><b>write</b> &mdash; both specimen orientations (2) &rarr; loading type and energy value (1) &rarr; transition defined (1) &rarr; why it matters for rails and pressure vessels (1).</div>
+<div class="q-foot"><b>check</b> &mdash; stating both tests use bending only loses the distinction mark, since Izod adds shear; omitting the notch from the description loses a mark; the transition needs both halves of its definition, not just "the temperature where it changes".</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence defining hardness as surface resistance to indentation.</li>
+    <li><strong>Visual:</strong> Draw the Brinell set-up with P, D and d labelled, or the three-test table.</li>
+    <li><strong>Reason:</strong> Give the formula with every symbol and unit, then the three tests with their indenters.</li>
+    <li><strong>Close:</strong> Box the hardness-versus-toughness verdict and the transition temperature.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "Hardness is the resistance of a material to indentation, scratching, abrasion or cutting, and it is measured by forcing a standard indenter into the surface under a known load and measuring the depth of penetration."</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; Brinell diagram &rarr; BHN formula &rarr; three-test table &rarr; Izod/Charpy &rarr; transition temperature &rarr; hardness is not toughness &rarr; boxed limitation line.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Statement first</strong> &mdash; one line of definition before any diagram</li>
+    <li><strong>Diagram or table before prose</strong> &mdash; the Brinell set-up or the three-test table</li>
+    <li><strong>Underline keywords</strong> &mdash; Brinell, Rockwell, Vickers, Izod, Charpy, BHN</li>
+    <li><strong>Box every final answer</strong> &mdash; the BHN formula and the hardness/toughness verdict</li>
+    <li><strong>Attempt order:</strong> second after classification; pure recall and highly examinable</li>
+    <li><strong>Never leave blank</strong> &mdash; definition plus three test names clears 3 of 7</li>
+    <li><strong>Always give the load and indenter</strong> &mdash; that pair is the mark</li>
+    <li><strong>Close every answer:</strong> "hence proved" / boxed formula / one significance line</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>What is hardness? How is it measured?</h3>
+<p class="answer-lead">Definition, then the Brinell test with its formula, then the three-test table, then the distinction the examiner is really testing.</p>
+<pre class="ascii-diagram" role="img" aria-label="Brinell hardness test showing the ball indenter, test piece, specimen holder and microscope measuring the indentation diameter">
+                    APPLIED LOAD P
+                    (ball of steel or
+                     tungsten carbide)
+                          |
+                          v
+                    +-----+
+                    |  B  |   ball indenter, diameter D
+                    +-----+
+                          |
+                          v
+        ================================
+        |      TEST PIECE (surface)     |
+        |                               |
+        |              .----.           |
+        |            .'      '.         |
+        |           /          \        |
+        |          |&lt;-  d  -&gt;  |       |   indentation of
+        |           \          /        |   diameter d
+        |            '.      .'         |
+        |              '----'           |
+        |                               |
+        ================================
+        |     SPECIMEN HOLDER            |
+        ================================
+                          |
+                          v
+                  +---------------+
+                  |   MICROSCOPE  |   reads d to 0.02 mm
+                  +---------------+
+</pre>
+<pre><code>  BHN = 2P / ( pi . D . (D - d) )
+
+  P = applied load                [kgf]
+  D = ball diameter               [mm]
+  d = indentation diameter        [mm]
+
+  standard: P = 3000 kgf, D = 10 mm  ->  up to ~600 BHN
+            P =  500 kgf, D = 10 mm  ->  up to ~200 BHN</code></pre>
+<table>
+<tr><th>Test</th><th>Indenter</th><th>Load</th><th>Application</th></tr>
+<tr><td>Brinell</td><td>10 mm steel or tungsten carbide ball</td><td>3000 or 500 kgf</td><td>Coarse, rough surfaces; cast iron, steel, non-ferrous</td></tr>
+<tr><td>Rockwell B / C</td><td>1.5875 mm ball / 120&deg; diamond cone</td><td>100 / 150 kgf</td><td>Thin sheets and case-hardened parts</td></tr>
+<tr><td>Vickers</td><td>Diamond pyramid, 136&deg; included angle</td><td>1 to 30 kgf</td><td>Very hard materials, thin layers, research</td></tr>
+</table>
+<p><strong>Hardness is not toughness.</strong> Hardness is a surface property, measured by
+indentation, whereas toughness is the ability to absorb energy and resist fracture, measured by the
+Izod or Charpy impact test. The two are in fact in tension with each other: a steel hardened by
+quenching is harder but also more brittle, so a tool that must also survive shock is deliberately
+left slightly softer. A file is extremely hard with almost no toughness; a rubber tyre is barely
+hard at all and very tough.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Hardness numbers also rank materials only against each other, so a reading is valid only for the same indenter and load; and because hardening reduces toughness, a part that must absorb shock must be specified by its <strong>impact energy</strong> rather than its hardness number."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Differentiate between the Brinell, Rockwell and Vickers hardness tests.</h3>
+<p class="answer-lead">One table, four columns, three rows. Then the selection rule as a single closing line, which is the mark a copied table does not earn.</p>
+<pre class="ascii-diagram" role="img" aria-label="Selection rule showing which hardness test to choose for different material conditions">
+                WHICH HARDNESS TEST?
+                        |
+        +---------------+---------------+
+        |               |               |
+        v               v               v
+   COARSE / ROUGH   THIN or         VERY HARD or
+   SURFACE          CASE-HARDENED   THIN LAYER
+        |               |               |
+        v               v               v
+  +-----------+   +-----------+   +-----------+
+  | BRINELL   |   | ROCKWELL  |   | VICKERS   |
+  | 10 mm     |   | 1.5875 mm |   | diamond   |
+  | ball      |   | ball or   |   | pyramid   |
+  | 3000 kgf  |   | 120 deg   |   | 136 deg   |
+  |           |   | diamond   |   |           |
+  | cast iron |   | cone      |   | 1 - 30 kgf|
+  | steel     |   | 100/150   |   | research  |
+  | non-ferrous|  | kgf       |   | hard matl |
+  +-----------+   +-----------+   +-----------+
+        |               |               |
+        +---------------+---------------+
+                        |
+                        v
+             all three measure resistance
+             to INDENTATION, differing only
+             in indenter, load and depth
+</pre>
+<table>
+<tr><th>Test</th><th>Indenter</th><th>Load</th><th>Scale</th><th>Used for</th></tr>
+<tr><td>Brinell</td><td>10 mm steel or tungsten carbide ball</td><td>3000 kgf (500 kgf for soft)</td><td>Indentation diameter d</td><td>Cast iron, mild and medium steel, non-ferrous metals; rough or coarse surfaces</td></tr>
+<tr><td>Rockwell</td><td>1.5875 mm ball for HRB; 120&deg; diamond cone for HRC</td><td>100 kgf (HRB) / 150 kgf (HRC)</td><td>Depth of penetration</td><td>Thin sheet metal and case-hardened surfaces, where a deep Brinell dent would be unacceptable</td></tr>
+<tr><td>Vickers</td><td>Diamond pyramid, 136&deg; included angle</td><td>1 to 30 kgf</td><td>Diagonal of the indentation</td><td>Very hard materials, thin surface layers, and precision research work</td></tr>
+</table>
+<p><strong>Selection rule:</strong> choose Brinell for a coarse surface and moderate hardness,
+Rockwell for a thin or case-hardened part where the indentation must be shallow, and Vickers for a
+very hard material or a thin layer needing accurate measurement.</p>
+<p class="answer-close"><strong>Exam close:</strong> "All three measure the same property by
+indentation and differ only in indenter, load and how the depth is read, so a number is valid only
+when compared with readings taken using the same test."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Differentiate between the Izod and Charpy impact tests, and explain the ductile-to-brittle transition.</h3>
+<p class="answer-lead">Draw both specimen set-ups, because orientation is the entire difference and reads better than a sentence. Then the transition paragraph.</p>
+<pre class="ascii-diagram" role="img" aria-label="Comparison of the Izod test with a vertical notched specimen and the Charpy test with a horizontal notched specimen, and the ductile-to-brittle transition curve">
+   IZOD TEST                              CHARPY TEST
+   specimen held VERTICALLY               specimen held HORIZONTALLY
+   notch faces UP, load hits               notch faces DOWN,
+   the TOP                                 pendulum swings DOWN
+                                          through the notch
+
+        |  release                            o----------o
+        |  45 deg <                            \        /
+        v      pendulum falls                 | notch  |  \  swing
+   +----+                                     +--------+   \
+   |XXXX|  <- notch on the SIDE             XXXXXXXXXX <- notch
+   |    |                                       on the
+   |    |                                       UNDERSIDE
+   |    |
+   |    |
+   +----+
+        |
+     fixed in a vice, notch facing the
+     direction of the blow -> shear +
+     bending -> MOST BRITTLE, lowest
+     energy
+
+
+   DUCTILE-TO-BRITILE TRANSITION
+   impact energy
+        ^
+        |  ---------------- ductile, high energy absorbed
+        |  \
+        |   \
+        |    \
+        |     \____ brittle, almost no energy absorbed
+        +---------------------------> temperature
+             transition temperature
+</pre>
+<table>
+<tr><th>Aspect</th><th>Izod</th><th>Charpy</th></tr>
+<tr><td>Specimen orientation</td><td>Vertical, notch facing the blow</td><td>Horizontal, notch on the underside</td></tr>
+<tr><td>Type of loading</td><td>Shear plus bending &mdash; severe</td><td>Bending only &mdash; less severe</td></tr>
+<tr><td>Energy absorbed</td><td>Lower; ranks materials harshly</td><td>Higher; standard 55 J for many steels</td></tr>
+<tr><td>Typical use</td><td>Comparing steels, especially low-carbon</td><td>Acceptance testing; finding the transition temperature</td></tr>
+</table>
+<p><strong>Ductile-to-brittle transition:</strong> if impact energy is plotted against temperature,
+the curve is high and nearly flat at high temperature &mdash; the material is ductile and absorbs
+a large amount of energy &mdash; and falls sharply to a low value below a critical temperature, where
+the material is brittle and absorbs very little. That critical temperature is the
+<strong>ductile-to-brittle transition temperature</strong>. Rail steels and pressure vessels are
+tested for it, because a structure that is ductile in summer must not become brittle in winter.</p>
+<p class="answer-close"><strong>Exam close:</strong> "The transition temperature therefore fixes the lowest safe service temperature for a given steel, which is why it is specified for any component that sees impact loading in cold conditions."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203 Unit 1, "Hardness and Impact testing,
+BHN". Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub, for cross-checking the standard test loads.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, Q1b is &ldquo;What is hardness? How
+to measure it&rdquo;. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>Reference book</strong> (official BT-203 list) &mdash; C. M. Agrawal,
+<em>Basic Mechanical Engineering</em>, Wiley &mdash; primary text for Unit 1.</li>
+</ul>
+<p class="source-note">Links last checked 28 September 2026. The official scheme fixes the
+syllabus scope; the notes hubs and paper archive support revision and question practice. No paper
+session is attributed beyond the December 2020 archive named above.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

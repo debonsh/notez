@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Materials &mdash; RGPV BT203 Unit 1 PYQ Prep &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit1 $</span> ls -la</p>
+</div><div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('index')">Index</button>
+  <button class="tab-btn" onclick="showTab('resources')">Resources</button>
+</div>
+<div id="index" class="tab-panel active">
+<p class="kicker">Unit 2 &middot; BT203 Basic Mechanical Engineering &middot; Measurement &amp; Production</p>
+<h1>Measurement &amp; Production Hub</h1>
+<p><em><strong>Unit 2 is being built.</strong> All nine are done &mdash; eight topics and the key-sheet. They were ordered in
+mid-sem priority order rather than syllabus order &mdash; the micrometer and vernier come first
+because they are the most-asked items in the subject, ahead of the welding and casting cards that
+the narrow official text lists first. Unit 1 is also complete.</em></p>
+<blockquote><strong>MST-1 syllabus page (the wide reading, in Zevu's hand):</strong> "Measurement
+&mdash; concept of measurement, errors in measurement; temperature, pressure, velocity, flow, force
+and torque measurement; vernier calliper, dial gauge, slip gauge, sine bar and combination set;
+production energy &mdash; elementary theoretical aspects of production process like casting,
+capacity, welding; intro to lathe and drilling machine and their various operations."
+&mdash; verified against RGPV BT-203 Unit 2, whose official text is the narrower
+"Errors in measurement; Dynamometer &mdash; types; Welding &mdash; processes and types".</blockquote>
+
+<div class="callout">
+<span class="label">Midsem rule &mdash; Fri 09 Oct 2026, 12:00&ndash;1:30 PM (Shift I)</span>
+<p>Mid-sem covers <strong>Units 1 and 2 only</strong>. In the December 2020 paper,
+<strong>six of eight questions came from Units 1+2</strong>, and the three Unit 2 questions were
+short, recall-based parts rather than long answers:</p>
+<table>
+<thead><tr><th>Paper Q</th><th>Question</th><th>Topic</th></tr></thead>
+<tbody>
+<tr><td>Q2a</td><td>What is error? Types of errors in measurement</td><td>01</td></tr>
+<tr><td>Q2b</td><td>Dynamometer &mdash; types</td><td>02</td></tr>
+<tr><td>Q6b</td><td>Types of welding with applications</td><td>03</td></tr>
+</tbody>
+</table>
+<p>That is the shape of the Unit 2 paper: <strong>one part-question, asked three different
+ways</strong>. Every topic here is a definition-and-list answer with no calculation, so the whole
+unit is achievable in a single evening of recall.</p>
+</div>
+
+<h2>Topics (syllabus order, mid-sem priority order)</h2>
+<p><em>The <strong>wide</strong> reading of Unit 2 is used here. The official RGPV Unit 2 text
+names only errors, dynamometer and welding, but the MST-1 syllabus page adds the full metrology
+and machinery block &mdash; micrometer, vernier, dial gauge, sine bar, lathe, drilling &mdash; and the
+December 2020 paper asked for exactly those. Prepare to the wide syllabus; every topic below has
+appeared in a real paper.</em></p>
+<div class="topic-card">
+  <p class="topic-num">[01] Errors in measurement</p>
+  <h3><a href="01-measurement-concepts-errors.html">&#xbb; Errors in Measurement: Systematic and Random</a></h3>
+  <p>True, apparent and standard value; absolute, relative and percentage error; the two error
+  classes, how each behaves and how each is eliminated; instrument accuracy, precision and
+  sensitivity.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[02] Micrometer, dial gauge and slip gauge</p>
+  <h3><a href="02-micrometer-dial-slip.html">&#xbb; Micrometer, Dial Gauge and Slip Gauge</a></h3>
+  <p>Screw gauge working principle, least count and range, zero error; dial gauge as a comparator;
+slip gauge stacks, series A/B/C, the differential gauge and the two-piece method of verification.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[03] Vernier calliper</p>
+  <h3><a href="03-vernier-calliper.html">&#xbb; Vernier Calliper and Method of Measurement</a></h3>
+  <p>Least count derived as MSD/n &mdash; 0.02 mm for the standard 50-division vernier, and why it
+  is <em>not</em> 0.01 mm; positive and negative zero error and its
+  correction, the reading rule, and the parts of the instrument.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[04] Sine bar and combination set</p>
+  <h3><a href="04-sine-bar-combination.html">&#xbb; Sine Bar and Combination Set</a></h3>
+  <p>Construction and the sine principle, sin &theta; = h/L in both directions, measuring a taper
+  with the half-angle doubling rule, uses and limitations including the 45&deg; sensitivity limit.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[05] Lathe and drilling machines</p>
+  <h3><a href="05-lathe-drilling-machines.html">&#xbb; Lathe and Drilling Machines</a></h3>
+  <p>Parts and operations of both machines, the rotation inversion that separates them, and the two
+  numerals that go with them &mdash; spindle speed N = 1000V/(&pi;D) and machining time T = L/(fN),
+  plus the tailstock set-over for taper turning.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[06] Temperature, pressure, velocity, flow, force and torque measurement</p>
+  <h3><a href="06-physical-quantities-measurement.html">&#xbb; Measurement of Physical Quantities</a></h3>
+  <p>Methods and instruments for each quantity: thermometers and pyrometers, manometers and Bourdon
+  gauges, venturi and orifice meters, spring balances and strain gauges, torsion meters.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[07] Dynamometer</p>
+  <h3><a href="07-dynamometer.html">&#xbb; Dynamometer: Types and Working Principle</a></h3>
+  <p>Spring dynamometer with the force&ndash;extension graph; dead-weight, torsion, wire and
+  electrical types; where each is used and why.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[08] Welding, casting and patterns</p>
+  <h3><a href="08-welding-casting.html">&#xbb; Welding, Casting and Patterns</a></h3>
+  <p>Fusion welding versus pressure welding and soldering/brazing; gas, arc, resistance and thermit
+  processes with applications; casting process and pattern types.</p>
+  <p class="topic-links">Lesson + Cheat-Sheet + 5 MCQs + PYQs + deep numerals + extra-marks tips &mdash; done</p>
+</div>
+<div class="topic-card">
+  <p class="topic-num">[09] Unit key-sheet</p>
+  <h3><a href="formula-sheet.html">&#xbb; Unit 2 Formula Sheet (printable)</a></h3>
+  <p>Least counts, ranges and error symbols for every instrument in one printable page, for the
+  last hour before the paper.</p>
+  <p class="topic-links">printable key-sheet &mdash; done</p>
+</div>
+
+<h2>PYQ map &mdash; December 2020 paper</h2>
+<table>
+<thead><tr><th>Paper Q</th><th>Question</th><th>Unit</th><th>Topic file</th><th>Drill</th></tr></thead>
+<tbody>
+<tr><td>Q1a</td><td>What is steel? Types of steel with applications</td><td>1</td><td><a href="../unit1/02-cast-iron-carbon-steels.html">unit1/02</a></td><td>Theory</td></tr>
+<tr><td>Q1b</td><td>What is hardness? How to measure it</td><td>1</td><td><a href="../unit1/08-hardness-impact-testing.html">unit1/08</a></td><td>Theory + numeral</td></tr>
+<tr><td>Dec-20</td><td>What is error? Types of errors in measurement</td><td>2</td><td><a href="01-measurement-concepts-errors.html">unit2/01</a></td><td>Theory</td></tr>
+<tr><td>Dec-20</td><td>Dynamometer &mdash; types</td><td>2</td><td><a href="07-dynamometer.html">unit2/07</a></td><td>Theory</td></tr>
+<tr><td>Dec-20</td><td>Explain the iron-carbon diagram in brief</td><td>1</td><td><a href="../unit1/03-iron-carbon-diagram.html">unit1/03</a></td><td>Theory + diagram</td></tr>
+<tr><td>Dec-20</td><td>Types of welding with applications</td><td>2</td><td><a href="08-welding-casting.html">unit2/08</a></td><td>Theory</td></tr>
+<tr><td>6 papers</td><td>Working of a micrometer &mdash; the top item in the corpus</td><td>2</td><td>02 &mdash; done</td><td>Theory + sketch</td></tr>
+<tr><td>5 papers</td><td>Method of measurement with a vernier calliper</td><td>2</td><td>03 &mdash; done</td><td>Theory + numeral</td></tr>
+<tr><td>4 papers</td><td>Main parts of a lathe machine and any four operations</td><td>2</td><td><a href="05-lathe-drilling-machines.html">unit2/05</a></td><td>Theory + sketch</td></tr>
+<tr><td>4 papers</td><td>Main parts of a drilling machine and any two operations</td><td>2</td><td><a href="05-lathe-drilling-machines.html">unit2/05</a></td><td>Theory + sketch</td></tr>
+<tr><td>4 papers</td><td>Temperature measurement &mdash; methods and instruments</td><td>2</td><td><a href="06-physical-quantities-measurement.html">unit2/06</a></td><td>Theory</td></tr>
+<tr><td>4 papers</td><td>Sine bar &mdash; construction, use, measuring a taper</td><td>2</td><td><a href="04-sine-bar-combination.html">unit2/04</a></td><td>Theory + numeral</td></tr>
+<tr><td>3 papers</td><td>Welding &mdash; define, classify, applications</td><td>2</td><td><a href="08-welding-casting.html">unit2/08</a></td><td>Theory</td></tr>
+<tr><td>3 papers</td><td>Dial gauge; slip gauge &mdash; method of using</td><td>2</td><td>02 &mdash; done</td><td>Theory</td></tr>
+<tr><td>Dec-20</td><td>Bernoulli pressure numeral</td><td>3</td><td class="dim">not in mid-sem</td><td>&mdash;</td></tr>
+<tr><td>&mdash;</td><td>Fluids, thermodynamics, boilers, IC engines</td><td>3&ndash;5</td><td class="dim">not in mid-sem</td><td>&mdash;</td></tr>
+</tbody>
+</table>
+<p class="q-meta">Dec-2020 set 8 questions, attempt any 5, equal marks, 6 of 8 falling in Units 1+2.
+The wider 11-paper corpus counts are given per topic &mdash; micrometer 6, vernier 5, lathe 4,
+drilling 4, sine bar 4, temperature 4 &mdash; which is why this hub is ordered the way it is and not
+the way the narrow official text lists it.</p>
+
+<h2>Progress</h2>
+<ul class="progress-list">
+<li><label><input type="checkbox" data-progress="bt203-u2-01"> 01 Errors in measurement</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u2-02"> 02 Micrometer, dial gauge, slip gauge</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u2-03"> 03 Vernier calliper</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u2-04"> 04 Sine bar and combination set</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u2-05"> 05 Lathe and drilling machines</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u2-06"> 06 Physical quantities measurement</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u2-07"> 07 Dynamometer</label></li>
+<li><label><input type="checkbox" data-progress="bt203-u2-08"> 08 Welding, casting, patterns</label></li>
+</ul>
+<p><em>Progress is stored in this browser only (localStorage, key
+<code>bt203-u2</code>). Tick a topic when you finish it.</em></p>
+
+</div><!-- INDEX TAB -->
+
+<div id="resources" class="tab-panel">
+<p class="kicker">Resources &middot; BT203 Unit 2</p>
+<h1>Verified Sources</h1>
+<p><em>Links below were last fetched and checked on 28 September 2026. A link that is present but
+unverified would be a lie, so unverified links are not listed.</em></p>
+
+<h2>Official syllabus</h2>
+<ul>
+<li><strong>RGPV BT-203 syllabus (Unit 2 text)</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in &mdash; Basic Mechanical Engineering (BT-203)</a>.
+Full text of all five units, reference book list, and the list of suggestive core experiments.
+Cross-checked against the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>CareerShiksha I-year syllabus archive</strong> &mdash;
+<a href="https://career-shiksha.com/post/syllabus-of-i-year-all-branch-all-subjects-rgpv">career-shiksha.com</a>.
+Hosts the official <code>SYLLABUS-BT-203-Basic-Mechanical-Engineering.pdf</code> sourced from
+rgpv.ac.in.</li>
+</ul>
+
+<h2>Subject notes</h2>
+<ul>
+<li><strong>Unit-wise notes, BT-203</strong> &mdash; the same rgpvnotes.in page above carries
+per-unit OneDrive/Dropbox note downloads. Free, no registration. The Unit 2 notes cover errors,
+dynamometers and welding in one sitting.</li>
+</ul>
+
+<h2>PYQ papers</h2>
+<ul>
+<li><strong>BT-203, Examination December 2020</strong> &mdash;
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com &mdash; BT-203 December 2020 (PDF)</a>.
+70 marks, three hours, attempt any five. Q2a (errors), Q2b (dynamometer) and Q6b (welding) are the
+Unit 2 questions this hub drills.</li>
+<li><strong>BT-203 paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in question papers</a>.
+Links to multiple sessions for the same subject.</li>
+</ul>
+
+<h2>Reference books (official BT-203 list)</h2>
+<ol>
+<li>Nakra &amp; Chaudhary, <em>Instrumentation and Measurements</em>, TMH &mdash; the primary text
+for Unit 2. <em>Start here.</em></li>
+<li>C. M. Agrawal, <em>Basic Mechanical Engineering</em>, Wiley &mdash; welding, as part of the
+production content.</li>
+<li>Kothandaraman &amp; Rudramoorthy, <em>Fluid Mechanics &amp; Machinery</em>, New Age
+&mdash; Unit 3.</li>
+<li>P. K. Nag, <em>Engineering Thermodynamics</em>, TMH &mdash; Unit 4.</li>
+<li>Ganesan, <em>Internal Combustion Engines</em>, TMH &mdash; Unit 5.</li>
+</ol>
+
+<h2>Viva + lab</h2>
+<p>Unit 2 maps onto the measurement half of the BT-203 practical paper. Expect:</p>
+<ul>
+<li>Define error, and name the difference between <strong>systematic</strong> and
+<strong>random</strong> error, with one elimination method for each.</li>
+<li>State the least count and range of the micrometer and the vernier calliper, and why a vernier
+needs 10 main-scale divisions to equal 9 of its own.</li>
+<li>Explain why a dial gauge is a comparator rather than an absolute measuring instrument.</li>
+<li>Give the sine bar relation and one use &mdash; measuring a taper, or setting centres for grinding.</li>
+<li>Name the main parts of a lathe and of a drilling machine, and two operations on each.</li>
+<li>Name four welding processes and say which one you would choose for a 3 mm steel sheet.</li>
+<li>Distinguish <strong>soldering</strong> and <strong>brazing</strong> from fusion welding by
+the filler-metal melting point.</li>
+</ul>
+
+<div class="callout">
+<span class="label">Blueprint &mdash; how Unit 2 splits</span>
+<p>The official syllabus gives Unit 2 a 20% share, and the December 2020 paper put only three short
+part-questions into it. But that paper was set against the <strong>narrow</strong> official Unit 2
+text. Your MST-1 syllabus page is the <strong>wide</strong> one, and across the wider 11-paper
+corpus Unit 2 carries the single most-repeated item in the whole subject (micrometer, 6 appearances)
+alongside vernier (5), lathe (4), drilling (4), sine bar (4) and temperature measurement (4).</p>
+<p>So the practical shape of this unit is: <strong>a block of short recall questions on instruments
+&mdash; define it, state the least count, state the range, draw the working &mdash; plus two machine
+questions answered with a parts list and a sketch.</strong> Only the micrometer and the sine bar
+involve a formula. Practise those two numerals and the rest is recall.</p>
+</div>
+
+</div><!-- RESOURCES TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit2 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'bt203-u2';
+  var boxes = document.querySelectorAll('input[data-progress]');
+  function load() {
+    var done = [];
+    try { done = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { done = []; }
+    for (var i = 0; i < boxes.length; i++) {
+      boxes[i].checked = done.indexOf(boxes[i].getAttribute('data-progress')) !== -1;
+    }
+  }
+  function save() {
+    var done = [];
+    for (var i = 0; i < boxes.length; i++) {
+      if (boxes[i].checked) done.push(boxes[i].getAttribute('data-progress'));
+    }
+    try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (e) {}
+  }
+  for (var i = 0; i < boxes.length; i++) {
+    boxes[i].addEventListener('change', save);
+  }
+  load();
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+})();
+</script>
+</main>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

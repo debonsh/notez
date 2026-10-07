@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tensile Test and Stress-Strain Diagrams &amp;mdash; The Six Stages That Explain Every Number</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+
+<body>
+<main>
+
+<div class="zevu-header">
+  <p class="prompt"><span class="user">zevu</span>:<span class="cmd">~/learn/bt203/unit1 $</span> cat 06-tensile-test-stress-strain.md</p>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">&#xf02d; Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">&#xf02e; Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">&#xf02e; Questionnaire</button>
+</div><!-- LESSON TAB -->
+<div id="lesson" class="tab-panel active">
+
+<p class="kicker">Lesson &middot; BT203 Unit 1 &mdash; Materials</p>
+<h1>Tensile Test and Stress-Strain Diagrams &mdash; The Six Stages That Explain Every Number</h1>
+<p><em>Almost every genuine calculation in Unit 1 lives here. A tensile test is the one experiment
+that returns strength, ductility, stiffness, resilience and toughness at once, because it produces
+a single curve from which all five are read. Learn the six stages of the curve and the
+formulas fall out of it, instead of memorising formulas with no picture attached.</em></p>
+
+<h2>The one-sentence statement</h2>
+<pre><code>The tensile test pulls a standard specimen axially until it fractures,
+recording load against extension. The resulting stress-strain curve gives
+the stiffness (E), the yield and ultimate strength, the ductility and the
+toughness of the material in one graph.</code></pre>
+
+<h2>The test</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="Universal testing machine showing the specimen gripped between the upper and lower crossheads with the dial gauge reading">
+                    UPPER CROSSHEAD
+        +---------------------------------+
+        |                                 |
+        |            LOAD CELL            |   measures the
+        |          (reads the force)      |   axial force
+        +---------------------------------+
+                           |
+                           v
+        +---------------------------------+
+        |          UPPER GRIP             |
+        +---------------------------------+
+                           |
+                           |
+         +-----------------v-----------------+
+         |            SPECIMEN                |  d0 = original
+         |      (standard, circular,          |  diameter
+         |       marked gauge length)         |
+         +-----------------+-----------------+
+                           |
+                           v
+        +---------------------------------+
+        |          LOWER GRIP             |
+        +---------------------------------+
+                           |
+                           v
+        +---------------------------------+
+        |         DIAL GAUGE              |   measures the
+        |    (reads the extension)        |   extension in mm
+        +---------------------------------+
+                           |
+                           v
+                    LOWER CROSSHEAD
+</pre>
+
+<p>The specimen is a standard circular bar of diameter d<sub>0</sub> with two marked points
+defining the original gauge length L<sub>0</sub>. Two dial gauges read the extension and the load
+cell reads the force; both are plotted against extension to give the load-extension curve, which is
+then converted to the stress-strain curve using the original area and gauge length.</p>
+
+<h2>From load-extension to stress-strain</h2>
+
+<pre><code>stress   sigma = P / A0      A0 = (pi / 4) x d0^2   (ORIGINAL area)
+strain   e     = delta L / L0                       (ORIGINAL gauge length)
+
+stress-strain curve = load-extension curve with the axes rescaled</code></pre>
+
+<p>The word <strong>original</strong> appears twice and it is the whole convention. Engineering
+stress and engineering strain are both computed on the original dimensions, which is what makes
+them easy to calculate and what makes the curve well defined up to the ultimate point.</p>
+
+<h2>The six stages of a ductile curve</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="The six stages of a ductile stress-strain curve labelled from proportional to fracture">
+  STRESS
+    |                     ULTIMATE (UTS)
+    |                        * peak
+    |                       / \
+    |            YIELD  *--/   \  strain hardening
+    |   elastic   /|    /           \
+    |      /     / |   /             \
+    |     /   EL  |  /                 \
+    |    /        | /                    \  necking
+    |   / PRO-    |/                      \____ FRACTURE
+    |  / PORTIONAL|                        /
+    | /  LIMIT   /                       /
+    +------------+----------------------+------> STRAIN
+    0
+      |    |        |       |       |      |
+      1    2        3       4       5      6
+   straight  elastic  yield  strain  necking fracture
+     line     limit   point  harden.  starts
+</pre>
+
+<table>
+<thead><tr><th>#</th><th>Stage</th><th>What is happening</th><th>Read off it</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Proportional limit</td><td>Stress is directly proportional to strain; the graph is a straight line</td><td>The slope of that line is Young's modulus E</td></tr>
+<tr><td>2</td><td>Elastic limit</td><td>Beyond this the material will not return to its original length</td><td>The <strong>resilience</strong>, as the area under the curve up to this point</td></tr>
+<tr><td>3</td><td>Yield point</td><td>Plastic deformation begins at practically constant stress</td><td><strong>Yield stress</strong> &mdash; the working stress a designer never exceeds</td></tr>
+<tr><td>4</td><td>Strain hardening</td><td>Stress rises again as the material work-hardens</td><td><strong>Ultimate tensile stress</strong>, the peak</td></tr>
+<tr><td>5</td><td>Necking</td><td>Beyond the peak the cross-section shrinks locally</td><td>True stress keeps rising even though engineering stress falls</td></tr>
+<tr><td>6</td><td>Fracture</td><td>The specimen breaks at the neck</td><td><strong>Toughness</strong>, the total area under the curve</td></tr>
+</tbody>
+</table>
+
+<div class="exam-note"><strong>Why the curve falls after the peak.</strong> The fall is an
+artefact, not a real weakening. Once necking starts the load drops because the area reduces faster
+than the stress increases. Measured on the <em>instantaneous</em> necked area &mdash; true stress
+&mdash; the curve keeps rising to fracture. If a question asks why engineering stress falls after
+UTS, that is the answer, and it is a free mark.</div>
+
+<h2>The brittle curve, for contrast</h2>
+
+<pre class="ascii-diagram" role="img" aria-label="Brittle stress-strain curve compared with a ductile curve showing no yield and no necking">
+  STRESS
+    |      brittle          ductile
+    |        |                * UTS
+    |        |              /   \
+    |        |  fracture  /     \
+    |        |    x      /       \__
+    |        |   / \    /          \  fracture
+    |        |  /   \  /
+    |        | /     \/  yield
+    |       /|
+    |      / |
+    |     /  |
+    +----+---+---------------------> STRAIN
+         |
+   no yield point, breaks almost
+   at once, no necking, tiny area
+   under the curve = brittle
+</pre>
+
+<ul>
+<li><strong>Brittle material:</strong> very steep elastic region, <em>no yield point</em>, no
+necking, low strain at fracture, and a very small area under the curve. It breaks suddenly, like
+glass or grey cast iron.</li>
+<li><strong>Ductile material:</strong> clear yield point, strain hardening, necking, large area
+under the curve, and a warning before failure.</li>
+<li><strong>Consequence for design:</strong> a ductile material <em>warns</em> before it fails; a
+brittle one gives no warning, which is why structures are made ductile and why impact testing
+exists.</li>
+</ul>
+
+<h2>Engineering versus true stress</h2>
+
+<table>
+<thead><tr><th></th><th>Engineering stress and strain</th><th>True stress and strain</th></tr></thead>
+<tbody>
+<tr><td>Area / length used</td><td>Original A<sub>0</sub> and L<sub>0</sub></td><td>Instantaneous A and L</td></tr>
+<tr><td>Valid up to</td><td>Ultimate tensile stress</td><td>Right up to fracture</td></tr>
+<tr><td>Behaviour after UTS</td><td>Falls, because A<sub>0</sub> is fixed</td><td>Keeps rising to the fracture point</td></tr>
+<tr><td>Used for</td><td>Design calculations</td><td>Research and material selection</td></tr>
+</tbody>
+</table>
+
+<h2>Numericals in great depth</h2>
+
+<table>
+<thead><tr><th>Identifier</th><th>Means</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td><code>A<sub>0</sub> = &pi;/4 d<sub>0</sub><sup>2</sup></code></td><td>original cross-sectional area</td><td>mm<sup>2</sup></td></tr>
+<tr><td><code>A<sub>1</sub> = &pi;/4 d<sub>1</sub><sup>2</sup></code></td><td>area at fracture (the neck)</td><td>mm<sup>2</sup></td></tr>
+<tr><td><code>&sigma; = P / A<sub>0</sub></code></td><td>engineering stress</td><td>MPa</td></tr>
+<tr><td><code>&sigma;<sub>true</sub> = P / A<sub>1</sub></code></td><td>true stress at fracture</td><td>MPa</td></tr>
+<tr><td><code>e = &delta;L / L<sub>0</sub></code></td><td>engineering strain</td><td>dimensionless</td></tr>
+<tr><td><code>%EL = (L<sub>1</sub> &minus; L<sub>0</sub>)/L<sub>0</sub> &times; 100</code></td><td>percentage elongation</td><td>%</td></tr>
+<tr><td><code>%RA = (A<sub>0</sub> &minus; A<sub>1</sub>)/A<sub>0</sub> &times; 100</code></td><td>percentage reduction of area</td><td>%</td></tr>
+</tbody>
+</table>
+
+<div class="callout">
+<span class="label">Five-line answer format &mdash; every tensile-test numeral</span>
+<pre><code>Given:  d0, d1, L0, L1 and the maximum load
+Find:   stress, strain, % elongation or % reduction of area
+Formula:A0 = pi/4 d0^2 ; sigma = P/A0 ; %EL or %RA as above
+Solve:  find A0 (and A1) first, then the required quantity
+Check:  %RA and %EL both measure ductility and should be of similar size</code></pre>
+</div>
+
+<h3>Solved A &mdash; stress and ductility of one specimen</h3>
+<p><em>A circular steel specimen of 12 mm diameter and 50 mm gauge length carries a maximum load
+of 30 kN. At fracture its gauge length is 62.5 mm and its diameter at the neck is 9 mm. Calculate
+the maximum engineering stress, the percentage elongation and the percentage reduction of
+area.</em></p>
+<p><strong>Given:</strong> d<sub>0</sub> = 12 mm, L<sub>0</sub> = 50 mm, P = 30 kN = 30,000 N,
+L<sub>1</sub> = 62.5 mm, d<sub>1</sub> = 9 mm.
+<strong>Find:</strong> &sigma;<sub>max</sub>, %EL, %RA. <strong>Formula:</strong> as in the table.
+<strong>Solve:</strong></p>
+<pre><code>A0 = (pi / 4) x 12^2 = 113.097 mm^2
+
+sigma_max = 30000 / 113.097 = 265.26 MPa
+
+% EL = (62.5 - 50) / 50 x 100 = 12.5 / 50 x 100 = 25.00%
+
+% RA = (113.097 - 63.617) / 113.097 x 100
+     = 49.480 / 113.097 x 100 = 43.75%
+       where A1 = (pi / 4) x 9^2 = 63.617 mm^2</code></pre>
+<p><strong>Answer:</strong> maximum engineering stress <strong>265.26 MPa</strong>, percentage
+elongation <strong>25.00%</strong>, percentage reduction of area <strong>43.75%</strong>. Both
+ductility figures are high, so this is a ductile steel, and the reduction of area being the larger
+of the two is exactly what a necking ductile material should show.</p>
+<p><strong>Check:</strong> %RA can be computed from the diameters alone, because both areas carry
+the same &pi;/4 factor: (144 &minus; 81) / 144 &times; 100 = 63/144 &times; 100 = 43.75%, which
+agrees with the area route. Three cross-checks pass. The units cancel to N/mm<sup>2</sup> =
+MPa. And the physical story is consistent: a material that stretches 25% must also show a
+measurable neck, and 43.75% reduction of area is what that neck looks like.</p>
+
+<h3>Solved B &mdash; why engineering stress falls after the peak</h3>
+<p><em>Continuing the same specimen: what is the true stress at fracture, and why is it so much
+higher than the engineering stress?</em></p>
+<p><strong>Given:</strong> P = 30,000 N, d<sub>1</sub> = 9 mm, A<sub>0</sub> = 113.097 mm<sup>2</sup>,
+&sigma;<sub>eng,max</sub> = 265.26 MPa. <strong>Find:</strong> &sigma;<sub>true</sub>.
+<strong>Formula:</strong> &sigma;<sub>true</sub> = P / A<sub>1</sub>. <strong>Solve:</strong></p>
+<pre><code>sigma_true = 30000 / 63.617 = 471.57 MPa
+
+ratio = A0 / A1 = 113.097 / 63.617 = 1.7778
+  so sigma_true = 265.26 x 1.7778 = 471.56 MPa   (agrees)</code></pre>
+<p><strong>Answer:</strong> the true stress at fracture is <strong>471.57 MPa</strong>, which is
+1.78 times the engineering stress.</p>
+<p><strong>Check:</strong> the second route gives 265.26 &times; 1.7778 = 471.56 MPa against
+471.57 from the direct division &mdash; the 0.01 difference is rounding in A<sub>1</sub>, not
+arithmetic error. The direction is the important part: because A<sub>1</sub> is smaller than
+A<sub>0</sub>, true stress must be <em>higher</em>. This is precisely why the engineering curve
+falls after the ultimate point while the true curve keeps rising.</p>
+
+<h3>Solved C &mdash; identifying a brittle material from one number</h3>
+<p><em>A specimen fractures with only 0.5% elongation and 3% reduction of area. Classify it and
+state what you would expect the stress-strain curve to look like.</em></p>
+<p><strong>Given:</strong> %EL = 0.5%, %RA = 3%. <strong>Find:</strong> classification and curve
+shape. <strong>Solve:</strong> both ductility measures are far below the 20% regarded as ductile for
+a ferrous metal, and both are small.</p>
+<p><strong>Answer:</strong> the material is <strong>brittle</strong>. Its curve will show a very
+steep linear elastic region, <strong>no yield point</strong>, no necking, and will break almost
+immediately after the elastic limit at a strain of only about 0.005.</p>
+<p><strong>Check:</strong> the two independent ductility measures agree with each other in being
+tiny &mdash; %RA = 3% against %EL = 0.5% is the expected relationship, since reduction of area
+concentrates the deformation into the neck. For comparison, Solved A gave 25% and 43.75% for a
+ductile steel, both roughly two orders of magnitude larger. The contrast is the check: no
+arithmetic was needed, and the classification is certain.</p>
+
+<div class="callout">
+<span class="label">Numeral traps in this topic</span>
+<ul>
+<li><strong>Engineering uses the original area.</strong> Stress is P / A<sub>0</sub>, never
+P / A<sub>1</sub>, unless the question explicitly says true stress.</li>
+<li><strong>The diameter may change.</strong> At fracture d<sub>1</sub> is smaller than
+d<sub>0</sub>; using d<sub>0</sub> for both %RA and the area route gives a wrong answer.</li>
+<li><strong>%RA from diameters only.</strong> (d<sub>0</sub><sup>2</sup> &minus;
+d<sub>1</sub><sup>2</sup>) / d<sub>0</sub><sup>2</sup> &times; 100, since the &pi;/4 cancels. Use
+this as your own check.</li>
+<li><strong>Units.</strong> A<sub>0</sub> in mm<sup>2</sup> with P in newtons gives stress directly
+in N/mm<sup>2</sup> = MPa. If you get 265.26 with a decimal point in five digits, you have not
+converted; round to 265 MPa.</li>
+<li><strong>Joining the halves before measuring.</strong> Percentage elongation is measured
+between the two fractured halves joined end to end, not between the grips.</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Special lines for extra marks</span>
+<ul>
+<li><strong>Opening line</strong> &mdash; &ldquo;The tensile test pulls a standard specimen axially
+to fracture while recording load against extension, and the rescaled curve gives stiffness,
+strength, ductility and toughness in one graph.&rdquo;</li>
+<li><strong>Significance line</strong> &mdash; &ldquo;The slope of the linear portion is Young's
+modulus, the elastic area is resilience and the whole area is toughness, so a single curve
+supplies every mechanical property of the material.&rdquo;</li>
+<li><strong>Method line</strong> &mdash; &ldquo;Engineering stress and strain are both computed on
+the <em>original</em> dimensions, A<sub>0</sub> and L<sub>0</sub>, which is why the curve is well
+defined up to the ultimate point and why it appears to fall afterwards.&rdquo;</li>
+<li><strong>Limitation line</strong> &mdash; &ldquo;Because engineering stress uses a fixed area, it
+understates the true stress beyond necking and cannot be used for materials that fail without
+necking.&rdquo;</li>
+<li><strong>Closing line</strong> &mdash; &ldquo;Hence a ductile material gives a warning through
+necking before failure, while a brittle one breaks with almost no warning &mdash; so
+<strong>toughness is read from the area under the curve</strong> and is the reason impact testing
+exists at all.&rdquo;</li>
+</ul>
+</div>
+
+<div class="callout">
+<span class="label">Exam tips</span>
+<ul>
+<li><strong>Draw the curve first</strong> &mdash; a labelled stress-strain curve with the six stages
+marked answers half the question before you write.</li>
+<li><strong>Label every point</strong> &mdash; proportional limit, elastic limit, yield point, UTS,
+necking, fracture.</li>
+<li><strong>State the convention</strong> &mdash; say "original area" and "original gauge length"
+out loud; it is worth a mark each time.</li>
+<li><strong>Underline the keywords</strong> &mdash; engineering, true, ductile, brittle, necking.</li>
+<li><strong>Do the numbers before the prose</strong> &mdash; four lines of arithmetic then a
+paragraph, not the reverse.</li>
+<li><strong>Never leave blank</strong> &mdash; the curve plus the six stage names clears 3 of 7.</li>
+</ul>
+</div>
+
+<h2>Retrieval practice</h2>
+
+<div class="quiz" data-answer="C" data-explain="In stage 1 the graph is a straight line, so stress is directly proportional to strain and the slope of that line is Young's modulus E. Beyond the proportional limit the relation stops being linear.">
+<p><strong>Q1. Young's modulus is obtained from the stress-strain curve as:</strong></p>
+<button data-key="A">The maximum stress divided by the original area</button>
+<button data-key="B">The area under the whole curve</button>
+<button data-key="C">The slope of the straight-line proportional region</button>
+<button data-key="D">The stress at the fracture point</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="A" data-explain="Once necking begins the load drops because the cross-section reduces faster than the stress rises. Measured on the instantaneous necked area, true stress keeps climbing to fracture, so the fall is an artefact of using the fixed original area.">
+<p><strong>Q2. On an engineering stress-strain curve the stress falls after the ultimate point because:</strong></p>
+<button data-key="A">The load drops after necking while the original area is still used</button>
+<button data-key="B">The material actually becomes weaker at this point</button>
+<button data-key="C">The gauge length is measured incorrectly</button>
+<button data-key="D">The extensometer is no longer accurate</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="D" data-explain="Resilience is the energy absorbed in the elastic range, so it is the area under the curve up to the elastic limit. Toughness absorbs energy all the way to fracture, so it is the area under the entire curve.">
+<p><strong>Q3. Toughness of a material is measured by:</strong></p>
+<button data-key="A">The maximum stress reached</button>
+<button data-key="B">The slope of the elastic region</button>
+<button data-key="C">The stress at the yield point</button>
+<button data-key="D">The total area under the stress-strain curve</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="C" data-explain="The original area is (pi/4) x 12^2 = 113.097 mm2, so 30 kN gives 30000/113.097 = 265.26 MPa. Stress is always taken on the original cross-section, and N/mm2 is MPa.">
+<p><strong>Q5. A 12 mm diameter specimen carries a maximum load of 30 kN. The maximum engineering stress is:</strong></p>
+<button data-key="A">113 MPa</button>
+<button data-key="B">1131 MPa</button>
+<button data-key="C">265 MPa</button>
+<button data-key="D">2500 MPa</button>
+<p class="feedback"></p>
+</div>
+
+<div class="quiz" data-answer="B" data-explain="Percentage reduction of area is (A0 - A1)/A0 x 100. Since both areas carry the same pi/4 factor this reduces to (d0^2 - d1^2)/d0^2 x 100 = (144 - 81)/144 x 100 = 43.75%.">
+<p><strong>Q4. A 12 mm specimen necks to 9 mm at fracture. The percentage reduction of area is:</strong></p>
+<button data-key="A">25.0%</button>
+<button data-key="B">43.75%</button>
+<button data-key="C">56.25%</button>
+<button data-key="D">75.0%</button>
+<p class="feedback"></p>
+</div>
+
+<h2>PYQ drill</h2>
+
+<p><em>Drill set A &mdash; theory, self-paced. Answer each in five lines or less before checking.</em></p>
+<ol>
+<li><strong>Recurring 7-marker.</strong> &ldquo;Explain the tensile test with a stress-strain
+diagram.&rdquo; &rarr; The machine, the specimen, the two conversions, then the six labelled stages
+on the curve, then engineering versus true. <em>Model answer in the Questionnaire tab.</em></li>
+<li><strong>Recurring short question.</strong> &ldquo;Differentiate between the stress-strain
+curves of a ductile and a brittle material.&rdquo; &rarr; Yield point present or absent, necking
+present or absent, area under the curve large or small.</li>
+<li><strong>Recurring short question.</strong> &ldquo;What is proof stress?&rdquo; &rarr; The stress
+that leaves a specified small permanent strain, used where a sharp yield point is absent.</li>
+<li><strong>One-line recall.</strong> &ldquo;What is necksing and why is it important?&rdquo;
+&rarr; Local reduction of area at the fracture point; it marks the end of uniform deformation and is
+why engineering stress appears to fall.</li>
+</ol>
+
+<p><em>Drill set B &mdash; recall under time. Write the answer, then verify.</em></p>
+<ol start="5">
+<li><strong>6 minutes, no notes.</strong> Draw the ductile stress-strain curve with all six stages
+labelled. Check the yield point comes before the peak, and the fracture after the neck.</li>
+<li><strong>5 minutes.</strong> Solved A on paper. Check A<sub>0</sub> = 113.097 mm<sup>2</sup>
+and that the stress comes out as 265 MPa.</li>
+<li><strong>4 minutes.</strong> Write the percentage reduction of area straight from the
+diameters, without computing areas. Check you get 43.75%.</li>
+</ol>
+
+</div><!-- LESSON TAB -->
+
+<div id="cheatsheet" class="tab-panel">
+
+<p class="kicker">Cheat-Sheet &middot; BT203 Unit 1 Topic 06</p>
+<h1>Tensile Test and Stress-Strain &mdash; Full Revision</h1>
+
+<h2>Statement to write verbatim</h2>
+<pre><code>The tensile test pulls a standard specimen axially to fracture while
+recording load against extension. Rescaled to stress against strain, the
+curve gives the stiffness (E), the yield and ultimate strength, the
+ductility and the toughness of the material in a single graph.</code></pre>
+
+<h2>Derivation in four steps</h2>
+<pre><code>1. Measure     -&gt; load P from the load cell, extension dL from the gauge
+2. Convert     -&gt; sigma = P / A0 with A0 = (pi/4) d0^2   [ORIGINAL]
+                   e = dL / L0                            [ORIGINAL gauge]
+3. Plot        -&gt; the six stages: proportional, elastic, yield,
+                   strain hardening, necking, fracture
+4. Read        -&gt; E from the slope, resilience from the elastic area,
+                   toughness from the total area, ductility from %EL / %RA</code></pre>
+
+<h2>Reference table</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Formula</th><th>Unit</th></tr></thead>
+<tbody>
+<tr><td>Original area</td><td>A<sub>0</sub> = &pi;/4 &times; d<sub>0</sub><sup>2</sup></td><td>mm<sup>2</sup></td></tr>
+<tr><td>Area at fracture</td><td>A<sub>1</sub> = &pi;/4 &times; d<sub>1</sub><sup>2</sup></td><td>mm<sup>2</sup></td></tr>
+<tr><td>Engineering stress</td><td>&sigma; = P / A<sub>0</sub></td><td>MPa = N/mm<sup>2</sup></td></tr>
+<tr><td>True stress</td><td>&sigma;<sub>true</sub> = P / A<sub>1</sub></td><td>MPa</td></tr>
+<tr><td>Engineering strain</td><td>e = &delta;L / L<sub>0</sub></td><td>dimensionless</td></tr>
+<tr><td>Young's modulus</td><td>E = &sigma; / e (slope of the linear part)</td><td>GPa</td></tr>
+<tr><td>Percentage elongation</td><td>(L<sub>1</sub> &minus; L<sub>0</sub>)/L<sub>0</sub> &times; 100</td><td>%</td></tr>
+<tr><td>Percentage reduction of area</td><td>(A<sub>0</sub> &minus; A<sub>1</sub>)/A<sub>0</sub> &times; 100 = (d<sub>0</sub><sup>2</sup> &minus; d<sub>1</sub><sup>2</sup>)/d<sub>0</sub><sup>2</sup> &times; 100</td><td>%</td></tr>
+<tr><td>Resilience</td><td>area under the elastic portion of the curve</td><td>J/m<sup>3</sup></td></tr>
+<tr><td>Toughness</td><td>total area under the curve</td><td>J/m<sup>3</sup></td></tr>
+</tbody>
+</table>
+
+<h2>Definitions to reproduce</h2>
+<ul>
+<li><strong>Yield stress</strong> &mdash; the stress at which plastic deformation begins at
+practically constant load; the working limit a designer does not exceed.</li>
+<li><strong>Ultimate tensile stress</strong> &mdash; the maximum engineering stress on the curve, at
+the start of necking.</li>
+<li><strong>Necking</strong> &mdash; the local reduction of cross-section that begins after the
+ultimate point and concentrates all further deformation at one spot.</li>
+<li><strong>Engineering stress</strong> &mdash; load divided by the original cross-sectional area;
+used for all design work.</li>
+<li><strong>True stress</strong> &mdash; load divided by the instantaneous area; valid right up to
+fracture.</li>
+<li><strong>Percentage reduction of area</strong> &mdash; the ductility measure taken at the neck,
+normally larger than the percentage elongation for a ductile material.</li>
+</ul>
+
+<h2>Checklist before you call the topic done</h2>
+<ul>
+<li>[ ] Can draw the ductile curve with all six stages labelled, from memory</li>
+<li>[ ] Can draw the brittle curve and state what is missing from it</li>
+<li>[ ] Can say where Young's modulus, resilience and toughness come off the curve</li>
+<li>[ ] Can distinguish engineering from true stress and say which area each uses</li>
+<li>[ ] Can compute %RA from the two diameters without computing areas</li>
+<li>[ ] Can explain in one sentence why engineering stress falls after UTS</li>
+</ul>
+
+<h2>Numeral shortcut</h2>
+<div class="exam-note"><strong>Order of operations, every time.</strong> (1) Compute
+A<sub>0</sub> = &pi;/4 d<sub>0</sub><sup>2</sup> and A<sub>1</sub> = &pi;/4 d<sub>1</sub><sup>2</sup>.
+(2) Stress = P / A<sub>0</sub>. (3) %EL from the gauge lengths, %RA from the areas. (4) Check: %RA
+and %EL should be comparable and, for a ductile material, %RA should exceed %EL.</div>
+
+</div><!-- CHEATSHEET TAB -->
+
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT203 Unit 1 Topic 06 &middot; from 10 PYQ sessions (Dec-2023 &rarr; Jun-2025)</p>
+<h1>Tensile Test and Stress-Strain &mdash; questionnaire</h1>
+<div class="q-meta">Q1/Q3 slot &middot; recurring pattern &middot; "explain the tensile test" &rarr; the labelled curve is the answer; prose only explains what is already drawn</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">7 marks &middot; 15 min</span><span class="q-freq">&#9733;&#9733;&#9733; recurring</span></div>
+<h3>Explain the tensile test with a stress-strain diagram.</h3>
+<p>Machine and specimen first, then the two conversion formulas, then the six-stage labelled curve, then engineering versus true. The curve must carry the labels; a description of the test without a drawing rarely clears 5 of 7.</p>
+<div class="q-foot"><b>write</b> &mdash; test and apparatus (1) &rarr; conversion formulas with "original" stated (2) &rarr; labelled six-stage curve (3) &rarr; engineering vs true plus significance line (1).</div>
+<div class="q-foot"><b>check</b> &mdash; an unlabelled curve loses the stage marks; writing stress = P/A without specifying the original area costs a convention mark; omitting why the curve falls after UTS loses the free explanation mark.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>Differentiate between the stress-strain curves of ductile and brittle materials.</h3>
+<p>Two curves side by side, then a four-row contrast table. Add the design consequence at the end: a ductile material warns through necking, a brittle one does not.</p>
+<div class="q-foot"><b>write</b> &mdash; both curves drawn (2) &rarr; yield point, necking, area under curve, strain at fracture (3).</div>
+<div class="q-foot"><b>check</b> &mdash; forgetting that the brittle curve has no yield point at all is the most common omission; the area comparison must be stated as toughness, not just "smaller".</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">5 marks &middot; 10 min</span><span class="q-freq">&#9733;&#9733; frequent</span></div>
+<h3>A 12 mm specimen necks to 9 mm and stretches 12.5% before fracture. Find the maximum engineering stress for a 30 kN load, and the percentage reduction of area.</h3>
+<p>Four lines of arithmetic, then the physical commentary. Compute A<sub>0</sub> first, keep every figure unrounded to the last step, and cross-check %RA from the diameters alone.</p>
+<div class="q-foot"><b>write</b> &mdash; A<sub>0</sub> = 113.1 mm&sup2; (1) &rarr; stress = 265 MPa (2) &rarr; %RA = 43.75% (1) &rarr; comment on ductility (1).</div>
+<div class="q-foot"><b>check</b> &mdash; using the necked area for the engineering stress gives 471 MPa and is the standard wrong answer; omitting the units MPa costs a mark; %RA must exceed %EL for a ductile material, and 43.75% against 12.5% confirms it.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> One sentence naming the test and what the curve yields.</li>
+    <li><strong>Visual:</strong> Draw the labelled six-stage stress-strain curve before writing anything else.</li>
+    <li><strong>Reason:</strong> Number the stages, then give the formula that produces each labelled quantity.</li>
+    <li><strong>Close:</strong> Box the engineering versus true verdict and close on why ductility matters to a designer.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> "The tensile test pulls a standard circular specimen axially to fracture while recording load against extension; rescaled to stress against strain, the resulting curve gives the stiffness, strength, ductility and toughness of the material in a single graph."</p>
+  <p class="answer-close"><strong>For this topic:</strong> definition &rarr; apparatus &rarr; conversion formulas &rarr; six-stage labelled curve &rarr; brittle curve &rarr; engineering vs true &rarr; resilience and toughness as areas &rarr; significance line.</p>
+</div>
+<div class="callout">
+  <span class="label">How topper writes answer</span>
+  <ul>
+    <li><strong>Statement first</strong> &mdash; one line, then straight to the curve</li>
+    <li><strong>Diagram before prose</strong> &mdash; the labelled curve is worth half the answer</li>
+    <li><strong>Underline keywords</strong> &mdash; proportional, elastic limit, yield, UTS, necking, fracture</li>
+    <li><strong>Box every final answer</strong> &mdash; E, yield stress, UTS, %EL, %RA</li>
+    <li><strong>Attempt order:</strong> this question early &mdash; it is the one you can draw from memory</li>
+    <li><strong>Never leave blank</strong> &mdash; the curve plus the six stage names clears 3 of 7</li>
+    <li><strong>Say "original area" out loud</strong> &mdash; the convention is worth a mark each time</li>
+    <li><strong>Close every answer:</strong> "hence proved" / boxed figures / one significance line</li>
+  </ul>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer &middot; 7 marks</span>
+<h3>Explain the tensile test with a stress-strain diagram.</h3>
+<p class="answer-lead">Describe the machine in three lines, write the two conversions, then spend the rest of the answer on the labelled curve.</p>
+<pre class="ascii-diagram" role="img" aria-label="Universal testing machine showing the specimen gripped between the upper and lower crossheads with the dial gauge reading">
+                    UPPER CROSSHEAD
+        +---------------------------------+
+        |                                 |
+        |            LOAD CELL            |   measures the
+        |          (reads the force)      |   axial force
+        +---------------------------------+
+                           |
+                           v
+        +---------------------------------+
+        |          UPPER GRIP             |
+        +---------------------------------+
+                           |
+                           |
+         +-----------------v-----------------+
+         |            SPECIMEN                |  d0 = original
+         |      (standard, circular,          |  diameter
+         |       marked gauge length)         |
+         +-----------------+-----------------+
+                           |
+                           v
+        +---------------------------------+
+        |          LOWER GRIP             |
+        +---------------------------------+
+                           |
+                           v
+        +---------------------------------+
+        |         DIAL GAUGE              |   measures the
+        |    (reads the extension)        |   extension in mm
+        +---------------------------------+
+                           |
+                           v
+                    LOWER CROSSHEAD
+</pre>
+<pre class="ascii-diagram" role="img" aria-label="The six stages of a ductile stress-strain curve labelled from proportional to fracture">
+  STRESS
+    |                     ULTIMATE (UTS)
+    |                        * peak
+    |                       / \
+    |            YIELD  *--/   \  strain hardening
+    |   elastic   /|    /           \
+    |      /     / |   /             \
+    |     /   EL  |  /                 \
+    |    /        | /                    \  necking
+    |   / PRO-    |/                      \____ FRACTURE
+    |  / PORTIONAL|                        /
+    | /  LIMIT   /                       /
+    +------------+----------------------+------> STRAIN
+    0
+      |    |        |       |       |      |
+      1    2        3       4       5      6
+   straight  elastic  yield  strain  necking fracture
+     line     limit   point  harden.  starts
+</pre>
+<ol class="answer-steps">
+<li><strong>Apparatus:</strong> a standard circular specimen of diameter d<sub>0</sub> with two marked points defining the original gauge length L<sub>0</sub>, gripped in the universal testing machine between the upper and lower crossheads.</li>
+<li><strong>Measurement:</strong> a load cell records the axial force and an extensometer or dial gauge records the extension; both are plotted to give the load-extension curve.</li>
+<li><strong>Conversion:</strong> engineering stress &sigma; = P / A<sub>0</sub>, where A<sub>0</sub> = &pi;/4 &times; d<sub>0</sub><sup>2</sup>, and engineering strain &epsilon; = &delta;L / L<sub>0</sub>. Both use the original dimensions.</li>
+<li><strong>Curve stages:</strong> proportional limit, where stress is directly proportional to strain and the slope gives Young's modulus; elastic limit, beyond which the material takes a permanent set; yield point; strain hardening up to the ultimate tensile stress; necking; and fracture.</li>
+<li><strong>Reading the curve:</strong> resilience is the area under the elastic portion only, toughness is the area under the entire curve, and % elongation and % reduction of area at the neck give ductility.</li>
+<li><strong>Engineering versus true:</strong> true stress uses the instantaneous area, so it keeps rising to fracture; because engineering stress uses the fixed A<sub>0</sub>, the engineering curve appears to fall after necking.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> "The curve therefore supplies every mechanical property at once &mdash; E from the slope, resilience and toughness from two different areas, and ductility from the elongation at fracture &mdash; which is why the tensile test is the single most used mechanical test in engineering."</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>Differentiate between the stress-strain curves of ductile and brittle materials.</h3>
+<p class="answer-lead">Draw both curves on the same axes, then tabulate. The table is where the marks are; the drawing is what makes it readable.</p>
+<pre class="ascii-diagram" role="img" aria-label="Brittle stress-strain curve compared with a ductile curve showing no yield and no necking">
+  STRESS
+    |      brittle          ductile
+    |        |                * UTS
+    |        |              /   \
+    |        |  fracture  /     \
+    |        |    x      /       \__
+    |        |   / \    /          \  fracture
+    |        |  /   \  /
+    |        | /     \/  yield
+    |       /|
+    |      / |
+    |     /  |
+    +----+---+---------------------> STRAIN
+         |
+   no yield point, breaks almost
+   at once, no necking, tiny area
+   under the curve = brittle
+</pre>
+<table>
+<tr><th>Feature</th><th>Ductile material</th><th>Brittle material</th></tr>
+<tr><td>Elastic region</td><td>Straight line, slope = E</td><td>Straight line, often much steeper</td></tr>
+<tr><td>Yield point</td><td>Clear and well defined</td><td>Absent; no distinct yield stress</td></tr>
+<tr><td>Necking</td><td>Present; reduction of area at fracture</td><td>Absent; the whole section is at one stress</td></tr>
+<tr><td>Strain at fracture</td><td>Large, often 20% and above</td><td>Very small, well under 5%</td></tr>
+<tr><td>Area under curve</td><td>Large, so high toughness</td><td>Small, so low toughness</td></tr>
+<tr><td>Failure behaviour</td><td>Warns by necking before failure</td><td>Fails suddenly with no warning</td></tr>
+<tr><td>Examples</td><td>Mild steel, aluminium, copper</td><td>Cast iron, glass, ceramic</td></tr>
+</table>
+<p><strong>Design consequence:</strong> a ductile material deforms visibly and necks before it
+breaks, so a structure made from it gives visible warning of impending failure. A brittle material
+has almost no plastic deformation and fractures suddenly, so failure cannot be predicted from
+appearance &mdash; which is why impact testing exists and why structures are designed to be
+ductile.</p>
+<p class="answer-close"><strong>Exam close:</strong> "The area under the curve is the toughness, so the brittle material is not merely weaker but far less safe, because it offers no warning before it fails."</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer &middot; 5 marks</span>
+<h3>A 12 mm specimen necks to 9 mm and stretches 12.5% before fracture. Find the maximum engineering stress for a 30 kN load, and the percentage reduction of area.</h3>
+<p class="answer-lead">Compute the area first, then the stress, then the ductility figures. Cross-check %RA from the diameters alone before writing anything.</p>
+<pre class="ascii-diagram" role="img" aria-label="Specimen dimensions before and after fracture used in the reduction of area calculation">
+      BEFORE FRACTURE                   AFTER FRACTURE
+      (d0 = 12 mm)                     (d1 = 9 mm at the neck)
+      +---------------+                +-----------+
+      |               |                |    /\     |
+      |      o        |   ->  pulls ->  |   /  \    |
+      |     12 mm     |                |  /neck\   |
+      |               |                |  \      /  |
+      +---------------+                |   \____/   |
+       A0 = pi/4 x 12^2                 +-----------+
+          = 113.097 mm^2                 A1 = pi/4 x 9^2
+                                             = 63.617 mm^2
+      +---------------+
+      | d0 = 12       |   area lost = 113.097 - 63.617
+      +---------------+                = 49.480 mm^2
+        necking                       %RA = 49.480 / 113.097 x 100
+        the material                    = 43.75%
+        has localised
+
+      %EL = 12.5%   %RA = 43.75%   %RA > %EL  -> ductile
+</pre>
+<pre><code>A0 = (pi / 4) x 12^2 = 113.097 mm^2
+sigma_max = 30000 / 113.097 = 265.26 MPa
+
+% RA = (113.097 - 63.617) / 113.097 x 100 = 43.75%
+      = (12^2 - 9^2) / 12^2 x 100          (pi/4 cancels)
+      = (144 - 81) / 144 x 100 = 63/144 x 100 = 43.75%</code></pre>
+<p><strong>Answer:</strong> the maximum engineering stress is <strong>265 MPa</strong> and the
+percentage reduction of area is <strong>43.75%</strong>. Together with 12.5% elongation this
+identifies the material as a ductile steel; the reduction of area is much larger than the
+elongation because all the deformation is concentrated into the neck, and that concentration is
+exactly the necking visible in the specimen sketch.</p>
+<p class="answer-close"><strong>Exam close:</strong> "Had the necked area been used, the stress
+would have come out as 471 MPa &mdash; that is the true stress at fracture, not the engineering
+stress, and the ratio of the two is simply A<sub>0</sub>/A<sub>1</sub>."</p>
+</article>
+</div>
+<div class="sources">
+<h2>Sources</h2>
+<ul>
+<li><strong>Official syllabus</strong> &mdash; RGPV BT-203 Unit 1, "Tensile test and stress-strain
+diagram of ductile and brittle materials". Verified against
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/notes/2018/12/basic-mechanical-engineering-bt-203">RGPV Notes &mdash; BT-203</a>
+and the AICTE flexible-curricula scheme, July 2018.</li>
+<li><strong>Unit-wise BT-203 notes</strong> &mdash; per-unit OneDrive and Dropbox downloads on the
+same hub, for cross-checking the curve labels.</li>
+<li><strong>Question-paper index</strong> &mdash;
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-mechanical-engineering-bt-203">rgpvnotes.in BT-203 papers</a>
+for further sessions of the same paper.</li>
+<li><strong>PYQ archive</strong> &mdash; BT-203, December 2020, for the paper pattern these drills
+follow. Paper at
+<a href="https://rgpvinfo.com/wp-content/uploads/2026/03/bt-203-basic-mechanical-engineering-dec-2020.pdf">rgpvinfo.com BT-203 December 2020</a>.</li>
+<li><strong>Reference book</strong> (official BT-203 list) &mdash; C. M. Agrawal,
+<em>Basic Mechanical Engineering</em>, Wiley &mdash; primary text for Unit 1.</li>
+</ul>
+<p class="source-note">Links last checked 28 September 2026. The official scheme fixes the
+syllabus scope; the notes hubs and paper archive support revision and question practice. No paper
+session is attributed beyond the December 2020 archive named above.</p>
+</div>
+</div><!-- QUESTIONNAIRE TAB -->
+
+<div class="zevu-footer">
+  <p class="prompt">zevu:~/learn/bt203/unit1 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p>
+</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
+

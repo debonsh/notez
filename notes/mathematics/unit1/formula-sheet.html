@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 Formula Sheet &mdash; BT102 Calculus &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #26201a; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; font-weight: normal; }
+h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; font-weight: normal; }
+p { margin: 0.9rem 0; } a { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', Consolas, monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', Consolas, monospace; }
+pre code { background: none; padding: 0; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', monospace; font-size: 0.85rem; color: var(--ink-soft); }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { background: #fff; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt102/unit1 $ cat formula-sheet.html — exam-morning revision, 1 page</p></div>
+<p class="kicker">Formula sheet &middot; BT102 Unit 1 &middot; Calculus</p>
+<h1>Unit 1 Calculus — All Formulas</h1>
+<p><em>Print this. Everything below appears in RGPV BT102 Unit 1. <a href="index.html">&larr; back to hub</a></em></p>
+
+<h2>01 — Rolle's Theorem</h2>
+<pre><code>Conditions: continuous [a,b] + differentiable (a,b) + f(a) = f(b)
+Result:     f'(c) = 0 for some c ∈ (a, b)
+Classic:    x²−4x+3 on [1,3] → c = 2</code></pre>
+
+<h2>02 — Lagrange's MVT</h2>
+<pre><code>Conditions: continuous [a,b] + differentiable (a,b)  [NO f(a)=f(b) needed]
+Result:     f'(c) = (f(b)−f(a)) / (b−a)
+Classic:    x² on [1,3] → f'(c) = (9−1)/2 = 4 → c = 2</code></pre>
+
+<h2>03 — Taylor &amp; Maclaurin</h2>
+<pre><code>Taylor:    f(x) = f(a) + (x−a)f'(a) + (x−a)²/2! f"(a) + ...
+Maclaurin:  f(x) = f(0) + xf'(0) + x²/2! f"(0) + ...   (a = 0)</code></pre>
+<table>
+<tr><th>Function</th><th>Maclaurin</th></tr>
+<tr><td><code>eˣ</code></td><td><code>1 + x + x²/2! + x³/3! + ...</code></td></tr>
+<tr><td><code>sin x</code></td><td><code>x − x³/3! + x⁵/5! − ...</code></td></tr>
+<tr><td><code>cos x</code></td><td><code>1 − x²/2! + x⁴/4! − ...</code></td></tr>
+<tr><td><code>ln(1+x)</code></td><td><code>x − x²/2 + x³/3 − ...</code></td></tr>
+</table>
+
+<h2>04 — Maxima / Minima (2 var)</h2>
+<pre><code>Stationary: fx = 0 AND fy = 0
+r = fxx, s = fxy, t = fyy,  D = rt − s²
+D &gt; 0, r &gt; 0 → min | D &gt; 0, r &lt; 0 → max
+D &lt; 0 → saddle | D = 0 → inconclusive</code></pre>
+
+<div class="zevu-footer"><p>zevu:~/learn/bt102/unit1 $ # shared via zevu · built with ART</p></div>
+</main>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

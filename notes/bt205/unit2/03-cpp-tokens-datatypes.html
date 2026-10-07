@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C++ Tokens, Data Types &amp; Variables &mdash; RGPV BT205 &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; --good: #7bc97f; --good-bg: #17251a; --bad: #ef6b68; --bad-bg: #2a1718; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1, h2, h3 { font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; } h3 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; } a:hover { color: var(--accent); }
+.kicker { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, 'Courier New', monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); font-variant-ligatures: contextual; }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+pre code { background: none; padding: 0; }
+blockquote { margin: 1.4rem 0; padding: 0.4rem 1.2rem; border-left: 3px solid var(--accent); background: var(--code-bg); color: var(--ink-soft); }
+hr { border: none; border-top: 1px solid var(--rule); margin: 3rem 0; }
+.tab-bar { display: flex; gap: 0; border-bottom: 2px solid var(--rule); margin-bottom: 0; }
+.tab-btn { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--paper); border: 1px solid var(--rule); border-bottom: none; border-radius: 8px 8px 0 0; color: var(--ink-soft); cursor: pointer; margin-right: 0.25rem; }
+.tab-btn.active { color: var(--accent); background: var(--code-bg); border-color: var(--accent); }
+.tab-btn:hover:not(.active) { background: var(--paper); color: var(--ink); }
+.tab-panel { display: none; } .tab-panel.active { display: block; }
+.quiz { border: 1px solid var(--rule); border-radius: 8px; padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.quiz .q { font-weight: bold; margin-top: 0; font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; }
+.quiz button { display: block; width: 100%; text-align: left; margin: 0.45rem 0; padding: 0.55rem 0.9rem; font: inherit; cursor: pointer; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; color: var(--ink); }
+.quiz button:hover:not(:disabled) { border-color: var(--accent); background: var(--paper); }
+.quiz button:disabled { cursor: default; opacity: 0.85; }
+.quiz button.correct { border-color: var(--good); background: var(--good-bg); }
+.quiz button.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.quiz .feedback { display: none; margin: 0.7rem 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+.quiz .feedback.show { display: block; }
+.callout { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0; font-size: 0.95rem; }
+.callout .label { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.4rem; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.visual-note { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.7rem; line-height: 1.3; color: var(--ink-soft); background: var(--code-bg); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre; }
+.visual-note .highlight { color: var(--accent); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.85rem; color: var(--ink-soft); opacity: 0.85; }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-header .prompt .cmd { color: var(--ink-soft); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', 'SFMono-Regular', Consolas, monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+.zevu-footer .prompt { color: var(--accent); }
+.q-meta { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 8px; padding: 0.65rem 1rem; margin: 1.2rem 0; }
+.q-grid { display: grid; gap: 1rem; margin: 1.4rem 0; }
+.q-card { border: 1px solid var(--rule); border-radius: 10px; padding: 1.1rem 1.25rem; background: var(--code-bg); }
+.q-card .q-top { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.55rem; flex-wrap: wrap; }
+.q-card .q-no { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--paper); background: var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-marks { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0.12em 0.55em; }
+.q-card .q-freq { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.7rem; color: var(--ink-soft); margin-left: auto; }
+.q-card h3 { margin: 0 0 0.6rem; font-size: 1.08rem; }
+.q-card p, .q-card ul, .q-card ol { font-size: 0.93rem; }
+.q-card ul, .q-card ol { margin: 0.5rem 0; padding-left: 1.2rem; }
+.q-card .q-foot { margin-top: 0.8rem; padding-top: 0.65rem; border-top: 1px dashed var(--rule); font-size: 0.85rem; color: var(--ink-soft); }
+.q-card .q-foot b { color: var(--accent); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: normal; }
+.callout { background: var(--code-bg); border-left: 3px solid var(--accent); padding: 0.9rem 1.1rem; }
+.visual-note { border-left-width: 4px; font-size: 0.72rem; color: #d8d3c8; }
+table tr:hover td { background: transparent; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } .tab-bar, .zevu-footer { display: none; } .tab-panel { display: block !important; } }
+:root { --accent-soft: #1b1e25; }
+html { scroll-behavior: smooth; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+h1 { letter-spacing: -0.025em; }
+h2 { margin-top: 2.35rem; }
+a:hover { background: transparent; color: var(--accent); }
+.tab-bar { gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tab-btn { min-height: 2.5rem; padding-inline: 1rem; }
+.tab-btn:hover:not(.active), .quiz button:hover:not(:disabled), .topic-card:hover { background: var(--paper); }
+table tr:hover td { background: transparent; }
+.callout, .q-card, .topic-card { background: var(--paper); }
+.callout { border-left: 3px solid var(--accent); }
+.q-card:hover { border-color: var(--ink-soft); }
+.q-meta { background: transparent; }
+.exam-note { margin: 1rem 0; padding: .8rem 1rem; border-left: 2px solid var(--accent); color: var(--ink-soft); }
+.exam-note strong { color: var(--ink); }
+.topic-card { border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+.topic-card .topic-num { font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 .4rem; }
+.topic-card h3 { margin: 0 0 .5rem; font-size: 1.12rem; }
+.topic-card h3 a { text-decoration: none; }
+.topic-card h3 a:hover { text-decoration: underline; }
+.topic-card p { margin: .45rem 0; font-size: .93rem; }
+.topic-card .topic-links { margin-top: .65rem; color: var(--ink-soft); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace; font-size: .72rem; line-height: 1.5; }
+.progress-list { list-style: none; margin: 1rem 0; padding: 0; }
+.progress-list li { margin: .45rem 0; }
+.progress-list label { cursor: pointer; }
+.progress-list input { accent-color: var(--accent); width: 1rem; height: 1rem; margin-right: .5rem; vertical-align: -1px; }
+td.dim { color: var(--ink-soft); }
+.topper-answer { margin: 1.5rem 0; padding: 1rem 1.2rem; border: 1px solid var(--rule); border-radius: 8px; }
+.topper-answer .label { display: block; margin-bottom: .45rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.topper-answer ol { margin: .6rem 0 .8rem; padding-left: 1.25rem; }
+.topper-answer li { margin: .35rem 0; }
+.topper-answer .answer-close { margin: 0; }
+.sources { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.sources h2 { margin-top: 0; }
+.sources ul { padding-left: 1.2rem; }
+.source-note { color: var(--ink-soft); font-size: .85rem; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } .tab-btn { padding-inline: .75rem; } }
+@media print { .topper-answer, .sources { display: block; } }
+.ascii-diagram { margin: 1rem 0; padding: 1rem 1.1rem; overflow-x: auto; background: #101217; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 6px; color: var(--ink); font-family: 'JetBrainsMono Nerd Font', 'FiraCode Nerd Font', 'Cascadia Code', Consolas, monospace; font-size: .72rem; line-height: 1.4; white-space: pre; }
+.question-trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.question-trigger::after { content: "  · model answer"; color: var(--accent); font-family: monospace; font-size: .62em; white-space: nowrap; }
+.question-trigger[aria-expanded="true"]::after { content: "  · hide answer"; }
+.question-trigger:hover { color: var(--accent); }
+.answer-toggle { display: none; }
+.answer-toggle:hover { background: var(--paper); color: var(--ink); }
+.answer-toggle[aria-expanded="true"] { background: var(--code-bg); color: var(--ink); }
+.answer-slot { margin-top: .9rem; padding: .9rem; background: #25282f; border-radius: 7px; }
+.answer-model { padding: 1rem 1.1rem; border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 7px; background: #25282f; }
+.answer-label { display: block; margin-bottom: .4rem; color: var(--accent); font-family: monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+.answer-model h3 { margin: 0 0 .55rem; font-size: 1.08rem; }
+.answer-lead { margin: 0 0 .7rem; }
+.answer-steps { margin: .7rem 0; padding-left: 1.3rem; }
+.answer-steps li { margin: .35rem 0; }
+.answer-close { margin: .75rem 0 0; padding-top: .65rem; border-top: 1px solid var(--rule); }
+.answer-bank[hidden], .answer-slot[hidden] { display: none; }
+@media (max-width: 640px) { .ascii-diagram { font-size: .58rem; padding: .75rem; } .answer-model { padding: .85rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit2 $ cat 03-cpp-tokens-datatypes.md</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('lesson')">Lesson</button>
+  <button class="tab-btn" onclick="showTab('cheatsheet')">Cheat-Sheet</button>
+  <button class="tab-btn" onclick="showTab('questionnaire')">Questionnaire</button>
+</div>
+<div id="lesson" class="tab-panel active">
+<p class="kicker">Lesson &middot; BT205 Unit 2 &mdash; C++ Basics</p>
+<h1>Character Set, Tokens, Data Types &amp; Variables</h1>
+<p><em>Syllabus names these verbatim — "Character Set, Tokens" is a ready-made 2-marker. Tokens + type table + first-program anatomy = the foundation every later program question assumes.</em></p>
+<h2>Character set (the alphabet C++ reads)</h2>
+<pre><code>Letters:      A-Z, a-z
+Digits:       0-9
+Special:      + - * / = % &amp; # ! ? ^ ~ | \ ; : ' " , . &lt; &gt; ( ) [ ] { }
+Whitespace:   space, tab, newline (separators, mostly ignored)
+Escape:       \n (newline)  \t (tab)  \\ (\ char)  \" (quote)</code></pre>
+<h2>Tokens — 5 smallest units (THE 2-marker, memorize all five)</h2>
+<table>
+<tr><th>Token</th><th>What</th><th>Examples</th></tr>
+<tr><td>Keywords</td><td>Reserved words (cannot rename)</td><td><code>int, float, if, else, for, while, return, class</code></td></tr>
+<tr><td>Identifiers</td><td>Names you invent (variables/functions)</td><td><code>marks, total, area_of_circle</code></td></tr>
+<tr><td>Constants/literals</td><td>Fixed values</td><td><code>10, 3.14, 'A', "hello"</code></td></tr>
+<tr><td>Operators</td><td>Symbols that act</td><td><code>+ - * / % = == &lt;&lt; &gt;&gt;</code></td></tr>
+<tr><td>Separators/punctuators</td><td>Structure marks</td><td><code>; , ( ) { } [ ] #</code></td></tr>
+</table>
+<h2>Identifier rules (viva + common error-spotting question)</h2>
+<pre><code>OK:   letters, digits, underscore; must NOT start with digit
+      case-sensitive (Marks != marks); no keywords (int = illegal name)
+GOOD: total_marks, n1, _temp     BAD: 1st, my-var, float, my var</code></pre>
+<h2>Data types + sizes (write the table, not prose)</h2>
+<table>
+<tr><th>Type</th><th>Size*</th><th>Holds</th><th>Example</th></tr>
+<tr><td><code>int</code></td><td>4 B</td><td>Whole numbers ±21 crore</td><td><code>int age = 18;</code></td></tr>
+<tr><td><code>float</code></td><td>4 B</td><td>Decimals, ~7 digits</td><td><code>float pi = 3.14f;</code></td></tr>
+<tr><td><code>double</code></td><td>8 B</td><td>Decimals, ~15 digits</td><td><code>double root = 1.41421356;</code></td></tr>
+<tr><td><code>char</code></td><td>1 B</td><td>Single character (ASCII)</td><td><code>char grade = 'A';</code></td></tr>
+<tr><td><code>bool</code></td><td>1 B</td><td>true / false</td><td><code>bool pass = true;</code></td></tr>
+<tr><td><code>void</code></td><td>—</td><td>Nothing (no return value)</td><td><code>void show();</code></td></tr>
+</table>
+<p>*Typical g++ sizes; modifiers <code>short/long/signed/unsigned</code> adjust range (<code>unsigned int</code> = 0…429 crore).</p>
+<h2>Constants (3 kinds, 1 line each)</h2>
+<pre><code>Integer:  10, -5, 0x1A (hex), 017 (octal)
+Floating: 3.14, 2.5e3 (= 2500.0), -0.5
+Character/string: 'A' (1 char) vs "A" (string: A + hidden \0)</code></pre>
+<div class="callout">
+<span class="label">Diagram — first program anatomy (draw this)</span>
+<pre class="ascii-diagram" role="img" aria-label="First C plus plus program anatomy, high definition">SOURCE LINE                   ROLE
+-----------------------------  ---------------------------------------------
+#include &lt;iostream&gt;       header: declares standard input/output
+using namespace std;            std names may be used without std::
+int main()                      entry point: execution starts here
+{                              begins the main function body
+    int age = 18;                tokens: keyword + identifier + constant
+                                + operator + separator
+    cout &lt;&lt; age;                insertion operator writes 18
+    return 0;                    reports successful completion
+}                                ends the main function</pre>
+</div>
+<h2>Verified first program (compile it, don't just read it)</h2>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main() {
+    int age = 18;
+    float pi = 3.14f;
+    char grade = 'A';
+    cout &lt;&lt; age &lt;&lt; " " &lt;&lt; pi &lt;&lt; " " &lt;&lt; grade;
+    return 0;
+}
+// OUTPUT (g++ verified): 18 3.14 A</code></pre>
+<div class="exam-note"><strong>Code-reading check:</strong> read the program from the header to <code>main()</code>, identify each token, then trace one small input. If compilation fails, inspect the first error line; a missing semicolon is a frequent cause.</div>
+<div class="exam-note"><strong>Token check:</strong> in <code>float total = price * 1.18;</code>, <code>float</code> is a keyword, <code>total</code> and <code>price</code> are identifiers, <code>1.18</code> is a constant, <code>=</code> and <code>*</code> are operators, and <code>;</code> is a separator.</div>
+<h2>Solved examples in great depth</h2>
+<h3>Solved A — tokenize: <code>float total = price * 1.18;</code></h3>
+<table>
+<tr><th>Token</th><th>Kind</th></tr>
+<tr><td><code>float</code></td><td>keyword</td></tr>
+<tr><td><code>total, price</code></td><td>identifiers</td></tr>
+<tr><td><code>1.18</code></td><td>floating constant</td></tr>
+<tr><td><code>=, *</code></td><td>operators</td></tr>
+<tr><td><code>;</code></td><td>separator (terminator)</td></tr>
+</table>
+<h3>Solved B — legal or not? <code>1st, _n, float, my-var, Total</code></h3>
+<table>
+<tr><th>Name</th><th>Verdict + reason</th></tr>
+<tr><td><code>1st</code></td><td>Illegal — starts with digit</td></tr>
+<tr><td><code>_n</code></td><td>Legal — underscore start OK</td></tr>
+<tr><td><code>float</code></td><td>Illegal — keyword</td></tr>
+<tr><td><code>my-var</code></td><td>Illegal — hyphen = minus operator</td></tr>
+<tr><td><code>Total</code></td><td>Legal — differs from <code>total</code> (case-sensitive)</td></tr>
+</table>
+<h3>Solved C — choose types: age, pi, grade, pass, phone number</h3>
+<table>
+<tr><th>Data</th><th>Type + why</th></tr>
+<tr><td>age = 18</td><td><code>int</code> — whole, small</td></tr>
+<tr><td>pi = 3.14159</td><td><code>double</code> — needs &gt;7 digits</td></tr>
+<tr><td>grade = 'A'</td><td><code>char</code> — single character</td></tr>
+<tr><td>pass = true</td><td><code>bool</code> — yes/no</td></tr>
+<tr><td>phone = 98260...</td><td><code>string</code>, NOT int — never do arithmetic on it (+ leading 0 lost)</td></tr>
+</table>
+<div class="callout"><span class="label">Code traps</span>
+<ul>
+<li><strong><code>'A'` vs `"A"`:</strong> char vs string (+ hidden <code>\0</code>). <code>char c = "A";</code> fails.</li>
+<li><strong>Phone/Aadhaar as int:</strong> classic blunder — leading zeros vanish, overflow looms. Use string.</li>
+<li><strong><code>float pi = 3.14;</code> warning:</strong> 3.14 is double by default; <code>3.14f</code> silences it.</li>
+<li><strong>Missing <code>;</code>:</strong> error points to the NEXT line — look one line up.</li>
+</ul></div>
+<div class="callout"><span class="label">Special lines for extra marks</span>
+<ul>
+<li><em>"Tokens are the atoms of code: the compiler reads characters, groups tokens, then enforces grammar."</em></li>
+<li><em>"Type choice is a contract: int promises whole numbers, double promises precision, string promises identity."</em></li>
+<li><em>"Identifiers obey three laws: no leading digit, no keyword, case matters."</em></li>
+<li>End type answers with a <strong>type table (type/size/use)</strong>, never prose.</li>
+</ul></div>
+<div class="callout"><span class="label">Exam tips</span>
+<ul>
+<li>"Tokens" 2-marker: <strong>5 names + 1 example each</strong> — five ticks, two marks.</li>
+<li>Data-types answer: <strong>table with size column</strong>; add unsigned line for bonus.</li>
+<li>First program: write <strong>all 6 lines + output comment</strong>; output line proves it runs.</li>
+</ul></div>
+<h2>Retrieval practice &mdash; MCQs</h2>
+<div class="quiz" data-answer="c" data-explain="Five tokens: keywords, identifiers, constants, operators, separators. Everything in code is one of these."><p class="q">C++ has how many token kinds...?</p><button data-key="a">Three: input, process, output</button><button data-key="b">Two: hardware and software</button><button data-key="c">Five: keyword, identifier, constant, operator, separator</button><button data-key="d">One: only semicolons</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="Identifiers can't start with digits, can't be keywords, can't contain hyphens/spaces; case-sensitive."><p class="q">Which identifier is ILLEGAL...?</p><button data-key="a">total_marks</button><button data-key="b">1st_rank</button><button data-key="c">_temp</button><button data-key="d">Total</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="a" data-explain="'A' = 1-byte char; &quot;A&quot; = string (A + hidden \0 terminator). char c = &quot;A&quot; is a type error."><p class="q">'A' vs "A" differ because...?</p><button data-key="a">char vs string (hidden \0 terminator)</button><button data-key="b">Both are integers</button><button data-key="c">No difference at all</button><button data-key="d">One is a keyword</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="d" data-explain="Phone numbers are never arithmeticked; as int they lose leading zeros and risk overflow. string preserves identity."><p class="q">Best type for a phone number...?</p><button data-key="a">int</button><button data-key="b">float</button><button data-key="c">bool</button><button data-key="d">string</button><p class="feedback"></p></div>
+<div class="quiz" data-answer="b" data-explain="Execution starts at main(), returns int (0 = success). Headers + namespace come before it."><p class="q">Program execution begins at...?</p><button data-key="a">#include line</button><button data-key="b">main() function</button><button data-key="c">Last semicolon</button><button data-key="d">return statement</button><p class="feedback"></p></div>
+<h2>PYQ drill</h2>
+<div class="callout"><span class="label">Drill set A &mdash; Theory</span>
+<ol>
+<li>What are tokens? Explain all five with examples. <em>(Midsem 2-marker)</em></li>
+<li>Explain fundamental data types with sizes. Rules for identifiers? <em>(Midsem short)</em></li>
+<li>Program structure in C++: explain each line of a first program. <em>(Long opener)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Drill set B &mdash; Applied</span>
+<ol start="4">
+<li>Tokenize: <code>int si = p * r * t / 100;</code> <em>(5 tokens kinds)</em></li>
+<li>Pick types: temperature 98.6, year 2026, section 'B', 10-digit mobile. <em>(Ans: double/float, int, char, string)</em></li>
+</ol></div>
+<div class="callout"><span class="label">Primary source — read next</span>
+<a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">rgpvnotes.in — BT-205 Unit 2 hub</a> &mdash; C++ basics pages.
+</div>
+<div class="callout"><span class="label">More PYQs to solve</span>
+<ul>
+<li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha — BT-205 PYQ archive</a></li>
+<li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2024.html">RGPVOnline — Jun-2024 PDF</a></li>
+</ul></div>
+</div>
+<div id="cheatsheet" class="tab-panel">
+<p class="kicker">Cheat-Sheet &middot; BT205 Unit 2</p>
+<h1>Tokens &amp; Types — Quick Reference</h1>
+<h2>5 tokens</h2>
+<pre><code>keyword(int) | identifier(marks) | constant(3.14) | operator(+ =) | separator(;)</code></pre>
+<h2>Identifier laws</h2>
+<pre><code>no leading digit | no keyword | case-sensitive | _ and letters ok</code></pre>
+<h2>Type table</h2>
+<table><tr><th>T</th><th>Size</th><th>Use</th></tr><tr><td>int</td><td>4B</td><td>wholes</td></tr><tr><td>float</td><td>4B</td><td>~7 digits</td></tr><tr><td>double</td><td>8B</td><td>~15 digits</td></tr><tr><td>char</td><td>1B</td><td>'A'</td></tr><tr><td>bool</td><td>1B</td><td>true/false</td></tr></table>
+<h2>First program</h2>
+<pre><code>#include&lt;iostream&gt; | using namespace std;
+int main(){ int age=18; cout&lt;&lt;age; return 0; }</code></pre>
+<h2>Key definitions</h2>
+<ul><li><strong>Token:</strong> smallest compiler unit</li><li><strong>'A' vs "A":</strong> char vs string+\0</li><li><strong>Phone:</strong> string, never int</li></ul>
+<h2>Exam checklist</h2>
+<ul><li>&#x2610; 5 tokens + examples?</li><li>&#x2610; Type table with sizes?</li><li>&#x2610; Identifier 3 laws?</li><li>&#x2610; Full program + output?</li></ul>
+<h2>Shortcut</h2>
+<pre><code>keyword-reserved | identifier-invented | constant-fixed
+whole->int | precise->double | char->'' | text->"" | phone->string</code></pre>
+</div>
+<div id="questionnaire" class="tab-panel">
+<p class="kicker">Questionnaire &middot; BT205 Unit 2 &middot; from 10 PYQ sessions + Dec-2020 paper</p>
+<h1>Tokens &amp; Types — questionnaire</h1>
+<div class="q-meta">short-question zone · "tokens" is a ready-made 2-marker · type table fills 3–5 mark shorts</div>
+<div class="q-grid">
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q1</span><span class="q-marks">2–3 marks · 5 min</span><span class="q-freq">★★★ 2-marker</span></div>
+<h3>Five tokens with examples</h3>
+<p>Keyword (int) · identifier (marks) · constant (3.14) · operator (+ =) · separator (;). Five names + one example each = five ticks. Close: the compiler groups characters into tokens, then enforces grammar.</p>
+<div class="q-foot"><b>write</b> — table, 5 rows (2) → close line (1).</div>
+<div class="q-foot"><b>check</b> — one-liners get one mark, table + examples get full; tokenize one sample line live.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q2</span><span class="q-marks">3–5 marks · 8 min</span><span class="q-freq">★★ frequent</span></div>
+<h3>Data types + identifier rules</h3>
+<p>Type table with sizes — int 4B, float 4B, double 8B, char 1B, bool. Identifier 3 laws (no leading digit, no keyword, case-sensitive) + legal/illegal verdicts. Phone-number-as-string trap line.</p>
+<div class="q-foot"><b>write</b> — type table (2) → 3 laws + verdicts (2) → phone-string insight (1).</div>
+<div class="q-foot"><b>check</b> — 'A'-vs-"A" stated; size column present or the table scores half.</div>
+</section>
+<section class="q-card">
+<div class="q-top"><span class="q-no">Q3</span><span class="q-marks">3 marks · 6 min</span><span class="q-freq">★★ frequent</span></div>
+<h3>C++ program structure</h3>
+<p>6-line first program with per-line role — header, namespace, main, declaration, cout, return — plus a verified output comment. The output line proves it runs.</p>
+<div class="q-foot"><b>write</b> — code (2) → output line (1).</div>
+<div class="q-foot"><b>check</b> — shorts = 4–6 lines + example; underline token, identifier, literal.</div>
+</section>
+</div>
+<div class="topper-answer">
+  <span class="label">Topper answer format</span>
+  <ol>
+    <li><strong>Statement:</strong> Name the token, identifier rule, or data type directly.</li>
+    <li><strong>Visual:</strong> Use a small type/token table and label the first program’s parts.</li>
+    <li><strong>Reason:</strong> Give one example and explain why the type or token is valid.</li>
+    <li><strong>Close:</strong> Write the program’s verified output or the final verdict.</li>
+  </ol>
+  <p class="answer-close"><strong>Model opening:</strong> “A token is the smallest meaningful unit the compiler recognises; C++ groups source characters into keywords, identifiers, constants, operators, and separators.”</p>
+  <p class="answer-close"><strong>For this topic:</strong> five tokens/rules → type table with sizes → one legal example → program line-by-line → output.</p>
+</div>
+<div class="answer-bank" hidden>
+<article class="answer-model" data-question-index="0">
+<span class="answer-label">Model answer · 2–3 marks</span>
+<h3>Five tokens with examples</h3>
+<p class="answer-lead">A token is the smallest meaningful unit recognised by the compiler. Name all five and give one example each.</p>
+<pre class="ascii-diagram" role="img" aria-label="C++ source code split into five token kinds">SOURCE: float total = price * 1.18;
+
+TOKEN       CATEGORY
+----------  --------------------
+float       keyword
+total       identifier
+=           operator
+price       identifier
+*           operator
+1.18        constant (floating literal)
+;           separator
+
+Source characters -> C++ tokens -> Grammar rules -> Program meaning</pre>
+<ol class="answer-steps">
+<li>Keywords are reserved words; identifiers are programmer-given names.</li>
+<li>Constants are fixed values; operators act on operands; separators mark structure.</li>
+<li>Conclude that the compiler groups characters into tokens and then checks grammar.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> a five-row table with one example per row is the complete answer.</p>
+</article>
+<article class="answer-model" data-question-index="1">
+<span class="answer-label">Model answer · 3–5 marks</span>
+<h3>Data types + identifier rules</h3>
+<p class="answer-lead">Choose a type by the value being stored, then check the identifier rules before compiling.</p>
+<pre class="ascii-diagram" role="img" aria-label="C++ fundamental data types and identifier rules">+----------+------------------+----------------------------------------+
+| TYPE     | TYPICAL g++ SIZE | USE                                    |
++----------+------------------+----------------------------------------+
+| int      | 4 bytes          | whole numbers; default signed          |
+| float    | 4 bytes          | 6-7 significant decimal digits         |
+| double   | 8 bytes          | 15-17 significant decimal digits       |
+| char     | 1 byte           | one character                          |
+| bool     | 1 byte           | true or false                          |
+| void     | N/A              | functions return no value              |
++----------+------------------+----------------------------------------+
+
+IDENTIFIER RULES
+  first character: letter or underscore (_)
+  later characters: letters, digits, or underscore (_)
+  case-sensitive: Marks != marks
+  forbidden: keywords such as int, float, or return
+INVALID: 1st | my-var | my var</pre>
+<ol class="answer-steps">
+<li>Use <code>int</code> for whole numbers, <code>double</code> for precision, <code>char</code> for one character, and <code>bool</code> for yes/no.</li>
+<li>An identifier cannot begin with a digit, cannot be a keyword, cannot contain a space or hyphen, and is case-sensitive.</li>
+<li>A phone number is identity, not arithmetic: store it as <code>string</code> to preserve leading zeroes.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> box the type choice and state the reason in one sentence.</p>
+</article>
+<article class="answer-model" data-question-index="2">
+<span class="answer-label">Model answer · 3 marks</span>
+<h3>C++ program structure</h3>
+<p class="answer-lead">Explain each line of a small program, then prove the result with its output.</p>
+<pre class="ascii-diagram" role="img" aria-label="Anatomy of a first C plus plus program">+-----------------------------+------------------------------------------------+
+| PROGRAM PART                | ROLE                                           |
++-----------------------------+------------------------------------------------+
+| header directive: iostream  | declares standard input/output                 |
+| using namespace std;        | std names may be used without std::            |
+| int main() {                | entry point: execution starts here             |
+|    int age = 18;            | stores 18 in an int variable                   |
+| output: age via cout        | stream insertion writes 18 to standard output  |
+|    return 0;                | reports successful completion                  |
+| }                           | closes the main function                       |
+| OUTPUT: 18                  | proves the program executed                    |
++-----------------------------+------------------------------------------------+</pre>
+<ol class="answer-steps">
+<li>Header supplies declarations; namespace exposes names; <code>main()</code> is the entry point.</li>
+<li>Inside <code>main</code>, declaration stores a value, <code>cout</code> writes it, and <code>return 0</code> reports success.</li>
+<li>Every declaration and expression statement ends with the required semicolon.</li>
+</ol>
+<p class="answer-close"><strong>Exam close:</strong> show the complete program and the output line so the answer proves execution.</p>
+</article>
+</div>
+<div class="sources">
+  <p class="kicker">Sources</p>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.rgpv.ac.in/UC/frm_download_file.aspx?Filepath=CDN%2FPubContent%2FScheme%2FWEF+July+2022300824115533.pdf">RGPV official BT205 scheme</a> — syllabus scope and course structure.</li>
+    <li><a href="https://www.rgpvnotes.in/btech/grading-system-old/qp/2018/12/basic-computer-engineering-bt-205">RGPV Notes BT205 hub</a> — aligned Unit 1 and Unit 2 notes.</li>
+    <li><a href="https://career-shiksha.com/post/rgpv-previous-year-question-paper-bt-205-basic-computer-engineering/">CareerShiksha BT205 PYQ archive</a> — previous-year question index.</li>
+    <li><a href="https://www.rgpvonline.com/be/bt-205-basic-computer-engineering-jun-2022.html">RGPVOnline BT205 paper archive</a> — downloadable paper and solution page.</li>
+  </ul>
+  <p class="source-note">Checked 25 September 2026. The official scheme sets scope; the notes and paper archive support revision and question practice.</p>
+</div>
+</div>
+<div class="zevu-footer"><p class="prompt">zevu:~/learn/bt205/unit2 $ <span style="color:var(--ink-soft)"># shared via zevu &middot; built with ART (zevu psa)</span></p></div>
+<script>
+(function () {
+  'use strict';
+  window.showTab = function (name) {
+    var panels = document.querySelectorAll('.tab-panel');
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    for (var j = 0; j < buttons.length; j++) buttons[j].classList.remove('active');
+    var p = document.getElementById(name);
+    if (p) p.classList.add('active');
+    if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
+  };
+  function initQuizzes() {
+    document.querySelectorAll('.quiz').forEach(function (q) {
+      var answer = q.getAttribute('data-answer');
+      var explain = q.getAttribute('data-explain') || '';
+      var fb = q.querySelector('.feedback');
+      q.querySelectorAll('button[data-key]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          q.querySelectorAll('button').forEach(function (b) { b.disabled = true; });
+          if (btn.getAttribute('data-key') === answer) btn.classList.add('correct');
+          else { btn.classList.add('wrong'); var r = q.querySelector('button[data-key="' + answer + '"]'); if (r) r.classList.add('correct'); }
+          if (fb) { fb.textContent = explain; fb.classList.add('show'); }
+        });
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initQuizzes);
+  else initQuizzes();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  function initAnswerReveals() {
+    var bank = document.querySelector('.answer-bank');
+    if (!bank) return;
+    var models = Array.prototype.slice.call(bank.querySelectorAll('.answer-model'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#questionnaire .q-card'));
+    cards.forEach(function (card, index) {
+      var model = models[index];
+      if (!model) return;
+      var slot = document.createElement('div');
+      slot.className = 'answer-slot';
+      slot.id = 'answer-slot-' + index;
+      slot.hidden = true;
+      slot.setAttribute('aria-live', 'polite');
+      var title = card.querySelector('h3');
+      if (!title) return;
+      var questionText = title.textContent.trim();
+      var questionButton = document.createElement('button');
+      questionButton.type = 'button';
+      questionButton.className = 'question-trigger';
+      questionButton.textContent = questionText;
+      questionButton.setAttribute('aria-label', 'Show model answer for ' + questionText);
+      questionButton.setAttribute('aria-expanded', 'false');
+      questionButton.setAttribute('aria-controls', slot.id);
+      title.textContent = '';
+      title.appendChild(questionButton);
+      card.appendChild(slot);
+      function syncQuestionState() {
+        var state = questionButton.getAttribute('aria-expanded');
+        questionButton.setAttribute('aria-label', (state === 'true' ? 'Hide model answer for ' : 'Show model answer for ') + questionText);
+      }
+      questionButton.addEventListener('click', function () {
+        var open = questionButton.getAttribute('aria-expanded') === 'true';
+        if (open) {
+          slot.hidden = true;
+          questionButton.setAttribute('aria-expanded', 'false');
+          syncQuestionState();
+          return;
+        }
+        if (!slot.firstChild) {
+          var clone = model.cloneNode(true);
+          clone.removeAttribute('id');
+          slot.appendChild(clone);
+        }
+        slot.hidden = false;
+        questionButton.setAttribute('aria-expanded', 'true');
+        syncQuestionState();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAnswerReveals);
+  else initAnswerReveals();
+})();
+</script>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>

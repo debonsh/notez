@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 Key-Sheet &mdash; BT205 &middot; by Zevu</title>
+<style>
+:root { color-scheme: dark; --ink: #e6e3dc; --ink-soft: #a29d92; --paper: #14161b; --accent: #e0a370; --accent-soft: #1b1e25; --rule: #2b2e36; --code-bg: #1b1e25; --code-ink: #dcd7cd; }
+* { box-sizing: border-box; } html { font-size: 18px; }
+body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: Georgia, serif; line-height: 1.65; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+h1 { font-size: 2.1rem; margin: 0 0 0.5rem; } h2 { font-size: 1.45rem; margin: 2.8rem 0 0.8rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.35rem; }
+p { margin: 0.9rem 0; } a { color: var(--accent); }
+.kicker { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.2rem; }
+code { font-family: monospace; font-size: 0.85em; background: var(--code-bg); padding: 0.12em 0.35em; border-radius: 4px; color: var(--code-ink); }
+pre { background: var(--code-bg); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; overflow-x: auto; font-family: monospace; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 1.2rem 0; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); }
+th { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.zevu-header { margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.zevu-header .prompt { font-family: monospace; font-size: 0.85rem; color: var(--ink-soft); }
+.zevu-header .prompt .user { color: var(--accent); }
+.zevu-footer { margin-top: 3.5rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-family: monospace; font-size: 0.65rem; color: var(--ink-soft); opacity: 0.6; }
+@media print { :root { color-scheme: light; --ink: #1a1a1a; --ink-soft: #55524c; --paper: #fff; --rule: #ddd; --code-bg: #f5f5f5; --code-ink: #222; } body { padding: 0; background: #fff; } a { color: inherit; } }
+:root { --accent-soft: #1b1e25; }
+main { max-width: 48rem; padding-top: 2.5rem; }
+a:hover { background: transparent; color: var(--accent); }
+table tr:hover td { background: transparent; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 640px) { html { font-size: 16px; } main { padding: 2rem 1rem 4rem; } }
+</style>
+
+<!-- site-layer -->
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../../assets/site.css">
+</head>
+<body>
+<main>
+<div class="zevu-header"><p class="prompt"><span class="user">zevu</span>:~/learn/bt205/unit1 $ cat formula-sheet.md</p></div>
+<p class="kicker">Printable &middot; BT205 Unit 1 &middot; exam morning</p>
+<h1>Unit 1 Key-Sheet — Fundamentals &amp; OS</h1>
+<p><em>One page per topic. Print this; leave the six lesson files at home.</em></p>
+<h2>01 Definition &amp; classification</h2>
+<pre><code>computer = electronic IPO device + storage (HW device, SW instructions)
+IPO: input(key/mouse) → CPU(ALU+CU) → store(RAM/disk) → output(screen/print)
+6 traits: speed · accuracy(GIGO) · diligence · versatility · memory · no-IQ
+gens: 1 tubes · 2 transistors · 3 IC · 4 VLSI · 5 ULSI+AI
+data: analog(continuous) / digital(0-1) / hybrid(ICU, petrol pump)
+size: micro(1 user) / mini(dept) / mainframe(bank/railway) / super(PARAM/FLOPS)</code></pre>
+<h2>02 CPU / bus / instructions</h2>
+<pre><code>CPU = ALU(computes) + CU(directs) + registers(scratch-pad)
+regs: PC-next · IR-now · MAR-addr · MDR-data · ACC · SP · FLAG · R0-Rn
+data=2-way(word size) · address=1-way(2^n mem) · control=signals
+[opcode=what | operands=on-what]; cycle: FETCH→DECODE→EXECUTE→STORE
+2^10=1K · 2^16=64K · 2^20=1M · 2^30=1G · 2^32=4G</code></pre>
+<h2>03 Memory / storage / I/O</h2>
+<pre><code>pyramid: registers &gt; cache &gt; RAM &gt; HDD/SSD &gt; tape
+RAM volatile work (SRAM fast/DRAM dense) · ROM boot · cache locality L1&gt;L2&gt;L3
+HDD magnetic slow · SSD flash fast · optical laser · tape backup
+8b=1B · 1024B=1KB · 1024KB=1MB · 1024MB=1GB · 1024GB=1TB
+in: key/mouse/scanner/mic/MICR · out: monitor/printer/speaker</code></pre>
+<h2>04 Software + applications</h2>
+<pre><code>system=manages machine (OS/translator/utility/driver) · app=user task
+compiler whole→object (C) · interpreter line-by-line (Python)
+8 domains: eBiz(cart/UPI) · bio(DNA/drug) · health(CT/ICU) · RS-GIS(image/map)
+meteo(forecast) · game(engine) · MM(combined) · animation(24-30fps)</code></pre>
+<h2>05 OS</h2>
+<pre><code>OS = interface + resource manager + extended machine (kernel core)
+6 fn: process(PCB) · memory(alloc) · files(FAT/NTFS) · devices(spool) · security · UI
+types: serial → batch → multiprog → time-share → real-time(deadline)
+program passive file · process active + PCB · states: ready→run→wait→end</code></pre>
+<h2>06 Word / PPT / Excel</h2>
+<pre><code>Word: L C R J (justify=both straight) · RTF portable formatted text
+PPT: slide+layout · master · transition=between · animation=on objects · F5 show
+Excel: B5 cell · A1:A10 range · = starts calc · $ locks
+=SUM() =AVERAGE() =IF(&gt;=40,"Pass","Fail") · Ctrl+E/J · chart Insert→Column</code></pre>
+<h2>7-mark skeletons (copy order)</h2>
+<table>
+<tr><th>Q</th><th>Skeleton</th></tr>
+<tr><td>Parts/classify</td><td>definition + IPO diagram + both tables + boxed type</td></tr>
+<tr><td>CPU/bus</td><td>CPU box + 8 regs + 3-bus table + 4-step cycle + 2^n</td></tr>
+<tr><td>Memory/IO</td><td>pyramid + RAM/ROM/cache + HDD/SSD + ladder math + I/O lists</td></tr>
+<tr><td>Software/apps</td><td>system/app table + translators + 8 domains × 2 pts</td></tr>
+<tr><td>OS functions</td><td>definition + 6 rows + types evolution + trio tables + mastermind close</td></tr>
+<tr><td>Word/RTF</td><td>formatting def + 4 alignments + RTF 3 pts + close</td></tr>
+</table>
+<div class="zevu-footer"><p># shared via zevu · built with ART (zevu psa) · <a href="index.html">← hub</a></p></div>
+</main>
+
+<script src="../../../assets/nav.js"></script>
+<script src="../../../assets/site.js" defer></script>
+</body>
+</html>
