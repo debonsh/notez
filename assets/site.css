@@ -1850,3 +1850,232 @@ a.zv-tag:hover {
 .zv-hero-meta dd {
   font-size: 0.72rem;
 }
+
+/* ==========================================================================
+   10. Phones and touch screens
+
+   Measured at 390x844 (iPhone 14). Everything here is scoped: the bar layout
+   under `(hover: none)` or a narrow window, the pointer-only affordances
+   under `(hover: none)` alone. A desktop browser sees none of it.
+
+   What was actually wrong before this block, from the audit:
+
+     - the FAB was a fixed 118x248px column sitting on top of the reading
+       column. On a 390px screen that is the right third of the prose, for the
+       bottom third of the viewport, for the whole page. Text scrolled past
+       behind it and could not be read.
+     - its six buttons were 34px tall.
+     - `.zv-copy-btn` and `.zv-anchor` are revealed by hover only, so on a
+       phone they were invisible but still tappable: 13 invisible controls on
+       a topic page, and 13 invisible tab stops.
+     - the palette input was 15.3px, which is under the 16px that stops iOS
+       Safari from zooming the page on focus and never zooming back out.
+     - a horizontal swipe that reached the end of a wide ASCII diagram went
+       on to trigger the browser's back gesture.
+   ========================================================================== */
+
+html {
+  /* iOS inflates text in landscape unless this is pinned, which reflows the
+     ASCII diagrams into nonsense. The diagrams are the whole point. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* A tap is a tap. Without this the browser holds it ~300ms to see whether a
+   double-tap zoom is coming, which reads as a laggy site. */
+a,
+button,
+summary,
+label,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+/* A diagram wider than the screen scrolls inside its own box. Without this,
+   a swipe that reaches its right edge is taken as "go back" instead. The pages
+   mark diagrams `terminal-diagram`, not `ascii-diagram`, and a good few
+   derivations are plain `pre` — so this covers all of them. */
+pre,
+.zv-term-body {
+  overscroll-behavior-x: contain;
+}
+
+/* --- the page controls become a bottom bar ------------------------------ */
+
+@media (hover: none), (max-width: 60rem) {
+  .zv-fab {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: rgba(20, 22, 27, 0.94);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--rule);
+  }
+
+  .zv-fab button {
+    flex: 1 1 0;
+    min-width: 0;
+    /* the thumb target, and the reason this is a bar and not a card */
+    min-height: 44px;
+    justify-content: center;
+    padding: 0.4rem 0.15rem;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    /* Some of the mid-sem pages drop the root font to 15px under 640px, so a
+       bare 0.75rem lands under 12px there. The floor is what matters. */
+    font-size: max(12px, 0.75rem);
+    white-space: nowrap;
+  }
+
+  /* The keyboard chips are dead weight under a finger, and they are what made
+     the labels too wide to sit three-to-a-row. */
+  .zv-fab button kbd {
+    display: none;
+  }
+
+  /* So is the shortcut sheet they open. Six slots do not fit at 390px, the
+     `?` key still works on a device that has a keyboard, and every one of
+     these buttons is 78px wide once this one is gone. */
+  .zv-fab button[data-fab="keys"] {
+    display: none;
+  }
+
+  /* "Back to top" is in the bar for the whole page. Leaving it to fade in on
+     scroll would re-lay-out the other four buttons under the reader's thumb
+     every time they crossed 400px. */
+  .zv-fab .zv-fab-hide {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  /* the bar is fixed, so the end of the document needs clearance under it */
+  body {
+    padding-bottom: calc(44px + env(safe-area-inset-bottom));
+  }
+
+  /* iOS zooms the viewport when a field under 16px takes focus and leaves it
+     zoomed. 16px is the threshold, not a design choice. */
+  .zv-cmdk-input,
+  .zv-cmdk-input input {
+    font-size: 16px;
+  }
+
+  .zv-cmdk-input {
+    padding: 0.8rem 1rem;
+  }
+
+  /* 44px rows, so the list is a list you can hit with a thumb rather than a
+     list you read and then miss. min-height, not padding: the mid-sem pages
+     set a 15px root on small screens and the padding arithmetic follows it. */
+  .zv-cmdk-item {
+    min-height: 44px;
+    padding: 0.85rem 0.6rem;
+    font-size: 0.82rem;
+  }
+
+  /* the footer is a legend for arrow keys */
+  .zv-cmdk-foot {
+    display: none;
+  }
+
+  /* The comments disclosure came out at 38px. It is the one control on the
+     page a reader is asked to open, so it gets the full target. */
+  .zv-comments summary {
+    min-height: 44px;
+  }
+
+  /* A table whose cells cannot shrink past 452px — which several of the unit
+     hubs have — pushed the whole document sideways at 390px, so the reader
+     scrolled the page horizontally to read a row. `display: block` is what
+     makes the table itself the scroll container; a plain `overflow-x` on a
+     `display: table` box is ignored. Wide tables then scroll inside their own
+     box, and narrow ones still fill the column. */
+  main table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+}
+
+/* --- affordances that only exist for a mouse ---------------------------- */
+
+@media (hover: none) {
+  /* A section permalink is revealed by hovering a heading. A tap does not
+     hover, it follows the link — so on a phone this was 13 invisible links
+     sitting in the tab order. Same reasoning as `.zv-handle` above: if the
+     only way to reach it is a pointer, do not ship it to a finger. */
+  .zv-anchor {
+    display: none;
+  }
+
+  /* Copy is the opposite case: it works fine under a finger and was only ever
+     hidden behind a hover. Long-pressing a 60-column diagram to select it
+     fights the sideways scroll, so the button is worth its space here. It
+     gets a row of its own above the figure rather than sitting on the first
+     line of it. */
+  .zv-copy-btn {
+    opacity: 1;
+    top: 0.35rem;
+    right: 0.35rem;
+    padding: 0.62rem 0.65rem;
+    font-size: 0.68rem;
+  }
+
+  .zv-copy pre {
+    padding-top: 2.6rem;
+  }
+
+  /* --- list rows, at thumb size --- */
+
+  .zv-tree-link {
+    min-height: 44px;
+    padding-top: 0.72rem;
+    padding-bottom: 0.72rem;
+  }
+
+  /* The mid-sem pages carry their own tab strip, and it came out at 31px.
+     Those tabs are the only way to reach three quarters of that page. */
+  .tab-btn {
+    min-height: 44px;
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .zv-tree-caret {
+    min-width: 2.5rem;
+    min-height: 44px;
+    padding-top: 0.72rem;
+    padding-bottom: 0.72rem;
+  }
+
+  .zv-outline a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+
+  /* the backlinks chips come out at 25px, which is a chip you can see and
+     then miss. The row can afford the height. */
+  .zv-backlinks a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+  }
+
+  .zv-side-head button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

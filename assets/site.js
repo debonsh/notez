@@ -144,6 +144,9 @@
       b.type = "button";
       b.title = title;
       b.setAttribute("aria-label", title);
+      /* Name the button for the stylesheet: on a touch screen the bar drops
+         the shortcut sheet, which is unreachable without a keyboard. */
+      b.setAttribute("data-fab", label.replace(/[^a-z]+/gi, "").toLowerCase());
       b.appendChild(document.createTextNode(label));
       if (kbd) {
         var k = el("kbd", null, kbd);
